@@ -1,0 +1,18 @@
+[project]
+name = "synthaembed-os"
+version = "0.1.0"
+description = "SynthaEmbed OS monorepo workspace root"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv.workspace]
+members = [
+    "packages/asn-engine",
+    "services/core-api",
+    "services/trainer",
+]
+
+[tool.uv.sources]
+asn-engine = { workspace = true }
+synthaembed-core-api = { workspace = true }
+synthaembed-trainer = { workspace = true }

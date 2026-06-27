@@ -1,0 +1,41 @@
+# Node / JS
+node_modules/
+.next/
+out/
+dist/
+.turbo/
+*.tsbuildinfo
+.vercel/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.uv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ML artifacts
+*.ckpt
+*.pt
+*.safetensors
+data/
+runs/
+wandb/
+mlruns/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local inspection clones (repo migration)
+_henington-inspect/

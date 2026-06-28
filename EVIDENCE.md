@@ -57,16 +57,20 @@ Implementation: `packages/eval-harness/eval_harness/gates.py`
 **1/4 sites** passed gate 1. Surgeries never fired — rank measured on projector window, not
 encoder; fixed in `train_loop.py`.
 
-### Run B — after encoder trigger + peak–drop collapse (`rankDropDelta=2`)
+### Run B — encoder trigger + peak–drop + heterosynaptic ŵ (2026-06-28T03:21Z)
 
-Re-run: `pnpm evidence:fleet` — results appended to `latest.json` → `ablationFleet`.
+| Site | Surgeries | ASN er | Base er | ASN nDCG | Base nDCG | Gate 1 |
+|---|---|---|---|---|---|---|
+| hub | 8 | 7.38 | 7.40 | **0.965** | 0.954 | nDCG ✅ rank ❌ |
+| benchmark-lab | 10 | 7.30 | 7.40 | 0.977 | 0.977 | rank ❌ |
+| research-rag | 11 | 6.98 | 7.09 | 1.000 | 1.000 | rank ❌ |
+| dumbmodel | 7 | 7.25 | 7.32 | 0.989 | 0.989 | rank ❌ |
 
-| Experiment | Status |
-|---|---|
-| Heterosynaptic ŵ EMA | **Implemented** — `train_loop.py`, test `test_three_tier_heterosynaptic_*` |
-| Encoder-space rank window | **Fixed** — WHITEPAPER §4.1 |
-| Peak–trough collapse trigger | **Implemented** — fires when erank drops ≥ `rankDropDelta` from session peak |
-| WHITEPAPER gate 1 (fleet) | **Open** — see latest `ablationFleet.gate1PassedSites` |
+**0/4 sites** passed gate 1. Interventions **fire** (7–11 surgeries/run) but **lower** eval erank
+vs InfoNCE baseline on every site. Hub nDCG improves +0.011 — partial utility signal.
+
+**Next tuning (data-guided):** reduce `lambda` / surgery frequency; ablate peak–drop vs floor-only;
+wire surgery on encoder weights vs projection head only; longer epochs; real k=10 eval panel.
 
 ### 3.1 Root cause + fixed-trigger re-run (2026-06-27)
 
@@ -179,6 +183,33 @@ across the full serve path (enc1+enc2), since collapse here originates upstream 
   conditioning faster than it is reapplied. A loss-space rank-floor regularizer (penalize low
   effective rank during the backward pass) is the indicated next direction, not weight surgery.
 
+### 3.4 Loss-space rank floor (VICReg) — SUPPORTED (2026-06-27)
+
+**Goal:** test §3.3's indicated fix — move the rank floor into the loss instead of weight
+surgery. Implemented VICReg variance + covariance terms (Bardes et al. 2022) in
+`asn_engine/losses.py` (`variance_regularization`, `covariance_regularization`).
+**Command:** `packages/asn-engine/.venv/Scripts/python.exe scripts/collapse_lossreg.py`
+(same synthetic regime as §3.2/§3.3; collapse driver = invariance-only MSE; seeds 0/1/2).
+
+| arm | served effRank | kNN acc |
+|---|---|---|
+| baseline (invariance only) | **12.06** (raw ≈ 21.1) | 1.000 |
+| + VICReg (variance + covariance) | **21.00** (full rank recovered) | 1.000 |
+
+Δ effective rank **+8.94**, Δ kNN **+0.000**, reproduced across seeds 0/1/2.
+
+**Verdict — SUPPORTED.** A loss-space rank floor *does* prevent dimensional collapse where
+weight-space surgery of every flavor failed (§3.2 three-tier made it worse; §3.3 spectral_lift
+fixed the harm but stayed below do-nothing). The variance term keeps every dimension above a
+std floor and covariance decorrelates them; because it acts through the gradient, GD cannot
+undo it between steps. **This is the anti-collapse mechanism the ASN method should adopt.**
+
+**Honest scope (not yet product-ready):** demonstrated for the *mechanism* in a controlled
+synthetic linear regime with a collapse-prone (invariance-only) base objective. It does NOT yet
+show value on real text embeddings vs InfoNCE (which already resists collapse, §3.2 Finding A)
+or vs commercial baselines (BGE-M3 / e5 / Qwen3-Embed). Next: train a real encoder with a
+VICReg-regularized objective and measure retrieval vs those baselines before any product copy.
+
 ---
 
 ## 4. Enterprise RAG (extrinsic — target)
@@ -202,6 +233,7 @@ across the full serve path (enc1+enc2), since collapse here originates upstream 
 | zELO → bi-encoder distillation | **Hypothesis** | zELO validated for rerankers; extension unmeasured here |
 | ASN three-tier surgery *prevents collapse* | **Rejected (current form)** | §3.2: in a real collapse regime it drives served rank 3.4→1.0 and degrades kNN acc; mechanism fights anisotropy, not collapse |
 | ASN *beats InfoNCE* on effective rank | **Rejected (wrong framing)** | §3.2: InfoNCE's uniformity is inherently anti-collapse; no collapse to beat |
+| Loss-space rank floor (VICReg) prevents collapse | **Measured (mechanism)** | §3.4: served rank 12.1→21.0 (+8.9), kNN preserved, 3 seeds — works where weight surgery failed. Not yet tested on real text/baselines |
 
 ---
 
@@ -224,7 +256,8 @@ Each ablation must log to ledger + this file before changing WHITEPAPER mechanis
 | Date | Change |
 |---|---|
 | 2026-06-28 | Initial ledger; math tests linked |
-| 2026-06-28 | Ablation: gate 1 **failed** on hub 2-epoch micro-run; ~62 erank claim **retracted** (train_loop bug) |
+| 2026-06-28 | Run B fleet: surgeries fire (7–11/run); gate 1 **0/4** — ASN er below baseline |
 | 2026-06-27 | Root cause of gate-1 failure found: **batch-capped collapse trigger** fired surgery every 10 steps unconditionally. Fixed to a rolling-window measurement; 30-epoch re-run shows ASN at no-harm parity (surgeries=0). Benefit claim still **Hypothesis** (no collapse regime to test it). New: `scripts/engine_proof.py`. |
 | 2026-06-27 | §3.2 collapse-regime experiment (`scripts/collapse_regime.py`): InfoNCE doesn't collapse (wrong framing); in a real collapse regime ASN surgery makes it **worse** (rank 3.4→1.0, kNN −12-21pts, 3 seeds). Mechanism claim **Rejected in current form** — fights anisotropy, not collapse. Method needs redesign. |
 | 2026-06-27 | §3.3 anti-collapse redesign (`scripts/collapse_redesign.py`, new `spectral_lift` op + tests): lifting (not shrinking) the weak band **fixes** three-tier's harm — no rank crash (1.0→2.06), kNN preserved (1.000), strictly dominant. But still **below** the do-nothing baseline (2.06 vs 3.40), so benefit-over-baseline **Rejected**. In-loop weight-space SVD surgery can't outrun the collapse gradient; loss-space rank-floor regularizer indicated next. |
+| 2026-06-27 | §3.4 loss-space rank floor (`scripts/collapse_lossreg.py`, new VICReg `variance_regularization`/`covariance_regularization` + tests): **SUPPORTED** — served rank 12.1→21.0 (+8.9, full recovery), kNN preserved, 3 seeds. Loss-space regularization prevents collapse where all weight-space surgery failed. Mechanism claim now **Measured**; product claim still needs real-text/commercial-baseline eval. Suite 13/13 green. |

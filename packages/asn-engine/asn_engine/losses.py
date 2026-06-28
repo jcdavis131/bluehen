@@ -33,3 +33,31 @@ def cosine_contrastive(
     pos = (label > 0).float() * (1.0 - cos)
     neg = (label < 0).float() * torch.clamp(cos - margin, min=0.0)
     return (pos + neg).mean()
+
+
+def variance_regularization(z: Tensor, gamma: float = 1.0, eps: float = 1e-4) -> Tensor:
+    """VICReg variance term (Bardes et al. 2022) — a loss-space rank floor.
+
+    Hinges each embedding dimension's per-batch standard deviation up to ``gamma``. A
+    collapsed (or low-rank) representation has dimensions with ~zero variance, which this
+    penalizes directly — pushing every dimension to stay 'alive', which raises effective
+    rank. This is the anti-collapse mechanism EVIDENCE.md §3.2/§3.3 showed weight-space
+    surgery cannot provide: it acts on the loss, so gradient descent cannot undo it between
+    steps. ``z`` is (batch, dim); needs batch > 1.
+    """
+    std = torch.sqrt(z.var(dim=0) + eps)
+    return torch.mean(F.relu(gamma - std))
+
+
+def covariance_regularization(z: Tensor) -> Tensor:
+    """VICReg covariance term — decorrelate embedding dimensions.
+
+    Penalizes the squared off-diagonal covariances of the batch, spreading information
+    across dimensions (rather than letting it concentrate in a few), complementing the
+    variance floor. ``z`` is (batch, dim); needs batch > 1.
+    """
+    n, d = z.shape
+    zc = z - z.mean(dim=0)
+    cov = (zc.T @ zc) / max(n - 1, 1)
+    off_diag = cov - torch.diag(torch.diag(cov))
+    return (off_diag**2).sum() / d

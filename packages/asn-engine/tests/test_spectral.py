@@ -12,7 +12,12 @@ from asn_engine.spectral import (
     spectral_lift,
     three_tier_surgery,
 )
-from asn_engine.losses import info_nce, cosine_contrastive
+from asn_engine.losses import (
+    info_nce,
+    cosine_contrastive,
+    variance_regularization,
+    covariance_regularization,
+)
 from asn_engine.align import procrustes
 
 torch.manual_seed(0)
@@ -129,3 +134,21 @@ def test_spectral_lift_floor_zero_is_noop_and_geomean_ref():
     gm = float(torch.exp(s.log().mean()))
     assert torch.all(out >= gm - 1e-5)
     assert torch.all(out >= s - 1e-6)                # never shrinks a singular value
+
+
+def test_variance_regularization_penalizes_collapse():
+    # collapsed batch: all rows identical -> std 0 -> loss ~ gamma
+    collapsed = torch.ones(32, 16)
+    assert variance_regularization(collapsed, gamma=1.0) > 0.9
+    # spread batch: each dim has std >> gamma -> loss ~ 0
+    spread = torch.randn(256, 16) * 5.0
+    assert variance_regularization(spread, gamma=1.0) < 1e-3
+
+
+def test_covariance_regularization_penalizes_correlation():
+    torch.manual_seed(0)
+    z = torch.randn(512, 8)
+    decorrelated = covariance_regularization(z)
+    # duplicate a dimension to force strong off-diagonal covariance
+    correlated = covariance_regularization(torch.cat([z, z[:, :1]], dim=1))
+    assert correlated > decorrelated

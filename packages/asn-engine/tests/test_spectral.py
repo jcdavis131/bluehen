@@ -152,3 +152,15 @@ def test_covariance_regularization_penalizes_correlation():
     # duplicate a dimension to force strong off-diagonal covariance
     correlated = covariance_regularization(torch.cat([z, z[:, :1]], dim=1))
     assert correlated > decorrelated
+
+
+def test_barlow_twins_lower_for_decorrelated_views():
+    from asn_engine.losses import barlow_twins
+    torch.manual_seed(0)
+    z = torch.randn(256, 16)
+    # identical, already-decorrelated views -> on-diag ~1, off-diag ~0 -> low loss
+    good = barlow_twins(z, z.clone())
+    # collapsed views (all dims equal) -> strong off-diagonal correlation -> higher loss
+    collapsed = z[:, :1].repeat(1, 16)
+    bad = barlow_twins(collapsed, collapsed.clone())
+    assert good < bad

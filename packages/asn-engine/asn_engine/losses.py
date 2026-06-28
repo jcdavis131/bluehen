@@ -61,3 +61,21 @@ def covariance_regularization(z: Tensor) -> Tensor:
     cov = (zc.T @ zc) / max(n - 1, 1)
     off_diag = cov - torch.diag(torch.diag(cov))
     return (off_diag**2).sum() / d
+
+
+def barlow_twins(z_a: Tensor, z_b: Tensor, off_lambda: float = 0.02, eps: float = 1e-5) -> Tensor:
+    """Barlow Twins redundancy-reduction loss (Zbontar et al. 2021).
+
+    Batch-normalizes each view, then pushes their cross-correlation matrix toward identity:
+    on-diagonal → 1 (invariance between views) and off-diagonal → 0 (decorrelate dimensions).
+    A strong single-term anti-collapse objective — no negatives needed. The 2026-06-28 sweep
+    (EVIDENCE §3.7) ranked it ABOVE VICReg: it keeps full-dim quality while VICReg trades it
+    for truncation robustness. ``z_a``/``z_b`` are (batch, dim) paired views; needs batch > 1.
+    """
+    n = z_a.shape[0]
+    za = (z_a - z_a.mean(0)) / (z_a.std(0) + eps)
+    zb = (z_b - z_b.mean(0)) / (z_b.std(0) + eps)
+    c = (za.T @ zb) / n
+    on_diag = (torch.diagonal(c) - 1).pow(2).sum()
+    off_diag = (c - torch.diag(torch.diagonal(c))).pow(2).sum()
+    return on_diag + off_lambda * off_diag

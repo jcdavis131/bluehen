@@ -10,7 +10,7 @@ import torch
 from torch import Tensor
 from torch.utils.data import DataLoader, Dataset
 
-from asn_engine.losses import covariance_regularization, info_nce, variance_regularization
+from asn_engine.losses import barlow_twins, covariance_regularization, info_nce, variance_regularization
 from asn_engine.model import ASNEncoder
 from asn_engine.spectral import effective_rank, newton_schulz, three_tier_surgery
 
@@ -109,6 +109,10 @@ def train_asn(
     # InfoNCE-only path is unchanged; set positive coefficients in the recipe to enable.
     vicreg_var = float(loss_cfg.get("vicregVar", 0.0))   # variance term: per-dim std floor
     vicreg_cov = float(loss_cfg.get("vicregCov", 0.0))   # covariance term: decorrelate dims
+    # base objective selector (EVIDENCE §3.7 method ranking): infonce | barlow | mrl
+    loss_method = loss_cfg.get("method", "infonce")
+    barlow_lambda = float(loss_cfg.get("barlowLambda", 0.02))
+    mrl_dims = loss_cfg.get("mrlDims")  # for mrl: nested prefix dims of the served rep
     asn_cfg = recipe.get("asn", {})
     ns_steps = int(asn_cfg.get("newtonSchulzSteps", 5))
     rank_floor = float(recipe.get("rankFloor", 12.0))
@@ -164,7 +168,16 @@ def train_asn(
 
             z_enc_a, z_proj_a = encoder(ids_a, mask_a)
             z_enc_p, z_proj_p = encoder(ids_p, mask_p)
-            loss = info_nce(z_proj_a, z_proj_p, temperature=temp)
+            if loss_method == "barlow":
+                loss = barlow_twins(z_proj_a, z_proj_p, off_lambda=barlow_lambda)
+            elif loss_method == "mrl":
+                # Matryoshka on the SERVED representation (encoder Z1) so truncated serving works
+                full = z_enc_a.shape[-1]
+                dims = mrl_dims or [full, full // 2, full // 4, full // 8]
+                dims = [d for d in dims if 0 < d <= full]
+                loss = sum(info_nce(z_enc_a[:, :d], z_enc_p[:, :d], temperature=temp) for d in dims)
+            else:  # infonce (default)
+                loss = info_nce(z_proj_a, z_proj_p, temperature=temp)
             if vicreg_var > 0.0:
                 loss = loss + vicreg_var * (
                     variance_regularization(z_proj_a) + variance_regularization(z_proj_p)

@@ -1,0 +1,102 @@
+{
+  "title": "Blue Hen RE — Research Lab",
+  "subtitle": "Every embedding method the research org has tried, with measured verdicts and its stage in the Research → Business Development → Execution pipeline.",
+  "updated": "2026-06-28",
+  "evidenceProgram": {
+    "totalRuns": 891,
+    "trainings": 1190,
+    "waves": ["grid regime-map (591)", "Bayesian TPE arch/method search (300 trials × 2 seeds)", "real-text domain/forgetting"],
+    "sources": ["EVIDENCE.md §3.1–§3.7", "SWEEP_FINDINGS.md", "SWEEP_REPORT.md"]
+  },
+  "stages": ["In Research", "Promoted to Business Development", "In Execution", "Archived (rejected)"],
+  "methods": [
+    {
+      "name": "InfoNCE contrastive (default)",
+      "stage": "In Execution",
+      "status": "Measured",
+      "summary": "Standard contrastive objective. Inherently resists collapse with adequate negatives (batch ≥16); the production default training path.",
+      "keyMetric": "AG News kNN 0.892 / nDCG 0.822 after fine-tune",
+      "evidence": "EVIDENCE §3.6, §3.7 (H-A)"
+    },
+    {
+      "name": "Domain fine-tuning",
+      "stage": "Promoted to Business Development",
+      "status": "Measured",
+      "summary": "Cheap per-tenant fine-tuning on the tenant's domain. The defensible product moat: beats general commercial embeddings in-domain, with no out-of-domain forgetting at this scale.",
+      "keyMetric": "+1.5% (300 pairs) → +3.0% (1,200 pairs) in-domain; OOD improved",
+      "evidence": "EVIDENCE §3.6, §3.7 (H-C)"
+    },
+    {
+      "name": "Barlow Twins",
+      "stage": "Promoted to Business Development",
+      "status": "Validating on real text",
+      "summary": "Redundancy-reduction objective. Top method in the Bayesian search — keeps full-dim quality while resisting collapse. Real-text confirmation vs VICReg in progress.",
+      "keyMetric": "robust score 1.42 (#1 of 6 methods, synthetic)",
+      "evidence": "EVIDENCE §3.7 wave-2 TPE"
+    },
+    {
+      "name": "Matryoshka (MRL) truncation training",
+      "stage": "Promoted to Business Development",
+      "status": "Validating on real text",
+      "summary": "Trains nested prefixes of the served representation so it degrades gracefully when truncated. The real lever for cheap truncated serving (decorrelation is not).",
+      "keyMetric": "best truncated-dim kNN among methods (synthetic)",
+      "evidence": "EVIDENCE §3.7 (B, wave-2)"
+    },
+    {
+      "name": "int8 quantized serving",
+      "stage": "In Execution",
+      "status": "Measured",
+      "summary": "Per-vector int8 quantization for edge serving. Essentially lossless — ship it as the default cheap-serving tier.",
+      "keyMetric": "kNN_int8 ≈ kNN_full everywhere",
+      "evidence": "EVIDENCE §3.7 (B)"
+    },
+    {
+      "name": "VICReg (variance + covariance rank floor)",
+      "stage": "In Research",
+      "status": "Measured (regime-specific)",
+      "summary": "Loss-space rank floor. Prevents collapse where it occurs (non-contrastive / low-negative regimes) but is neutral on standard InfoNCE real-text training. Kept as insurance, not a default.",
+      "keyMetric": "+0.32 kNN for SimSiam; ~0 for InfoNCE batch≥16; neutral on real text",
+      "evidence": "EVIDENCE §3.4, §3.6, §3.7 (H-A)"
+    },
+    {
+      "name": "Differentiable rank-floor regularizer",
+      "stage": "In Research",
+      "status": "Measured (mid-pack)",
+      "summary": "Adds a differentiable effective-rank maximization term to InfoNCE. Works but ranked below Barlow/InfoNCE in the search.",
+      "keyMetric": "robust score 1.31 (#3 of 6)",
+      "evidence": "EVIDENCE §3.7 wave-2"
+    },
+    {
+      "name": "Three-tier spectral surgery (original ASN)",
+      "stage": "Archived (rejected)",
+      "status": "Rejected",
+      "summary": "Periodic weight-space SVD surgery shrinking the weak singular band. Fights anisotropy, not collapse — in a real collapse regime it made collapse worse (rank 3.4→1.0).",
+      "keyMetric": "served rank 3.4 → 1.0; kNN −12–21pts",
+      "evidence": "EVIDENCE §3.2"
+    },
+    {
+      "name": "spectral_lift (rank-floor surgery)",
+      "stage": "Archived (rejected)",
+      "status": "Rejected",
+      "summary": "Redesigned surgery that lifts weak singular values. Fixes the harm of three-tier but still loses to doing nothing — weight-space surgery can't outrun the collapse gradient.",
+      "keyMetric": "rank 2.06 vs do-nothing 3.40",
+      "evidence": "EVIDENCE §3.3"
+    },
+    {
+      "name": "Sleep / SHY consolidation (AwakenedSleepNet)",
+      "stage": "Archived (rejected)",
+      "status": "Rejected",
+      "summary": "Bio-inspired wake/sleep phasing with synaptic downscaling + dream pruning + replay. Phasic consolidation fails; only a continuous in-loss rank floor works. Downscaling survives as a collapse-neutral renormalizer.",
+      "keyMetric": "phasic rank 9.99 / 5.71 vs continuous 21.0",
+      "evidence": "EVIDENCE §3.5"
+    },
+    {
+      "name": "DINO-style centering",
+      "stage": "Archived (rejected)",
+      "status": "Rejected",
+      "summary": "Self-distillation with centering + sharpening. Worst method in the Bayesian search on this task.",
+      "keyMetric": "robust score 1.08 (#6 of 6)",
+      "evidence": "EVIDENCE §3.7 wave-2"
+    }
+  ]
+}

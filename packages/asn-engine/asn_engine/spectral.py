@@ -26,16 +26,22 @@ def effective_rank(x: Tensor, eps: float = 1e-12) -> float:
 
 
 # Quintic Newton-Schulz coefficients from the Muon optimizer (Bernstein/Jordan et al.).
-# Verified to drive singular values toward 1 in ~5 steps. See SCIENCE_REVIEW.md §3.
+# These are tuned for a steep slope near zero (fast escape from collapsed directions),
+# NOT for exact convergence to 1. Measured fixed band ≈ [0.68, 1.27]; it is stable (5 vs
+# 20 steps agree). For exact orthogonalization (σ→1) use newton_schulz_cubic. See
+# SCIENCE_REVIEW.md §3.
 _NS_A, _NS_B, _NS_C = 3.4445, -4.7750, 2.0315
 
 
 def newton_schulz(g: Tensor, steps: int = 5, eps: float = 1e-7) -> Tensor:
-    """Orthogonalize a matrix via quintic Newton-Schulz iteration (no SVD).
+    """Semi-orthogonalize a matrix via quintic Newton-Schulz iteration (no SVD).
 
-    Pre-normalizes by the spectral (Frobenius upper-bound) norm so the iteration stays in
-    its convergent region, then applies the quintic map ``steps`` times. Operates on the
-    shorter dimension by transposing when rows > cols.
+    Pre-normalizes by the Frobenius norm so the iteration stays in its convergent region,
+    then applies the quintic Muon map ``steps`` times. This is a *fast conditioner*: it
+    pulls the singular spectrum into a stable band ≈ [0.68, 1.27] (it does NOT drive σ to
+    exactly 1 — that is a deliberate Muon tradeoff). Ideal for keeping a projection head
+    well-conditioned in-loop. Operates on the shorter dimension by transposing when
+    rows > cols. For an exact orthogonal factor, use ``newton_schulz_cubic``.
     """
     assert g.ndim == 2, "newton_schulz expects a 2D matrix"
     x = g.to(torch.float32)
@@ -53,10 +59,13 @@ def newton_schulz(g: Tensor, steps: int = 5, eps: float = 1e-7) -> Tensor:
 
 
 def newton_schulz_cubic(g: Tensor, steps: int = 15, eps: float = 1e-7) -> Tensor:
-    """The whitepaper's cubic variant f(X) = (3X - X^3)/2. VALID BUT SLOWER.
+    """The whitepaper's cubic variant f(X) = (3X - X XᵀX)/2 — the EXACT orthogonalizer.
 
-    Kept only as a documented fallback. Diverges for singular values >~1.7, so it needs
-    aggressive pre-normalization and many more steps than the quintic. Prefer newton_schulz.
+    Unlike the quintic, this converges to the true polar factor: with enough steps every
+    singular value goes to exactly 1 (measured: σ→1.0000 by ~40 steps). The cost is speed —
+    it converges slowly and diverges for singular values ≳ 1.7, so it needs aggressive
+    spectral-norm pre-normalization and many more steps. Use this when you need genuine
+    orthogonality; use ``newton_schulz`` (quintic) for fast in-loop conditioning.
     """
     x = g.to(torch.float32)
     x = x / (x.norm() + eps)

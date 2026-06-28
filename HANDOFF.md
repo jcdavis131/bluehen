@@ -1,7 +1,10 @@
-# HANDOFF — SynthaEmbed OS (codename `bluehenre`)
+# HANDOFF — Blue Hen RE (codename `bluehenre`)
 
 Paste-ready context for starting the **code** session. Read top to bottom once; it's written
 so a fresh coding agent (Cursor) can pick up without re-deriving anything.
+
+**Brand:** **Blue Hen RE** — *RE* = **RAG Embeddings** (not real estate). Mascot: blue hen.
+Platform architecture internally called **SynthaEmbed OS**.
 
 ---
 
@@ -20,23 +23,106 @@ practically free to run (open models + scale-to-zero GPU), large return at scale
 Repo root: `C:\Users\jcdav\bluehenre` (this is the connected folder; build here).
 
 ```
-WHITEPAPER.md            ← the scientific center (ASN, v3, vetted)
-SCIENCE_REVIEW.md        ← integrity audit (what's real / dropped / to verify) — NORMATIVE
-PLAN.md                  ← architecture + spec-driven plan (§11 = current built architecture)
-specs/0001..0006         ← spec-driven dev; code must trace to a spec
+config/fleet.json        ← fleet registry: all sites, domains, app paths (SOURCE OF TRUTH)
+AGENTS.md                ← pair-programming guide for Cursor + Eve agent
+WHITEPAPER.md            ← the scientific center (ASN, v3.1, evidence-driven §8.1)
+EVIDENCE.md              ← measured results ledger — normative for product claims
+SCIENCE_REVIEW.md        ← integrity audit — NORMATIVE
+docs/SOURCE_MAP.md       ← Google Docs + docs/sources/ traceability
+docs/sources/            ← archived exports from authoring docs
+PLAN.md                  ← architecture + spec-driven plan
+specs/0001..0010         ← spec-driven dev; code must trace to a spec
 apps/
-  synthorg/              ← Vercel Eve synthetic org (Chief of Staff + 4 lifecycle subagents)
-  org-template/          ← Next.js mini-org dashboard (sub-org site)
-  web/                   ← (reserved: control plane) — not yet built
+  control/               ← jcamd.com operator control plane (fleet map)
+  synthorg/              ← Eve fleet agent — operates all sites in unison
+  sites/
+    hub/                 ← bhenre.com platform dashboard
+    dumbmodel/           ← dumbmodel.com public proof
+    benchmark-lab/       ← slasso.com RAG benchmark lab
+    research-rag/        ← arxiviq.com research RAG org
+    finance-lab/         ← Phase B stub
 services/
-  core-api/             ← FastAPI: THE single uniform chokepoint (in-memory skeleton, runs)
-  trainer/              ← Modal serverless GPU: 4 lifecycle stage functions (skeleton)
+  core-api/              ← FastAPI uniform chokepoint
+  trainer/               ← Modal GPU lifecycle
 packages/
-  asn-engine/           ← ASN math in PyTorch + tests (VERIFIED: erank, Newton-Schulz, etc.)
-  synth-core/           ← uniform SDK + cross-language tracing (x-synth-* headers)
-  cli/                  ← `synth` CLI over synth-core (humans/CI use the same calls as agents)
-infra/, docs/           ← (placeholders to fill)
+  fleet/                 ← @synthaembed/fleet SDK
+  asn-engine/            ← ASN math (verified)
+  synth-core/            ← uniform access + tracing
+  cli/                   ← synth CLI (+ fleet list/context)
 ```
+
+### Mini-org fleet (deployed sites → tenants)
+
+All sites share **`core-api`** + **`synth-core`**; each Vercel project gets its own
+`workspace_id` + API key (spec 0002). Source repos under
+[jcdavis131](https://github.com/jcdavis131?tab=repositories).
+
+### Domain fleet — LOCKED
+
+Owned domains to attach in Vercel (one custom domain per mini-org / project):
+
+| Domain | Mini-org | GitHub / app | Phase |
+|---|---|---|---|
+| **[jcamd.com](https://jcamd.com)** | **Fleet control plane** | `apps/control` | All | Operator map, pair-programming entry |
+| **[bhenre.com](https://bhenre.com)** | **Blue Hen RE hub** | `apps/sites/hub` | All | Platform dashboard + ledger |
+| **[slasso.com](https://slasso.com)** | **RAG Benchmark Lab** | `apps/sites/benchmark-lab` | A |
+| **[arxiviq.com](https://arxiviq.com)** | **Research RAG org** | `apps/sites/research-rag` | A |
+| **[dumbmodel.com](https://dumbmodel.com)** | **Dumb Model** public proof | `apps/sites/dumbmodel` | A → socialize |
+
+*(Phase B finance lab: domain TBD when `apps/finance-lab` is scoped.)*
+
+#### dumbmodel.com — brand direction (LOCKED)
+
+**Role in the fleet:** the loud, honest front door. **bhenre.com** is the platform you trust;
+**dumbmodel.com** is where you *laugh*, then look at the numbers. Perfect anti-hype pairing with
+`SCIENCE_REVIEW.md` — no mystique, just measurable collapse vs ASN.
+
+**Two-mascot system**
+
+| | **Blue Hen** (bhenre.com) | **Dumb Model** (dumbmodel.com) |
+|---|---|---|
+| Vibe | Awake, spectral surgery, org-trained | Collapsed cone, low effective rank, happily wrong |
+| Promise | RAG Embeddings that don’t fold | Shows what folding looks like |
+| Audience | Builders, tenants, operators | Public, dev Twitter, eval skeptics |
+
+**Voice:** irreverent, scientifically literate, never cruel to users — we roast *collapsed
+representations* and commercial baselines, not people. Every punchline links to a reproducible
+eval gate (nDCG, effective rank, rotating slice).
+
+**Hero hooks (product = marketing)**
+
+- **“How dumb is your embedding?”** — live compare: pick a baseline (BGE, e5, OpenAI-class) vs
+  a Blue Hen RE org model on the same query/corpus; show retrieval diff + rank spectrum.
+- **Dumbness Score** — effective rank + collapse diagnostics as a single shareable number/card.
+- **Hall of Cone** — leaderboard of baselines on the fixed panel (lowest rank wins the cone).
+- **RAG tier carnival** — basic → advanced pipelines; dumb model fails visibly on multi-hop while
+  hen-trained org holds (slasso.com links for deep benchmarks).
+- **Share cards** — OG images: “My model’s effective rank: 1.2 🐔 vs yours: 847 pretending to be 768.”
+
+**Funnel:** dumbmodel.com (viral proof) → slasso.com (rigorous benchmarks) → bhenre.com (run your
+own org) → arxiviq.com (applied science RAG demo).
+
+**Build:** `apps/dumbmodel` — Next.js, read-only public eval-harness + embed/search via
+`synth-core` (no keys required for baseline panel; tenant compare when user supplies workspace key).
+
+**DNS / Vercel:** point each domain at its Vercel project; keep `*.vercel.app` as preview aliases.
+Canonical production URLs should use custom domains above, not legacy names (e.g. prefer
+`bhenre.com` over `bhre.vercel.app` once cutover is done).
+
+| GitHub repo | Custom domain | Vercel preview | Mini-org role | Phase | Repurpose path |
+|---|---|---|---|---|---|
+| [`henington-homes`](https://github.com/jcdavis131/henington-homes) | **bhenre.com** | `bhre.vercel.app` | **Platform hub** — monorepo; `apps/sites/hub` + `apps/synthorg` | All | **Done** (this repo) |
+| [`agent-lasso`](https://github.com/jcdavis131/agent-lasso) | **slasso.com** | TBD | **RAG Benchmark Lab** — benchmark exams, leaderboards, GraphRAG | **A** | `apps/benchmark-lab`; migrate `benchmark_exam_engine` |
+| [`arxiv_exam_app`](https://github.com/jcdavis131/arxiv_exam_app) | **arxiviq.com** | TBD | **Research RAG org** — arXiv PDF RAG applied test | **A** | `apps/research-rag` |
+| *(monorepo)* | **jcamd.com** | TBD | **Operator control plane** | All | `apps/control` |
+| *(monorepo)* | **dumbmodel.com** | TBD | **Dumb Model** — public anti-hype proof, Hall of Cone | A → socialize | `apps/dumbmodel` **built** |
+| *(future)* | TBD | TBD | **Finance applied-test org** | **B** | `apps/finance-lab` |
+| *(future v2)* | TBD | TBD | **Live trading org** | **C** | Deferred |
+
+**Multi-site pattern:** one GitHub monorepo (`henington-homes`), **multiple Vercel projects**
+(one per row), each with `SYNTH_API_KEY` + `NEXT_PUBLIC_API_BASE_URL` scoped to its workspace.
+Legacy Python UIs (Lasso, arXiv) become thin clients — no direct DB/Modal; all lifecycle calls
+through `synth-core` → `core-api`.
 
 ## 2. Architecture in five sentences
 
@@ -84,51 +170,86 @@ compliance gates.
 **Hard guardrail (v1):** Phases A and B are **analytics and simulation only** — no order
 execution, no money movement, no live brokerage integration. Phase C is explicitly deferred.
 
-## 4. Status: real vs. stubbed (so you know what to implement)
+## 4. Status: real vs. stubbed (updated 2026-06-28)
 
-**Real / verified now:**
-- ASN math in `packages/asn-engine` (effective rank, quintic Newton-Schulz, InfoNCE,
-  cosine-contrastive, Procrustes, three-tier surgery) + unit tests. Math numerically verified.
-- `synth-core` SDK + trace contract; `synth` CLI; Eve agent tree (typed tools w/ Zod);
-  `core-api` route surface (in-memory); `org-template` dashboard. All Python compiles.
+**Production path — real now:**
+- **Postgres + pgvector + RLS** — Docker `:5433`, Alembic `001`–`004`, `synthaembed_tenant`
+  role + `SET LOCAL ROLE` so RLS applies; negative isolation tests in
+  `services/core-api/tests/test_rls.py`.
+- **`core-api` v0.3** — workspaces, ingest/chunk/pairs, train jobs, eval, deploy, embed,
+  search (pgvector ANN), ledger, trace, budget; RFC 9457 problem+json errors;
+  `GET /v1/admin/fleet`.
+- **Worker** — claims jobs from Postgres, runs ASN contrastive training locally, eval-harness
+  gates, auto-deploy + chunk indexing.
+- **Phase A fleet** — hub, benchmark-lab, research-rag, dumbmodel: each has workspace,
+  corpus (`data/corpora/{siteId}/`), trained ASN model, deployed + 8 indexed chunks.
+- **eval-harness** — pairwise nDCG@10, effective rank, deploy gates (`packages/eval-harness`).
+- **6 Next.js sites + control** — `pnpm review` passes; `@synthaembed/ui-fleet` cross-nav.
+- **ASN math** — effective rank, quintic/cubic Newton-Schulz (roles per `SCIENCE_REVIEW.md` §3),
+  InfoNCE, Procrustes, three-tier surgery + unit tests (8/8 green); `train_loop.py` wired to worker.
+- **synth-core** SDK + trace contract; `synth` CLI; Eve agent tree with hill-climb tool.
 
-**Stubbed / TODO (the code work):**
-- `core-api`: swap in-memory stores for **Neon Postgres + pgvector + RLS** (Alembic
-  migrations); real auth (API key hash + JWT); wire `/v1/train|eval` to Modal via Vercel
-  Connect (OIDC).
-- `services/trainer`: implement the real loops (MLM selective-mask; LMAR chunking; ASN
-  contrastive+zELO training using `asn-engine`; eval gates; MRL+quant + registry I/O).
-- `asn-engine`: training loop that wires the trigger→surgery→orthogonalize schedule
-  (Algorithm 1 in WHITEPAPER §4.5); zELO distillation head.
-- Eve: confirm subagent wiring against bundled docs (`node_modules/eve/docs`) after install;
-  map eve session id → `SYNTH_TRACE_ID` so one session = one trace.
-- A lint/review gate forbidding direct service/db access outside `synth-core` (spec 0006).
+**⚠ Engine claim NOT proven (read before building on it) — 2026-06-27:**
+- The ASN **math primitives** are verified, but the **central product claim is still a
+  hypothesis**: "ASN raises effective rank under collapse without nDCG loss" is *unmeasured*.
+- A real apples-to-apples ablation (`scripts/engine_proof.py`, ASN vs InfoNCE, same data/seed)
+  initially **failed** because the collapse trigger measured rank on a single batch (capped by
+  batch size) and fired surgery unconditionally — *hurting* ASN. **Fixed** (rolling-window
+  trigger); ASN now at no-harm parity, surgeries=0 on non-collapsing data. See `EVIDENCE.md` §3.1.
+- The toy corpus **cannot** test the benefit claim (robust pretrained backbone never collapses).
+  **Do not** ship "collapse-resistant / better-than-commercial" copy until a collapse-regime
+  experiment vs BGE-M3 / e5 / Qwen3-Embed moves the `EVIDENCE.md` row to **Measured**.
+
+**Stubbed / next:**
+- **Modal trainer** (`services/trainer`) — not wired; GPU training runs via local worker.
+- **IVFFlat/HNSW** — pgvector table live; no ANN index yet (fine at current scale).
+- **JWT auth** — API key hash + admin bearer only today.
+- **Neon production** — local Postgres path proven; Neon cutover is deploy config.
+- **Eve ↔ trace** — map eve session id → `SYNTH_TRACE_ID` (one session = one trace).
+- **Direct-access lint gate** — spec 0006: forbid DB/service calls outside `synth-core`.
+- **Phase B** — `apps/sites/finance-lab` stub; strategy-simulation eval harness TBD.
+- **Phase C** — live trading deferred (§3b guardrail).
+
+**Specs:** see `specs/README.md` — 0001–0010 trace platform, API, fleet, eval, worker, finance Phase B.
 
 ## 5. First coding tasks (suggested order, each spec-gated)
 
-1. `pnpm install` + `uv sync`; get `core-api` and `org-template` running locally; confirm
-   `synth healthz`/ledger/trace round-trip end-to-end (spec 0006 acceptance tests).
-2. Stand up **Neon + pgvector + RLS** and migrate `core-api` off in-memory (spec 0002, 0004).
-   Add the cross-tenant **negative isolation tests** (highest-severity gate).
-3. Implement `asn-engine` training loop + first **evaluation gate** in CI (WHITEPAPER §8):
-   ASN holds effective rank above InfoNCE baseline at equal nDCG@10.
-4. Wire `trainer` stage 1–2 on Modal (domain-adapt + ASN train) behind `/v1/train` with trace
-   propagation; prove `synth trace view` shows TS→Python spans in one trace.
-5. Stages 3–4 (eval gates + compress/deploy); bind **Phase A** (RAG Benchmark Lab), then
-   **Phase B** (finance applied-test org with fictional strategy backtests) as separate tenants.
+**Done (Phase A baseline):**
+1. ~~Postgres + pgvector + RLS~~ — migrations + RLS tests.
+2. ~~ASN training loop + worker~~ — `train_loop.py`, eval-harness, hill-climb lifecycle.
+3. ~~Stages 3–4 for Phase A orgs~~ — deploy, pgvector index, `/v1/search`, fleet admin UI.
+4. ~~Fleet sites build~~ — `pnpm review`.
+
+**Next (in priority order):**
+1. **Eve subagents** — add `agent/subagents/*/agent.ts` with `description` (Eve requirement).
+2. **Modal trainer** — wire `services/trainer` behind `/v1/train` for GPU scale (spec 0004/0005).
+3. **LLM conductor** — schema-validated recipe generation (spec 0005 partial).
+4. **IVFFlat/HNSW index** — when chunk counts grow beyond demo corpora.
+5. **Phase B finance-lab** — fictional strategy backtest harness (separate gate from nDCG).
+6. **Eve trace wiring** + **direct-access lint gate** (spec 0006).
+7. **Vercel/domain cutover** — attach locked domains per §1 table.
 
 ## 6. Run it locally
 
 ```bash
 pnpm install
-uv sync
-cp .env.example .env            # set SYNTH_LOCAL_LLM_BASE_URL for local agents
-docker compose -f infra/docker-compose.yml up -d   # (add compose; postgres+pgvector, redis)
-uv run uvicorn app.main:app --reload --app-dir services/core-api    # :8000 chokepoint
-pnpm --filter @synthaembed/org-template dev                          # :3000 dashboard
-pnpm --filter @synthaembed/synthorg dev                              # eve agent (Node 24+)
-uv run pytest packages/asn-engine                                    # math tests (pass today)
-node --experimental-strip-types packages/cli/src/index.ts ledger tail   # the `synth` CLI
+uv sync --all-packages --extra dev --extra model
+cp .env.example .env            # DATABASE_URL :5433, API_SECRET_KEY, fleet keys
+
+pnpm dev:stack                  # postgres :5433 + redis :6379
+pnpm db:migrate                 # Alembic through 004_workspace_rls
+pnpm dev:api                    # core-api :8000
+pnpm dev:worker                 # ASN job worker
+
+pnpm bootstrap:orgs             # workspaces → data/workspaces/*.env
+pnpm kickoff:orgs               # hill-climb all Phase A orgs
+pnpm backfill:deploy            # deploy + pgvector index existing models
+
+pnpm dev:fleet                  # hub :3000, control :3002, dumbmodel :3001, …
+pnpm --filter @synthaembed/synthorg dev
+
+pnpm review                     # build all sites + typecheck
+uv run pytest packages/asn-engine services/core-api/tests -q
 ```
 (Ollama: `ollama pull qwen3` then `ollama serve` for free local agents.)
 
@@ -145,12 +266,11 @@ node --experimental-strip-types packages/cli/src/index.ts ledger tail   # the `s
    - **Baselines:** InfoNCE control + open SOTA panel (BGE-M3, e5/GTE, Qwen3-Embedding-0.6B).
    - **Deliverable:** `packages/eval-harness` + trainer stage 3 `/v1/eval/*`; Phase B adds
      strategy-simulation eval harness (separate gate from retrieval nDCG).
-2. **GitHub / Vercel — LOCKED:** Repurpose **`jcdavis131/henington-homes`**
-   (https://github.com/jcdavis131/henington-homes). Local folder `bluehenre` pushes here;
-   prior Henington Homes app is replaced (history preserved only on old `main` until force-push).
-   Vercel: existing `bhre.vercel.app` linkage — set **Root Directory** to `apps/org-template`
-   (or deploy `apps/synthorg` separately for Eve). Update env vars per `.env.example`.
-3. **Product name** (SynthaEmbed OS vs. something else; folder is `bluehenre`).
+2. **GitHub / Vercel / domains — LOCKED:** Multi-site fleet (§1). **Domains owned:**
+   `bhenre.com` · `slasso.com` · `arxiviq.com` · `jcamd.com` · `dumbmodel.com` — attach in Vercel
+   per domain table. Re-point legacy Vercel projects to monorepo subpaths when `apps/*` land.
+3. **Product name — LOCKED:** **Blue Hen RE** (*RE* = RAG Embeddings). Primary domain:
+   **bhenre.com**. Codename / folder: `bluehenre`. GitHub: `henington-homes` (optional rename later).
 4. **Hosting**: Neon project, Modal account/GPU tiers, and whether agents run fully local
    (Ollama) or via a served open-weights endpoint.
 
@@ -166,11 +286,20 @@ node --experimental-strip-types packages/cli/src/index.ts ledger tail   # the `s
 - **v2 (Phase C):** real trading account replication requires a separate spec, compliance
   review, and explicit Operator approval — not built until A+B gates pass.
 
-## 9. Verification done this session
+## 9. Verification (cumulative)
 
-- ASN math numerically verified (rank-1 erank→1.0; isotropic→~62/64; Newton-Schulz σ→1;
-  Procrustes recovers rotation). All Python compiles (`py_compile`).
-- Platform/science claims web-verified: Vercel Eve, Workflows, zELO (arXiv:2509.12541),
-  Projection-head IB (arXiv:2503.00507), awake-mouse sleep (Nature Neuroscience 2026),
-  Kimi K2.5/K2.6, Qwen3 local viability. (Couldn't run servers — pip/npm network blocked in
-  this environment; everything runs where deps install.)
+**ASN math (packages/asn-engine):**
+- effective rank: rank-1 → ~1.0; isotropic Gaussian → ~full dimension.
+- Procrustes, InfoNCE, three-tier surgery: passing unit tests.
+- Newton-Schulz: quintic band [0.68, 1.13] + cubic σ→1 per `SCIENCE_REVIEW.md` §3. ✅
+- **WHITEPAPER gate 1 (ASN > InfoNCE):** **failed** on 2026-06-28 hub micro-ablation — see `EVIDENCE.md` §3.
+- **Retraction:** ~62 deploy erank came from `train_loop` measuring random noise (fixed).
+
+**Evidence refresh:** `pnpm evidence:collect` · `pnpm evidence:ablation`
+
+**Platform (2026-06-28):**
+- Phase A orgs trained, deployed, indexed (8 chunks/org); `/v1/search` pgvector live.
+- core-api tests: healthz, workspace provisioning, RLS isolation, problem+json (5 tests).
+- CI: site review + ASN tests + Postgres API tests (`.github/workflows/ci.yml`).
+
+**Science integrity:** `SCIENCE_REVIEW.md` normative — measure, don't assert; quintic not cubic.

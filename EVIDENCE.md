@@ -7,7 +7,7 @@ source docs (`docs/sources/`) does not count as evidence.
 Related: [`WHITEPAPER.md`](./WHITEPAPER.md) §8 · [`SCIENCE_REVIEW.md`](./SCIENCE_REVIEW.md) ·
 [`specs/0008-eval-harness-and-gates.md`](./specs/0008-eval-harness-and-gates.md)
 
-**Refresh:** `uv run python scripts/collect_evidence.py` → updates [`data/evidence/latest.json`](./data/evidence/latest.json)
+**Refresh:** `pnpm evidence:collect` · `pnpm evidence:ablation` · `uv run python scripts/collect_evidence.py` → updates [`data/evidence/latest.json`](./data/evidence/latest.json)
 
 ---
 
@@ -32,7 +32,7 @@ Last full run: see `data/evidence/latest.json` → `mathTests`.
 
 | Gate | Threshold | Status | Notes |
 |---|---|---|---|
-| `rankAboveBaseline` | erank > 8.0 on eval slice | **Hypothesis** | Phase A orgs reported ~62 on demo corpora — re-verify per workspace |
+| `rankAboveBaseline` | erank > 8.0 on eval slice | **Hypothesis** | Prior ~62 deploy reports **retracted** (train_loop bug); re-measure per workspace |
 | `ndcgNonRegression` | pairwise nDCG@10 ≥ 0.35 | **Hypothesis** | k=2 proxy in harness today; expand to k=10 panel |
 | `mrlWithinTolerance` | Matryoshka truncate tolerance | **Not measured** | Stub `True` in gates.py — implement before claiming MRL |
 
@@ -102,6 +102,36 @@ is large enough *and* its rank is genuinely below the floor.
   baselines (BGE-M3 / e5 / Qwen3-Embed). Gate `scripts/engine_proof.py` exits 0 on the
   *no-harm* claim only and says so explicitly.
 
+### 3.2 Collapse-regime experiment — ASN surgery REJECTED (2026-06-27)
+
+**Goal:** test the benefit claim in a setting where collapse *actually happens* (3.1 could
+not). Controlled synthetic testbed: 8 Gaussian clusters in a 32-dim latent space, linearly
+embedded in R^128; 2-layer **linear** encoder (collapse-prone); strong augmentation; quality =
+kNN cluster accuracy on held-out points. **Command:** `scripts/collapse_regime.py`.
+
+**Finding A — InfoNCE does not collapse (3 configs tried).** Large batch, small batch (8),
+strong aug (σ=4), weight decay — the InfoNCE baseline's served effective rank stays at/above
+the raw input rank (~21–30). InfoNCE's uniformity term is inherently anti-collapse, so the
+**"ASN beats InfoNCE on effective rank" framing is the wrong battlefield**: there is little
+collapse for ASN to fix.
+
+**Finding B — where collapse is real, ASN makes it WORSE.** With a no-negatives alignment
+objective (`LOSS=align`, the canonical collapse setting), reproduced across seeds 0/1/2:
+
+| arm | served effRank | kNN acc | surgeries |
+|---|---|---|---|
+| alignment baseline | **3.3 – 3.5** (collapsed from raw 21) | 1.000 | 0 |
+| + ASN (three-tier surgery + NS) | **1.01 – 1.02** (near-total collapse) | 0.79 – 0.88 | 79 |
+
+**Interpretation — a mechanism/pathology mismatch.** Three-tier surgery *shrinks the weak
+(middle) singular band* to combat **anisotropy** (a few over-dominant directions). But
+**collapse is the opposite pathology** — too *few active* directions — and shrinking the weak
+band destroys the remaining diversity, completing the collapse. So the core ASN intervention,
+as designed, treats the wrong disease. **Verdict: the "ASN prevents collapse" mechanism claim
+is Rejected in its current form.** This is the single most important result for the research
+org: the method needs a redesign (e.g. *raise* weak/low singular values toward the strong band,
+or a rank-floor regularizer) before any "collapse-resistant" product copy is defensible.
+
 ---
 
 ## 4. Enterprise RAG (extrinsic — target)
@@ -123,6 +153,8 @@ is large enough *and* its rank is genuinely below the floor.
 | "100% scientifically accurate" | **Rejected** | SCIENCE_REVIEW §4 |
 | Sub-millisecond / <15ms latency | **Unverified** | Reproduce on our stack before product copy |
 | zELO → bi-encoder distillation | **Hypothesis** | zELO validated for rerankers; extension unmeasured here |
+| ASN three-tier surgery *prevents collapse* | **Rejected (current form)** | §3.2: in a real collapse regime it drives served rank 3.4→1.0 and degrades kNN acc; mechanism fights anisotropy, not collapse |
+| ASN *beats InfoNCE* on effective rank | **Rejected (wrong framing)** | §3.2: InfoNCE's uniformity is inherently anti-collapse; no collapse to beat |
 
 ---
 
@@ -130,7 +162,7 @@ is large enough *and* its rank is genuinely below the floor.
 
 1. **(a)** no spectral surgery — same seed/data as ASN
 2. **(b)** uniform SV threshold vs three-tier
-3. **(c)** no heterosynaptic `ŵ` EMA (train_loop does not wire ŵ yet)
+3. **(c)** no heterosynaptic `ŵ` EMA (now wired in train_loop; re-measure under §3.2 collapse regime)
 4. **(d)** no quintic NS
 5. **(e)** cubic instead of quintic for in-loop conditioning
 6. **(f)** no projection head bottleneck
@@ -147,3 +179,4 @@ Each ablation must log to ledger + this file before changing WHITEPAPER mechanis
 | 2026-06-28 | Initial ledger; math tests linked |
 | 2026-06-28 | Ablation: gate 1 **failed** on hub 2-epoch micro-run; ~62 erank claim **retracted** (train_loop bug) |
 | 2026-06-27 | Root cause of gate-1 failure found: **batch-capped collapse trigger** fired surgery every 10 steps unconditionally. Fixed to a rolling-window measurement; 30-epoch re-run shows ASN at no-harm parity (surgeries=0). Benefit claim still **Hypothesis** (no collapse regime to test it). New: `scripts/engine_proof.py`. |
+| 2026-06-27 | §3.2 collapse-regime experiment (`scripts/collapse_regime.py`): InfoNCE doesn't collapse (wrong framing); in a real collapse regime ASN surgery makes it **worse** (rank 3.4→1.0, kNN −12-21pts, 3 seeds). Mechanism claim **Rejected in current form** — fights anisotropy, not collapse. Method needs redesign. |

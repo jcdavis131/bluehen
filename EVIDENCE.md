@@ -210,6 +210,61 @@ show value on real text embeddings vs InfoNCE (which already resists collapse, �
 or vs commercial baselines (BGE-M3 / e5 / Qwen3-Embed). Next: train a real encoder with a
 VICReg-regularized objective and measure retrieval vs those baselines before any product copy.
 
+### 3.5 Sleep-inspired consolidation (AwakenedSleepNet) — REJECTED as a pattern (2026-06-27)
+
+**Goal:** advance VICReg with the project's namesake biology — SHY synaptic downscaling, dream
+pruning, and wake/sleep replay consolidation. **Bio-inspired, NOT bio-equivalent** (SCIENCE_REVIEW
+§2). New `asn_engine/sleep.py` (`synaptic_downscale`, `magnitude_prune`, `sleep_phase`) + tests.
+**Command:** `scripts/sleep_consolidation.py` (same synthetic collapse regime; seeds 0/1/2).
+
+| arm | effRank | kNN | VICReg steps |
+|---|---|---|---|
+| baseline (invariance only) | 12.06 | 1.000 | 0 |
+| VICReg continuous | **21.00** | 1.000 | 800 |
+| sleep_homeostatic (downscale+prune only) | 12.3 – 14.0 | 1.000 | 0 |
+| sleep_consolidate (periodic VICReg "dreams") | **9.99** (day_len 50) / **5.71** (day_len 10) | 1.000 | 160 / 320 |
+
+**Verdict — REJECTED as a computational pattern.** Three honest sub-findings:
+1. Homeostatic downscaling + pruning **alone do not prevent collapse** (~12–14 vs raw 21) — the
+   anti-collapse force must come from the *loss*, confirming §3.4.
+2. Phasing the rank floor into a periodic "sleep" makes it **fail** (9.99), and making sleep
+   *more frequent* makes it **worse** (5.71), not better.
+3. Only **continuous** co-optimization of the rank floor with the task holds full rank (21.0).
+This is the same mechanism-level lesson as §3.2/§3.3 (intermittent weight surgery): gradient
+descent re-collapses the representation between any phasic intervention. **What survives from the
+biology:** the *persistent homeostatic floor* — VICReg's per-dimension variance term is itself a
+"keep every unit active" homeostatic constraint, applied every step. The *phasic sleep* metaphor
+does not map to an effective algorithm here. `synaptic_downscale` remains useful as a
+collapse-neutral renormalizer (it preserves the spectrum shape), just not as an anti-collapse tool.
+
+### 3.6 Real-text validation — VICReg neutral; domain fine-tune beats SOTA in-domain (2026-06-27)
+
+**Goal:** does VICReg help on REAL text via the production path, and how do we compare to a real
+SOTA baseline? Trained MiniLM through `train_asn` (InfoNCE vs InfoNCE+VICReg) on AG News; scored
+served embeddings on 800 held-out docs. **Command:** `scripts/realtext_validation.py`.
+
+| model | effRank | kNN acc | nDCG@10 |
+|---|---|---|---|
+| raw MiniLM (untrained) | 279.1 | 0.875 | 0.776 |
+| MiniLM + InfoNCE | 268.6 | **0.892** | **0.822** |
+| MiniLM + InfoNCE + VICReg | 269.3 | 0.889 | 0.821 |
+| BGE-small-en-v1.5 (SOTA ref, zero-shot) | 285.0 | 0.877 | 0.776 |
+
+**Findings (honest):**
+1. **VICReg is ~NEUTRAL on real text** (Δrank +0.7, ΔkNN −0.004, ΔnDCG −0.0005). Exactly as §3.2
+   Finding A predicted: InfoNCE already resists collapse (effRank ~270 of 384, no collapse to
+   fix), so the rank floor adds nothing measurable here. VICReg is *insurance for collapse-prone
+   objectives*, not a differentiator on standard contrastive fine-tuning. **Status: Measured (neutral).**
+2. **The real, measured product lever is domain fine-tuning.** Our in-domain fine-tuned MiniLM
+   (kNN 0.892 / nDCG 0.822) **beats zero-shot BGE-small** (0.877 / 0.776) on the in-domain task.
+   **Caveat (do not overclaim):** AG News is in-domain for our fine-tune and out-of-domain for BGE,
+   so this measures the *value of domain adaptation*, not that our model is better in general. That
+   is still the defensible product thesis: domain-tuned org embeddings beat general commercial
+   embeddings *on the tenant's domain*. **Status: Measured (in-domain, single dataset).**
+3. nDCG@10 with 4 topics is partially saturated; kNN accuracy is the cleaner signal. Next: a
+   harder, multi-domain / finer-grained benchmark (MTEB slice) and a fair zero-shot-vs-zero-shot
+   comparison before any cross-domain quality claim.
+
 ---
 
 ## 4. Enterprise RAG (extrinsic — target)
@@ -233,7 +288,10 @@ VICReg-regularized objective and measure retrieval vs those baselines before any
 | zELO → bi-encoder distillation | **Hypothesis** | zELO validated for rerankers; extension unmeasured here |
 | ASN three-tier surgery *prevents collapse* | **Rejected (current form)** | §3.2: in a real collapse regime it drives served rank 3.4→1.0 and degrades kNN acc; mechanism fights anisotropy, not collapse |
 | ASN *beats InfoNCE* on effective rank | **Rejected (wrong framing)** | §3.2: InfoNCE's uniformity is inherently anti-collapse; no collapse to beat |
-| Loss-space rank floor (VICReg) prevents collapse | **Measured (mechanism)** | §3.4: served rank 12.1→21.0 (+8.9), kNN preserved, 3 seeds — works where weight surgery failed. Not yet tested on real text/baselines |
+| Loss-space rank floor (VICReg) prevents collapse | **Measured (mechanism)** | §3.4: served rank 12.1→21.0 (+8.9), kNN preserved, 3 seeds — works where weight surgery failed |
+| VICReg helps on real-text contrastive training | **Measured (neutral)** | §3.6: ΔnDCG −0.0005, ΔkNN −0.004 vs InfoNCE on AG News — neutral; InfoNCE already resists collapse. Insurance, not a differentiator |
+| Sleep/SHY consolidation (phasic) prevents collapse | **Rejected (pattern)** | §3.5: homeostasis-only ~no effect; periodic VICReg "dreams" worse than baseline (9.99 / 5.71). Anti-collapse must be continuous, in the loss |
+| Domain-tuned org embeddings beat general commercial embeddings *in-domain* | **Measured (in-domain, 1 dataset)** | §3.6: fine-tuned MiniLM nDCG 0.822 > zero-shot BGE-small 0.776 on AG News. Caveat: in-domain vs zero-shot; needs MTEB + fair comparison |
 
 ---
 
@@ -261,3 +319,5 @@ Each ablation must log to ledger + this file before changing WHITEPAPER mechanis
 | 2026-06-27 | §3.2 collapse-regime experiment (`scripts/collapse_regime.py`): InfoNCE doesn't collapse (wrong framing); in a real collapse regime ASN surgery makes it **worse** (rank 3.4→1.0, kNN −12-21pts, 3 seeds). Mechanism claim **Rejected in current form** — fights anisotropy, not collapse. Method needs redesign. |
 | 2026-06-27 | §3.3 anti-collapse redesign (`scripts/collapse_redesign.py`, new `spectral_lift` op + tests): lifting (not shrinking) the weak band **fixes** three-tier's harm — no rank crash (1.0→2.06), kNN preserved (1.000), strictly dominant. But still **below** the do-nothing baseline (2.06 vs 3.40), so benefit-over-baseline **Rejected**. In-loop weight-space SVD surgery can't outrun the collapse gradient; loss-space rank-floor regularizer indicated next. |
 | 2026-06-27 | §3.4 loss-space rank floor (`scripts/collapse_lossreg.py`, new VICReg `variance_regularization`/`covariance_regularization` + tests): **SUPPORTED** — served rank 12.1→21.0 (+8.9, full recovery), kNN preserved, 3 seeds. Loss-space regularization prevents collapse where all weight-space surgery failed. Mechanism claim now **Measured**; product claim still needs real-text/commercial-baseline eval. Suite 13/13 green. |
+| 2026-06-27 | §3.5 sleep/SHY consolidation (`asn_engine/sleep.py` + `scripts/sleep_consolidation.py`): bio-inspired wake/sleep **REJECTED as a pattern** — homeostasis-only ~no effect; periodic VICReg "dreams" worse than baseline (9.99 @day50, 5.71 @day10). Same lesson as §3.2/§3.3: anti-collapse must be continuous in the loss. `synaptic_downscale` kept as collapse-neutral renormalizer. |
+| 2026-06-27 | §3.6 real-text validation (`scripts/realtext_validation.py`, AG News): VICReg vs InfoNCE **neutral** (ΔnDCG −0.0005) — InfoNCE already resists collapse on real text. Domain-tuned MiniLM (nDCG 0.822) **beats zero-shot BGE-small** (0.776) in-domain → domain adaptation is the measured product lever (caveat: in-domain vs zero-shot). |

@@ -111,3 +111,45 @@ def three_tier_surgery(
         keep = 1.0 - lam * (1.0 - ww)  # protected (ww→1) keeps more
     s[weak] = s[weak] * keep
     return s
+
+
+def spectral_lift(
+    singular_values: Tensor,
+    floor_frac: float = 0.25,
+    ref: str = "max",
+) -> Tensor:
+    """Anti-collapse spectral lift (rank-floor operator).
+
+    The DUAL of ``three_tier_surgery``. Three-tier surgery *shrinks* the weak band to
+    combat **anisotropy** (too few *dominant* directions). Dimensional **collapse** is the
+    opposite pathology — too few *active* directions — so shrinking weak singular values
+    only finishes the collapse (measured: served rank 3.4→1.0; see EVIDENCE.md §3.2).
+
+    This operator instead *raises* every singular value to at least a floor, pulling the
+    suppressed directions back toward the dominant band and flattening the spectrum. A flatter
+    spectrum has higher effective rank (= exp Shannon entropy of the normalized spectrum), so
+    the served representation regains usable directions instead of losing them.
+
+    Args:
+      singular_values: ordered (descending) singular-value spectrum, shape ``(n,)``.
+      floor_frac: floor as a fraction in [0, 1] of the reference value. ``0`` is a no-op.
+      ref: reference for the floor —
+        * ``"max"``    → floor = ``floor_frac * s.max()`` (fraction of the top SV);
+        * ``"geomean"``→ floor = ``floor_frac * geometric_mean(s>0)`` (gentler, scale-free).
+
+    Returns:
+      An adjusted spectrum (same shape), with every value clamped up to the floor. Never
+      shrinks a singular value, so the strong band is preserved exactly. The caller
+      reconstructs ``U @ diag(s') @ V^T`` as needed.
+    """
+    s = singular_values.clone()
+    pos = s[s > 0]
+    if pos.numel() == 0:
+        return s
+    if ref == "max":
+        floor = floor_frac * s.max()
+    elif ref == "geomean":
+        floor = floor_frac * torch.exp(pos.log().mean())
+    else:
+        raise ValueError(f"ref must be 'max' or 'geomean', got {ref!r}")
+    return s.clamp(min=floor)

@@ -1,0 +1,222 @@
+/**
+ * Blue Hen RE — fleet UI entry
+ * Import order: tokens → base → components → feature modules
+ */
+
+@import "./tokens.css";
+@import "./base.css";
+@import "./components.css";
+
+/* Closed-loop org diagram (Spec 0012) */
+.fleet-closed-loop {
+  margin-bottom: var(--bh-space-8);
+}
+
+.fleet-closed-loop__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--bh-space-3) var(--bh-space-5);
+  margin-bottom: var(--bh-space-4);
+}
+
+.fleet-closed-loop__ring {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--bh-space-2) var(--bh-space-1);
+  margin-bottom: var(--bh-space-4);
+}
+
+.fleet-closed-loop__node-wrap {
+  display: flex;
+  align-items: center;
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.fleet-closed-loop__node {
+  flex: 1;
+  min-width: 0;
+  border: 2px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  padding: var(--bh-space-3);
+  background: var(--bh-surface);
+  transition: border-color var(--bh-duration) var(--bh-ease),
+    box-shadow var(--bh-duration) var(--bh-ease);
+}
+
+.fleet-closed-loop__node:hover {
+  border-color: var(--bh-border-strong);
+  box-shadow: var(--bh-shadow-sm);
+}
+
+.fleet-closed-loop__node.is-active {
+  border-color: var(--bh-accent);
+  background: var(--bh-accent-muted);
+  box-shadow: var(--bh-glow-accent);
+}
+
+.fleet-closed-loop__node-badge {
+  display: inline-block;
+  font-family: var(--bh-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  border-radius: var(--bh-radius-sm);
+  border: 1px solid;
+  margin-bottom: var(--bh-space-2);
+}
+
+.fleet-closed-loop__node-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  margin-bottom: var(--bh-space-1);
+}
+
+.fleet-closed-loop__node-owner {
+  font-family: var(--bh-font-mono);
+  font-size: 0.68rem;
+  color: var(--bh-muted);
+  margin-bottom: var(--bh-space-2);
+}
+
+.fleet-closed-loop__node-mission {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--bh-text-secondary);
+  margin: 0 0 var(--bh-space-3);
+}
+
+.fleet-closed-loop__node-sites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-2);
+  margin-bottom: var(--bh-space-2);
+}
+
+.fleet-closed-loop__site-link {
+  font-family: var(--bh-font-mono);
+  font-size: 0.68rem;
+  color: var(--bh-accent);
+  text-decoration: none;
+  padding: 2px 7px;
+  border-radius: var(--bh-radius-sm);
+  border: 1px solid var(--bh-border);
+}
+
+.fleet-closed-loop__site-link:hover {
+  border-color: var(--bh-accent);
+}
+
+.fleet-closed-loop__handoff {
+  font-family: var(--bh-font-mono);
+  font-size: 0.65rem;
+  color: var(--bh-faint);
+  margin-top: var(--bh-space-1);
+}
+
+.fleet-closed-loop__arrow {
+  flex-shrink: 0;
+  padding: 0 var(--bh-space-1);
+  font-size: 1rem;
+  color: var(--bh-faint);
+}
+
+.fleet-closed-loop__return {
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-3);
+  padding: var(--bh-space-2) var(--bh-space-1) 0;
+  font-family: var(--bh-font-mono);
+  font-size: 0.72rem;
+  color: var(--bh-muted);
+}
+
+.fleet-closed-loop__return-line {
+  flex: 1;
+  height: 2px;
+  background: var(--bh-border);
+}
+
+.fleet-closed-loop__feedback,
+.fleet-closed-loop__stages {
+  background: var(--bh-surface);
+  border: 2px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  padding: var(--bh-space-4);
+  margin-bottom: var(--bh-space-3);
+  font-size: 0.8125rem;
+}
+
+.fleet-closed-loop__feedback ul {
+  margin: var(--bh-space-2) 0 0;
+  padding-left: 18px;
+  line-height: 1.6;
+  color: var(--bh-muted);
+}
+
+.fleet-closed-loop__stage-track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-2);
+}
+
+.fleet-closed-loop__stage {
+  font-family: var(--bh-font-mono);
+  font-size: 0.68rem;
+  padding: 4px 8px;
+  border-radius: var(--bh-radius-sm);
+  border: 1px solid var(--bh-border);
+  color: var(--bh-muted);
+  background: var(--bh-inset);
+}
+
+.fleet-closed-loop__stage.is-active {
+  font-weight: 600;
+  border-width: 2px;
+}
+
+.fleet-closed-loop__steps {
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+  margin-bottom: var(--bh-space-2);
+}
+
+.fleet-closed-loop__steps summary {
+  cursor: pointer;
+  color: var(--bh-text);
+  font-weight: 500;
+}
+
+.fleet-closed-loop__steps ol {
+  margin: var(--bh-space-2) 0 0;
+  padding-left: 20px;
+  line-height: 1.55;
+}
+
+.fleet-closed-loop__meta {
+  font-family: var(--bh-font-mono);
+  font-size: 0.68rem;
+  color: var(--bh-faint);
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .fleet-closed-loop__arrow {
+    display: none;
+  }
+
+  .fleet-closed-loop__node-wrap {
+    flex: 1 1 100%;
+  }
+
+  .fleet-main {
+    padding: var(--bh-space-6) var(--bh-space-4) var(--bh-space-12);
+  }
+}

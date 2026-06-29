@@ -23,6 +23,7 @@ practically free to run (open models + scale-to-zero GPU), large return at scale
 Repo root: `C:\Users\jcdav\bluehenre` (this is the connected folder; build here).
 
 ```
+config/work_queue.json   ← SINGLE TASK QUEUE — pick_task.py list/claim/done
 config/fleet.json        ← fleet registry: all sites, domains, app paths (SOURCE OF TRUTH)
 AGENTS.md                ← pair-programming guide for Cursor + Eve agent
 WHITEPAPER.md            ← the scientific center (ASN, v3.1, evidence-driven §8.1)
@@ -43,10 +44,14 @@ apps/
     finance-lab/         ← Phase B stub
 services/
   core-api/              ← FastAPI uniform chokepoint
-  trainer/               ← Modal GPU lifecycle
+  worker/                ← Postgres job consumer (train → eval → deploy)
+  trainer/               ← Modal GPU stub (scale-out TBD)
 packages/
   fleet/                 ← @synthaembed/fleet SDK
+  ui-fleet/              ← FleetShell cross-site nav
   asn-engine/            ← ASN math (verified)
+  eval-harness/          ← nDCG, effective rank, deploy gates
+  eval-public/           ← dumbmodel baseline panel + corpus
   synth-core/            ← uniform access + tracing
   cli/                   ← synth CLI (+ fleet list/context)
 ```
@@ -69,7 +74,7 @@ Owned domains to attach in Vercel (one custom domain per mini-org / project):
 | **[arxiviq.com](https://arxiviq.com)** | **Research RAG org** | `apps/sites/research-rag` | A |
 | **[dumbmodel.com](https://dumbmodel.com)** | **Dumb Model** public proof | `apps/sites/dumbmodel` | A → socialize |
 
-*(Phase B finance lab: domain TBD when `apps/finance-lab` is scoped.)*
+*(Phase B finance lab: domain TBD when `apps/sites/finance-lab` is scoped.)*
 
 #### dumbmodel.com — brand direction (LOCKED)
 
@@ -102,7 +107,7 @@ eval gate (nDCG, effective rank, rotating slice).
 **Funnel:** dumbmodel.com (viral proof) → slasso.com (rigorous benchmarks) → bhenre.com (run your
 own org) → arxiviq.com (applied science RAG demo).
 
-**Build:** `apps/dumbmodel` — Next.js, read-only public eval-harness + embed/search via
+**Build:** `apps/sites/dumbmodel` — Next.js, read-only public eval-harness + embed/search via
 `synth-core` (no keys required for baseline panel; tenant compare when user supplies workspace key).
 
 **DNS / Vercel:** point each domain at its Vercel project; keep `*.vercel.app` as preview aliases.
@@ -112,11 +117,11 @@ Canonical production URLs should use custom domains above, not legacy names (e.g
 | GitHub repo | Custom domain | Vercel preview | Mini-org role | Phase | Repurpose path |
 |---|---|---|---|---|---|
 | [`henington-homes`](https://github.com/jcdavis131/henington-homes) | **bhenre.com** | `bhre.vercel.app` | **Platform hub** — monorepo; `apps/sites/hub` + `apps/synthorg` | All | **Done** (this repo) |
-| [`agent-lasso`](https://github.com/jcdavis131/agent-lasso) | **slasso.com** | TBD | **RAG Benchmark Lab** — benchmark exams, leaderboards, GraphRAG | **A** | `apps/benchmark-lab`; migrate `benchmark_exam_engine` |
-| [`arxiv_exam_app`](https://github.com/jcdavis131/arxiv_exam_app) | **arxiviq.com** | TBD | **Research RAG org** — arXiv PDF RAG applied test | **A** | `apps/research-rag` |
+| [`agent-lasso`](https://github.com/jcdavis131/agent-lasso) | **slasso.com** | TBD | **RAG Benchmark Lab** — benchmark exams, leaderboards, GraphRAG | **A** | `apps/sites/benchmark-lab`; migrate `benchmark_exam_engine` |
+| [`arxiv_exam_app`](https://github.com/jcdavis131/arxiv_exam_app) | **arxiviq.com** | TBD | **Research RAG org** — arXiv PDF RAG applied test | **A** | `apps/sites/research-rag` |
 | *(monorepo)* | **jcamd.com** | TBD | **Operator control plane** | All | `apps/control` |
-| *(monorepo)* | **dumbmodel.com** | TBD | **Dumb Model** — public anti-hype proof, Hall of Cone | A → socialize | `apps/dumbmodel` **built** |
-| *(future)* | TBD | TBD | **Finance applied-test org** | **B** | `apps/finance-lab` |
+| *(monorepo)* | **dumbmodel.com** | TBD | **Dumb Model** — public anti-hype proof, Hall of Cone | A → socialize | `apps/sites/dumbmodel` **built** |
+| *(future)* | TBD | TBD | **Finance applied-test org** | **B** | `apps/sites/finance-lab` (stub) |
 | *(future v2)* | TBD | TBD | **Live trading org** | **C** | Deferred |
 
 **Multi-site pattern:** one GitHub monorepo (`henington-homes`), **multiple Vercel projects**
@@ -170,7 +175,7 @@ compliance gates.
 **Hard guardrail (v1):** Phases A and B are **analytics and simulation only** — no order
 execution, no money movement, no live brokerage integration. Phase C is explicitly deferred.
 
-## 4. Status: real vs. stubbed (updated 2026-06-28)
+## 4. Status: real vs. stubbed (updated 2026-06-27)
 
 **Production path — real now:**
 - **Postgres + pgvector + RLS** — Docker `:5433`, Alembic `001`–`004`, `synthaembed_tenant`
@@ -186,7 +191,7 @@ execution, no money movement, no live brokerage integration. Phase C is explicit
 - **eval-harness** — pairwise nDCG@10, effective rank, deploy gates (`packages/eval-harness`).
 - **6 Next.js sites + control** — `pnpm review` passes; `@synthaembed/ui-fleet` cross-nav.
 - **ASN math** — effective rank, quintic/cubic Newton-Schulz (roles per `SCIENCE_REVIEW.md` §3),
-  InfoNCE, Procrustes, three-tier surgery + unit tests (8/8 green); `train_loop.py` wired to worker.
+  InfoNCE, Procrustes, three-tier surgery + unit tests (9/9 green); `train_loop.py` wired to worker.
 - **synth-core** SDK + trace contract; `synth` CLI; Eve agent tree with hill-climb tool.
 
 **⚠ Engine claim NOT proven (read before building on it) — 2026-06-27:**
@@ -207,10 +212,18 @@ execution, no money movement, no live brokerage integration. Phase C is explicit
 - **Neon production** — local Postgres path proven; Neon cutover is deploy config.
 - **Eve ↔ trace** — map eve session id → `SYNTH_TRACE_ID` (one session = one trace).
 - **Direct-access lint gate** — spec 0006: forbid DB/service calls outside `synth-core`.
-- **Phase B** — `apps/sites/finance-lab` stub; strategy-simulation eval harness TBD.
+- **Phase B** — `apps/sites/finance-lab` stub (`@synthaembed/finance-lab` in `pnpm review`);
+  strategy-simulation eval harness TBD.
 - **Phase C** — live trading deferred (§3b guardrail).
 
-**Specs:** see `specs/README.md` — 0001–0010 trace platform, API, fleet, eval, worker, finance Phase B.
+**Phase A+ closed loop (implemented):**
+- Worker → BD queue after eval gates; charter gate on deploy (`SYNTH_CHARTER_GATE=1`, default on).
+- Bootstrap charters: `config/recipes/{siteId}.json` for Phase A tenants.
+- Operator: Operations Center `/actions` — per-site hill-climb, charter issue, deploy promote.
+- API: `POST /v1/admin/hill-climb`, `/v1/admin/bd/charter`, `/v1/admin/deploy`, `GET /v1/bd/queue`.
+
+**Specs:** see `specs/README.md` — 0001–0012; **0012 Implemented** (registry + Phase A+ handoffs).
+BD queue: `content/fleet/bd/queue.json` · charters: `config/recipes/`.
 
 ## 5. First coding tasks (suggested order, each spec-gated)
 
@@ -246,6 +259,17 @@ pnpm kickoff:orgs               # hill-climb all Phase A orgs
 pnpm backfill:deploy            # deploy + pgvector index existing models
 
 pnpm dev:fleet                  # hub :3000, control :3002, dumbmodel :3001, …
+pnpm dev:site research-rag      # one site + auto-load data/workspaces/{id}.env
+pnpm dev:site hub               # recommended: run stack first (below)
+
+# Interactive fleet (live search + feedback → ledger)
+# 1. docker compose up + db:migrate + bootstrap:orgs + kickoff:orgs
+# 2. pnpm dev:api & pnpm dev:worker &
+# 3. pnpm dev:site research-rag   → arxiviq :3004 — live /v1/search
+# 4. pnpm dev:site dumbmodel      → compare + live org column
+# 5. pnpm dev:site benchmark-lab  → /try exams + /queue BD pipeline
+# 6. pnpm dev:site hub            → closed loop + /try + /feedback
+# Thumbs up/down on search results logs stage=feedback to auto_research_ledger.
 pnpm --filter @synthaembed/synthorg dev
 
 pnpm review                     # build all sites + typecheck
@@ -292,14 +316,14 @@ uv run pytest packages/asn-engine services/core-api/tests -q
 - effective rank: rank-1 → ~1.0; isotropic Gaussian → ~full dimension.
 - Procrustes, InfoNCE, three-tier surgery: passing unit tests.
 - Newton-Schulz: quintic band [0.68, 1.13] + cubic σ→1 per `SCIENCE_REVIEW.md` §3. ✅
-- **WHITEPAPER gate 1 (ASN > InfoNCE):** **failed** on 2026-06-28 hub micro-ablation — see `EVIDENCE.md` §3.
+- **WHITEPAPER gate 1:** **0/4** Phase A sites @ 10 ep fleet (`pnpm evidence:fleet`); heterosynaptic ŵ + peak–drop trigger wired; 7–11 surgeries/run but eval erank below InfoNCE. Hub nDCG +0.011. See `EVIDENCE.md` §3 Run B + §3.2–3.3 (three-tier **rejected** for collapse).
 - **Retraction:** ~62 deploy erank came from `train_loop` measuring random noise (fixed).
 
-**Evidence refresh:** `pnpm evidence:collect` · `pnpm evidence:ablation`
+**Evidence refresh:** `pnpm evidence:collect` · `pnpm evidence:fleet` · `uv run python scripts/engine_proof.py`
 
-**Platform (2026-06-28):**
+**Platform (2026-06-27):**
 - Phase A orgs trained, deployed, indexed (8 chunks/org); `/v1/search` pgvector live.
 - core-api tests: healthz, workspace provisioning, RLS isolation, problem+json (5 tests).
-- CI: site review + ASN tests + Postgres API tests (`.github/workflows/ci.yml`).
+- CI: site review + ASN tests (9) + Postgres API tests (5) — `.github/workflows/ci.yml`.
 
 **Science integrity:** `SCIENCE_REVIEW.md` normative — measure, don't assert; quintic not cubic.

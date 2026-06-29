@@ -1,0 +1,235 @@
+/**
+ * Blue Hen RE — base layer (reset, type, canvas texture)
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bh-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bh-border-strong);
+}
+
+::selection {
+  background: var(--bh-accent-muted);
+  color: var(--bh-text);
+}
+
+.fleet-shell {
+  min-height: 100vh;
+  background-color: var(--bh-canvas);
+  color: var(--bh-text);
+  font-family: var(--bh-font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  position: relative;
+}
+
+/* Organic grain — subtle, not decorative noise */
+.fleet-shell::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+.fleet-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fade-in entrance */
+@keyframes bh-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fleet-main > :first-child {
+  animation: bh-fade-in 0.4s var(--bh-ease-out) both;
+}
+
+/* Stagger children */
+.fleet-main > :nth-child(2) { animation-delay: 40ms; }
+.fleet-main > :nth-child(3) { animation-delay: 80ms; }
+.fleet-main > :nth-child(4) { animation-delay: 120ms; }
+
+/* View transitions for SPA feel */
+@keyframes bh-view-fade-in {
+  from { opacity: 0; }
+}
+@keyframes bh-view-fade-out {
+  to { opacity: 0; }
+}
+::view-transition-old(root) {
+  animation: bh-view-fade-out 0.15s var(--bh-ease) both;
+}
+::view-transition-new(root) {
+  animation: bh-view-fade-in 0.25s var(--bh-ease-out) both;
+}
+
+/* Skeleton loading */
+.bh-skeleton {
+  background: linear-gradient(90deg,
+    var(--bh-inset) 25%,
+    var(--bh-surface-raised) 50%,
+    var(--bh-inset) 75%
+  );
+  background-size: 200% 100%;
+  animation: bh-shimmer 1.6s ease-in-out infinite;
+  border-radius: var(--bh-radius-sm);
+}
+
+@keyframes bh-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.bh-skeleton--text {
+  height: 14px;
+  margin-bottom: var(--bh-space-2);
+  width: 100%;
+}
+.bh-skeleton--text:last-child {
+  width: 60%;
+}
+.bh-skeleton--title {
+  height: 28px;
+  width: 50%;
+  margin-bottom: var(--bh-space-4);
+}
+.bh-skeleton--card {
+  height: 120px;
+}
+
+a {
+  color: var(--bh-accent);
+  text-decoration: none;
+  transition: color var(--bh-duration) var(--bh-ease);
+}
+
+a:hover {
+  color: var(--bh-text);
+}
+
+code,
+.bh-mono {
+  font-family: var(--bh-font-mono);
+  font-size: 0.88em;
+  font-weight: 500;
+}
+
+code {
+  background: var(--bh-inset);
+  border: 1px solid var(--bh-border);
+  padding: 1px 6px;
+  border-radius: var(--bh-radius-sm);
+}
+
+/* Typography scale */
+.bh-display {
+  font-family: var(--bh-font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.bh-eyebrow {
+  display: inline-block;
+  font-family: var(--bh-font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bh-muted);
+}
+
+.bh-title {
+  font-family: var(--bh-font-display);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.bh-title--sm {
+  font-size: 1.125rem;
+  font-family: var(--bh-font-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.bh-lead {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--bh-text-secondary);
+  margin: 0;
+  max-width: var(--bh-max-width-narrow);
+}
+
+.bh-section-title {
+  font-family: var(--bh-font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bh-muted);
+  margin: 0 0 var(--bh-space-3);
+}
+
+.bh-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-4);
+}
+
+.bh-stack--lg {
+  gap: var(--bh-space-8);
+}
+
+.bh-page-header {
+  margin-bottom: var(--bh-space-8);
+}
+
+.bh-page-header .bh-eyebrow {
+  margin-bottom: var(--bh-space-3);
+}
+
+.bh-page-header .bh-title {
+  margin-bottom: var(--bh-space-2);
+}
+
+.bh-muted {
+  color: var(--bh-muted);
+}

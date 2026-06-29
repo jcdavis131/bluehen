@@ -1,0 +1,294 @@
+{
+  "version": 1,
+  "description": "Functional divisions of the Blue Hen RE synthetic organization — ownership, handoffs, and closed loop. Normative companion to specs/0012.",
+  "divisions": [
+    {
+      "id": "data",
+      "name": "Data Harvest & Curation Org",
+      "codename": "data-org",
+      "mission": "Mine, ingest, clean, chunk, and pair tenant corpora so Research never trains on garbage.",
+      "owner": "Data Steward (agent: data_harvester)",
+      "primarySystems": ["core-api /v1/data/*", "services/worker ingest stage", "data/corpora/*"],
+      "publicSites": ["hub"],
+      "owns": [
+        "Raw source inventory per workspace",
+        "Ingest pipelines and chunk quality",
+        "Contrastive pair generation (anchor/positive/negative)",
+        "Corpus freshness SLAs and data-gap backlog",
+        "Collection.meta JSON (doc counts, last harvest)"
+      ],
+      "doesNotOwn": [
+        "Training recipes or model checkpoints",
+        "Deploy gates or production serving",
+        "Public marketing claims"
+      ],
+      "deliversTo": ["research", "orchestration"],
+      "expectsFrom": {
+        "orchestration": [
+          "Prioritized harvest requests with site_id, source URLs, and acceptance criteria",
+          "Feedback on corpus gaps from production eval slices"
+        ],
+        "research": [
+          "Pair schema requirements and minimum doc counts for experiments",
+          "Labeling guidelines when supervised pairs are needed"
+        ],
+        "execution": [
+          "Production query logs (future) for hard-negative mining — optional Phase A+"
+        ]
+      },
+      "delivers": {
+        "research": [
+          "POST /v1/data/ingest + /chunk + /pairs completed for a workspace",
+          "Corpus snapshot path: data/corpora/{siteId}/corpus.jsonl",
+          "Data quality report: doc count, dedupe rate, avg chunk length, pair count",
+          "Ledger stage: collect | chunk | pairs"
+        ],
+        "orchestration": [
+          "Acknowledgment of harvest completion or blocked reason",
+          "Updated data-gap ticket status"
+        ]
+      },
+      "sla": {
+        "phaseA": "≥8 docs, ≥64 pairs per Phase A tenant within 24h of harvest request",
+        "quality": "No empty chunks; UTF-8 clean; workspace RLS enforced"
+      }
+    },
+    {
+      "id": "research",
+      "name": "Embedding Research Org",
+      "codename": "research-org",
+      "mission": "Invent, ablate, and measure embedding methods; promote honest candidates to BD.",
+      "owner": "Research Lead (agents: Cursor lab, Claude autoresearch, Conductor)",
+      "primarySystems": [
+        "packages/asn-engine",
+        "scripts/autoresearch_*",
+        "scripts/bayes_search.py",
+        "packages/eval-harness",
+        "EVIDENCE.md",
+        "program.md"
+      ],
+      "publicSites": ["hub", "research-rag"],
+      "owns": [
+        "Training recipes (loss, architecture hyperparams)",
+        "Experiment ledger entries (train/eval stages)",
+        "EVIDENCE.md measured claims",
+        "BD promotion queue candidates (content/fleet/bd/queue.json)",
+        "Autoresearch champion recipes"
+      ],
+      "doesNotOwn": [
+        "Production deploy without BD charter",
+        "Customer SLAs",
+        "Raw web scraping (delegates to Data Org)"
+      ],
+      "deliversTo": ["bd", "orchestration"],
+      "expectsFrom": {
+        "data": [
+          "Paired, chunked corpus ready for train_asn",
+          "Minimum pair count met per SLA",
+          "Corpus version id in collection.meta"
+        ],
+        "bd": [
+          "Pilot failure reports (which slice regressed)",
+          "Commercial baseline panel results for calibration"
+        ],
+        "orchestration": [
+          "Weakest-slice signal from Conductor / Eve hill_climb"
+        ]
+      },
+      "delivers": {
+        "bd": [
+          "Recipe candidate package: recipe JSON, checkpoint path, eval-harness gates, EVIDENCE snapshot date",
+          "Promotion criteria checklist (real-text ΔnDCG, OOD forgetting, edge tier knn_t8)",
+          "Experiment museum card metadata"
+        ],
+        "orchestration": [
+          "Train job enqueue with validated recipe",
+          "Hypothesis verdict: supported | neutral | rejected"
+        ],
+        "data": [
+          "Data requests when eval shows slice starvation (e.g. need more arXiv CS.CL papers)"
+        ]
+      },
+      "sla": {
+        "promotion": "Only enqueue BD queue when EVIDENCE gate documented",
+        "honesty": "No ship claims without JSON snapshot date in EVIDENCE.md"
+      }
+    },
+    {
+      "id": "bd",
+      "name": "Business Development & Validation Org",
+      "codename": "bd-org",
+      "mission": "Stress-test Research candidates on real-world scenarios vs commercial baselines; charter winners for Execution.",
+      "owner": "BD Lead (agent: qa_benchmark, benchmark-lab operators)",
+      "primarySystems": [
+        "apps/sites/benchmark-lab",
+        "apps/sites/dumbmodel",
+        "packages/eval-public",
+        "content/fleet/bd/queue.json",
+        "content/fleet/bd/scorecards/"
+      ],
+      "publicSites": ["benchmark-lab", "dumbmodel"],
+      "owns": [
+        "Benchmark exam definitions (YAML)",
+        "Pilot scorecards vs BGE/e5/MiniLM",
+        "Hall of Cone public leaderboard",
+        "Execution charters (approved recipes)",
+        "Real-world scenario catalog (multi-hop, domain shift, edge latency)"
+      ],
+      "doesNotOwn": [
+        "Recipe invention (Research)",
+        "Long-term production ops (Execution)",
+        "Raw corpus ingest (Data)"
+      ],
+      "deliversTo": ["execution", "research", "orchestration"],
+      "expectsFrom": {
+        "research": [
+          "BD queue candidates with full eval artifact bundle",
+          "Reproducible train command and seed",
+          "Honest limitations doc (in-domain vs zero-shot caveats)"
+        ],
+        "execution": [
+          "Deployed model version id for A/B in pilot",
+          "Latency and error rates during pilot window"
+        ],
+        "data": [
+          "Holdout eval corpora not used in training (disjoint slice)"
+        ]
+      },
+      "delivers": {
+        "execution": [
+          "Signed charter: config/recipes/{siteId}.json update approved",
+          "Scorecard JSON with pass/fail per exam",
+          "Rollout notes (tiers: full vs edge)"
+        ],
+        "research": [
+          "Failure analysis: which exam, which baseline won, suggested data or recipe fix"
+        ],
+        "orchestration": [
+          "Pilot status for fleet dashboard",
+          "Escalation if charter blocked on cost ceiling"
+        ]
+      },
+      "sla": {
+        "pilot": "Complete scorecard within 5 business days of queue entry",
+        "fairness": "Same exam for org model and commercial baselines; disclose in-domain bias"
+      }
+    },
+    {
+      "id": "execution",
+      "name": "Business Implementation & Execution Org",
+      "codename": "execution-org",
+      "mission": "Deploy approved models, serve embeddings at scale, and feed production truth back to the loop.",
+      "owner": "Platform SRE (services/worker, core-api, Modal trainer TBD)",
+      "primarySystems": [
+        "services/core-api",
+        "services/worker",
+        "services/trainer",
+        "POST /v1/model/deploy",
+        "POST /v1/embed",
+        "POST /v1/search"
+      ],
+      "publicSites": ["hub", "research-rag", "benchmark-lab", "dumbmodel"],
+      "owns": [
+        "Production checkpoints and model_versions rows",
+        "pgvector indexes and search SLAs",
+        "Two-tier serving (full + MRL/int8)",
+        "Deploy gates enforcement (Spec 0008)",
+        "Incident response for API/worker"
+      ],
+      "doesNotOwn": [
+        "Experimental recipes not in charter",
+        "Marketing copy",
+        "Benchmark exam design"
+      ],
+      "deliversTo": ["orchestration", "bd", "data"],
+      "expectsFrom": {
+        "bd": [
+          "Approved execution charter with recipe JSON",
+          "Rollback criteria"
+        ],
+        "research": [
+          "Checkpoint compatible with asn-engine train_loop output"
+        ],
+        "data": [
+          "Indexed chunks for search after deploy"
+        ]
+      },
+      "delivers": {
+        "orchestration": [
+          "Fleet status: GET /v1/admin/fleet per org",
+          "Ledger stages: deploy | index",
+          "Production metric deltas (nDCG on rotating slice, p95 latency)"
+        ],
+        "bd": [
+          "Live endpoints for pilot A/B",
+          "Tier comparison metrics"
+        ],
+        "data": [
+          "Query logs and retrieval misses (future) for hard-negative mining"
+        ]
+      },
+      "sla": {
+        "deploy": "Charter → deployed + indexed within 4h on Phase A stack",
+        "serving": "RFC 9457 errors; RLS isolation verified in CI"
+      }
+    },
+    {
+      "id": "orchestration",
+      "name": "Orchestration & Intelligence Org",
+      "codename": "orchestration-org",
+      "mission": "Close the loop — detect gaps, route work, enforce budgets, and keep divisions aligned.",
+      "owner": "Operator + Eve Chief of Staff (apps/synthorg, apps/control)",
+      "primarySystems": [
+        "apps/synthorg",
+        "apps/control",
+        "auto_research_ledger",
+        "scripts/kickoff_lifecycle.py",
+        "Conductor hill_climb"
+      ],
+      "publicSites": ["control", "hub"],
+      "owns": [
+        "Cross-division priorities and cost ceilings",
+        "Data-gap backlog routing to Data Org",
+        "Promotion workflow state machine",
+        "Trace IDs across synth-core spans",
+        "Operator approval gates (BD → Execution)"
+      ],
+      "doesNotOwn": [
+        "Division-specific deliverables (delegates)"
+      ],
+      "deliversTo": ["data", "research", "bd", "execution"],
+      "expectsFrom": {
+        "data": ["Harvest completion or SLA breach notice"],
+        "research": ["Hypothesis verdicts and queue submissions"],
+        "bd": ["Scorecards and charter requests"],
+        "execution": ["Fleet health and slice weakness signals"]
+      },
+      "delivers": {
+        "all": [
+          "Prioritized work orders via ledger + Eve tools",
+          "Weekly weakest-slice report on control plane",
+          "Closed-loop diagram status on hub"
+        ]
+      },
+      "sla": {
+        "response": "Gap detected → data request logged within 1 conductor cycle",
+        "budget": "Never exceed RESEARCH_COST_CEILING_USD_PER_DAY per workspace"
+      }
+    }
+  ],
+  "closedLoop": {
+    "steps": [
+      "Platform Orchestration identifies a gap, new vertical, or weak production signal",
+      "Data Operations ingests, cleans, chunks, and generates training pairs",
+      "Research & Development trains, evaluates, and records evidence",
+      "R&D submits a candidate to the Validation Queue",
+      "Validation & Charter runs certified benchmarks vs commercial baselines",
+      "Validation issues a production charter on pass",
+      "Production deploys the model, builds the vector index, and serves retrieval",
+      "Production and Validation publish metrics back to Orchestration",
+      "Orchestration opens data requests → back to Data Operations"
+    ],
+    "ledgerStages": ["collect", "chunk", "pairs", "train", "eval", "deploy", "index", "pilot", "charter", "feedback"]
+  }
+}

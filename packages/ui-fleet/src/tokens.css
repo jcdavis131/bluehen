@@ -1,0 +1,138 @@
+/**
+ * Blue Hen RE — design tokens
+ * Brutalist structure · organic warmth · professional restraint
+ * @see docs/DESIGN_SYSTEM.md
+ */
+
+:root {
+  /* Canvas — warm ink, not pure black */
+  --bh-canvas: #0b0d0a;
+  --bh-canvas-elevated: #101210;
+  --bh-surface: #161814;
+  --bh-surface-raised: #1c1f1a;
+  --bh-inset: #0e100c;
+  --bh-glass: rgba(22, 24, 20, 0.82);
+
+  /* Structure — honest borders */
+  --bh-border: #2a2f28;
+  --bh-border-strong: #3a4238;
+  --bh-border-focus: #5a6b58;
+
+  /* Type */
+  --bh-text: #e6ebe3;
+  --bh-text-secondary: #b8bfb4;
+  --bh-muted: #7a8278;
+  --bh-faint: #525850;
+
+  /* Brand & semantic */
+  --bh-hen-blue: #4a7c9b;
+  --bh-hen-blue-dim: #2f5268;
+  --bh-moss: #6b8f71;
+  --bh-moss-dim: #3d5240;
+  --bh-clay: #c4a574;
+  --bh-clay-dim: #6b5a3a;
+  --bh-cone-rust: #b8734a;
+  --bh-cone-dim: #5c3a24;
+  --bh-slate-blue: #6b7f9a;
+  --bh-danger: #c45c4a;
+  --bh-danger-dim: #5c2a22;
+
+  /* Site accent (override per shell via data-site) */
+  --bh-accent: var(--bh-hen-blue);
+  --bh-accent-dim: var(--bh-hen-blue-dim);
+  --bh-accent-muted: rgba(74, 124, 155, 0.14);
+
+  /* Typography */
+  --bh-font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --bh-font-body: "DM Sans", system-ui, -apple-system, sans-serif;
+  --bh-font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* Brutalist geometry — tight radii */
+  --bh-radius-none: 0;
+  --bh-radius-sm: 2px;
+  --bh-radius-md: 4px;
+  --bh-radius-lg: 8px;
+  --bh-radius-organic: 2px 14px 4px 12px;
+
+  /* Spacing scale (4px base) */
+  --bh-space-1: 4px;
+  --bh-space-2: 8px;
+  --bh-space-3: 12px;
+  --bh-space-4: 16px;
+  --bh-space-5: 20px;
+  --bh-space-6: 24px;
+  --bh-space-8: 32px;
+  --bh-space-10: 40px;
+  --bh-space-12: 48px;
+  --bh-space-16: 64px;
+
+  /* Layout */
+  --bh-max-width: 1080px;
+  --bh-max-width-narrow: 720px;
+
+  /* Shadows */
+  --bh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --bh-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --bh-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --bh-glow-accent: 0 0 20px rgba(74, 124, 155, 0.08);
+
+  /* Motion */
+  --bh-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --bh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --bh-duration: 120ms;
+  --bh-duration-slow: 250ms;
+
+  /* Research registry lifecycle stages */
+  --bh-stage-rd: #3d8bfd;
+  --bh-stage-rd-tint: rgba(61, 139, 253, 0.1);
+  --bh-stage-validate: #e8c547;
+  --bh-stage-validate-tint: rgba(232, 197, 71, 0.1);
+  --bh-stage-prod: #5cb87a;
+  --bh-stage-prod-tint: rgba(92, 184, 122, 0.1);
+  --bh-stage-retired: #d96565;
+  --bh-stage-retired-tint: rgba(217, 101, 101, 0.08);
+
+  /* Legacy fleet aliases (backward compat) */
+  --fleet-bg: var(--bh-canvas);
+  --fleet-surface: var(--bh-surface);
+  --fleet-border: var(--bh-border);
+  --fleet-text: var(--bh-text);
+  --fleet-muted: var(--bh-muted);
+  --fleet-accent: var(--bh-accent);
+}
+
+/* Per-site accent themes */
+.fleet-shell[data-site="hub"] {
+  --bh-accent: var(--bh-hen-blue);
+  --bh-accent-dim: var(--bh-hen-blue-dim);
+  --bh-accent-muted: rgba(74, 124, 155, 0.12);
+}
+
+.fleet-shell[data-site="control"] {
+  --bh-accent: var(--bh-slate-blue);
+  --bh-accent-dim: #455a6e;
+  --bh-accent-muted: rgba(107, 127, 154, 0.12);
+}
+
+.fleet-shell[data-site="dumbmodel"] {
+  --bh-accent: var(--bh-cone-rust);
+  --bh-accent-dim: var(--bh-cone-dim);
+  --bh-accent-muted: rgba(184, 115, 74, 0.12);
+}
+
+.fleet-shell[data-site="benchmark-lab"] {
+  --bh-accent: var(--bh-clay);
+  --bh-accent-dim: var(--bh-clay-dim);
+  --bh-accent-muted: rgba(196, 165, 116, 0.12);
+}
+
+.fleet-shell[data-site="research-rag"] {
+  --bh-accent: var(--bh-moss);
+  --bh-accent-dim: var(--bh-moss-dim);
+  --bh-accent-muted: rgba(107, 143, 113, 0.12);
+}
+
+.fleet-shell[data-site="finance-lab"] {
+  --bh-accent: var(--bh-clay);
+  --bh-accent-dim: var(--bh-clay-dim);
+}

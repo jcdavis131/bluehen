@@ -21,7 +21,7 @@ __pycache__/
 *.ckpt
 *.pt
 *.safetensors
-data/
+/data/
 runs/
 wandb/
 mlruns/
@@ -39,3 +39,8 @@ mlruns/
 
 # Local inspection clones (repo migration)
 _henington-inspect/
+_inspect-agent-lasso/
+_inspect-arxiv-exam/
+
+# OpenCode unattended loop logs
+.opencode-loop/

@@ -1,0 +1,27 @@
+{
+  "name": "@synthaembed/ui-fleet",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./routes": "./src/routes/index.ts",
+    "./admin-api": "./src/admin-api.ts",
+    "./site-api": "./src/site-api.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "dependencies": {
+    "@synthaembed/fleet": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "next": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^18",
+    "typescript": "^5.6.0"
+  }
+}

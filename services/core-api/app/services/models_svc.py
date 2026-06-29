@@ -8,7 +8,7 @@ from pathlib import Path
 
 from sqlalchemy import select
 
-from app.config import ARTIFACTS_DIR
+from app.services.artifacts import checkpoint_exists, open_checkpoint
 from app.database import db_session
 from app.models import Collection, ModelVersion
 
@@ -89,7 +89,21 @@ def deploy_model(
     quant: str,
     *,
     index_vectors: bool = True,
+    site_id: str | None = None,
+    require_charter: bool | None = None,
 ) -> dict:
+    from app.services import handoffs
+    from app.services.governance import site_id_for_workspace
+
+    if require_charter is None:
+        require_charter = handoffs.charter_gate_enabled()
+    sid = site_id or site_id_for_workspace(workspace_id)
+    if require_charter and not handoffs.charter_allows_deploy(sid, model_version):
+        raise ValueError(
+            f"deploy blocked: no active charter for site={sid!r} model={model_version!r} "
+            "(issue charter via POST /v1/admin/bd/charter)"
+        )
+
     from app.services.indexing import index_collection_for_model
 
     with db_session(workspace_id) as session:
@@ -118,7 +132,14 @@ def deploy_model(
     return out
 
 
-def embed_texts(workspace_id: uuid.UUID, inputs: list[str], *, truncate: bool | None = None) -> dict:
+def embed_texts(
+    workspace_id: uuid.UUID,
+    inputs: list[str],
+    *,
+    truncate: bool | None = None,
+    truncate_dims: int | None = None,
+    quant: str | None = None,
+) -> dict:
     import torch
 
     with db_session(workspace_id) as session:
@@ -139,11 +160,12 @@ def embed_texts(workspace_id: uuid.UUID, inputs: list[str], *, truncate: bool | 
         from asn_engine.model import ASNEncoder
         from transformers import AutoTokenizer
 
-        ckpt = Path(mv.checkpoint_path)
-        if not ckpt.exists():
-            raise FileNotFoundError(f"checkpoint missing: {ckpt}")
+        ckpt_path = mv.checkpoint_path
+        if not checkpoint_exists(ckpt_path):
+            raise FileNotFoundError(f"checkpoint missing: {ckpt_path}")
 
-        state = torch.load(ckpt, map_location="cpu", weights_only=False)
+        with open_checkpoint(ckpt_path) as ckpt:
+            state = torch.load(ckpt, map_location="cpu", weights_only=False)
         recipe = state.get("recipe", {})
         backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
         encoder = ASNEncoder(backbone_name=backbone)
@@ -158,13 +180,22 @@ def embed_texts(workspace_id: uuid.UUID, inputs: list[str], *, truncate: bool | 
                 vec = encoder.encode(batch["input_ids"], batch["attention_mask"])[0]
                 # Full tier (truncate=False): no truncation, no quant. Otherwise serve
                 # the deployed model's tier (Matryoshka truncate_dims + quant).
-                if truncate is False:
+                if truncate is False and truncate_dims is None and quant is None:
+                    tier_dims, tier_quant = None, None
+                elif truncate_dims is not None or quant is not None:
+                    tier_dims, tier_quant = truncate_dims, quant
+                elif truncate is False:
                     tier_dims, tier_quant = None, None
                 else:
                     tier_dims, tier_quant = mv.truncate_dims, mv.quant
                 vectors.append(apply_serving_tier(vec.cpu(), tier_dims, tier_quant))
 
-        return {"vectors": vectors, "modelVersion": mv.version}
+        return {
+            "vectors": vectors,
+            "modelVersion": mv.version,
+            "truncateDims": truncate_dims,
+            "quant": quant,
+        }
 
 
 def get_collection_pairs(workspace_id: uuid.UUID, collection_id: uuid.UUID) -> list[dict]:

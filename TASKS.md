@@ -55,7 +55,7 @@
 
 ## In progress
 
-- [ ] **LOOP-001** — Phase A+ hill-climb iteration — kickoff Phase A orgs, verify BD queue + ledger (@cursor)
+_None claimed — run `pick_task.py claim <id>`_
 
 ## Blocked on infra (work elsewhere)
 

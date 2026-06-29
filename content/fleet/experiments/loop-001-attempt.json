@@ -1,0 +1,23 @@
+{
+  "id": "LOOP-001-attempt-1",
+  "taskId": "LOOP-001",
+  "spec": "0005",
+  "relatedSpecs": ["0012", "0009"],
+  "attemptedAt": "2026-06-29",
+  "agent": "cursor",
+  "commit": "78b64b8",
+  "status": "blocked",
+  "blocker": "BLK-DOCKER",
+  "detail": "docker compose -f infra/docker-compose.yml up -d returned Internal Server Error (Docker Desktop API). C: drive ~0.4 GB free.",
+  "verification": {
+    "handoffsTests": "5 passed (services/core-api/tests/test_handoffs.py)",
+    "stack": "not started",
+    "kickoff": "not run"
+  },
+  "nextSteps": [
+    "INF-000: free 5+ GB, restart Docker Desktop",
+    "INF-001: pnpm dev:stack && pnpm db:migrate && pnpm bootstrap:orgs",
+    "LOOP-001: pnpm dev:api, pnpm dev:worker, pnpm kickoff:orgs",
+    "Verify content/fleet/bd/queue.json after gate-pass jobs"
+  ]
+}

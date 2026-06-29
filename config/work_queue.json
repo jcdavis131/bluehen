@@ -423,13 +423,15 @@
       "division": "orchestration",
       "priority": 0,
       "title": "Phase A+ hill-climb iteration — kickoff Phase A orgs, verify BD queue + ledger",
-      "status": "in_progress",
-      "claimedBy": "cursor",
-      "claimedAt": "2026-06-29",
+      "status": "ready",
+      "claimedBy": null,
+      "claimedAt": null,
+      "blockedBy": ["BLK-DISK", "BLK-DOCKER"],
       "spec": "0005",
       "command": "pnpm dev:stack && pnpm db:migrate && pnpm bootstrap:orgs && pnpm dev:api & pnpm dev:worker & pnpm kickoff:orgs",
       "dependsOn": ["INF-001"],
-      "acceptance": "All Phase A jobs complete; BD queue has gate-pass entries; ledger shows eval/deploy/index"
+      "acceptance": "All Phase A jobs complete; BD queue has gate-pass entries; ledger shows eval/deploy/index",
+      "note": "Attempted 2026-06-29: docker compose Internal Server Error (C: ~0.4GB free). Unblock INF-000 first."
     }
   ]
 }

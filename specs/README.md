@@ -7,7 +7,7 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 - Shipped specs are immutable. Changes get a new spec or a tracked revision note.
 - ML specs MUST include an **evaluation gate** CI can enforce.
 
-## Status matrix (2026-06-28)
+## Status matrix (2026-06-30)
 
 | # | Title | Status | Implementation |
 |---|---|---|---|
@@ -24,7 +24,21 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 | [0011](./0011-modal-trainer-production.md) | Modal GPU trainer (production) | **Draft** | `services/trainer` stub |
 | [0012](./0012-synthetic-org-divisions-and-handoffs.md) | Org divisions & closed loop | **Implemented** | registry + Phase A+ handoffs (`handoffs.py`, charters, control UI) |
 
-**Production hosting:** Vercel (sites) + Railway (core-api + worker) + Neon Postgres — [ADR-002](../docs/adr/002-core-api-hosting.md), `infra/railway.md`.
+**Production hosting:** Vercel (sites) + Railway (core-api + worker) + Neon Postgres — [ADR-002](../docs/adr/002-core-api-hosting.md), [ADR-003](../docs/adr/003-unified-org-cli.md) (CLI), [`infra/railway.md`](../infra/railway.md). Deploy task: `INF-003` (Operator).
+
+**Wiki (agent knowledge):** [`docs/wiki/`](../docs/wiki/) — SESSION_BOOT, BUILD, TECH_DEBT, ARCHITECTURE_REVIEW, LOCAL_DEV.
+
+## Deploy traceability
+
+```
+ADR-002 (Railway) + Dockerfile + railway.toml + railway.worker.toml
+    ↓
+infra/railway.md + scripts/railway-deploy.mjs + scripts/prod-deploy.mjs
+    ↓
+pnpm prod:deploy | deploy:railway* → bootstrap:orgs → vercel:env-fleet:exec
+    ↓
+specs/0004 (core-api rollout, /readyz) · specs/0009 (worker rollout)
+```
 
 ## Traceability
 

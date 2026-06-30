@@ -56,7 +56,12 @@ slice of the core API.
 
 ## 3. Architecture
 
-### 3.1 System shape (2026-06-27 — as built)
+### 3.1 System shape (2026-06-28 — as built)
+
+**Local dev** — Docker Postgres `:5433` + Redis `:6379` (`pnpm dev:stack`). Windows UI review:
+`scripts/fleet-review.ps1` · [`docs/wiki/LOCAL_DEV.md`](./docs/wiki/LOCAL_DEV.md).
+
+**Production** — Vercel sites → **Railway** (`core-api` + `worker`) → **Neon** Postgres (ADR-002).
 
 ```
   Vercel (edge)                    Operator + fleet
@@ -68,18 +73,18 @@ slice of the core API.
            │  synth-core (TS)                     │
            ▼                                      ▼
         ┌──────────────────────────────────────────────────────┐
-        │           core-api (FastAPI v0.3)                     │
+        │  core-api (FastAPI v0.3) — Railway service "core-api" │
         │  workspaces · data · train · eval · deploy · search   │
         │  ledger · trace · budget · RFC 9457 errors            │
         └───┬──────────────────────────────┬───────────────────┘
             │ jobs (Postgres queue)          │ RLS reads/writes
             ▼                                ▼
   ┌──────────────────┐              ┌─────────────────────────┐
-  │ services/worker  │              │ Postgres 16 + pgvector  │
-  │ ASN train + eval │              │ Redis (cache / future Q) │
+  │ worker (Railway) │              │ Neon Postgres + pgvector │
+  │ ASN train + eval │              │ Upstash Redis (future Q) │
   │ deploy + index   │              └─────────────────────────┘
   └────────┬─────────┘
-           │ future GPU scale
+           │ GPU scale (Spec 0011)
            ▼
   ┌──────────────────┐     ┌─────────────────────────────────────┐
   │ services/trainer │     │ apps/synthorg (Eve fleet agent)      │
@@ -89,6 +94,10 @@ slice of the core API.
 
 All actors (sites, Eve, `synth` CLI, CI) call **only** `core-api` through **`packages/synth-core`**
 with propagated `x-synth-*` trace headers (spec 0006).
+
+**Deploy artifacts:** root `Dockerfile` + `railway.toml` + `infra/docker-entrypoint.sh` (`api` |
+`worker` | `migrate`). Operator runbook: [`infra/railway.md`](./infra/railway.md). Automation:
+`pnpm deploy:railway*` → `pnpm bootstrap:orgs` → `pnpm vercel:env-fleet:exec`.
 
 ### 3.2 Components and responsibilities
 
@@ -122,9 +131,11 @@ with propagated `x-synth-*` trace headers (spec 0006).
   Celery for our shape) and caching.
 - **ML:** PyTorch, Hugging Face `transformers`/`tokenizers`, `sentence-transformers` as the
   baseline to beat. Experiment tracking via Weights & Biases (optional, env-gated).
-- **Compute:** Vercel for `web`; a container host (Fly.io / Render / Railway) for `core-api`
-  and `conductor`; an on-demand GPU provider (Modal / RunPod) for `trainer`. Training is
-  bursty, so trainers scale to zero between jobs.
+- **Compute:** Vercel for all Next.js sites; **Railway** for `core-api` + `worker` (ADR-002,
+  accepted 2026-06-28); **Neon** Postgres (Vercel Marketplace integration); **Modal** for GPU
+  `trainer` (Spec 0011, stub). Fly.io remains the documented escape hatch if multi-region API or
+  native volume semantics become necessary. Training is bursty — Modal trainers scale to zero
+  between jobs; the CPU worker stays always-on on Railway.
 - **Monorepo:** **Turborepo + pnpm** for JS; **uv workspaces** for Python. Polyglot but each
   toolchain stays idiomatic. One repo, one CI, atomic cross-cutting changes.
 
@@ -208,8 +219,9 @@ division registry (Spec 0012); RLS negative tests; four Phase A tenants concurre
 **Phase 4 — Finance vertical (Phase B).** ⬜ Spec 0010 draft; `finance-lab` stub; simulation
 eval harness — no live trading (guardrail locked).
 
-**Phase 5 — Hardening for real traffic.** ⬜ IVFFlat/HNSW, JWT dashboard auth, Neon cutover,
-load tests, secrets manager, runbooks.
+**Phase 5 — Hardening for real traffic.** 🟡 Railway + Neon prod cutover in progress
+(`INF-003`, blocked on Operator `BLK-PROD`); then IVFFlat/HNSW, JWT dashboard auth, load tests,
+Railway artifact volume or S3 registry, secrets manager, runbooks.
 
 ---
 
@@ -246,9 +258,28 @@ pnpm dev:api          # :8000
 pnpm dev:worker
 pnpm bootstrap:orgs && pnpm kickoff:orgs
 pnpm dev:fleet        # hub :3000, control :3002, …
+.\scripts\fleet-review.ps1 -Open   # Windows: all site UIs
 pnpm review
 uv run pytest packages/asn-engine services/core-api/tests -q
 ```
+
+Wiki: [`docs/wiki/LOCAL_DEV.md`](./docs/wiki/LOCAL_DEV.md) · debt register [`docs/wiki/TECH_DEBT.md`](./docs/wiki/TECH_DEBT.md).
+
+### Production (Operator — ADR-002)
+
+```bash
+pnpm prod:deploy                 # full checklist (dry-run)
+pnpm prod:deploy:exec            # migrate + Railway + bootstrap + Vercel
+# or stepwise:
+pnpm deploy:railway              # checklist + data/deploy/railway.env
+pnpm deploy:railway:migrate      # Alembic → Neon (after DATABASE_URL set)
+pnpm deploy:railway:exec         # Railway login + core-api deploy
+pnpm bootstrap:orgs
+pnpm vercel:link-fleet:exec
+pnpm vercel:env-fleet:exec
+```
+
+Runbook: [`infra/railway.md`](./infra/railway.md). Task: `INF-003` in `config/work_queue.json`.
 
 ---
 
@@ -266,6 +297,8 @@ uv run pytest packages/asn-engine services/core-api/tests -q
    [Doc 5](https://docs.google.com/document/d/12kAuscAIsTL6CEnAgo1OZT22hKXzz9fcOerkafHEAOI/edit) to
    `docs/exports/` so `docs/SOURCE_MAP.md` can name them.
 5. **Orchestrator + GPU** — LLM for Conductor recipes; Modal tier for `services/trainer`.
+6. **Production hosting — LOCKED (ADR-002):** Railway (`core-api` + `worker`) + Neon Postgres.
+   Operator executes `pnpm deploy:railway*` then Vercel fleet env push (`infra/railway.md`).
 
 ---
 
@@ -293,8 +326,9 @@ an actor + target, propagated across TS↔Python via `x-synth-*` headers, so an 
 (including cross-agent handoffs and Modal jobs) replays with `synth trace view <id>`. No agent
 calls a service directly — uniformity and traceability by construction (spec 0006).
 
-**Compute (`services/worker/` today; `services/trainer/` Modal next).** Worker runs the full
-lifecycle locally; Modal will offload GPU training with trace propagation (spec 0005).
+**Compute (`services/worker/` on Railway; `services/trainer/` Modal next).** Worker runs the full
+lifecycle on CPU (local Docker or Railway); Modal will offload GPU training with trace propagation
+(spec 0005, 0011). Deploy: ADR-002 · `infra/railway.md`.
 
 **Fleet registry (`config/fleet.json` + `packages/fleet`).** Single source of truth for all
 sites, domains, app paths, and dev ports. Agent tools `fleet_list` / `fleet_context` and CLI

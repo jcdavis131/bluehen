@@ -1,53 +1,92 @@
 # 0006 — Unified Access Layer, CLI & Tracing
 
-- **Status:** Draft
-- **Related specs:** 0002, 0004, 0005
+- **Status:** Partial
+- **Owner:** Platform
+- **Related specs:** 0002, 0004, 0005, 0007, 0012
+- **ADR:** [003-unified-org-cli](../docs/adr/003-unified-org-cli.md) (Accepted)
+- **Implementation:** `packages/synth-core`, `packages/cli`, Eve tools via `agent/lib/synth.ts`
 
 ## Problem
-A multi-agent synthetic organization (Chief of Staff + four worker subagents) plus humans and
-CI all touch the same services and databases. Without one uniform interface, every agent
-reinvents access, and inter-agent conversations/handoffs become impossible to trace.
+
+Agents, humans, CI, and sites must reach services through one client so every action is traced
+and no bypass paths exist.
 
 ## Goals
-- **One way in.** Every actor (agent, `synth` CLI, CI, dashboard) reaches every service/db
-  through a single client + a single API chokepoint.
-- **Full traceability.** Every objective is one trace; every action is a span with actor,
-  target, status, and timing; handoffs between agents are visible in one replayable timeline.
+
+- **One way in:** `synth-core` → `core-api` only.
+- **Full traceability:** one trace id per objective; spans with actor + target.
+- **CLI parity:** `synth` commands mirror SDK methods.
 
 ## Design
-- **`packages/synth-core`** — the uniform TypeScript SDK (`Synth`) with lifecycle namespaces
-  (`data`, `train`, `evals`, `model`, `vector`, `ledger`, `trace`). `withSpan` wraps every
-  call; `setTraceSink` ships spans back through the same endpoint.
-- **`packages/cli`** — `synth`, a thin command surface over `synth-core`. Humans/CI run the
-  *same* calls agents make, so a CLI action and an agent action are indistinguishable in the
-  trace store.
-- **core-api (`services/core-api`)** — the single network chokepoint. All routes accept the
-  trace headers and (for tenant routes) a workspace key; it proxies to Neon and Modal.
-- **Trace propagation contract (cross-language).** Headers:
-  `x-synth-trace-id`, `x-synth-span-id`, `x-synth-parent-span`, `x-synth-actor`.
-  TS (`synth-core/trace.ts`) and Python (`services/trainer/trace.py`) implement the same
-  contract, so a TS agent → core-api → Modal Python function all share one trace.
-- **Agent tools** import `synth-core` (`agent/lib/synth.ts`) — they never call services
-  directly, guaranteeing uniformity and tracing by construction.
+
+### `packages/synth-core`
+
+- `Synth` client with namespaces: `data`, `train`, `evals`, `model`, `vector`, `ledger`, `trace`, `research`.
+- `withSpan` + `setTraceSink` → POST `/v1/trace`.
+- Headers: `x-synth-trace-id`, `x-synth-span-id`, `x-synth-parent-span`, `x-synth-actor`.
+
+### `packages/cli`
+
+- `synth fleet list|context`, ledger, train, eval, etc.
+- **Org scope:** `--org <siteId>` or `SYNTH_ORG`; credentials from `data/workspaces/{siteId}.env`.
+- `synth org list|divisions|env|handoff` — division handoffs via ledger (Spec 0012).
+- `synth research hill-climb` — lifecycle run.
+- Same calls as Eve agent tools.
+
+### Eve agent (`apps/synthorg`)
+
+- All tools import `synthFor()` from `agent/lib/synth.ts`.
+- Model config in `agent/agent.ts` (AI SDK v4 via Eve 0.16.2).
+- **Gap:** Eve session id → `SYNTH_TRACE_ID` not wired (`agent/instrumentation.ts` TBD).
+- **Gap:** declared subagents need `agent/subagents/*/agent.ts` with `description` (Eve requirement).
+
+### Agent runtimes (multi-agent)
+
+| Runtime | Config | Boot |
+|---|---|---|
+| Cursor | `.cursor/rules/`, `AGENTS.md` | `docs/wiki/SESSION_BOOT.md` |
+| Claude Code | `CLAUDE.md`, `.claude/CLAUDE.md` | same + `pnpm build:context --agent claude` |
+| OpenCode | `opencode.json`, `docs/OPENCODE_LOOP.md` | same + `scripts/opencode-loop.ps1` |
+| Eve | `apps/synthorg` | `synthFor()` + fleet tools |
+
+Registry: `config/agents.json`. Knowledge pipeline: `scripts/build_sync.py` (B.U.I.L.D. —
+see `docs/wiki/BUILD.md`).
+
+### Known bypass (debt)
+
+- **`packages/ui-fleet/src/site-api.ts`** calls core-api via raw `fetch`, not `synth-core`.
+  Violates "one way in"; no trace headers. Tracked in `docs/wiki/TECH_DEBT.md`.
 
 ## Contract (CLI ↔ SDK ↔ API)
-`synth data ingest|chunk|pairs` · `synth train launch|status` · `synth eval run|gates` ·
-`synth model deploy|list` · `synth embed` · `synth search` · `synth ledger tail` ·
-`synth budget` · `synth trace view <id>` → map 1:1 to `Synth` methods → map 1:1 to `/v1/*`.
+
+| SDK / CLI | API |
+|---|---|
+| `data.ingest` | `POST /v1/data/ingest` |
+| `train.launch` | `POST /v1/train/launch` |
+| `evals.run` / `gates` | `POST /v1/eval/run`, `GET /v1/eval/{v}/gates` |
+| `model.deploy` / `list` | `POST /v1/model/deploy`, `GET /v1/models` |
+| `vector.embed` / `search` | `POST /v1/embed`, `POST /v1/search` |
+| `research.hillClimb` | `POST /v1/research/hill-climb` |
+| `ledger.record` / tail | `POST/GET /v1/ledger` |
+| `trace.view` | `GET /v1/trace/{id}` |
 
 ## Acceptance criteria
-1. No agent tool or app makes a service/db call except through `synth-core`.
-2. Every call produces a span recorded at `/v1/trace`, tagged with actor + target.
-3. `synth trace view <traceId>` reconstructs a full objective including cross-agent handoffs
-   and the Modal/Python spans under it.
-4. The same trace id flows TS → core-api → Python and back.
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | No agent tool calls services except via synth-core | ✅ tools use `synthFor` |
+| 2 | Every call produces a span at `/v1/trace` | ⚠️ sink wired; not all paths emit |
+| 3 | `synth trace view` reconstructs objective | ✅ API exists |
+| 4 | Trace id flows TS → core-api → worker | ⚠️ partial via headers on API calls |
+| 5 | Lint forbids direct fetch/db in `agent/**` outside synth-core | ⏳ not in CI |
+| 6 | `--org` resolves workspace creds from `data/workspaces/{siteId}.env` | ✅ ADR-003 |
+| 7 | `synth org handoff` records division handoffs to ledger | ✅ Spec 0012 |
 
 ## Test plan
-- `synth-core`: unit tests for header round-trip (`toHeaders`/`fromHeaders`) and `withSpan`
-  success/error recording.
-- Integration: run an objective through the CLI against a local core-api; assert a single
-  trace contains spans from `cli` + each subagent + `trainer.*`.
+
+- Unit: header round-trip in `packages/synth-core` (TBD).
+- Integration: CLI hill-climb + worker + trace replay (manual today).
 
 ## Risks
-- A bypass path (an agent calling a service directly) breaks traceability → lint rule / review
-  gate forbidding direct `fetch`/db imports in `agent/**` and `apps/**` outside `synth-core`.
+
+- Bypass paths break auditability → add ESLint rule or `review` script check.

@@ -1,6 +1,6 @@
 # 0009 — Training Worker & Lifecycle Pipeline
 
-- **Status:** Implemented (local worker; Modal TBD)
+- **Status:** Implemented (local + Railway-ready; Modal TBD)
 - **Owner:** ML / Platform
 - **Related specs:** 0003, 0004, 0005, 0008, **0012**
 - **Evidence:** [`EVIDENCE.md`](../EVIDENCE.md) · `scripts/collect_evidence.py`
@@ -90,7 +90,12 @@ Env: `DATABASE_URL`, same as core-api.
 
 ## Rollout
 
-- Local worker today; `services/trainer/modal_app.py` for GPU scale (future spec revision).
+- **Local:** `pnpm dev:worker` on Docker Postgres `:5433`.
+- **Production:** Railway background service — same image as `core-api`, start command `worker`
+  (`infra/docker-entrypoint.sh worker`; config in `railway.worker.toml`). Shared Neon
+  `DATABASE_URL`; mount `/data/artifacts` volume (or S3 registry) before prod training.
+  ≥4 GB RAM recommended (ADR-002). Orchestrated via `pnpm prod:deploy`.
+- **GPU scale:** `services/trainer/modal_app.py` (Spec 0011) when Modal dispatch is wired.
 
 ## Risks
 

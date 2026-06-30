@@ -46,6 +46,11 @@ services/
   core-api/              ← FastAPI uniform chokepoint
   worker/                ← Postgres job consumer (train → eval → deploy)
   trainer/               ← Modal GPU stub (scale-out TBD)
+infra/
+  railway.md             ← production deploy runbook (ADR-002)
+  docker-entrypoint.sh   ← api | worker | migrate (shared Dockerfile)
+Dockerfile               ← Railway build (core-api + worker)
+railway.toml             ← Railway health check + resource limits
 packages/
   fleet/                 ← @synthaembed/fleet SDK
   ui-fleet/              ← FleetShell cross-site nav
@@ -139,7 +144,8 @@ through `synth-core` → `core-api`.
    dashboard reach ALL services/dbs through `synth-core` → `core-api`; every call is a span
    with actor+target, propagated TS↔Python via `x-synth-*` headers, replayable with
    `synth trace view <id>`. No component calls a service directly.
-4. **Compute on Modal:** the 4 stages are serverless GPU functions importing `asn-engine`.
+4. **Compute split:** Phase A training runs on the **Railway worker** (CPU, always-on job loop);
+   GPU scale-out moves to **Modal** when Spec 0011 lands. Sites and API never run PyTorch on Vercel.
 5. **Edge serving:** Matryoshka + int8/binary quantization make the trained embeddings cheap.
 
 ## 3. Model strategy (free / open / local-first) — answers the "Kimi?" question
@@ -175,7 +181,7 @@ compliance gates.
 **Hard guardrail (v1):** Phases A and B are **analytics and simulation only** — no order
 execution, no money movement, no live brokerage integration. Phase C is explicitly deferred.
 
-## 4. Status: real vs. stubbed (updated 2026-06-27)
+## 4. Status: real vs. stubbed (updated 2026-06-30)
 
 **Production path — real now:**
 - **Postgres + pgvector + RLS** — Docker `:5433`, Alembic `001`–`004`, `synthaembed_tenant`
@@ -205,11 +211,25 @@ execution, no money movement, no live brokerage integration. Phase C is explicit
   **Do not** ship "collapse-resistant / better-than-commercial" copy until a collapse-regime
   experiment vs BGE-M3 / e5 / Qwen3-Embed moves the `EVIDENCE.md` row to **Measured**.
 
+**Production hosting (ADR-002 — accepted, deploy pending):**
+- **Railway** — two services from root `Dockerfile`: `core-api` (public HTTPS, `/healthz`) and
+  `worker` (start command `worker`, ≥4 GB RAM). Runbook: `infra/railway.md`.
+- **Neon Postgres** — prod `DATABASE_URL`; Alembic via `pnpm deploy:railway:migrate` or
+  `migrate` entrypoint on release.
+- **Vercel fleet env** — after Railway URL live: `pnpm bootstrap:orgs` →
+  `pnpm vercel:env-fleet:exec` (per-site `SYNTH_API_KEY` + `SYNTH_API_BASE_URL`).
+- **Task:** `INF-003` (blocked on Operator `BLK-PROD` until Neon + Railway + Vercel link done).
+- **Unified deploy:** `pnpm prod:deploy` / `prod:deploy:exec` — orchestrates migrate, Railway,
+  bootstrap, Vercel env (see `scripts/prod-deploy.mjs`).
+- **ADR-003:** org-scoped `synth --org <siteId>` — same entry point for Cursor, Claude, Eve,
+  OpenCode (`docs/adr/003-unified-org-cli.md`).
+
 **Stubbed / next:**
-- **Modal trainer** (`services/trainer`) — not wired; GPU training runs via local worker.
+- **Modal trainer** (`services/trainer`) — not wired; GPU training runs via local/Railway worker.
 - **IVFFlat/HNSW** — pgvector table live; no ANN index yet (fine at current scale).
 - **JWT auth** — API key hash + admin bearer only today.
-- **Neon production** — local Postgres path proven; Neon cutover is deploy config.
+- **Railway artifact volume** — worker writes to `/data/artifacts`; attach volume or S3 before
+  first prod train job (ADR-002 action #7).
 - **Eve ↔ trace** — map eve session id → `SYNTH_TRACE_ID` (one session = one trace).
 - **Direct-access lint gate** — spec 0006: forbid DB/service calls outside `synth-core`.
 - **Phase B** — `apps/sites/finance-lab` stub (`@synthaembed/finance-lab` in `pnpm review`);
@@ -259,6 +279,7 @@ pnpm kickoff:orgs               # hill-climb all Phase A orgs
 pnpm backfill:deploy            # deploy + pgvector index existing models
 
 pnpm dev:fleet                  # hub :3000, control :3002, dumbmodel :3001, …
+.\scripts\fleet-review.ps1 -Open   # Windows: ports + open browser tabs
 pnpm dev:site research-rag      # one site + auto-load data/workspaces/{id}.env
 pnpm dev:site hub               # recommended: run stack first (below)
 
@@ -274,8 +295,33 @@ pnpm --filter @synthaembed/synthorg dev
 
 pnpm review                     # build all sites + typecheck
 uv run pytest packages/asn-engine services/core-api/tests -q
+# ~38 tests (17 ASN + 21 core-api); DB tests skip fast when Postgres down
 ```
 (Ollama: `ollama pull qwen3` then `ollama serve` for free local agents.)
+
+**Windows:** if `pnpm` missing from PATH, use `npx pnpm@9.12.0`. See
+[`docs/wiki/LOCAL_DEV.md`](./docs/wiki/LOCAL_DEV.md).
+
+**OpenCode loop:** [`docs/OPENCODE_LOOP.md`](./docs/OPENCODE_LOOP.md) · shared boot
+[`docs/wiki/SESSION_BOOT.md`](./docs/wiki/SESSION_BOOT.md).
+
+### Production deploy (Operator — ADR-002)
+
+```bash
+pnpm prod:deploy                 # full checklist (dry-run)
+pnpm prod:deploy:exec            # --step all --execute
+# or stepwise:
+pnpm deploy:railway              # checklist + data/deploy/railway.env template
+# Set DATABASE_URL (Neon) in data/deploy/railway.env
+pnpm deploy:railway:migrate      # Alembic against Neon
+pnpm deploy:railway:exec         # Railway login + first core-api deploy
+# Railway dashboard: add second service "worker" with start command: worker
+pnpm bootstrap:orgs              # workspaces against prod SYNTH_API_BASE_URL
+pnpm vercel:link-fleet:exec      # link monorepo roots to Vercel projects
+pnpm vercel:env-fleet:exec       # push API URL + per-site keys
+```
+
+Full steps: [`infra/railway.md`](./infra/railway.md) · ADR: [`docs/adr/002-core-api-hosting.md`](./docs/adr/002-core-api-hosting.md).
 
 ## 7. Open decisions to confirm in the code session
 
@@ -295,8 +341,11 @@ uv run pytest packages/asn-engine services/core-api/tests -q
    per domain table. Re-point legacy Vercel projects to monorepo subpaths when `apps/*` land.
 3. **Product name — LOCKED:** **Blue Hen RE** (*RE* = RAG Embeddings). Primary domain:
    **bhenre.com**. Codename / folder: `bluehenre`. GitHub: `henington-homes` (optional rename later).
-4. **Hosting**: Neon project, Modal account/GPU tiers, and whether agents run fully local
-   (Ollama) or via a served open-weights endpoint.
+4. **Hosting — LOCKED (ADR-002):** Railway for `core-api` + `worker`; Neon for Postgres
+   (Vercel Marketplace on hub project). **Operator still needed:** provision Neon, execute
+   `INF-003`, attach Railway artifact volume before prod training. Modal GPU tier TBD when
+   Spec 0011 is prioritized. Agents: local-first Ollama (`SYNTH_LOCAL_LLM_BASE_URL`) or served
+   open-weights endpoint for max-quality tier.
 
 ## 8. Guardrails (do not regress)
 
@@ -321,9 +370,10 @@ uv run pytest packages/asn-engine services/core-api/tests -q
 
 **Evidence refresh:** `pnpm evidence:collect` · `pnpm evidence:fleet` · `uv run python scripts/engine_proof.py`
 
-**Platform (2026-06-27):**
+**Platform (2026-06-30):**
 - Phase A orgs trained, deployed, indexed (8 chunks/org); `/v1/search` pgvector live.
-- core-api tests: healthz, workspace provisioning, RLS isolation, problem+json (5 tests).
-- CI: site review + ASN tests (9) + Postgres API tests (5) — `.github/workflows/ci.yml`.
+- core-api tests: healthz, **readyz**, workspace provisioning, RLS isolation, problem+json.
+- CI: site review + ASN tests (~17) + core-api tests (~21) — `.github/workflows/ci.yml`.
+  DB-dependent tests skip when Postgres unavailable (`conftest.py`).
 
 **Science integrity:** `SCIENCE_REVIEW.md` normative — measure, don't assert; quintic not cubic.

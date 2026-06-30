@@ -44,3 +44,11 @@ _inspect-arxiv-exam/
 
 # OpenCode unattended loop logs
 .opencode-loop/
+
+# B.U.I.L.D. raw ingest (local dumps; wiki is canonical)
+docs/raw/**
+!docs/raw/README.md
+
+# Agent runtime caches (local only)
+apps/synthorg/.eve/
+.claude/worktrees/

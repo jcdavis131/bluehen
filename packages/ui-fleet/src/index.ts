@@ -1,4 +1,5 @@
-export { FleetShell, siteHref, fleetNavSites } from "./FleetShell";
+export { FleetShell } from "./FleetShell";
+export { siteHref, fleetNavSites } from "./urls";
 export { ClosedLoopDiagram } from "./ClosedLoopDiagram";
 export { LiveSearchPanel } from "./LiveSearchPanel";
 export { FeedbackForm } from "./FeedbackForm";

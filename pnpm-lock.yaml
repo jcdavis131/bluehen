@@ -49,11 +49,138 @@ importers:
         specifier: ^5.6.0
         version: 5.9.3
 
-  apps/org-template:
+  apps/sites/benchmark-lab:
     dependencies:
+      '@synthaembed/eval-public':
+        specifier: workspace:*
+        version: link:../../../packages/eval-public
+      '@synthaembed/fleet':
+        specifier: workspace:*
+        version: link:../../../packages/fleet
+      '@synthaembed/ui-fleet':
+        specifier: workspace:*
+        version: link:../../../packages/ui-fleet
+      next:
+        specifier: ^15.0.0
+        version: 15.5.19(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^22
+        version: 22.20.0
+      '@types/react':
+        specifier: ^18
+        version: 18.3.31
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  apps/sites/dumbmodel:
+    dependencies:
+      '@synthaembed/eval-public':
+        specifier: workspace:*
+        version: link:../../../packages/eval-public
+      '@synthaembed/fleet':
+        specifier: workspace:*
+        version: link:../../../packages/fleet
       '@synthaembed/synth-core':
         specifier: workspace:*
-        version: link:../../packages/synth-core
+        version: link:../../../packages/synth-core
+      '@synthaembed/ui-fleet':
+        specifier: workspace:*
+        version: link:../../../packages/ui-fleet
+      next:
+        specifier: ^15.0.0
+        version: 15.5.19(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^22
+        version: 22.20.0
+      '@types/react':
+        specifier: ^18
+        version: 18.3.31
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  apps/sites/finance-lab:
+    dependencies:
+      '@synthaembed/fleet':
+        specifier: workspace:*
+        version: link:../../../packages/fleet
+      '@synthaembed/ui-fleet':
+        specifier: workspace:*
+        version: link:../../../packages/ui-fleet
+      next:
+        specifier: ^15.0.0
+        version: 15.5.19(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^22
+        version: 22.20.0
+      '@types/react':
+        specifier: ^18
+        version: 18.3.31
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  apps/sites/hub:
+    dependencies:
+      '@synthaembed/fleet':
+        specifier: workspace:*
+        version: link:../../../packages/fleet
+      '@synthaembed/synth-core':
+        specifier: workspace:*
+        version: link:../../../packages/synth-core
+      '@synthaembed/ui-fleet':
+        specifier: workspace:*
+        version: link:../../../packages/ui-fleet
+      next:
+        specifier: ^15.0.0
+        version: 15.5.19(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^22
+        version: 22.20.0
+      '@types/react':
+        specifier: ^18
+        version: 18.3.31
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  apps/sites/research-rag:
+    dependencies:
+      '@synthaembed/fleet':
+        specifier: workspace:*
+        version: link:../../../packages/fleet
+      '@synthaembed/ui-fleet':
+        specifier: workspace:*
+        version: link:../../../packages/ui-fleet
       next:
         specifier: ^15.0.0
         version: 15.5.19(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

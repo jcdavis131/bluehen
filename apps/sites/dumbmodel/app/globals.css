@@ -1,0 +1,126 @@
+/**
+ * Dumb Model — site accent overrides on Blue Hen design system.
+ * Base tokens + components live in @synthaembed/ui-fleet/styles.css
+ */
+
+.fleet-shell[data-site="dumbmodel"] {
+  /* Compare panel legacy aliases */
+  --bg: var(--bh-canvas);
+  --surface: var(--bh-surface);
+  --border: var(--bh-border);
+  --text: var(--bh-text);
+  --muted: var(--bh-muted);
+  --cone: var(--bh-cone-rust);
+  --cone-glow: var(--bh-cone-dim);
+  --hen: var(--bh-hen-blue);
+  --hen-dim: var(--bh-hen-blue-dim);
+  --accent: var(--bh-clay);
+  --danger: var(--bh-danger);
+  --ok: var(--bh-moss);
+  --font: var(--bh-font-body);
+  --mono: var(--bh-font-mono);
+}
+
+.card {
+  background: var(--bh-surface);
+  border: 2px solid var(--bh-border);
+  border-radius: var(--bh-radius-md);
+  padding: var(--bh-space-5);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--bh-space-3);
+}
+
+.muted {
+  color: var(--bh-muted);
+}
+
+.mono {
+  font-family: var(--bh-font-mono);
+}
+
+.page {
+  max-width: var(--bh-max-width);
+  margin: 0 auto;
+}
+
+.btn-primary,
+.bh-btn--primary.bh-btn--cone,
+a.bh-btn--primary {
+  background: var(--cone);
+  color: var(--bh-canvas);
+  border: 2px solid var(--cone);
+  padding: 11px 20px;
+  border-radius: var(--bh-radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-hen,
+.bh-btn--hen {
+  background: var(--hen);
+  color: var(--bh-canvas);
+  border: 2px solid var(--hen);
+  padding: 11px 20px;
+  border-radius: var(--bh-radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--bh-font-body);
+  font-size: 0.875rem;
+}
+
+.bh-btn--hen:hover:not(:disabled) {
+  background: var(--bh-text);
+  border-color: var(--bh-text);
+}
+
+.btn-ghost,
+a.bh-btn--ghost {
+  background: transparent;
+  color: var(--bh-text);
+  border: 2px solid var(--bh-border-strong);
+  padding: 11px 20px;
+  border-radius: var(--bh-radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.hero {
+  text-align: center;
+  padding: var(--bh-space-10) 0 var(--bh-space-6);
+}
+
+.hero h1 {
+  font-family: var(--bh-font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--bh-space-3);
+}
+
+.hero .tagline {
+  font-size: 1rem;
+  color: var(--bh-text-secondary);
+  max-width: 520px;
+  margin: 0 auto var(--bh-space-6);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-3);
+  justify-content: center;
+}

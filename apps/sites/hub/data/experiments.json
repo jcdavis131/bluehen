@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "updated": "2026-06-28",
+  "experiments": [
+    {
+      "id": "sweep-wave2-barlow",
+      "title": "Wave 2 Bayesian arch search — Barlow leads",
+      "runs": 891,
+      "verdict": "Barlow > VICReg on robust_score",
+      "ref": "SWEEP_REPORT.md"
+    },
+    {
+      "id": "family-c-realtext",
+      "title": "Family C real-text domain tune",
+      "runs": 48,
+      "verdict": "InfoNCE + VICReg neutral; +~3% in-domain",
+      "ref": "EVIDENCE.md §3.6–3.7"
+    },
+    {
+      "id": "tenant-baseline-bge",
+      "title": "Tenant vs BGE zero-shot",
+      "runs": 4,
+      "verdict": "4/4 sites win in-domain",
+      "ref": "EVIDENCE.md §3.7"
+    },
+    {
+      "id": "serving-tiers",
+      "title": "MRL + int8 two-tier serving",
+      "runs": 10,
+      "verdict": "int8 lossless; MRL = truncation lever",
+      "ref": "test_serving_tiers.py"
+    }
+  ]
+}

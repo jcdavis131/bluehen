@@ -1,7 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @synthaembed/org-template build",
-  "outputDirectory": "apps/org-template/.next",
-  "framework": "nextjs"
-}

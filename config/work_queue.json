@@ -744,9 +744,10 @@
       "id": "REV-908",
       "title": "agentkit add_watch_source: URL allowlist + glob deny data/workspaces",
       "division": "agent",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "SSRF + secret ingestion from unattended loop"
+      "notes": "SSRF + secret ingestion from unattended loop",
+      "claimedBy": "claude"
     },
     {
       "id": "REV-909",
@@ -761,9 +762,10 @@
       "id": "REV-910",
       "title": "work_queue commands + package.json scripts reconciliation",
       "division": "infra",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "old ids + ~25 missing pnpm scripts (US-001)"
+      "notes": "old ids + ~25 missing pnpm scripts (US-001)",
+      "claimedBy": "claude"
     }
   ]
 }

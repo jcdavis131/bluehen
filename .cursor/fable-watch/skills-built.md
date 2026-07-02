@@ -93,4 +93,5 @@
 | `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050, P-053, P-101, P-111, P-112, P-113, P-143, P-162 | `~/.cursor/skills/readiness-report/SKILL.md` |
 | `a11y-gate` (refined) | P-085, P-167 | `~/.cursor/skills/a11y-gate/SKILL.md` |
 | `follow-procedure` (refined) | P-017, P-043, P-168 | `~/.cursor/skills/follow-procedure/SKILL.md` |
+| `event-driven-wait` (refined) | P-032, P-126, P-170, P-171, P-172 | `~/.cursor/skills/event-driven-wait/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

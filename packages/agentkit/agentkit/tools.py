@@ -119,17 +119,34 @@ def list_watch_sources() -> dict[str, Any]:
     }
 
 
+_GLOB_DENY = ("data/workspaces", "data/deploy", ".env", "data/leads", ".vercel", "secrets")
+_URL_ALLOWED_SCHEMES = ("https://",)
+
+
 def add_watch_source(
     id: str, name: str, urls: list[str] | None = None,
     glob: str | None = None, interval_minutes: int = 720, tags: list[str] | None = None,
 ) -> dict[str, Any]:
-    """Add a source to the dataset-builder registry (additive only)."""
+    """Add a source to the dataset-builder registry (additive only).
+
+    Safety (REV-908): https URLs only (the pipeline's own SSRF guard
+    rejects private hosts at fetch time); globs must not touch secret-
+    bearing paths — a `data/workspaces/*.env` glob would ingest tenant
+    API keys into the dataset library.
+    """
     path = _repo_root() / "config" / "datalab_sources.json"
     data = json.loads(path.read_text(encoding="utf-8"))
     if any(s.get("id") == id for s in data.get("sources", [])):
         return {"error": f"source '{id}' already exists"}
     if not urls and not glob:
         return {"error": "provide urls or glob"}
+    for u in urls or []:
+        if not u.startswith(_URL_ALLOWED_SCHEMES) and not (_repo_root() / u).exists():
+            return {"error": f"url must be https:// or an existing repo-relative path: {u!r}"}
+    if glob:
+        low = glob.lower().replace("\\", "/")
+        if any(d in low for d in _GLOB_DENY) or low.startswith("/") or ".." in low:
+            return {"error": f"glob touches a denied path: {glob!r}"}
     entry: dict[str, Any] = {"id": id, "name": name, "intervalMinutes": interval_minutes}
     if urls:
         entry["urls"] = urls

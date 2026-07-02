@@ -920,6 +920,23 @@
 - **Why it works:** The notes capture what was done (atomic temp+rename save) AND what's still open (cross-process lock still open). A finding marked "done" with a remaining gap documented is honest — the fix landed, the limitation is recorded. Confirms `document-non-action`.
 - **Maps to:** confirmation of `document-non-action`.
 
+## Tick 45: 2026-07-02 16:09 (UTC-5) — monitor discipline
+
+### P-170 — Monitor event covers both success AND failure outcomes
+- **Observed:** `Monitor event: "Worker completes/fails a job or container restarts"`.
+- **Why it works:** The monitor's event name covers three outcomes: worker completes a job, worker fails a job, or container restarts. A monitor that only watches for success misses the failure case — the wait hangs on a failure that the monitor never fires on. Naming both success and failure (plus the container-restart edge) ensures the monitor fires on the actual outcome whatever it is.
+- **Maps to:** refine `event-driven-wait` — name monitor events to cover both success and failure.
+
+### P-171 — Re-arm a new monitor immediately when the prior one ends
+- **Observed:** `Monitor "Worker completes/fails a job or container restarts" stream ended` → immediately `Monitor(Deploy lands, then worker reaches a job outcome) started`.
+- **Why it works:** When one monitor ends, Fable 5 re-arms a new one for the next expected event. The wait is chained — each monitor hands off to the next, so the gap between monitors is minimal.
+- **Maps to:** refine `event-driven-wait` — chain monitors.
+
+### P-172 — Monitor event names a compound/ordered condition
+- **Observed:** `Monitor(Deploy lands, then worker reaches a job outcome)`.
+- **Why it works:** The monitor's event is a compound, ordered condition: deploy lands AND THEN worker reaches a job outcome. The event name encodes the sequence, not just a single state.
+- **Maps to:** refine `event-driven-wait` — monitor events can be compound/ordered.
+
 ### P-164 — State the corpus size and source so the gate result is interpretable
 - **Observed:** "200 pairs from the real arXiv corpus".
 - **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.

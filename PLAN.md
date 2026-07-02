@@ -56,12 +56,19 @@ slice of the core API.
 
 ## 3. Architecture
 
-### 3.1 System shape (2026-06-28 — as built)
+### 3.1 System shape (2026-07-02 — as built)
 
-**Local dev** — Docker Postgres `:5433` + Redis `:6379` (`pnpm dev:stack`). Windows UI review:
+**Local dev** — Docker Postgres `:5433` + Redis `:6379` (`pnpm dev:stack`); native PG16
+fallbacks exist (`data/pg-commerce` :5434 for Medusa). Windows UI review:
 `scripts/fleet-review.ps1` · [`docs/wiki/LOCAL_DEV.md`](./docs/wiki/LOCAL_DEV.md).
 
-**Production** — Vercel sites → **Railway** (`core-api` + `worker`) → **Neon** Postgres (ADR-002).
+**Production (live)** — Vercel sites (all 7 domains) → **Railway** project `bluehenre`
+(service `api` at api-production-3dea.up.railway.app + Railway Postgres w/ pgvector;
+`worker` service not yet created) — Railway PG supersedes the ADR-002 Neon choice for now.
+Commerce: Medusa v2 (`services/commerce`, local; Railway deploy files ready).
+Venture fleet per Spec 0015: storefront (bhenre.com) · hq (jcamd.com, org hub w/ live
+operating loop) · dumbmodel · validation (slasso) · research (arxiviq) ·
+simulation (signals.bhenre.com) · observatory (training.jcamd.com).
 
 ```
   Vercel (edge)                    Operator + fleet

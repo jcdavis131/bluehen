@@ -139,8 +139,15 @@ def site_id_for_workspace(workspace_id: uuid.UUID) -> str | None:
         return ws.site_id if ws else None
 
 
-    with db_session() as session:
-        spans = session.scalars(select(TraceSpan).where(TraceSpan.trace_id == trace_id)).all()
+def get_trace(workspace_id: uuid.UUID, trace_id: str) -> dict:
+    """Trace spans for one trace, scoped to the caller's workspace (RLS)."""
+    with db_session(workspace_id) as session:
+        spans = session.scalars(
+            select(TraceSpan).where(
+                TraceSpan.trace_id == trace_id,
+                TraceSpan.workspace_id == workspace_id,
+            )
+        ).all()
         return {
             "traceId": trace_id,
             "spanCount": len(spans),

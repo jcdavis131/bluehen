@@ -76,7 +76,7 @@ def post_trace(span: SpanIn, tenant: Annotated[TenantCtx, Depends(require_tenant
 
 @app.get("/v1/trace/{trace_id}")
 def get_trace(trace_id: str, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
-    return governance.get_trace(trace_id)
+    return governance.get_trace(tenant.workspace_id, trace_id)
 
 
 @app.get("/v1/budget")

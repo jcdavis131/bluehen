@@ -74,4 +74,10 @@
 | `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050, P-053, P-101, P-111, P-112, P-113 | `~/.cursor/skills/readiness-report/SKILL.md` |
 | `conservative-rename` | P-118, P-119 | `~/.cursor/skills/conservative-rename/SKILL.md` |
 | `post-deploy-smoke` | P-123, P-124 | `~/.cursor/skills/post-deploy-smoke/SKILL.md` |
+| `event-driven-wait` (refined) | P-032, P-126 | `~/.cursor/skills/event-driven-wait/SKILL.md` |
+| `auto-mode` (refined) | P-011, P-127 | `~/.cursor/skills/auto-mode/SKILL.md` |
+| `use-available-integrations` (refined) | P-105, P-106, P-108, P-109, P-110, P-128, P-129 | `~/.cursor/skills/use-available-integrations/SKILL.md` |
+| `idempotent-seed-script` (refined) | P-095, P-131 | `~/.cursor/skills/idempotent-seed-script/SKILL.md` |
+| `post-deploy-smoke` (refined) | P-123, P-124, P-132 | `~/.cursor/skills/post-deploy-smoke/SKILL.md` |
+| `metadata-align` (refined) | P-052, P-084, P-136 | `~/.cursor/skills/metadata-align/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

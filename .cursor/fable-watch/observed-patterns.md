@@ -682,3 +682,79 @@
 - **Observed:** "All Vercel projects re-pointed."
 - **Why it works:** After the rebrand, the Vercel projects are re-pointed to the new paths/names. Confirms `metadata-align` + `use-available-integrations` at the platform layer.
 - **Maps to:** confirmation of `metadata-align` + `use-available-integrations`.
+
+## Tick 31: 2026-07-02 14:17 (UTC-5) — named monitor + classifier-approved actions
+
+### P-126 — Monitor as a named action with task id + timeout
+- **Observed:** `Monitor(Rebranded titles go live on bhenre.com + jcamd.com) — Monitor started · task b2lqx5mpo · timeout 720s`.
+- **Why it works:** The event-driven wait is formalized as a named action: a human-readable event name ("Rebranded titles go live on…"), a task id for reference, and a timeout (720s) so it can't wait forever. Confirms `event-driven-wait` with the formalization details.
+- **Maps to:** refine `event-driven-wait` — the monitor is a named, id'd, time-bounded action.
+
+### P-127 — Auto-mode classifier approves guarded actions
+- **Observed:** "Allowed by auto mode classifier".
+- **Why it works:** Auto mode has a classifier that approves or blocks actions. A monitor starting was classified as safe → allowed. This is the guard layer under `auto-mode` — autonomy isn't unconditional; a classifier gates each guarded action.
+- **Maps to:** refine `auto-mode` — a classifier gates guarded actions.
+
+### P-128 — Read project id from `.vercel/project.json` to parameterize a CLI deploy
+- **Observed:** `OBS=$(python -c "import json;print(json.load(open('apps/sites/observatory/.vercel/project.json'))['projectId'])") && VERCEL_ORG_ID=... VERCEL_PROJECT_ID=$OBS vercel deploy --prod --yes --scope ...`.
+- **Why it works:** Reads the projectId from the Vercel project.json (the stored config) to parameterize a CLI deploy, combined with the org/team id. No hardcoded project ids — they come from the config the `vercel link` step wrote.
+- **Maps to:** fold into `use-available-integrations` — read project ids from their stored config.
+
+### P-129 — CLI deploy as fallback for a targeted single-site redeploy
+- **Observed:** "redeploying observatory with its fixed title (CLI-managed)" — `vercel deploy --prod --yes` for one site after a fix, when the integration didn't redeploy it.
+- **Why it works:** The integration handles fleet-wide deploys; a targeted single-site redeploy after a fix uses the CLI directly. Fallback to the most granular tool when the higher-level one doesn't fit.
+- **Maps to:** fold into `use-available-integrations` — CLI as the granular fallback.
+
+### P-130 — Fill-the-wait with a targeted redeploy
+- **Observed:** "While the git builds run, redeploying observatory with its fixed title".
+- **Why it works:** The git builds run while a targeted redeploy happens in parallel. Confirms `fill-the-wait`.
+- **Maps to:** confirmation of `fill-the-wait`.
+
+## Tick 32: 2026-07-02 14:25 (UTC-5) — prod backend redeploy
+
+### P-131 — Check DB migration head; skip migrate if already at head
+- **Observed:** "DB already at head."
+- **Why it works:** Before running migrations, checked the DB's current migration head and found it was already at head — so skipped the migrate. The idempotent/affected-set principle applied to migrations: check current state, skip if already applied. Avoids a no-op migrate that could still error on a partially-applied state.
+- **Maps to:** refine `idempotent-seed-script` — the migration variant: check head, skip if current.
+
+### P-132 — Monitor watches for a health endpoint to confirm a backend deploy
+- **Observed:** "Watching for the new image to go live (/readyz appearing = current build)".
+- **Why it works:** A backend deploy's "expected content" is the health endpoint (`/readyz`) appearing — signaling the new image is serving. This is `post-deploy-smoke` generalized to backends: poll `/readyz` instead of grepping for a string. The monitor is the event-driven form of the smoke loop.
+- **Maps to:** refine `post-deploy-smoke` — the backend variant (poll a health endpoint).
+
+### P-133 — State the conditioned next action while waiting
+- **Observed:** "I'll proceed the moment the Railway build reports ready or the review returns."
+- **Why it works:** Confirms P-033 — names the next action conditioned on the wait, with two possible triggers (build ready OR review returns).
+- **Maps to:** confirmation of `progress-board` / `fill-the-wait`.
+
+### P-134 — Background agent review with per-agent task + cost
+- **Observed:** "◯ general-purpose Reviewing embed_texts torch loading 3m 31s · ↓ 59.4k tokens".
+- **Why it works:** Confirms P-023 — per-subagent status with task name + cost.
+- **Maps to:** confirmation of `sme-fanout`.
+
+### P-135 — Board narrows to a single task for a focused phase
+- **Observed:** "1 tasks (0 done, 1 in progress, 0 open) ◼ Prod backend: redeploy Railway, migrate, bootstrap orgs, Vercel env".
+- **Why it works:** When the work narrows to one focused task, the board narrows to one task — no padding with completed or future items. The board scales with the work: phased for big, single-task for focused.
+- **Maps to:** confirmation of `progress-board`.
+
+## Tick 33: 2026-07-02 14:33 (UTC-5) — architecture diagram + config verify
+
+### P-136 — Architecture diagram maps each site to domain + role
+- **Observed:** Diff of an architecture description: "storefront (bhenre.com) · hq (jcamd.com, org hub w/ live operating loop) · dumbmodel · validation (slasso) · research (arxiviq) · simulation (signals.bhenre.com) · observatory (training.jcamd.com)".
+- **Why it works:** The architecture doc maps each site to its domain AND its role (storefront, hq, validation, research, simulation, observatory). A reader gets the full topology — which site, which domain, which role — in one line. Confirms `metadata-align` with the site→domain→role mapping detail.
+- **Maps to:** refine `metadata-align` — the architecture diagram maps site→domain→role.
+
+### P-137 — Named background review agent completion with elapsed time
+- **Observed:** "Agent 'Deep review critical platform paths' finished · 10m 7s".
+- **Why it works:** Confirms P-023 — a named background review agent, its completion acknowledged with elapsed time.
+- **Maps to:** confirmation of `sme-fanout` + `background-failure-triage` (acknowledge completion).
+
+### P-138 — Verify a config value by parsing the actual env file
+- **Observed:** `python -X utf8 -c "import re; t = open('data/workspaces/hub.env', encoding='utf-8').read(); base = re.search(r'SYNTH_API_BASE_URL=(.*)', t); print('baseUrl in hub.env:', ...)"` — parses the workspace env file to check the baseUrl the site points at.
+- **Why it works:** Rather than assuming the site's configured baseUrl, reads the actual env file and extracts the value. `python -X utf8` handles UTF-8 on Windows. Confirms `correct-assumptions` — verify config by reading the file, not by assumption.
+- **Maps to:** confirmation of `correct-assumptions` + `session-orient`.
+
+### P-139 — Multiple monitors running concurrently
+- **Observed:** "2 monitors" in the status bar.
+- **Why it works:** Multiple named monitors can run concurrently (the `/readyz` monitor + another). Each is independently named, id'd, and time-bounded. Confirms `event-driven-wait` scales to concurrent watchers.
+- **Maps to:** confirmation of `event-driven-wait`.

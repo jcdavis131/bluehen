@@ -119,8 +119,10 @@ def process_job(payload: dict) -> None:
             except Exception as exc:
                 log.warning("BD queue submit failed: %s", exc)
 
-        if handoffs.charter_allows_deploy(site_id, result.model_version):
-            deploy_note = "charter-approved deploy" if gates_passed else "charter-approved (gates pending)"
+        # A charter authorizes deploy; it never overrides the eval gate
+        # (Spec 0008): gate-failed models must not reach production serving.
+        if gates_passed and handoffs.charter_allows_deploy(site_id, result.model_version):
+            deploy_note = "charter-approved deploy (gates passed)"
             deploy_out = deploy_model(
                 workspace_id,
                 result.model_version,

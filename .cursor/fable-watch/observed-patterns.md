@@ -937,6 +937,13 @@
 - **Why it works:** The monitor's event is a compound, ordered condition: deploy lands AND THEN worker reaches a job outcome. The event name encodes the sequence, not just a single state.
 - **Maps to:** refine `event-driven-wait` — monitor events can be compound/ordered.
 
+## Tick 49: 2026-07-02 16:41 (UTC-5) — dry-run-by-default scripts
+
+### P-173 — Package.json scripts paired with `:exec` variants; base = dry-run, `:exec` = execute
+- **Observed:** Diff adds paired scripts: `deploy:railway` + `deploy:railway:exec`, `vercel:link-fleet` + `vercel:link-fleet:exec`, `vercel:env-fleet` + `vercel:env-fleet:exec`.
+- **Why it works:** Each dangerous/deploy script has a dry-run form (the base name, the safe default) and an explicit `:exec` form (actually executes). The dry-run is the path of least resistance — you run `pnpm deploy:railway` to preview, and must explicitly opt into `pnpm deploy:railway:exec` to execute. This is a guard convention in the scripts themselves: the safe action is the default, the destructive action requires an explicit flag.
+- **Maps to:** refine `respect-the-guard` — the `:exec` variant pattern.
+
 ### P-164 — State the corpus size and source so the gate result is interpretable
 - **Observed:** "200 pairs from the real arXiv corpus".
 - **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.

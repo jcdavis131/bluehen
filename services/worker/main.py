@@ -52,8 +52,42 @@ def process_job(payload: dict) -> None:
     out_dir = workspace_dir(workspace_id)
     log.info("training job %s workspace %s site=%s pairs=%d", job_id, workspace_id, site_id, len(pairs))
 
+    # Live telemetry: step logs (slow-vs-stuck diagnosis) + a runboard run
+    # so the Observatory shows real production training.
+    run = None
     try:
-        result = train_asn(pairs, recipe, out_dir)
+        import runboard
+
+        run = runboard.init(
+            project="prod-lifecycle",
+            name=f"{site_id or 'ws'}-{str(job_id)[:8]}",
+            config=recipe,
+            tags=["prod", site_id or "unknown"],
+        )
+    except Exception as exc:  # telemetry must never block training
+        log.warning("runboard unavailable: %s", exc)
+
+    def _progress(m: dict) -> None:
+        step = int(m.get("step", 0))
+        if step % 20 == 0:
+            log.info(
+                "train progress site=%s epoch=%s step=%s loss=%s er=%s surgeries=%s",
+                site_id, m.get("epoch"), step, m.get("loss"), m.get("effectiveRank"), m.get("surgeries"),
+            )
+        if run is not None and step % 5 == 0:
+            metrics = {}
+            if m.get("loss") is not None:
+                metrics["train/loss"] = float(m["loss"])
+            if m.get("effectiveRank") is not None:
+                metrics["asn/effective_rank"] = float(m["effectiveRank"])
+            if metrics:
+                run.log(metrics, step=step)
+
+    try:
+        result = train_asn(pairs, recipe, out_dir, progress=_progress)
+        if run is not None:
+            run.set_summary(model_version=result.model_version, effective_rank=result.effective_rank)
+            run.finish()
         canonical_path = publish_checkpoint(
             Path(result.checkpoint_path), workspace_id, result.model_version
         )
@@ -182,6 +216,8 @@ def process_job(payload: dict) -> None:
         log.info("job %s done model=%s gates=%s", job_id, result.model_version, gates_passed)
     except Exception as exc:
         log.exception("job %s failed", job_id)
+        if run is not None:
+            run.finish("failed")
         jobs.fail_job(job_id, workspace_id, str(exc))
 
 

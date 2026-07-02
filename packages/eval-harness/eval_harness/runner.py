@@ -7,7 +7,7 @@ from pathlib import Path
 import torch
 
 from asn_engine.spectral import effective_rank
-from eval_harness.gates import compute_gates
+from eval_harness.gates import MRL_TRUNCATE_DIMS, compute_gates
 from eval_harness.metrics import ndcg_at_k, retrieval_scores
 
 
@@ -30,6 +30,7 @@ def evaluate_checkpoint(
     tok = AutoTokenizer.from_pretrained(backbone)
 
     ndcg_scores: list[float] = []
+    ndcg_trunc_scores: list[float] = []
     anchor_vecs: list[torch.Tensor] = []
 
     with torch.no_grad():
@@ -53,6 +54,19 @@ def evaluate_checkpoint(
             rel = [1.0 if doc_id == pos_id else 0.0 for doc_id, _ in ranked]
             ndcg_scores.append(ndcg_at_k(rel, k=2))
 
+            # Matryoshka: re-rank using only the first MRL_TRUNCATE_DIMS of each
+            # vector. A sellable org model must keep retrieving after truncation.
+            qt = q[:MRL_TRUNCATE_DIMS]
+            ranked_t = retrieval_scores(
+                qt,
+                [
+                    (pos_id, encode(positive)[:MRL_TRUNCATE_DIMS]),
+                    (neg_id, encode(negative)[:MRL_TRUNCATE_DIMS]),
+                ],
+            )
+            rel_t = [1.0 if doc_id == pos_id else 0.0 for doc_id, _ in ranked_t]
+            ndcg_trunc_scores.append(ndcg_at_k(rel_t, k=2))
+
             batch = tok(anchor, return_tensors="pt", truncation=True, max_length=256)
             anchor_vecs.append(encoder.encode(batch["input_ids"], batch["attention_mask"])[0])
 
@@ -63,13 +77,22 @@ def evaluate_checkpoint(
             er = 0.0
 
     ndcg = sum(ndcg_scores) / len(ndcg_scores) if ndcg_scores else 0.0
-    gates = compute_gates(effective_rank=er, ndcg10=ndcg, baseline_rank=baseline_rank)
+    ndcg_trunc = sum(ndcg_trunc_scores) / len(ndcg_trunc_scores) if ndcg_trunc_scores else 0.0
+    gates = compute_gates(
+        effective_rank=er,
+        ndcg10=ndcg,
+        baseline_rank=baseline_rank,
+        mrl_knn_full=ndcg,
+        mrl_knn_truncated=ndcg_trunc,
+    )
     all_passed = all(v is True for v in gates.values())
 
     return {
         "slice": eval_slice,
         "ndcg10": round(ndcg, 4),
         "effectiveRank": round(float(er), 4),
+        "mrlKnnFull": round(ndcg, 4),
+        "mrlKnnTruncated": round(ndcg_trunc, 4),
         "gates": gates,
         "allPassed": all_passed,
     }

@@ -10,12 +10,14 @@ dependencies = [
     "omni-sim",
     "runboard",
     "datalab",
+    "eval-harness",
 ]
 
 [tool.uv.sources]
 omni-sim = { workspace = true }
 runboard = { workspace = true }
 datalab = { workspace = true }
+eval-harness = { workspace = true }
 
 [project.optional-dependencies]
 db = ["sqlalchemy>=2.0", "psycopg[binary]>=3.2", "pgvector>=0.3", "alembic>=1.13"]

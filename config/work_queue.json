@@ -92,13 +92,14 @@
       "division": "infra",
       "priority": 1,
       "title": "Deploy core-api + worker to Railway + Neon",
-      "status": "ready",
+      "status": "done",
       "blockedBy": [
         "BLK-PROD"
       ],
       "spec": "0004",
       "command": "pnpm deploy:railway:exec",
-      "acceptance": "Live /v1/search with prod DATABASE_URL"
+      "acceptance": "Live /v1/search with prod DATABASE_URL",
+      "notes": "core-api live on Railway (api-production-3dea) with Railway Postgres+pgvector; worker service still to create; Neon superseded for now"
     },
     {
       "id": "INF-004",
@@ -673,6 +674,86 @@
       "claimedBy": "claude",
       "claimedAt": "2026-07-02T18:26:29.519533+00:00",
       "completedAt": "2026-07-02T18:32:01.822877+00:00"
+    },
+    {
+      "id": "REV-901",
+      "title": "Run workspace site_id migration + bootstrap + vercel env (Operator gate)",
+      "division": "infra",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "scripts/migrate_workspace_site_ids.py --execute, rename data/workspaces/*.env, bootstrap:orgs, vercel-env-fleet --execute"
+    },
+    {
+      "id": "REV-902",
+      "title": "vercel-env-fleet: fail loudly on missing workspace env files",
+      "division": "infra",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "guard before setting empty SYNTH_API_KEY"
+    },
+    {
+      "id": "REV-903",
+      "title": "Checkpoint LRU cache in models_svc + rate limit public diagnose BFF",
+      "division": "research",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "embed_texts loads torch model per call; indexing per chunk"
+    },
+    {
+      "id": "REV-904",
+      "title": "Durable lead storage (LEADS_DIR volume or core-api endpoint)",
+      "division": "bd",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "contact + waitlist write to ephemeral FS on Vercel"
+    },
+    {
+      "id": "REV-905",
+      "title": "Eval gate must fail below minimum real-pair count (no demo-pair fallback)",
+      "division": "research",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "eval.py falls back to 3 demo pairs and can pass gates"
+    },
+    {
+      "id": "REV-906",
+      "title": "org-divisions.json publicSites/owns \u2192 new site ids",
+      "division": "infra",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "division-site joins silently empty"
+    },
+    {
+      "id": "REV-907",
+      "title": "torch.load weights_only + checkpoint integrity on request path",
+      "division": "research",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "pickle deserialization = RCE if artifacts writable"
+    },
+    {
+      "id": "REV-908",
+      "title": "agentkit add_watch_source: URL allowlist + glob deny data/workspaces",
+      "division": "agent",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "SSRF + secret ingestion from unattended loop"
+    },
+    {
+      "id": "REV-909",
+      "title": "datalab watch_state atomic write + lock",
+      "division": "research",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "crash corrupts state; concurrent runners race"
+    },
+    {
+      "id": "REV-910",
+      "title": "work_queue commands + package.json scripts reconciliation",
+      "division": "infra",
+      "status": "ready",
+      "spec": "review-2026-07-02",
+      "notes": "old ids + ~25 missing pnpm scripts (US-001)"
     }
   ]
 }

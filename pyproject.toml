@@ -10,6 +10,7 @@ members = [
     "packages/agentkit",
     "packages/asn-engine",
     "packages/datalab",
+    "packages/eval-harness",
     "packages/omni-sim",
     "packages/runboard",
     "services/core-api",
@@ -20,6 +21,7 @@ members = [
 agentkit = { workspace = true }
 asn-engine = { workspace = true }
 datalab = { workspace = true }
+eval-harness = { workspace = true }
 omni-sim = { workspace = true }
 runboard = { workspace = true }
 synthaembed-core-api = { workspace = true }

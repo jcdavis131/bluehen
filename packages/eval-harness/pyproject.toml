@@ -21,6 +21,8 @@ packages = ["eval_harness"]
 
 [project.optional-dependencies]
 model = ["transformers>=4.44", "tokenizers>=0.19"]
+sweep = ["optuna>=3.6"]
+bench = ["datasets>=2.20"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

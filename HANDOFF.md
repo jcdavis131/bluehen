@@ -8,6 +8,38 @@ Platform architecture internally called **SynthaEmbed OS**.
 
 ---
 
+## ⚡ Session continuation note — 2026-07-02 (Claude, read this first)
+
+**State:** The platform went from local-only to live today. All 7 sites deployed on
+Vercel (storefront bhenre.com · hq jcamd.com w/ live operating-loop cockpit ·
+dumbmodel · validation slasso · research arxiviq · simulation signals.bhenre.com ·
+observatory training.jcamd.com). **core-api is LIVE on Railway** (`bluehenre` project,
+service `api`, api-production-3dea.up.railway.app, Railway Postgres + pgvector; deploy
+with `railway up --service api --detach`; env in `data/deploy/railway.env`, gitignored).
+Fleet rebrand fully executed (Cursor plan `.cursor/plans/fleet_rebrand_+_hub_split_*.plan.md`,
+all 8 phases). Deep review: `docs/reviews/deep-review-2026-07-02.md` — 2 criticals fixed
+same day (get_trace restored w/ RLS scoping; charter no longer overrides eval gates).
+
+**THE ONE GATE (do this first):** prod workspaces are still keyed by OLD site ids.
+`scripts/migrate_workspace_site_ids.py` is staged (dry-run verified: 4 rows, no
+conflicts). Sequence after Operator approval:
+1. `uv run python scripts/migrate_workspace_site_ids.py --execute`
+2. Rename `data/workspaces/{control,hub,benchmark-lab,research-rag}.env` →
+   `{hq,storefront,validation,research}.env` (keys stay valid — same workspaces)
+3. `SYNTH_API_BASE_URL=https://api-production-3dea.up.railway.app API_SECRET_KEY=<from railway.env> uv run python scripts/bootstrap_orgs.py` → expect EXISTING × 5
+4. `SYNTH_API_BASE_URL=<same> node scripts/vercel-env-fleet.mjs --execute` → sites go live-data
+   (⚠ REV-902: script silently blanks keys if env files missing — verify files first)
+
+**Then:** REV-903..910 in TASKS.md (from the deep review — rate-limit public diagnose +
+checkpoint cache before announcing dumbmodel /check; durable LEADS_DIR before real leads).
+Worker service on Railway not yet created (`railway add`? same image, `CMD worker`).
+Medusa runs locally (data/pg-commerce :5434); Railway deploy files ready
+(infra/Dockerfile.commerce). GLM agent teams need `GLM_API_KEY` to go beyond
+deterministic duties. Session learnings live in this machine's Claude memory
+(`uv lock` traps, pnpm interactive-prompt hang → `CI=true` from bash).
+
+---
+
 ## 0. One-paragraph mission
 
 Build a multi-tenant platform of autonomous **synthetic organizations**. Each org (a tenant /

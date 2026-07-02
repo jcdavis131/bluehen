@@ -85,6 +85,8 @@ def process_job(payload: dict) -> None:
             log.warning("eval failed for %s: %s", result.model_version, exc)
 
         gates_passed = bool(eval_out.get("allPassed"))
+        gates = eval_out.get("gates") or {}
+        failed_gates = [k for k, v in gates.items() if v is not True]
         governance.record_ledger(
             workspace_id,
             {
@@ -92,10 +94,18 @@ def process_job(payload: dict) -> None:
                 "siteId": site_id,
                 "modelVersion": result.model_version,
                 "metricDelta": eval_out.get("metrics", {}).get("ndcg10"),
-                "notes": f"gates={gates_passed}",
+                "notes": f"gates={gates_passed}" + (f" failed={failed_gates}" if failed_gates else ""),
             },
             {"traceId": trace_id},
         )
+        if not gates_passed:
+            log.warning(
+                "eval gates BLOCKED deploy job=%s model=%s site=%s failed=%s",
+                job_id,
+                result.model_version,
+                site_id,
+                failed_gates,
+            )
 
         if gates_passed and site_id:
             try:

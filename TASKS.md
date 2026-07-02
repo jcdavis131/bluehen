@@ -61,7 +61,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 - [ ] **INF-001** — Local stack up (Postgres + Redis + migrate + bootstrap) · blockedBy: ['BLK-DISK', 'BLK-DOCKER']
 - [ ] **INF-002** — Run API + worker + verify research-rag search · blockedBy: ['BLK-DOCKER']
-- [ ] **INF-003** — Deploy core-api + worker to Railway + Neon · blockedBy: ['BLK-PROD']
 - [ ] **RT-404** — Tenant Barlow recipe — all Phase A sites · blockedBy: ['RT-401']
 - [ ] **RAG-501** — Scale arXiv corpus to 200 papers + re-kickoff · blockedBy: ['BLK-DOCKER']
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']

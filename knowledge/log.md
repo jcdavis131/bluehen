@@ -1,6 +1,7 @@
 # Update Log
 
 ## 2026-07-02
+* **Update**: Prod backend live — Railway `api` redeployed with current image (db extra + /readyz + telemetry + diagnose), Railway PG migrated to head; deep review persisted (docs/reviews/deep-review-2026-07-02.md), 2 criticals fixed (get_trace RLS, charter/eval gate), REV-901..910 queued; workspace site_id migration staged pending Operator approval.
 * **Update**: Fleet rebrand executed (Cursor plan, 8 phases) — ids/dirs/packages renamed (hq, storefront, validation, research, simulation, observatory); role split: jcamd.com is the org hub with the live operating loop, bhenre.com is the storefront; Vercel rootDirectories re-pointed; signals.bhenre.com + training.jcamd.com attached.
 * **Update**: Venture fleet complete (Spec 0015, SITE-009..011) — slasso RAG certification (`/certify` + store product, price pending Operator), arxiviq design-partner subscription framing, finance-lab Signal Lab waitlist (simulation-only); venture blocks for all five public sites in fleet.json.
 * **Update**: Spec 0015 approved (venture fleet); dumbmodel venture v1 shipped — free embedding health check (`/check`, core-api `/v1/diagnose`), consented submissions → datalab inbox source `dumbmodel-health-checks`, store/briefing CTAs, venture block in fleet.json.

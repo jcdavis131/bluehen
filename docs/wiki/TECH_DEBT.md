@@ -1,7 +1,22 @@
 # Technical debt register
 
-Prioritized backlog from cross-agent audits (2026-06-29). Score =
+Prioritized backlog from cross-agent audits (2026-06-29; SME review pass
+2026-07-02 — full findings in `knowledge/reviews/`). Score =
 **(Impact + Risk) × (6 − Effort)**.
+
+## P1 — from the 2026-07-02 SME reviews (unremediated remainder)
+
+| Item | Source | Action |
+|------|--------|--------|
+| Run/dataset stores not tenant-scoped | SEC-001/002 | Spec tenant-namespaced stores before opening `/v1/runs*` beyond admin |
+| `/v1/trace/{id}` skips RLS (no workspace ctx) | SEC-003 | Scope `get_trace` to tenant workspace |
+| Run store vs multi-host prod (Railway ephemeral disk) | BE-002 | Decide: volume `/data/runs` or serve runs from Postgres |
+| Stuck jobs stay `running` after worker crash | BE-005 | Heartbeat + requeue sweep |
+| Public leaderboards show demo metrics under competitor names | EC-002/003 | Label as illustrative or wire live eval data (Operator call) |
+| Documented pnpm scripts missing from package.json (~25) | US-001 | Reconcile docs ↔ scripts |
+| Leads on Vercel are ephemeral | commercial-platform | `LEADS_DIR` durable mount or core-api endpoint |
+| Autoresearch loop not instrumented with runboard | training-console | Needs spec (per-step logging perturbs `budget_sec` runs) |
+| `pnpm audit`: jsondiffpatch <0.7.2 (moderate XSS), `ai` SDK <5.0.52 (2 low) — transitive via apps/synthorg agent tooling, not public sites | audit 2026-07-02 | Upgrade `ai` to v5 in synthorg (breaking); postcss already overridden to >=8.5.10 |
 
 ## P0 — unblock or ship
 

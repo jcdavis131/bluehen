@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "node .cursor/hooks/build-session-context.mjs"
+      },
+      {
+        "command": "node .cursor/hooks/opencode-bridge-context.mjs"
+      }
+    ],
+    "afterShellExecution": [
+      {
+        "command": ".cursor/hooks/autoresearch-after-run.ps1",
+        "matcher": "autoresearch_run"
+      }
+    ]
+  }
+}

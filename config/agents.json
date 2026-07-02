@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "description": "Fleet agent registry — shared by pick_task, B.U.I.L.D. sync, Claude, OpenCode",
+  "agents": {
+    "cursor": {
+      "label": "Cursor IDE",
+      "claimName": "cursor",
+      "division": ["execution", "comms", "infra"],
+      "entrypoint": ".cursor/rules/00-fleet-team.mdc",
+      "sessionGlob": "~/.cursor/projects/c-Users-jcdav-bluehenre/agent-transcripts/**/*.jsonl",
+      "taskPrefixes": ["SITE-", "INF-", "RAG-5", "SPEC-"]
+    },
+    "claude": {
+      "label": "Claude Code",
+      "claimName": "claude",
+      "division": ["research"],
+      "entrypoint": ".claude/CLAUDE.md",
+      "sessionGlob": "~/.claude/projects/C--Users-jcdav-bluehenre/*.jsonl",
+      "taskPrefixes": ["AR-", "RT-", "DATA-"],
+      "notes": "Architecture edits in autoresearch_train.py only - see autoresearch-delegate.md"
+    },
+    "opencode": {
+      "label": "OpenCode CLI",
+      "claimName": "opencode",
+      "division": ["execution", "comms"],
+      "entrypoint": "opencode.json",
+      "sessionGlob": ".opencode-loop/**/turn-*.txt",
+      "taskPrefixes": ["SITE-", "RAG-502", "RAG-505"],
+      "bucketDefault": 1,
+      "openCodeAgent": null,
+      "notes": "Unattended loops - bucket-1 tasks or -FixUntilGreen test gates only"
+    },
+    "opencode-research": {
+      "label": "OpenCode research subagent",
+      "claimName": "opencode",
+      "division": ["research"],
+      "entrypoint": ".opencode/agents/research.md",
+      "sessionGlob": ".opencode-loop/**/turn-*.txt",
+      "taskPrefixes": ["AR-", "RT-"],
+      "bucketDefault": 3,
+      "openCodeAgent": "research",
+      "notes": "Delegate lane - one autoresearch_train.py hypothesis; NEED_HUMAN if ambiguous"
+    }
+  },
+  "sharedBoot": "docs/wiki/SESSION_BOOT.md",
+  "wiki": {
+    "framework": "docs/wiki/BUILD.md",
+    "goals": "docs/wiki/GOALS.md",
+    "triage": "docs/wiki/IMPROVEMENT_LOOP.md",
+    "digest": "docs/wiki/DIGEST.md"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updated": "2026-06-29",
-  "protocol": "Any agent: read blockers → pick_task.py list → claim → work → done → render. Specs in specs/; fleet in config/fleet.json.",
+  "updated": "2026-07-02",
+  "protocol": "Any agent: read blockers \u2192 pick_task.py list \u2192 claim \u2192 work \u2192 done \u2192 render. Specs in specs/; fleet in config/fleet.json.",
   "blockers": [
     {
       "id": "BLK-DISK",
@@ -9,15 +9,28 @@
       "title": "C: drive nearly full (~0.2 GB free)",
       "why": "ENOSPC caused Docker Desktop engine failure, worker crashes, failed writes (.next, checkpoints, HF cache). Research loop skips realtext below 400MB.",
       "unblock": "Free 5+ GB: docker system prune -a, delete apps/*/.next, clear %TEMP%, empty Recycle Bin. Restart Docker Desktop.",
-      "blocksTasks": ["INF-001", "INF-002", "RT-401", "RT-402", "RT-403", "RAG-501", "RAG-504"]
+      "blocksTasks": [
+        "INF-001",
+        "INF-002",
+        "RT-401",
+        "RT-402",
+        "RT-403",
+        "RAG-501",
+        "RAG-504"
+      ]
     },
     {
       "id": "BLK-DOCKER",
       "active": true,
       "title": "Docker Desktop API error (consequence of BLK-DISK)",
-      "why": "Postgres :5433, Redis :6379 unavailable — local API/worker/kickoff/migrate blocked.",
+      "why": "Postgres :5433, Redis :6379 unavailable \u2014 local API/worker/kickoff/migrate blocked.",
       "unblock": "Fix BLK-DISK first, then: pnpm dev:stack && pnpm db:migrate",
-      "blocksTasks": ["INF-001", "INF-002", "RAG-501", "SRV-601"]
+      "blocksTasks": [
+        "INF-001",
+        "INF-002",
+        "RAG-501",
+        "SRV-601"
+      ]
     },
     {
       "id": "BLK-PROD",
@@ -25,7 +38,11 @@
       "title": "Prod stack not provisioned (Operator)",
       "why": "No Neon DATABASE_URL, Railway core-api/worker, or Vercel fleet env. Sites still on localhost API.",
       "unblock": "Operator: Neon via Vercel Marketplace, Railway deploy (ADR-002), pnpm vercel:link-fleet:exec",
-      "blocksTasks": ["INF-003", "INF-004", "INF-005"]
+      "blocksTasks": [
+        "INF-003",
+        "INF-004",
+        "INF-005"
+      ]
     }
   ],
   "tasks": [
@@ -45,10 +62,15 @@
       "priority": 1,
       "title": "Local stack up (Postgres + Redis + migrate + bootstrap)",
       "status": "ready",
-      "blockedBy": ["BLK-DISK", "BLK-DOCKER"],
+      "blockedBy": [
+        "BLK-DISK",
+        "BLK-DOCKER"
+      ],
       "spec": "0009",
       "command": "pnpm dev:stack && pnpm db:migrate && pnpm bootstrap:orgs",
-      "dependsOn": ["INF-000"]
+      "dependsOn": [
+        "INF-000"
+      ]
     },
     {
       "id": "INF-002",
@@ -56,10 +78,14 @@
       "priority": 2,
       "title": "Run API + worker + verify research-rag search",
       "status": "ready",
-      "blockedBy": ["BLK-DOCKER"],
+      "blockedBy": [
+        "BLK-DOCKER"
+      ],
       "spec": "0004",
       "command": "pnpm dev:api & pnpm dev:worker; curl localhost:8000/healthz",
-      "dependsOn": ["INF-001"]
+      "dependsOn": [
+        "INF-001"
+      ]
     },
     {
       "id": "INF-003",
@@ -67,7 +93,9 @@
       "priority": 1,
       "title": "Deploy core-api + worker to Railway + Neon",
       "status": "ready",
-      "blockedBy": ["BLK-PROD"],
+      "blockedBy": [
+        "BLK-PROD"
+      ],
       "spec": "0004",
       "command": "pnpm deploy:railway:exec",
       "acceptance": "Live /v1/search with prod DATABASE_URL"
@@ -77,22 +105,32 @@
       "division": "infra",
       "priority": 2,
       "title": "Vercel fleet link (5 projects) + per-site SYNTH_API_KEY",
-      "status": "ready",
-      "blockedBy": ["BLK-PROD"],
+      "status": "done",
+      "blockedBy": [
+        "BLK-PROD"
+      ],
       "spec": "0007",
       "command": "pnpm vercel:link-fleet:exec && pnpm vercel:env-fleet:exec",
-      "dependsOn": ["INF-003"]
+      "dependsOn": [
+        "INF-003"
+      ],
+      "completedAt": "2026-06-30T05:35:25.224007+00:00"
     },
     {
       "id": "INF-005",
       "division": "infra",
       "priority": 3,
       "title": "Attach locked domains to monorepo builds",
-      "status": "ready",
-      "blockedBy": ["BLK-PROD"],
+      "status": "done",
+      "blockedBy": [
+        "BLK-PROD"
+      ],
       "spec": "0007",
-      "dependsOn": ["INF-004"],
-      "acceptance": "bhenre, jcamd, slasso, arxiviq, dumbmodel serve live API"
+      "dependsOn": [
+        "INF-004"
+      ],
+      "acceptance": "bhenre, jcamd, slasso, arxiviq, dumbmodel serve live API",
+      "completedAt": "2026-06-30T05:35:25.446816+00:00"
     },
     {
       "id": "AUTO-001",
@@ -108,10 +146,12 @@
       "id": "AR-301",
       "division": "research",
       "priority": 10,
-      "title": "Barlow λ=0.022 near champion",
+      "title": "Barlow \u03bb=0.022 near champion",
       "status": "ready",
       "automation": "autoresearch_patch",
-      "patch": { "BARLOW_LAMBDA": "0.022" },
+      "patch": {
+        "BARLOW_LAMBDA": "0.022"
+      },
       "spec": "0003",
       "command": "daemon or: uv run python scripts/autoresearch_run.py cursor"
     },
@@ -122,7 +162,9 @@
       "title": "Synthetic D_SERVE=32 edge stress",
       "status": "ready",
       "automation": "autoresearch_patch",
-      "patch": { "D_SERVE": "32" },
+      "patch": {
+        "D_SERVE": "32"
+      },
       "spec": "0003"
     },
     {
@@ -132,7 +174,9 @@
       "title": "AUG=0.5 lower view noise",
       "status": "ready",
       "automation": "autoresearch_patch",
-      "patch": { "AUG": "0.5" },
+      "patch": {
+        "AUG": "0.5"
+      },
       "spec": "0003"
     },
     {
@@ -142,7 +186,9 @@
       "title": "Batch=48 intermediate",
       "status": "ready",
       "automation": "autoresearch_patch",
-      "patch": { "BATCH": "48" },
+      "patch": {
+        "BATCH": "48"
+      },
       "spec": "0003"
     },
     {
@@ -152,7 +198,9 @@
       "title": "Weight decay 5e-5",
       "status": "ready",
       "automation": "autoresearch_patch",
-      "patch": { "WEIGHT_DECAY": "5e-5" },
+      "patch": {
+        "WEIGHT_DECAY": "5e-5"
+      },
       "spec": "0003"
     },
     {
@@ -162,7 +210,7 @@
       "title": "depth=2 GELU@256 encoder (code change)",
       "status": "ready",
       "spec": "0003",
-      "command": ".claude/autoresearch-delegate.md → uv run python scripts/autoresearch_run.py claude",
+      "command": ".claude/autoresearch-delegate.md \u2192 uv run python scripts/autoresearch_run.py claude",
       "acceptance": "KEEP or DISCARD logged to progress.jsonl"
     },
     {
@@ -198,10 +246,12 @@
       "priority": 20,
       "title": "Real-text bake-off: research-rag corpus",
       "status": "ready",
-      "blockedBy": ["BLK-DISK"],
+      "blockedBy": [
+        "BLK-DISK"
+      ],
       "spec": "0008",
       "command": "pnpm evidence:realtext:research-rag",
-      "acceptance": "EVIDENCE.md §3.9 verdict; Barlow promote if ΔnDCG ≥ 0.005"
+      "acceptance": "EVIDENCE.md \u00a73.9 verdict; Barlow promote if \u0394nDCG \u2265 0.005"
     },
     {
       "id": "RT-402",
@@ -209,7 +259,9 @@
       "priority": 21,
       "title": "Real-text bake-off: AG News + both sites",
       "status": "ready",
-      "blockedBy": ["BLK-DISK"],
+      "blockedBy": [
+        "BLK-DISK"
+      ],
       "spec": "0008",
       "command": "uv run python scripts/realtext_methods.py --site both"
     },
@@ -219,7 +271,9 @@
       "priority": 22,
       "title": "Collapse-regime vs BGE/e5/Qwen3 panel",
       "status": "ready",
-      "blockedBy": ["BLK-DISK"],
+      "blockedBy": [
+        "BLK-DISK"
+      ],
       "spec": "0008",
       "command": "uv run python scripts/collapse_regime.py"
     },
@@ -227,9 +281,11 @@
       "id": "RT-404",
       "division": "research",
       "priority": 23,
-      "title": "Tenant Barlow recipe — all Phase A sites",
+      "title": "Tenant Barlow recipe \u2014 all Phase A sites",
       "status": "ready",
-      "dependsOn": ["RT-401"],
+      "dependsOn": [
+        "RT-401"
+      ],
       "spec": "0008",
       "command": "Extend tenant_baseline.py --recipe barlow; run --all-sites"
     },
@@ -239,7 +295,9 @@
       "priority": 30,
       "title": "Scale arXiv corpus to 200 papers + re-kickoff",
       "status": "ready",
-      "blockedBy": ["BLK-DOCKER"],
+      "blockedBy": [
+        "BLK-DOCKER"
+      ],
       "spec": "0009",
       "command": "pnpm harvest:arxiv --max-papers 200 && pnpm kickoff:research-rag"
     },
@@ -250,7 +308,7 @@
       "title": "Implement rag_chunk_ablation.py",
       "status": "ready",
       "spec": "0008",
-      "command": "Create scripts/rag_chunk_ablation.py — 256/512/1024 token chunks on research-rag holdout",
+      "command": "Create scripts/rag_chunk_ablation.py \u2014 256/512/1024 token chunks on research-rag holdout",
       "acceptance": "Script runs; best chunk size logged"
     },
     {
@@ -261,7 +319,7 @@
       "status": "ready",
       "spec": "0009",
       "command": "Extend core-api lifecycle or worker pair generation with corpus-mined negatives",
-      "acceptance": "ΔnDCG measurable on holdout"
+      "acceptance": "\u0394nDCG measurable on holdout"
     },
     {
       "id": "RAG-504",
@@ -269,9 +327,11 @@
       "priority": 33,
       "title": "arxiviq tier drop@8 benchmark (20 queries)",
       "status": "ready",
-      "blockedBy": ["BLK-DOCKER"],
+      "blockedBy": [
+        "BLK-DOCKER"
+      ],
       "spec": "0007",
-      "command": "Log TierComparePanel results → data/evidence/tier_drop.json; surface on research-lab page"
+      "command": "Log TierComparePanel results \u2192 data/evidence/tier_drop.json; surface on research-lab page"
     },
     {
       "id": "RAG-505",
@@ -280,7 +340,7 @@
       "title": "arXiv exam runner in eval-public",
       "status": "ready",
       "spec": "0008",
-      "command": "Port exam logic → packages/eval-public; wire arxiviq homepage"
+      "command": "Port exam logic \u2192 packages/eval-public; wire arxiviq homepage"
     },
     {
       "id": "SRV-601",
@@ -288,8 +348,12 @@
       "priority": 40,
       "title": "MRL-trained checkpoint deploy on research-rag",
       "status": "ready",
-      "blockedBy": ["BLK-DOCKER"],
-      "dependsOn": ["RT-401"],
+      "blockedBy": [
+        "BLK-DOCKER"
+      ],
+      "dependsOn": [
+        "RT-401"
+      ],
       "spec": "0004",
       "command": "Re-kickoff with loss.method=mrl recipe"
     },
@@ -301,7 +365,9 @@
       "status": "ready",
       "spec": "0008",
       "command": "Implement scripts/slasso_exam_runner.py",
-      "dependsOn": ["RAG-505"]
+      "dependsOn": [
+        "RAG-505"
+      ]
     },
     {
       "id": "BD-702",
@@ -310,16 +376,21 @@
       "title": "Commercial panel scorecard on dumbmodel",
       "status": "ready",
       "spec": "0008",
-      "dependsOn": ["BD-701"]
+      "dependsOn": [
+        "BD-701"
+      ]
     },
     {
       "id": "SITE-001",
       "division": "comms",
       "priority": 60,
       "title": "Hub /research experiment museum page",
-      "status": "ready",
+      "status": "done",
       "spec": "0012",
-      "command": "build_experiment_index.py + apps/sites/hub/app/research/page.tsx"
+      "command": "build_experiment_index.py + apps/sites/hub/app/research/page.tsx",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-02T15:47:55.225504+00:00",
+      "completedAt": "2026-07-02T15:54:46.642673+00:00"
     },
     {
       "id": "SITE-002",
@@ -346,7 +417,7 @@
       "title": "Eve subagents + trace wiring",
       "status": "ready",
       "spec": "0006",
-      "command": "apps/synthorg — subagent descriptions + synth-core trace IDs"
+      "command": "apps/synthorg \u2014 subagent descriptions + synth-core trace IDs"
     },
     {
       "id": "SPEC-011",
@@ -355,7 +426,7 @@
       "title": "Modal trainer production",
       "status": "someday",
       "spec": "0011",
-      "command": "services/trainer — Operator Modal account pending"
+      "command": "services/trainer \u2014 Operator Modal account pending"
     },
     {
       "id": "DATA-801",
@@ -370,7 +441,7 @@
       "id": "DATA-802",
       "division": "research",
       "priority": 81,
-      "title": "Domain sweep Family C — Barlow arm",
+      "title": "Domain sweep Family C \u2014 Barlow arm",
       "status": "ready",
       "spec": "0003",
       "command": "Add --loss barlow to domain_sweep.py; run sweep",
@@ -404,7 +475,7 @@
       "id": "DONE-004",
       "division": "orchestration",
       "priority": 99,
-      "title": "Spec alignment — unified BD queue path, 0012 Phase A vs A+ scope",
+      "title": "Spec alignment \u2014 unified BD queue path, 0012 Phase A vs A+ scope",
       "status": "done",
       "spec": "0012",
       "acceptance": "content/fleet/bd/queue.json canonical; specs/README + 0012 updated"
@@ -413,7 +484,7 @@
       "id": "DONE-005",
       "division": "execution",
       "priority": 99,
-      "title": "Phase A+ runtime handoffs — handoffs.py, charter gate, control promotion UI",
+      "title": "Phase A+ runtime handoffs \u2014 handoffs.py, charter gate, control promotion UI",
       "status": "done",
       "spec": "0012",
       "acceptance": "test_handoffs.py green; worker BD queue + charter deploy gate"
@@ -422,16 +493,72 @@
       "id": "LOOP-001",
       "division": "orchestration",
       "priority": 0,
-      "title": "Phase A+ hill-climb iteration — kickoff Phase A orgs, verify BD queue + ledger",
+      "title": "Phase A+ hill-climb iteration \u2014 kickoff Phase A orgs, verify BD queue + ledger",
       "status": "ready",
       "claimedBy": null,
       "claimedAt": null,
-      "blockedBy": ["BLK-DISK", "BLK-DOCKER"],
+      "blockedBy": [
+        "BLK-DISK",
+        "BLK-DOCKER"
+      ],
       "spec": "0005",
       "command": "pnpm dev:stack && pnpm db:migrate && pnpm bootstrap:orgs && pnpm dev:api & pnpm dev:worker & pnpm kickoff:orgs",
-      "dependsOn": ["INF-001"],
+      "dependsOn": [
+        "INF-001"
+      ],
       "acceptance": "All Phase A jobs complete; BD queue has gate-pass entries; ledger shows eval/deploy/index",
       "note": "Attempted 2026-06-29: docker compose Internal Server Error (C: ~0.4GB free). Unblock INF-000 first."
+    },
+    {
+      "id": "OMNI-001",
+      "division": "bd",
+      "priority": 1,
+      "title": "Omni-market B0 \u2014 verify sim harness + API + CLI",
+      "status": "done",
+      "spec": "0013",
+      "command": "uv run pytest packages/omni-sim/tests -q && uv run python scripts/omni_simulate.py --platform kalshi",
+      "acceptance": "pytest green; simulate JSON has mode=simulation and sharpe",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-02T14:43:19.375617+00:00",
+      "completedAt": "2026-07-02T14:43:19.531024+00:00"
+    },
+    {
+      "id": "OMNI-002",
+      "division": "orchestration",
+      "priority": 2,
+      "title": "Omni workerbee SkillOpt loop dry-run",
+      "status": "done",
+      "spec": "0013",
+      "command": "uv run python scripts/omni_loop.py --iterations 1",
+      "acceptance": "data/omni/skill_edit_buffer.json written",
+      "completedAt": "2026-07-02T14:43:19.698850+00:00"
+    },
+    {
+      "id": "OMNI-003",
+      "division": "comms",
+      "priority": 2,
+      "title": "finance-lab build + typecheck in pnpm review",
+      "status": "done",
+      "spec": "0013",
+      "command": "pnpm --filter @synthaembed/finance-lab build",
+      "acceptance": "finance-lab Next.js build passes",
+      "completedAt": "2026-07-02T14:43:19.844337+00:00"
+    },
+    {
+      "id": "OMNI-004",
+      "division": "execution",
+      "priority": 3,
+      "title": "Wire /v1/omni/simulate integration test",
+      "status": "ready",
+      "blockedBy": [
+        "BLK-DOCKER"
+      ],
+      "spec": "0013",
+      "command": "uv run pytest services/core-api/tests/test_omni.py -q",
+      "dependsOn": [
+        "INF-001"
+      ],
+      "acceptance": "API simulate returns 200 + ledger omni_sim"
     }
   ]
 }

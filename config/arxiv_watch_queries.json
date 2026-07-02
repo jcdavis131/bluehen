@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "description": "arXiv API search queries for the Research org literature radar. Run: pnpm literature:radar",
+  "maxResultsPerQuery": 25,
+  "categories": ["cs.CL", "cs.LG", "cs.IR", "cs.AI"],
+  "queries": [
+    {
+      "id": "embedding_collapse",
+      "label": "Representation collapse & rank",
+      "searchQuery": "all:\"dimensional collapse\" OR all:\"effective rank\" AND (embedding OR contrastive)",
+      "relevanceTags": ["collapse", "effective-rank", "vicreg", "barlow"]
+    },
+    {
+      "id": "matryoshka_edge",
+      "label": "Matryoshka / truncated embeddings",
+      "searchQuery": "all:matryoshka AND (embedding OR representation)",
+      "relevanceTags": ["mrl", "edge", "truncation"]
+    },
+    {
+      "id": "rag_retrieval",
+      "label": "Dense retrieval & RAG embeddings",
+      "searchQuery": "all:\"dense retrieval\" AND (embedding OR bi-encoder) AND (RAG OR \"retrieval augmented\")",
+      "relevanceTags": ["rag", "retrieval", "bi-encoder"]
+    },
+    {
+      "id": "small_embedding",
+      "label": "Small / efficient embedding models",
+      "searchQuery": "all:\"embedding model\" AND (efficient OR small OR edge OR on-device OR quantization)",
+      "relevanceTags": ["edge", "quantization", "peft"]
+    },
+    {
+      "id": "contrastive_ssl",
+      "label": "Contrastive & self-supervised text encoders",
+      "searchQuery": "all:InfoNCE AND (sentence OR text) AND embedding",
+      "relevanceTags": ["infonce", "contrastive", "domain-adapt"]
+    },
+    {
+      "id": "multimodal_embed",
+      "label": "Multimodal / multi-vector retrieval (watch only)",
+      "searchQuery": "all:\"multi-vector\" OR all:ColBERT AND retrieval",
+      "relevanceTags": ["multimodal", "late-interaction", "watch"]
+    }
+  ],
+  "noveltyKeywords": [
+    "spectral surgery",
+    "heterosynaptic",
+    "Barlow Twins",
+    "VICReg",
+    "Matryoshka",
+    "Newton-Schulz",
+    "RankMe",
+    "QAMA",
+    "projection head",
+    "LoRA",
+    "PEFT",
+    "int8",
+    "binary quantization"
+  ]
+}

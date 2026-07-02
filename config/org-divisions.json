@@ -289,6 +289,6 @@
       "Production and Validation publish metrics back to Orchestration",
       "Orchestration opens data requests → back to Data Operations"
     ],
-    "ledgerStages": ["collect", "chunk", "pairs", "train", "eval", "deploy", "index", "pilot", "charter", "feedback"]
+    "ledgerStages": ["collect", "chunk", "pairs", "train", "eval", "deploy", "index", "pilot", "charter", "feedback", "omni_sim"]
   }
 }

@@ -1,0 +1,23 @@
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+
+WORKDIR /app
+
+# Layer 1: Copy dependency metadata
+COPY pyproject.toml uv.lock ./
+COPY packages/asn-engine/pyproject.toml packages/asn-engine/
+COPY packages/eval-harness/pyproject.toml packages/eval-harness/
+COPY services/core-api/pyproject.toml services/core-api/
+
+# Install deps (source not yet present — this caches deps separately from code)
+RUN uv sync --no-dev --frozen
+
+# Layer 2: Copy all source
+COPY packages/ packages/
+COPY services/core-api/ services/core-api/
+
+# Re-sync to register local packages
+RUN uv sync --no-dev --frozen
+
+EXPOSE 8000
+
+CMD ["uv", "run", "--no-dev", "--frozen", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

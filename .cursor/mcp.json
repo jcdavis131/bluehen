@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "cq": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "C:/Users/jcdav/.local/share/cq-mcp-server",
+        "cq-mcp-server"
+      ]
+    }
+  }
+}

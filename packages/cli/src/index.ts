@@ -19,6 +19,8 @@
  *   synth model list
  *   synth embed "<text>"
  *   synth search "<query>" [k]
+ *   synth omni platforms
+ *   synth omni simulate <platformId> [--strategy id]
  *   synth ledger tail [limit]
  *   synth budget
  *   synth trace view <traceId>
@@ -77,6 +79,16 @@ async function main() {
       case "embed":         return out(await s.model.embed([rest.join(" ") || (cmd ?? "")]));
       case "search undefined":
       case "search":        return out(await s.vector.search(rest.join(" ") || (cmd ?? ""), 10));
+      case "omni platforms":
+        return out(await s.omni.platforms());
+      case "omni simulate": {
+        const platformId = rest[0];
+        if (!platformId) {
+          console.error("usage: synth omni simulate <platformId> [--strategy id]");
+          process.exit(2);
+        }
+        return out(await s.omni.simulate(platformId, { strategyId: flag(rest, "strategy") }));
+      }
       case "ledger tail":   return out(await s.ledger.tail(Number(rest[0] ?? 50)));
       case "budget undefined":
       case "budget":        return out(await s.ledger.budget());

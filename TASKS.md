@@ -1,6 +1,6 @@
 # Tasks
 
-> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-06-29
+> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-07-02
 
 **Any agent:** `uv run python scripts/pick_task.py list` → `claim` → work → `done`
 
@@ -42,8 +42,6 @@
   - `Extend core-api lifecycle or worker pair generation with corpus-mined negatives`
 - [ ] **RAG-505** — arXiv exam runner in eval-public (bd) · spec [0008](./specs/0008-*.md)
   - `Port exam logic → packages/eval-public; wire arxiviq homepage`
-- [ ] **SITE-001** — Hub /research experiment museum page (comms) · spec [0012](./specs/0012-*.md)
-  - `build_experiment_index.py + apps/sites/hub/app/research/page.tsx`
 - [ ] **SITE-002** — arxiviq /methods page (org recipe + evidence dates) (comms) · spec [0007](./specs/0007-*.md)
   - `apps/sites/research-rag/app/methods/page.tsx`
 - [ ] **SITE-003** — dumbmodel /museum collapse failures (comms) · spec [0007](./specs/0007-*.md)
@@ -62,8 +60,6 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **INF-001** — Local stack up (Postgres + Redis + migrate + bootstrap) · blockedBy: ['BLK-DISK', 'BLK-DOCKER']
 - [ ] **INF-002** — Run API + worker + verify research-rag search · blockedBy: ['BLK-DOCKER']
 - [ ] **INF-003** — Deploy core-api + worker to Railway + Neon · blockedBy: ['BLK-PROD']
-- [ ] **INF-004** — Vercel fleet link (5 projects) + per-site SYNTH_API_KEY · blockedBy: ['BLK-PROD']
-- [ ] **INF-005** — Attach locked domains to monorepo builds · blockedBy: ['BLK-PROD']
 - [ ] **RT-401** — Real-text bake-off: research-rag corpus · blockedBy: ['BLK-DISK']
 - [ ] **RT-402** — Real-text bake-off: AG News + both sites · blockedBy: ['BLK-DISK']
 - [ ] **RT-403** — Collapse-regime vs BGE/e5/Qwen3 panel · blockedBy: ['BLK-DISK']
@@ -71,6 +67,8 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **RAG-501** — Scale arXiv corpus to 200 papers + re-kickoff · blockedBy: ['BLK-DOCKER']
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
+- [ ] **BD-701** — slasso YAML exam runner · blockedBy: ['RAG-505']
+- [ ] **BD-702** — Commercial panel scorecard on dumbmodel · blockedBy: ['BD-701']
 
 ## Recently done
 
@@ -79,6 +77,9 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**DONE-003** — Literature radar + harvest + FRONTIER_ARCHITECTURE.md~~
 - [x] ~~**DONE-004** — Spec alignment — unified BD queue path, 0012 Phase A vs A+ scope~~
 - [x] ~~**DONE-005** — Phase A+ runtime handoffs — handoffs.py, charter gate, control promotion UI~~
+- [x] ~~**OMNI-001** — Omni-market B0 — verify sim harness + API + CLI~~
+- [x] ~~**OMNI-002** — Omni workerbee SkillOpt loop dry-run~~
+- [x] ~~**OMNI-003** — finance-lab build + typecheck in pnpm review~~
 
 ## Specs & context
 

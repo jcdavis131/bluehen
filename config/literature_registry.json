@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "updated": "2026-06-28",
+  "description": "Maps published methods to Blue Hen RE adoption status. Prevents reinventing SOTA; guides frontier synthesis. Normative with SCIENCE_REVIEW.md.",
+  "statusLegend": {
+    "shipped": "In production train_loop / serving path",
+    "evaluating": "Active experiment (autoresearch or tier-1)",
+    "watchlist": "Monitor — may adopt after BD gate",
+    "baseline_only": "Commercial/open baseline — compare, do not re-implement",
+    "rejected": "Measured and rejected for our use case",
+    "inspiration_only": "Biological or theoretical inspiration — not a product claim"
+  },
+  "entries": [
+    {
+      "id": "mrl-2022",
+      "title": "Matryoshka Representation Learning",
+      "authors": "Kusupati et al.",
+      "year": 2022,
+      "arxiv": "2205.13147",
+      "status": "shipped",
+      "ourComponent": "asn.matryoshkaDims + edge tier (truncate_dims=8, quant=int8)",
+      "doNotReinvent": "Train nested prefix losses; truncation without MRL training fails at t=8 (EVIDENCE §3.7 Family B)",
+      "frontierNote": "Combine with Barlow/InfoNCE domain tune — our edge story is MRL + quant, not surgery."
+    },
+    {
+      "id": "infonce-simclr",
+      "title": "Contrastive Learning (InfoNCE / SimCLR)",
+      "authors": "van den Oord; Chen et al.",
+      "year": 2020,
+      "arxiv": "2002.05709",
+      "status": "shipped",
+      "ourComponent": "Default loss in train_loop; domain fine-tune beats zero-shot BGE 4/4 tenants",
+      "doNotReinvent": "Standard baseline — product is org-adapted small models, not InfoNCE novelty",
+      "frontierNote": "Keep as anchor; stack Barlow or VICReg only where measured."
+    },
+    {
+      "id": "barlow-2021",
+      "title": "Barlow Twins",
+      "authors": "Zbontar et al.",
+      "year": 2021,
+      "arxiv": "2103.03227",
+      "status": "evaluating",
+      "ourComponent": "Wave 2 TPE leader (robust_score 1.486 synthetic); real-text bake-off pending",
+      "doNotReinvent": "Published SSL method — our contribution is domain org recipe + edge serving stack",
+      "frontierNote": "Promote to default recipe only if real-text ΔnDCG ≥ 0.005 vs InfoNCE on research-rag corpus."
+    },
+    {
+      "id": "vicreg-2021",
+      "title": "VICReg",
+      "authors": "Bardes et al.",
+      "year": 2021,
+      "arxiv": "2105.04906",
+      "status": "evaluating",
+      "ourComponent": "Collapse-prone synthetic regimes only; neutral on real text",
+      "doNotReinvent": "Use as regime-specific regularizer, not fleet default",
+      "frontierNote": "Pair with SimSiam-style invariance collapse tests — not general retrieval win."
+    },
+    {
+      "id": "jing-collapse-2022",
+      "title": "Understanding Dimensional Collapse in Contrastive SSL",
+      "authors": "Jing et al.",
+      "year": 2022,
+      "arxiv": "2206.08298",
+      "status": "shipped",
+      "ourComponent": "Problem framing; effective rank diagnostic in eval-harness",
+      "doNotReinvent": "Motivation is settled — focus on measured fixes, not re-deriving collapse theory",
+      "frontierNote": null
+    },
+    {
+      "id": "rankme-2023",
+      "title": "RankMe (unsupervised rank predictor)",
+      "authors": "Garrido et al.",
+      "year": 2023,
+      "arxiv": "2302.05828",
+      "status": "shipped",
+      "ourComponent": "erank() in asn-engine; deploy gate diagnostic",
+      "doNotReinvent": "Use as metric; ASN surgery failed to improve rank on fleet (0/4)",
+      "frontierNote": null
+    },
+    {
+      "id": "lora-2021",
+      "title": "LoRA / PEFT",
+      "authors": "Hu et al.",
+      "year": 2021,
+      "arxiv": "2106.09685",
+      "status": "shipped",
+      "ourComponent": "peft: true in DEFAULT_RECIPE; Conductor cost control",
+      "doNotReinvent": "Standard — use open bases (MiniLM, BGE-small, Qwen3-Embed-0.6B)",
+      "frontierNote": "Edge product = PEFT on 0.6B-class backbones, not full fine-tune 7B+."
+    },
+    {
+      "id": "qwen3-embed",
+      "title": "Qwen3-Embedding (open small embedder)",
+      "authors": "Alibaba Qwen team",
+      "year": 2025,
+      "arxiv": null,
+      "status": "watchlist",
+      "ourComponent": "Listed baseline in HANDOFF §3; not yet in eval-public panel",
+      "doNotReinvent": "Use as backbone candidate — do not claim ASN superiority without fair ablation",
+      "frontierNote": "Next backbone sweep: Qwen3-Embed-0.6B + Barlow/MRL vs MiniLM."
+    },
+    {
+      "id": "bge-m3",
+      "title": "BGE-M3 / bge-small",
+      "authors": "BAAI",
+      "year": 2024,
+      "arxiv": null,
+      "status": "baseline_only",
+      "ourComponent": "dumbmodel.com + tenant_baseline.py commercial panel",
+      "doNotReinvent": "Zero-shot SOTA reference — beat via domain adapt, not re-architecting BGE",
+      "frontierNote": null
+    },
+    {
+      "id": "asn-surgery",
+      "title": "ASN three-tier spectral surgery (internal)",
+      "authors": "Blue Hen RE",
+      "year": 2026,
+      "arxiv": null,
+      "status": "rejected",
+      "ourComponent": "asn-engine spectral.py — disabled in production recipes",
+      "doNotReinvent": "Do not re-litigate without new collapse-regime evidence (engine_proof.py)",
+      "frontierNote": "Biology-inspired framing stays inspiration-only per SCIENCE_REVIEW."
+    },
+    {
+      "id": "qama-2025",
+      "title": "Quantization Aware Matryoshka Adaptation (QAMA)",
+      "authors": "CIKM 2025",
+      "year": 2025,
+      "arxiv": null,
+      "doi": "10.1145/3746252.3761077",
+      "status": "watchlist",
+      "ourComponent": "int8 tier exists; QAMA trains quant-friendly nested dims jointly",
+      "doNotReinvent": "If adopting, cite and ablate vs our post-hoc int8 — may beat naive truncate+quant",
+      "frontierNote": "Strong candidate for Phase 1 edge tier upgrade after Barlow real-text gate."
+    },
+    {
+      "id": "projection-head-ssl",
+      "title": "Projection head as info bottleneck (SimCLR/BYOL line)",
+      "authors": "Chen et al.; Grill et al.",
+      "year": 2020,
+      "arxiv": "2002.05709",
+      "status": "shipped",
+      "ourComponent": "Discardable g_φ in ASN train_loop; served z = f_θ(x) only",
+      "doNotReinvent": "Standard SSL — no novelty claim",
+      "frontierNote": null
+    },
+    {
+      "id": "shy-neuro",
+      "title": "Synaptic Homeostasis Hypothesis (SHY)",
+      "authors": "Tononi & Cirelli",
+      "year": 2003,
+      "arxiv": null,
+      "status": "inspiration_only",
+      "ourComponent": "WHITEPAPER narrative only",
+      "doNotReinvent": "Never claim mathematical equivalence biology ⇄ ML",
+      "frontierNote": null
+    },
+    {
+      "id": "rtf-sde-watch",
+      "title": "RTF / SDE spectral fusion (multimodal)",
+      "authors": "See SCIENCE_REVIEW §2",
+      "year": 2025,
+      "arxiv": null,
+      "status": "watchlist",
+      "ourComponent": "Not in v1 text-only stack",
+      "doNotReinvent": "Multimodal rank fusion is a Phase B+ research track, not current reinvention risk",
+      "frontierNote": "Revisit when finance-lab or multimodal org is scoped."
+    }
+  ],
+  "synthesisTarget": {
+    "name": "Blue Hen Frontier Embed Stack v1",
+    "tagline": "Domain-adapted open backbone + measured loss mix + MRL/int8 edge — no unreplicated surgery claims",
+    "layers": [
+      {
+        "layer": "Backbone",
+        "choice": "Open 0.6B-class (Qwen3-Embed-0.6B, bge-small, MiniLM) + LoRA",
+        "literature": ["lora-2021", "qwen3-embed", "bge-m3"]
+      },
+      {
+        "layer": "Training objective",
+        "choice": "InfoNCE + optional Barlow (if real-text wins) + MRL prefix losses",
+        "literature": ["infonce-simclr", "barlow-2021", "mrl-2022"]
+      },
+      {
+        "layer": "Collapse guard",
+        "choice": "Effective rank monitor + VICReg only in collapse regimes; surgery OFF",
+        "literature": ["jing-collapse-2022", "rankme-2023", "vicreg-2021", "asn-surgery"]
+      },
+      {
+        "layer": "Serving",
+        "choice": "Full dim for quality; t=8..64 MRL + int8 for edge/home",
+        "literature": ["mrl-2022", "qama-2025"]
+      },
+      {
+        "layer": "Validation",
+        "choice": "Tenant nDCG + commercial panel + slasso exams — not MTEB overclaim",
+        "literature": ["bge-m3"]
+      }
+    ]
+  }
+}

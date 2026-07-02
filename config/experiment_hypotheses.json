@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "strategy": "Tiered hypothesis tests with Bayesian (TPE) search — not brute-force grids.",
+  "tiers": {
+    "0": {
+      "name": "mechanism",
+      "costSec": 5,
+      "purpose": "Isolate collapse/surgery/VICReg mechanics on synthetic linear encoders"
+    },
+    "1": {
+      "name": "tenant_recipe",
+      "costSec": 300,
+      "purpose": "Per-org recipe ablation on Phase A corpora (pairwise eval proxy)"
+    },
+    "2": {
+      "name": "real_text",
+      "costSec": 1800,
+      "purpose": "AG News or MTEB slice — only promote winners from tier 1"
+    }
+  },
+  "studies": {
+    "vicreg_collapse": {
+      "tier": 0,
+      "hypothesis": "VICReg coefficients restore served rank in invariance-only collapse without kNN loss",
+      "priorSuccess": 0.85,
+      "nTrialsDefault": 40,
+      "nSeedsPerTrial": 3,
+      "objective": "rank_lift_minus_knn_penalty",
+      "promoteIf": { "posteriorMean": 0.95, "minTrials": 20 },
+      "searchSpace": {
+        "vicregVar": { "type": "logfloat", "low": 0.5, "high": 80.0 },
+        "vicregCov": { "type": "logfloat", "low": 0.001, "high": 5.0 },
+        "steps": { "type": "int", "low": 200, "high": 600, "step": 100 }
+      }
+    },
+    "surgery_futility": {
+      "tier": 0,
+      "hypothesis": "Three-tier weight surgery does not improve rank under InfoNCE (futility test)",
+      "priorSuccess": 0.15,
+      "nTrialsDefault": 24,
+      "nSeedsPerTrial": 2,
+      "objective": "rank_delta_vs_no_surgery",
+      "earlyStopIf": { "maxTrialsWithoutPositiveRank": 12 },
+      "searchSpace": {
+        "asnLambda": { "type": "float", "low": 0.1, "high": 1.0 },
+        "surgeryEvery": { "type": "int", "low": 10, "high": 50, "step": 10 },
+        "kStrong": { "type": "int", "low": 2, "high": 12, "step": 2 }
+      }
+    },
+    "tenant_recipe": {
+      "tier": 1,
+      "hypothesis": "Domain InfoNCE (+ optional VICReg) maximizes tenant nDCG vs zero-shot commercial",
+      "priorSuccess": 0.7,
+      "nTrialsDefault": 32,
+      "nSeedsPerTrial": 1,
+      "objective": "tenant_ndcg",
+      "sites": ["hub", "benchmark-lab", "research-rag", "dumbmodel"],
+      "searchSpace": {
+        "vicregVar": { "type": "float", "low": 0.0, "high": 4.0 },
+        "vicregCov": { "type": "float", "low": 0.0, "high": 0.2 },
+        "infoNceTemp": { "type": "float", "low": 0.04, "high": 0.12 },
+        "epochs": { "type": "int", "low": 3, "high": 10, "step": 1 },
+        "lr": { "type": "logfloat", "low": 1e-5, "high": 5e-5 }
+      }
+    },
+    "barlow_realtext": {
+      "tier": 2,
+      "hypothesis": "Barlow domain fine-tune beats InfoNCE on research-rag arXiv holdout by ΔnDCG ≥ 0.005",
+      "priorSuccess": 0.55,
+      "nTrialsDefault": 4,
+      "nSeedsPerTrial": 2,
+      "objective": "ndcg_full",
+      "sites": ["research-rag"],
+      "command": "pnpm evidence:realtext:research-rag",
+      "promoteIf": { "deltaNdcgVsInfonce": 0.005, "bothCorpora": true }
+    },
+    "mrl_edge_deploy": {
+      "tier": 1,
+      "hypothesis": "MRL-trained checkpoint improves knn_t8 vs post-hoc truncate on same queries",
+      "priorSuccess": 0.6,
+      "objective": "knn_t8",
+      "sites": ["research-rag"],
+      "dependsOn": ["barlow_realtext or AR-308 KEEP"]
+    },
+    "rag_corpus_scale": {
+      "tier": 1,
+      "hypothesis": "200-paper arXiv harvest improves exam recall without OOD forgetting > 2%",
+      "priorSuccess": 0.65,
+      "objective": "recall_at_10",
+      "sites": ["research-rag"],
+      "command": "pnpm harvest:arxiv --max-papers 200"
+    },
+    "tier_drop_benchmark": {
+      "tier": 1,
+      "hypothesis": "Document median rank delta full vs edge-d8-int8 on 20 fixed arXiv queries",
+      "priorSuccess": 0.8,
+      "objective": "median_rank_delta",
+      "sites": ["research-rag"]
+    },
+    "hard_negative_mining": {
+      "tier": 1,
+      "hypothesis": "Corpus-mined hard negatives beat in-batch negatives for pairwise nDCG on arXiv",
+      "priorSuccess": 0.5,
+      "objective": "ndcg_full",
+      "sites": ["research-rag"]
+    }
+  }
+}

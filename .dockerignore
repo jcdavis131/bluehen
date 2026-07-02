@@ -1,0 +1,38 @@
+# JS / Next.js (Vercel-only)
+node_modules
+**/.next
+**/.turbo
+**/dist
+**/.vercel
+
+# Python caches
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/*.pyc
+.venv
+
+# Local data (mount volumes or ingest via API in prod)
+data/artifacts
+data/workspaces
+data/corpora
+
+# Nested uv locks (root lock is sufficient)
+packages/**/uv.lock
+services/**/uv.lock
+
+# Dev / IDE
+.git
+.github
+.cursor
+.claude
+*.md
+!docs/adr/*.md
+.env
+.env.*
+!.env.example
+
+# Evidence / docs exports (not needed at runtime)
+docs/sources
+docs/exports
+*.html

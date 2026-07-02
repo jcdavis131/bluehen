@@ -192,7 +192,9 @@ small enough to implement in days, not weeks.
 - `0005`–`0006` — Conductor loop, CLI/tracing (**Partial** — v0.3 hill-climb live).
 - `0007`–`0009` — fleet registry, eval gates, training worker (**Implemented**).
 - `0010-finance-applied-test.md` — Phase B finance vertical (**Draft**).
+- `0011-modal-trainer-production.md` — Modal GPU trainer (**Draft**).
 - `0012-synthetic-org-divisions-and-handoffs.md` — five divisions, closed loop (**Ready** registry; runtime handoffs **Partial**).
+- `0013-omni-market-alpha-engine.md` — Omni-market simulation (**Ready** B0 implemented).
 
 Full status matrix: [`specs/README.md`](./specs/README.md). Source traceability:
 [`docs/SOURCE_MAP.md`](./docs/SOURCE_MAP.md). Production backend: **Railway** (ADR-002).
@@ -216,8 +218,9 @@ generation, Modal GPU, eval-set rotation, **0012 runtime handoffs** (BD queue wr
 **Phase 3 — Fleet sites + isolation.** ✅ `apps/sites/*`, control plane, fleet registry,
 division registry (Spec 0012); RLS negative tests; four Phase A tenants concurrent. Spec 0007.
 
-**Phase 4 — Finance vertical (Phase B).** ⬜ Spec 0010 draft; `finance-lab` stub; simulation
-eval harness — no live trading (guardrail locked).
+**Phase 4 — Finance / Omni-market vertical (Phase B).** 🟡 Spec 0010 draft; Spec **0013 Ready**
+(B0 implemented): `finance-lab` active, `packages/omni-sim`, `/v1/omni/*`, simulation harness —
+no live trading (guardrail locked).
 
 **Phase 5 — Hardening for real traffic.** 🟡 Railway + Neon prod cutover in progress
 (`INF-003`, blocked on Operator `BLK-PROD`); then IVFFlat/HNSW, JWT dashboard auth, load tests,
@@ -340,11 +343,54 @@ sites, domains, app paths, and dev ports. Agent tools `fleet_list` / `fleet_cont
 `synth-core`; load skill `fleet-orchestration.md` for multi-site tasks.
 
 **Tenant sites (`apps/sites/*`).** One deploy per domain — `hub` (bhenre.com), `dumbmodel`,
-`benchmark-lab` (slasso.com), `research-rag` (arxiviq.com), etc.
+`benchmark-lab` (slasso.com), `research-rag` (arxiviq.com), `finance-lab` (omni-market sim), etc.
 
 Updated layout: `config/fleet.json`, `apps/{control, synthorg, sites/*}`,
-`services/{core-api, worker, trainer}`, `packages/{fleet, asn-engine, eval-harness, synth-core, cli}`,
-`AGENTS.md`, `docs/SOURCE_MAP.md`, `specs/0001–0010`, `WHITEPAPER.md` at the center.
+`services/{core-api, worker, trainer}`, `packages/{fleet, asn-engine, eval-harness, omni-sim, synth-core, cli}`,
+`AGENTS.md`, `docs/SOURCE_MAP.md`, `specs/0001–0013`, `WHITEPAPER.md` at the center.
+
+## 12. Omni-Market Alpha Engine (v4.0 — Phase B)
+
+Strategic expansion from finance-only simulation (Spec 0010) to **omni-market** paper trading
+across prediction markets (Kalshi, Polymarket), sports DFS (PrizePicks), and retail equities
+(Robinhood). Normative spec: [`specs/0013-omni-market-alpha-engine.md`](./specs/0013-omni-market-alpha-engine.md).
+Architecture deep-dive: [`docs/OMNI_MARKET_ARCHITECTURE.md`](./docs/OMNI_MARKET_ARCHITECTURE.md).
+
+### 12.1 Phased scope
+
+| Phase | What ships | Guardrail |
+|---|---|---|
+| **B0** (now) | `packages/omni-sim`, `/v1/omni/*`, `synth omni`, finance-lab UI, SkillOpt loop stub | Simulation only |
+| **B1** | Crawl4AI ingest, semantic dedup, `data/corpora/omni-market/` | No live APIs |
+| **B2** | TradingAgents-style multi-agent firm env | Paper capital |
+| **C** | Live execution per platform | Operator + compliance spec |
+
+### 12.2 Four-org omni mapping
+
+| Division | Omni role | Repo |
+|---|---|---|
+| Data (Miners) | Sports stats, filings, news ingest | `data/corpora/omni-market/`, `data_harvester` |
+| Research (Architects) | SmartSearch + RootMem + ASN retrieval | `packages/omni-sim`, Phase A `/v1/search` |
+| BD (Stress Testers) | Paper sim, SkillOpt, KAG trajectories | `scripts/omni_loop.py`, `config/omni-skills/` |
+| Execution | Serve `/v1/omni/simulate`; ledger `omni_sim` | `services/core-api/app/services/omni.py` |
+| Orchestration | Eve skill `omni-market.md`; workerbee loop | `apps/synthorg`, `scripts/omni_loop.py` |
+
+### 12.3 Research frameworks (honest mapping)
+
+Aspirational references (Agents-A1, Slime, MTP, DSA) are **Phase C+** targets documented in
+`docs/OMNI_MARKET_ARCHITECTURE.md`. B0 implements RootMem (platform registry), SmartSearch
+(CPU grep + score-adaptive truncation), SkillOpt (markdown skill edits), and KAG (trajectory log).
+
+### 12.4 Agent workerbee entrypoints
+
+```bash
+uv run python scripts/omni_simulate.py --platform kalshi
+uv run python scripts/omni_loop.py --iterations 1
+synth omni platforms
+synth omni simulate polymarket --strategy baseline-momentum
+```
+
+Platform rules: `config/market-platforms.json`. Trading skill: `config/omni-skills/best_skill.md`.
 
 ## 10. Honest risk register (carried from the sources)
 
@@ -356,6 +402,6 @@ Updated layout: `config/fleet.json`, `apps/{control, synthorg, sites/*}`,
 - **Eval overfitting.** *Mitigation:* rotating, freshly-synthesized eval slices (Spec 0005).
 - **Tenant data bleed.** *Mitigation:* RLS + namespace isolation + mandatory negative tests
   in Phase 3's gate.
-- **Finance vertical implies trading.** If the MTNN's portfolio head is ever used with real
-  capital, that is a regulated activity and out of scope for this platform to *execute* — we
-  build the model and analytics, not order placement.
+- **Finance / omni-market implies trading.** Phase B–B2 = **simulation only** (Spec 0010, 0013). Live
+  execution across Kalshi/PrizePicks/Robinhood/Polymarket requires Operator charter + Phase C spec.
+  *Mitigation:* API returns `mode: simulation`; `liveCapital` requests → 403.

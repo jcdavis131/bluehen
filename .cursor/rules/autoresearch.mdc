@@ -1,0 +1,30 @@
+---
+description: Autoresearch synthetic loop — single-file edit contract
+globs: scripts/autoresearch*.py
+alwaysApply: false
+---
+
+# Autoresearch (Cursor vs Claude)
+
+**Cursor:** run patch experiments via `research_loop` daemon or `autoresearch_orchestrate.py --round N --agent cursor`. Do not hand-edit after DISCARD.
+
+**Claude:** code-shape changes in `autoresearch_train.py` only — see `.claude/autoresearch-delegate.md`.
+
+## Files
+
+| File | Who edits |
+|---|---|
+| `autoresearch_train.py` | Agents (one hypothesis per run) |
+| `autoresearch_prepare.py`, `autoresearch_run.py` | Human only |
+| `program.md` | Research org rules |
+
+## Run
+
+```bash
+uv run python scripts/autoresearch_run.py cursor
+# or daemon: pnpm research:loop
+```
+
+Metric: `robust_score` (higher better). **3× KEEP** → tier-2 `pnpm evidence:realtext:research-rag`.
+
+Never enable ASN weight surgery. Log hypothesis in work queue when completing AR-* tasks.

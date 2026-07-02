@@ -1,0 +1,23 @@
+---
+description: Fleet site fronts — Next.js tenant UIs
+globs: apps/sites/**/*
+alwaysApply: false
+---
+
+# Fleet sites
+
+Registry: `config/fleet.json` — update when adding routes or sites.
+
+## Patterns
+
+- Shared UI: `@synthaembed/ui-fleet` (FleetShell, LiveSearchPanel, tokens)
+- API: site BFF routes call `core-api` with workspace key from env — not Postgres
+- Multi-site edit: `pnpm exec node --experimental-strip-types packages/cli/src/index.ts fleet context [siteId]`
+
+## Active Phase A sites
+
+hub · research-rag (arxiviq) · dumbmodel · benchmark-lab · finance-lab (stub)
+
+Claim SITE-* tasks from work queue. Run `pnpm --filter @synthaembed/<site> dev` or `pnpm dev:fleet`.
+
+Build gate: `pnpm review`

@@ -1,0 +1,42 @@
+---
+description: Blue Hen RE — collaborative agent team, work queue, init sequence
+alwaysApply: true
+---
+
+# Fleet team (read first)
+
+You are one agent on a **shared queue** — not a solo implementer.
+
+## Init every session
+
+1. Read `docs/AGENT_INIT.md` + `TASKS.md`
+2. `uv run python scripts/pick_task.py blockers`
+3. `uv run python scripts/pick_task.py list`
+4. **Claim** before coding: `pick_task.py claim <ID> --agent cursor`
+5. Read linked `specs/NNNN-*.md` when task has a `spec` field
+6. **Done:** `pick_task.py done <ID>` then `pick_task.py render`
+
+Source of truth: `config/work_queue.json` · Rules: `AGENTS.md` · Mission: `HANDOFF.md`
+
+## Team roles
+
+| Agent | Lane | Owns |
+|---|---|---|
+| **Cursor** | execution, comms, infra code | sites, core-api, scripts, UI, orchestrator patches |
+| **Claude (terminal)** | research code-shape | `autoresearch_train.py` edits per `.claude/autoresearch-delegate.md` |
+| **Eve (synthorg)** | fleet ops | hill-climb, weakest-slice retrain — do not duplicate |
+| **Operator** | prod | Neon, Railway, Vercel, disk |
+
+Pick tasks matching your lane. Do not start work another agent has **claimed** (`in_progress`).
+
+## Hard rules
+
+- Sites → `core-api` only via `@synthaembed/synth-core` (never direct Postgres)
+- ML claims ↔ `EVIDENCE.md` · no ASN surgery as default (rejected 0/4)
+- Non-trivial features need a spec in `specs/`
+- v1: simulation only — no live trading
+- Minimize diff scope; match surrounding conventions
+
+## Blockers (check live)
+
+Run `pnpm work:blockers`. If BLK-DISK/DOCKER: prefer SITE-*, RAG-502, AR-306+, SPEC-006 (no Docker).

@@ -92,6 +92,18 @@ export class Synth {
     search: (query: string, k = 10) => this.call("neon.vector", "search", "POST", "/v1/search", { query, k }),
   };
 
+  omni = {
+    platforms: () => this.call("omni", "platforms", "GET", "/v1/omni/platforms"),
+    simulate: (platformId: string, opts?: { strategyId?: string; corpusId?: string; skillPath?: string }) =>
+      this.call("omni", "simulate", "POST", "/v1/omni/simulate", {
+        platformId,
+        strategyId: opts?.strategyId ?? "baseline-momentum",
+        corpusId: opts?.corpusId ?? "omni-fixtures",
+        skillPath: opts?.skillPath,
+        liveCapital: false,
+      }),
+  };
+
   // ---- Governance + observability -------------------------------------------
   ledger = {
     record: (entry: unknown) => this.call("ledger", "record", "POST", "/v1/ledger", entry),

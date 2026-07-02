@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: pnpm
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Install JS
+        run: pnpm install --frozen-lockfile
+
+      - name: Review sites (build + typecheck)
+        run: pnpm review
+
+      - name: Install Python
+        run: uv sync --all-packages --extra dev --extra model
+
+      - name: ASN math tests
+        run: uv run pytest packages/asn-engine/tests -q
+
+      - name: Runboard + datalab tests
+        run: uv run pytest packages/runboard/tests packages/datalab/tests -q
+
+  core-api:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: synth
+          POSTGRES_PASSWORD: synth
+          POSTGRES_DB: synthaembed
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U synth -d synthaembed"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Install Python
+        run: uv sync --all-packages --extra dev --extra model
+      - name: Migrate
+        working-directory: services/core-api
+        env:
+          DATABASE_URL: postgresql+psycopg://synth:synth@localhost:5432/synthaembed
+        run: uv run alembic upgrade head
+      - name: API tests
+        env:
+          DATABASE_URL: postgresql+psycopg://synth:synth@localhost:5432/synthaembed
+          API_SECRET_KEY: test-admin-key
+        run: uv run pytest services/core-api/tests -q

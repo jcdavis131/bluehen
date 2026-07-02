@@ -1,0 +1,14 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/healthz"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+# Railway injects $PORT (often 8080). Domain target port must match $PORT, not EXPOSE 8000.
+[deploy.limitOverride.containers]
+cpu = 2
+memoryBytes = 2147483648

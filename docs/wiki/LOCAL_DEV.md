@@ -35,6 +35,17 @@ npx pnpm@9.12.0 bootstrap:orgs   # data/workspaces/*.env
 | 3002 | control (jcamd.com) |
 | 3003 | benchmark-lab (slasso.com) |
 | 3004 | research-rag (arxiviq.com) |
+| 3005 | finance-lab (Phase B) |
+| 3006 | training-console (Training Observatory) |
+| 8100 | runboard telemetry reader (`uv run python -m runboard serve`) |
+
+Training Observatory quick start (no Docker needed):
+
+```powershell
+uv run python -m runboard demo    # seed a synthetic run (tagged demo)
+uv run python -m runboard serve   # telemetry reader on :8100
+pnpm --filter @synthaembed/training-console dev   # console on :3006
+```
 
 Single site with workspace env:
 

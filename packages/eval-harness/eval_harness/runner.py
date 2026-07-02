@@ -1,0 +1,75 @@
+"""Run eval on a checkpoint + contrastive pairs."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import torch
+
+from asn_engine.spectral import effective_rank
+from eval_harness.gates import compute_gates
+from eval_harness.metrics import ndcg_at_k, retrieval_scores
+
+
+def evaluate_checkpoint(
+    checkpoint_path: Path,
+    pairs: list[dict],
+    *,
+    eval_slice: str = "rotating",
+    baseline_rank: float = 8.0,
+) -> dict:
+    from asn_engine.model import ASNEncoder
+    from transformers import AutoTokenizer
+
+    state = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    recipe = state.get("recipe", {})
+    backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
+    encoder = ASNEncoder(backbone_name=backbone)
+    encoder.load_state_dict(state["model"])
+    encoder.eval()
+    tok = AutoTokenizer.from_pretrained(backbone)
+
+    ndcg_scores: list[float] = []
+    anchor_vecs: list[torch.Tensor] = []
+
+    with torch.no_grad():
+        def encode(text: str) -> list[float]:
+            batch = tok(text, return_tensors="pt", truncation=True, max_length=256, padding=True)
+            vec = encoder.encode(batch["input_ids"], batch["attention_mask"])[0]
+            return vec.cpu().tolist()
+
+        for i, pair in enumerate(pairs[: min(32, len(pairs))]):
+            anchor = pair["anchor"]
+            positive = pair["positive"]
+            negative = pair.get("negative") or pair["anchor"]
+
+            q = encode(anchor)
+            pos_id = f"pos-{i}"
+            neg_id = f"neg-{i}"
+            ranked = retrieval_scores(
+                q,
+                [(pos_id, encode(positive)), (neg_id, encode(negative))],
+            )
+            rel = [1.0 if doc_id == pos_id else 0.0 for doc_id, _ in ranked]
+            ndcg_scores.append(ndcg_at_k(rel, k=2))
+
+            batch = tok(anchor, return_tensors="pt", truncation=True, max_length=256)
+            anchor_vecs.append(encoder.encode(batch["input_ids"], batch["attention_mask"])[0])
+
+        if anchor_vecs:
+            z = torch.stack(anchor_vecs)
+            er = effective_rank(z)
+        else:
+            er = 0.0
+
+    ndcg = sum(ndcg_scores) / len(ndcg_scores) if ndcg_scores else 0.0
+    gates = compute_gates(effective_rank=er, ndcg10=ndcg, baseline_rank=baseline_rank)
+    all_passed = all(v is True for v in gates.values())
+
+    return {
+        "slice": eval_slice,
+        "ndcg10": round(ndcg, 4),
+        "effectiveRank": round(float(er), 4),
+        "gates": gates,
+        "allPassed": all_passed,
+    }

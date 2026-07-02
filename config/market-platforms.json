@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "description": "Omni-market platform registry — RootMem-style execution rules and constraints. Simulation only until Phase C charter.",
+  "platforms": [
+    {
+      "id": "kalshi",
+      "name": "Kalshi",
+      "category": "prediction-market",
+      "domain": "event-contracts",
+      "simulationOnly": true,
+      "rules": [
+        "Contracts settle to $0 or $1 based on event outcome",
+        "Position size capped at available balance in simulation",
+        "No shorting beyond owned contracts in paper mode"
+      ],
+      "executionConstraints": {
+        "maxPositionUsd": 1000,
+        "minTick": 0.01,
+        "liveCapital": false
+      },
+      "rootMemoryUnits": [
+        {
+          "id": "kalshi-settlement",
+          "rules": "Binary settlement; hold through resolution or exit before close",
+          "evidence": "CFTC-regulated event contracts; price = implied probability"
+        }
+      ]
+    },
+    {
+      "id": "polymarket",
+      "name": "Polymarket",
+      "category": "prediction-market",
+      "domain": "crypto-event-markets",
+      "simulationOnly": true,
+      "rules": [
+        "US persons restricted — simulation uses global fixture set only",
+        "Liquidity pool AMM slippage modeled at 50 bps in paper mode",
+        "Outcome tokens redeem 1:1 on resolution"
+      ],
+      "executionConstraints": {
+        "maxSlippageBps": 50,
+        "liveCapital": false
+      },
+      "rootMemoryUnits": [
+        {
+          "id": "poly-liquidity",
+          "rules": "Large orders walk the book; size positions under 5% of pool depth",
+          "evidence": "AMM curve implies nonlinear fill price"
+        }
+      ]
+    },
+    {
+      "id": "prizepicks",
+      "name": "PrizePicks",
+      "category": "sports-dfs",
+      "domain": "player-props",
+      "simulationOnly": true,
+      "rules": [
+        "6-pick flex: max payout multiplier 25x in standard flex rules",
+        "Correlated picks same game reduce effective edge — penalize in sim",
+        "All picks must be over/under on published lines only"
+      ],
+      "executionConstraints": {
+        "maxLegs": 6,
+        "maxPayoutMultiplier": 25,
+        "liveCapital": false
+      },
+      "rootMemoryUnits": [
+        {
+          "id": "pp-flex-6",
+          "rules": "6-pick flex requires all legs to hit for max payout tier",
+          "evidence": "One miss typically voids flex multiplier — use power play rules in sim"
+        }
+      ]
+    },
+    {
+      "id": "robinhood",
+      "name": "Robinhood",
+      "category": "retail-brokerage",
+      "domain": "equities",
+      "simulationOnly": true,
+      "rules": [
+        "Pattern day trader rule: max 3 day-trades per 5 days under $25k equity in sim",
+        "Fractional shares allowed; no margin in paper mode",
+        "Market orders filled at next fixture bar open"
+      ],
+      "executionConstraints": {
+        "maxDayTradesPer5Days": 3,
+        "marginEnabled": false,
+        "liveCapital": false
+      },
+      "rootMemoryUnits": [
+        {
+          "id": "rh-pdt",
+          "rules": "Flag day-trade count; block 4th round-trip within 5 sessions",
+          "evidence": "FINRA PDT rule for accounts under $25k"
+        }
+      ]
+    }
+  ]
+}

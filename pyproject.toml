@@ -8,11 +8,17 @@ dependencies = []
 [tool.uv.workspace]
 members = [
     "packages/asn-engine",
+    "packages/datalab",
+    "packages/omni-sim",
+    "packages/runboard",
     "services/core-api",
     "services/trainer",
 ]
 
 [tool.uv.sources]
 asn-engine = { workspace = true }
+datalab = { workspace = true }
+omni-sim = { workspace = true }
+runboard = { workspace = true }
 synthaembed-core-api = { workspace = true }
 synthaembed-trainer = { workspace = true }

@@ -1,0 +1,32 @@
+[project]
+name = "datalab"
+version = "0.1.0"
+description = "SynthaEmbed data collection pipeline: ingest → structure → chunk → embed → store, with OKF dataset cards"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.8",
+    "httpx>=0.27",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+# Each adapter degrades gracefully when its extra is not installed.
+# Heavy adapters (crawl4ai, marker-pdf, outlines, litellm, instructor)
+# are opt-in via `uv pip install` — kept out of the universal lock so
+# their transitive pins (litellm→tokenizers, marker→transformers) can't
+# constrain the shared training environment.
+pdf = ["pypdf>=4.0"]
+vector = ["qdrant-client>=1.9"]
+chunking = ["chonkie>=0.4"]
+observe = ["langfuse>=2.0"]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["datalab"]
+
+[tool.ruff]
+line-length = 100

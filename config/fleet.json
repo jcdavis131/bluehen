@@ -133,11 +133,29 @@
       "description": "Applied Research — live retrieval, research registry, and method evidence."
     },
     {
+      "id": "training-console",
+      "name": "Training Observatory",
+      "domain": null,
+      "phase": "all",
+      "role": "training-observability",
+      "orgDivision": "research",
+      "secondaryDivisions": ["orchestration", "data"],
+      "deliversTo": ["research", "orchestration"],
+      "expectsFrom": ["research", "data"],
+      "appPath": "apps/sites/training-console",
+      "package": "@synthaembed/training-console",
+      "port": 3006,
+      "vercelPreview": null,
+      "status": "active",
+      "legacyRepo": null,
+      "description": "Training Observatory — live run telemetry, effective-rank monitoring, and collapse alerts."
+    },
+    {
       "id": "finance-lab",
-      "name": "Finance Applied-Test Org",
+      "name": "Omni-Market Simulation Lab",
       "domain": null,
       "phase": "B",
-      "role": "finance-simulation",
+      "role": "omni-market-simulation",
       "orgDivision": "bd",
       "secondaryDivisions": ["data", "research"],
       "deliversTo": ["execution", "orchestration"],
@@ -146,9 +164,9 @@
       "package": "@synthaembed/finance-lab",
       "port": 3005,
       "vercelPreview": null,
-      "status": "planned",
+      "status": "active",
       "legacyRepo": null,
-      "description": "Simulation Lab — paper-trading validation on finance corpora (Phase B)."
+      "description": "Simulation Lab — paper-trading across Kalshi, Polymarket, PrizePicks, Robinhood (Spec 0013)."
     }
   ]
 }

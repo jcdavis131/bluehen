@@ -19,7 +19,18 @@ services/worker            ← ASN train → eval → deploy pipeline
 packages/synth-core        ← only way in for agents, CLI, sites
 packages/eval-harness      ← deploy gates (nDCG, effective rank)
 packages/ui-fleet          ← shared FleetShell nav
+packages/runboard          ← experiment tracking (W&B-style; runs → data/runs)
+packages/datalab           ← data collection pipeline (→ data/datalab + OKF dataset cards)
+knowledge/                 ← OKF knowledge bundle: platform concepts, dataset cards, SME reviews
 ```
+
+**Training telemetry quick start:** `uv run python -m runboard demo` →
+`uv run python -m runboard serve` → `pnpm --filter @synthaembed/training-console dev`
+(Training Observatory on :3006). Details: [`knowledge/platform/training-console.md`](./knowledge/platform/training-console.md).
+
+**Continuous dataset builder:** `uv run python -m datalab watch --once` collects due
+sources from [`config/datalab_sources.json`](./config/datalab_sources.json), dedupes by
+content hash, and grows the OKF dataset library in [`knowledge/datasets/`](./knowledge/datasets/).
 
 ## Site fleet & domains
 
@@ -31,6 +42,7 @@ packages/ui-fleet          ← shared FleetShell nav
 | [slasso.com](https://slasso.com) | benchmark-lab | `apps/sites/benchmark-lab` | active |
 | [arxiviq.com](https://arxiviq.com) | research-rag | `apps/sites/research-rag` | active |
 | *(TBD)* | finance-lab | `apps/sites/finance-lab` | stub — Phase B |
+| *(local)* | training-console | `apps/sites/training-console` | active — Training Observatory (:3006) |
 
 **Brand duo:** [bhenre.com](https://bhenre.com) (blue hen) · [dumbmodel.com](https://dumbmodel.com) (the cone)
 

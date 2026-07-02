@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "description": "Source registry for the continuous dataset builder (datalab watch). Each source is collected on its cadence; unchanged content is skipped by content hash, and every materialized collection emits an OKF dataset card into knowledge/datasets/.",
+  "defaults": {
+    "intervalMinutes": 360,
+    "maxTokens": 512,
+    "strategy": "auto"
+  },
+  "sources": [
+    {
+      "id": "wiki-goals",
+      "name": "Wiki — goals and build docs",
+      "urls": ["docs/wiki/GOALS.md", "docs/wiki/BUILD.md", "docs/wiki/IMPROVEMENT_LOOP.md"],
+      "tags": ["internal", "wiki"],
+      "intervalMinutes": 1440
+    },
+    {
+      "id": "evidence-ledger",
+      "name": "Evidence and science review ledgers",
+      "urls": ["EVIDENCE.md", "SCIENCE_REVIEW.md"],
+      "tags": ["internal", "evidence"],
+      "intervalMinutes": 720
+    },
+    {
+      "id": "arxiv-raw",
+      "name": "arXiv radar harvest directory",
+      "glob": "docs/raw/arxiv/*.md",
+      "tags": ["research", "arxiv"],
+      "intervalMinutes": 720
+    }
+  ]
+}

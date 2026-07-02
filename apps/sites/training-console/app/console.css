@@ -1,0 +1,160 @@
+/* Training Observatory — chart tokens (dark-selected steps from the
+   validated reference palette; light values kept for future theming). */
+
+.console-root {
+  --page: #0d0d0d;
+  --surface-1: #1a1a19;
+  --ink: #ffffff;
+  --ink-2: #c3c2b7;
+  --muted: #898781;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --ring: rgba(255, 255, 255, 0.1);
+
+  /* categorical slots, dark-surface steps, fixed order */
+  --s1: #3987e5; /* blue */
+  --s2: #199e70; /* aqua */
+  --s3: #c98500; /* yellow */
+  --s4: #008300; /* green */
+  --s5: #9085e9; /* violet */
+
+  /* status — reserved, never used as series colors */
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-critical: #d03b3b;
+
+  color: var(--ink);
+  background: var(--page);
+  min-height: 100vh;
+  padding: 24px clamp(16px, 4vw, 40px) 64px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.console-root a { color: var(--s1); text-decoration: none; }
+.console-root a:hover { text-decoration: underline; }
+
+.console-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.console-h1 { font-size: 1.6rem; font-weight: 650; margin: 6px 0 2px; }
+.console-sub { color: var(--ink-2); font-size: 0.9rem; margin: 0 0 24px; }
+
+.console-section-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 28px 0 12px;
+}
+
+/* run list */
+.run-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 12px; }
+.run-card {
+  background: var(--surface-1);
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  padding: 16px;
+  display: block;
+  color: inherit;
+}
+.run-card:hover { border-color: var(--s1); text-decoration: none; }
+.run-card__name { font-weight: 600; font-size: 0.95rem; color: var(--ink); }
+.run-card__meta { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+.run-card__stats { display: flex; gap: 18px; margin-top: 12px; flex-wrap: wrap; }
+
+.stat-tile__label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.stat-tile__value { font-size: 1.15rem; font-weight: 650; color: var(--ink); }
+.stat-tile__value--hero { font-size: 1.9rem; }
+
+/* status pill: icon + label, never color alone */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+  padding: 2px 10px; border-radius: 999px; border: 1px solid var(--ring);
+  color: var(--ink-2); text-transform: uppercase;
+}
+.status-pill__dot { width: 8px; height: 8px; border-radius: 50%; }
+.status-pill--running .status-pill__dot { background: var(--status-warning); animation: pulse 1.6s ease-in-out infinite; }
+.status-pill--finished .status-pill__dot { background: var(--status-good); }
+.status-pill--failed .status-pill__dot { background: var(--status-critical); }
+.status-pill--unknown .status-pill__dot { background: var(--muted); }
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+/* stale-data notice */
+.stale-banner {
+  display: flex; align-items: center; gap: 8px;
+  background: color-mix(in srgb, var(--status-warning) 10%, var(--surface-1));
+  border: 1px solid var(--status-warning);
+  border-radius: 8px; padding: 8px 14px; margin: 0 0 14px;
+  font-size: 0.8rem; color: var(--ink-2);
+}
+
+/* alert banner (collapse) */
+.alert-banner {
+  display: flex; align-items: center; gap: 10px;
+  background: color-mix(in srgb, var(--status-critical) 12%, var(--surface-1));
+  border: 1px solid var(--status-critical);
+  border-radius: 8px; padding: 10px 14px; margin: 0 0 16px;
+  font-size: 0.85rem; color: var(--ink);
+  animation: flash 1.2s ease-in-out 3;
+}
+@keyframes flash { 50% { border-color: var(--ring); } }
+
+/* chart panels */
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr)); gap: 12px; }
+.chart-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  padding: 14px 14px 8px;
+  position: relative;
+}
+.chart-panel__title { font-size: 0.8rem; font-weight: 600; color: var(--ink-2); margin: 0 0 6px; }
+.chart-legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 4px 0 6px; }
+.chart-legend__item { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--ink-2); }
+.chart-legend__swatch { width: 10px; height: 10px; border-radius: 2px; }
+
+.chart-tooltip {
+  position: absolute; pointer-events: none; z-index: 5;
+  background: var(--page); border: 1px solid var(--ring); border-radius: 6px;
+  padding: 6px 10px; font-size: 0.72rem; color: var(--ink-2);
+  min-width: 120px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+.chart-tooltip b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* events + config */
+.event-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.event-item {
+  background: var(--surface-1); border: 1px solid var(--ring); border-left-width: 3px;
+  border-radius: 6px; padding: 8px 12px; font-size: 0.82rem; color: var(--ink-2);
+}
+.event-item--collapse_alert { border-left-color: var(--status-critical); }
+.event-item--surgery { border-left-color: var(--status-warning); }
+.event-item__meta { color: var(--muted); font-size: 0.72rem; }
+
+.config-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.config-table td { padding: 6px 10px; border-bottom: 1px solid var(--grid); }
+.config-table td:first-child { color: var(--muted); width: 40%; }
+.config-table td:last-child { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+.empty-state {
+  background: var(--surface-1); border: 1px dashed var(--axis); border-radius: 8px;
+  padding: 32px; color: var(--ink-2); font-size: 0.9rem; line-height: 1.7;
+}
+.empty-state code {
+  background: var(--page); border: 1px solid var(--ring); border-radius: 4px;
+  padding: 1px 6px; font-size: 0.8rem;
+}
+
+/* data table view (accessibility fallback for charts) */
+.metric-table-details summary { color: var(--muted); font-size: 0.75rem; cursor: pointer; margin-top: 4px; }
+.metric-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin-top: 6px; }
+.metric-table th, .metric-table td {
+  padding: 3px 8px; text-align: right; border-bottom: 1px solid var(--grid);
+  color: var(--ink-2); font-variant-numeric: tabular-nums;
+}
+.metric-table th { color: var(--muted); font-weight: 500; }

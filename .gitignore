@@ -52,3 +52,11 @@ docs/raw/**
 # Agent runtime caches (local only)
 apps/synthorg/.eve/
 .claude/worktrees/
+.claude/settings.local.json
+.opencode/node_modules/
+.opencode/package-lock.json
+apps/synthorg/.output/
+*.vercel.bak/
+*.bak
+dev.log
+*.log

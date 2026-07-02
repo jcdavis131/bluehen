@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
+import { PageHeader, SiteSubnav, siteHref } from "@synthaembed/ui-fleet";
+import { getSite, getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
 import experiments from "../../data/experiments.json";
 
 export const metadata = {
@@ -10,6 +10,9 @@ export const metadata = {
 export default function ResearchPage() {
   const surface = getSiteCircuit("hub");
   const nav = getSiteNav("hub");
+  const researchRag = getSite("research-rag");
+  const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
+  const registryHref = researchRag ? `${siteHref(researchRag, local)}/research-lab` : null;
 
   return (
     <>
@@ -19,7 +22,9 @@ export default function ResearchPage() {
         lead={
           <>
             Evidence-backed experiment summaries — background evaluation continues.{" "}
-            <Link href="http://localhost:3004/research-lab">Full registry on Applied Research →</Link>
+            {registryHref && (
+              <Link href={registryHref}>Full registry on Applied Research →</Link>
+            )}
           </>
         }
         badge={<span className="bh-badge bh-badge--ok">{RE.relay}</span>}

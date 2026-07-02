@@ -56,8 +56,9 @@ export default async function HubPage() {
         lead={
           <>
             {RE.relay} coordinates your organization · {RE.tech} in production. {BRAND.tagline}{" "}
-            <Link href="/try">Try live search</Link> or{" "}
-            <Link href="/feedback">submit feedback</Link>.
+            <Link href="/try">Try live search</Link>,{" "}
+            <Link href="/pricing">see pricing</Link>, or{" "}
+            <Link href="/contact">start a briefing</Link>.
           </>
         }
         badge={

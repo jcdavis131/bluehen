@@ -13,7 +13,7 @@ from app.auth import TenantCtx, require_admin, require_tenant, trace_from_reques
 from app.config import ARTIFACTS_DIR, CORPORA_DIR, USE_MEMORY
 from app.database import ensure_schema
 from app.errors import http_exception_handler, validation_exception_handler
-from app.services import admin, data, governance, jobs, models_svc
+from app.services import admin, data, governance, jobs, models_svc, omni
 from app.services.lifecycle import hill_climb
 from app.services.search import search_chunks
 
@@ -36,6 +36,16 @@ def on_startup() -> None:
 @app.get("/healthz")
 def healthz():
     return {"status": "ok", "ts": time.time(), "storage": "memory" if USE_MEMORY else "postgres"}
+
+
+@app.get("/readyz")
+def readyz():
+    """Readiness per spec 0004: Postgres ping; 503 if the DB is down."""
+    from app.database import db_ping
+
+    if USE_MEMORY or db_ping():
+        return {"status": "ready", "storage": "memory" if USE_MEMORY else "postgres"}
+    raise HTTPException(status_code=503, detail="database unreachable")
 
 
 class SpanIn(BaseModel):
@@ -353,3 +363,106 @@ def research_hill_climb(body: dict, request: Request, tenant: Annotated[TenantCt
         return hill_climb(tenant.workspace_id, tenant.site_id, body.get("corpusUri", "corpus.jsonl"), trace)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+# Telemetry endpoints are ADMIN-ONLY: the filesystem run/dataset stores are
+# platform-wide (not tenant-namespaced), so a workspace key must not be able
+# to enumerate them (knowledge/reviews/security.md SEC-001/002). Tenant-scoped
+# stores need a spec before these can open up to workspace keys.
+@app.get("/v1/runs")
+def runs_list(project: str | None = None, limit: int = 100, _: Annotated[None, Depends(require_admin)] = None):
+    from app.services import telemetry
+
+    return telemetry.list_runs(project=project, limit=min(limit, 500))
+
+
+@app.get("/v1/runs/{run_id}")
+def runs_get(run_id: str, _: Annotated[None, Depends(require_admin)] = None):
+    from app.services import telemetry
+
+    try:
+        manifest = telemetry.get_run(run_id)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    if manifest is None:
+        raise HTTPException(status_code=404, detail=f"run not found: {run_id}")
+    return manifest
+
+
+@app.get("/v1/runs/{run_id}/metrics")
+def runs_metrics(run_id: str, after: int = 0, limit: int = 5000, _: Annotated[None, Depends(require_admin)] = None):
+    from app.services import telemetry
+
+    try:
+        out = telemetry.get_metrics(run_id, after=max(after, 0), limit=min(limit, 20000))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    if out is None:
+        raise HTTPException(status_code=404, detail=f"run not found: {run_id}")
+    return out
+
+
+@app.get("/v1/runs/{run_id}/events")
+def runs_events(run_id: str, after: int = 0, _: Annotated[None, Depends(require_admin)] = None):
+    from app.services import telemetry
+
+    try:
+        out = telemetry.get_events(run_id, after=max(after, 0))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    if out is None:
+        raise HTTPException(status_code=404, detail=f"run not found: {run_id}")
+    return out
+
+
+@app.get("/v1/datalab/datasets")
+def datalab_datasets(_: Annotated[None, Depends(require_admin)] = None):
+    from app.services import telemetry
+
+    return telemetry.list_datasets()
+
+
+class OmniSimulateIn(BaseModel):
+    platformId: str
+    strategyId: str = "baseline-momentum"
+    corpusId: str = "omni-fixtures"
+    skillPath: str | None = None
+    liveCapital: bool = False
+
+
+@app.get("/v1/omni/platforms")
+def omni_platforms(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    return omni.platforms()
+
+
+@app.post("/v1/omni/simulate")
+def omni_simulate(body: OmniSimulateIn, request: Request, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    if body.liveCapital:
+        raise HTTPException(status_code=403, detail="live capital execution blocked (Spec 0013 simulation only)")
+    try:
+        report = omni.simulate(
+            body.platformId,
+            strategy_id=body.strategyId,
+            corpus_id=body.corpusId,
+            skill_path=body.skillPath,
+            live_capital=body.liveCapital,
+        )
+    except (ValueError, PermissionError) as e:
+        msg = str(e)
+        code = 403 if "live capital" in msg.lower() or "blocked" in msg.lower() else 400
+        raise HTTPException(status_code=code, detail=msg) from e
+    trace = trace_from_request(request)
+    governance.record_ledger(
+        tenant.workspace_id,
+        {
+            "stage": "omni_sim",
+            "siteId": tenant.site_id,
+            "platformId": body.platformId,
+            "strategyId": body.strategyId,
+            "sharpe": report.get("sharpe"),
+            "mode": report.get("mode"),
+            "notes": "omni-market paper simulation",
+        },
+        trace,
+    )
+    return {**report, **trace}

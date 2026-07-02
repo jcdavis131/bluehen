@@ -13,6 +13,12 @@ DATABASE_URL = os.getenv(
 )
 API_SECRET_KEY = os.getenv("API_SECRET_KEY", "change-me-32-bytes-min")
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+
+# The default admin key is the single shared bearer for every /v1/admin
+# surface — a production process must never boot with it (security review
+# SEC-004).
+if ENVIRONMENT == "production" and API_SECRET_KEY == "change-me-32-bytes-min":
+    raise RuntimeError("API_SECRET_KEY must be set when ENVIRONMENT=production")
 USE_MEMORY = os.getenv("SYNTH_USE_MEMORY", "0") == "1"
 ARTIFACTS_DIR = Path(os.getenv("SYNTH_ARTIFACTS_DIR", str(REPO_ROOT / "data" / "artifacts")))
 CORPORA_DIR = Path(os.getenv("SYNTH_CORPORA_DIR", str(REPO_ROOT / "data" / "corpora")))

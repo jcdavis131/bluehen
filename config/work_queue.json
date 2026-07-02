@@ -398,9 +398,12 @@
       "division": "comms",
       "priority": 61,
       "title": "arxiviq /methods page (org recipe + evidence dates)",
-      "status": "ready",
+      "status": "done",
       "spec": "0007",
-      "command": "apps/sites/research-rag/app/methods/page.tsx"
+      "command": "apps/sites/research/app/methods/page.tsx",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-02T20:04:10.704761+00:00",
+      "completedAt": "2026-07-02T20:04:25.699635+00:00"
     },
     {
       "id": "SITE-003",

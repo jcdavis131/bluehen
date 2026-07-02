@@ -128,9 +128,17 @@ def list_ledger(workspace_id: uuid.UUID, limit: int = 50) -> dict:
         }
 
 
-def get_workspace_by_site_id(site_id: str) -> Workspace | None:
+def get_workspace_by_site_id(site_id: str):
+    """Detached-safe lookup: attributes are read inside the session (an ORM
+    instance returned past the session raises DetachedInstanceError once
+    expire_on_commit expires it)."""
+    from types import SimpleNamespace
+
     with db_session() as session:
-        return session.scalar(select(Workspace).where(Workspace.site_id == site_id))
+        ws = session.scalar(select(Workspace).where(Workspace.site_id == site_id))
+        if ws is None:
+            return None
+        return SimpleNamespace(id=ws.id, site_id=ws.site_id, name=ws.name)
 
 
 def site_id_for_workspace(workspace_id: uuid.UUID) -> str | None:

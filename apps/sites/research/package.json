@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@synthaembed/eval-public": "workspace:*",
     "@synthaembed/fleet": "workspace:*",
     "@synthaembed/ui-fleet": "workspace:*",
     "next": "^15.0.0",

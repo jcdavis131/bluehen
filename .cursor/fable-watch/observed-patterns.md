@@ -844,3 +844,25 @@
 - **Observed:** "baked corpora" in the commit summary.
 - **Why it works:** Corpora are baked into the image (not fetched at runtime) — prod reproducibility and no runtime fetch dependency. A deploy with baked corpora is self-contained.
 - **Maps to:** note (prod reproducibility).
+
+## Tick 37: 2026-07-02 15:05 (UTC-5) — root-cause fix + event-driven kickoff
+
+### P-156 — Fix the structural cause: corpora travel with the repo so the build can't miss them
+- **Observed:** "Corpora now travel with the repo — the build can't miss them."
+- **Why it works:** A prior build attempt missed the corpora. Instead of patching the build to fetch them, Fable 5 moved the corpora into the repo so the build *structurally can't* miss them — the fix makes the failure mode impossible, not just unlikely. This is the structural root-cause fix: change the structure so the bug can't recur, rather than adding a check for the symptom.
+- **Maps to:** refine `diagnose-before-retry` — fix the structural cause, not the symptom.
+
+### P-157 — Transparent about retry count ("third build attempt")
+- **Observed:** recap says "the combined api+worker image is on its third build attempt".
+- **Why it works:** Fable 5 is transparent that this is the third attempt, not hiding the retries. The user knows the deploy has been retried twice and can judge whether to keep going. Confirms `cost-transparency`.
+- **Maps to:** confirmation of `cost-transparency` + `diagnose-before-retry`.
+
+### P-158 — Kickoffs fire immediately on the success event
+- **Observed:** "Standing by for the terminal state; kickoffs fire immediately on success."
+- **Why it works:** The next action (training kickoffs) is chained to fire immediately when the monitor's success event fires — event-driven chaining, not poll-then-act. Confirms `event-driven-wait` + `auto-mode`.
+- **Maps to:** confirmation of `event-driven-wait`.
+
+### P-159 — Monitor named with ordinal across retries
+- **Observed:** `Monitor(Third combined-image deployment terminal state)`.
+- **Why it works:** The monitor's event name includes the ordinal ("Third") so multiple monitors for the same event across retries are distinguishable in the task list and logs. Confirms `event-driven-wait` with the retry-naming detail.
+- **Maps to:** confirmation of `event-driven-wait`.

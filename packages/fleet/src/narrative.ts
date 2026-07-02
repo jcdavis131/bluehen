@@ -175,6 +175,7 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
   ],
   research: [
     { href: "/", label: "Live Search" },
+    { href: "/methods", label: "Method" },
     { href: "/research-lab", label: "Research Registry" },
     { href: "/feedback", label: "Feedback" },
   ],

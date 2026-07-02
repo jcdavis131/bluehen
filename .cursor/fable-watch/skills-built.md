@@ -88,4 +88,5 @@
 | `correct-assumptions` (refined) | P-062, P-149, P-150 | `~/.cursor/skills/correct-assumptions/SKILL.md` |
 | `use-available-integrations` (refined) | P-105, P-106, P-108, P-109, P-110, P-128, P-129, P-152, P-153, P-155 | `~/.cursor/skills/use-available-integrations/SKILL.md` |
 | `logical-commit-split` (refined) | P-047, P-048, P-154 | `~/.cursor/skills/logical-commit-split/SKILL.md` |
+| `diagnose-before-retry` (refined) | P-066, P-067, P-068, P-069, P-156 | `~/.cursor/skills/diagnose-before-retry/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

@@ -1,0 +1,92 @@
+{
+  "title": "How the arxiviq model is trained — method, recipe, and evidence",
+  "subtitle": "The org recipe behind arxiviq.com, with the dated evidence that supports each choice. Every claim here traces to a row in EVIDENCE.md. Nothing is shipped on a hypothesis.",
+  "updated": "2026-07-02",
+  "recipe": {
+    "baseModel": "sentence-transformers/all-MiniLM-L6-v2",
+    "epochs": 3,
+    "batchSize": 16,
+    "loss": { "infoNceTemp": 0.07, "zeloWeight": 0 },
+    "asn": {
+      "kStrong": 8,
+      "kTail": 8,
+      "lambda": 0.5,
+      "newtonSchulzSteps": 5,
+      "matryoshkaDims": [64, 128, 256, 384]
+    },
+    "peft": true,
+    "rollbackCriteria": "Revert if rotating-slice nDCG drops >0.02 vs charter baseline."
+  },
+  "evidenceProgram": {
+    "totalRuns": 891,
+    "trainings": 1190,
+    "sources": ["EVIDENCE.md §3.1–§3.8", "SWEEP_FINDINGS.md", "SWEEP_REPORT.md"]
+  },
+  "timeline": [
+    {
+      "date": "2026-06-27",
+      "section": "EVIDENCE §3.1",
+      "headline": "Root cause fixed; trigger bug identified",
+      "detail": "Encoder effective-rank collapse traced to a projector-window trigger bug, not the contrastive loss. Re-run with the fixed trigger."
+    },
+    {
+      "date": "2026-06-27",
+      "section": "EVIDENCE §3.2",
+      "headline": "Three-tier spectral surgery REJECTED",
+      "detail": "Original ASN weight-space SVD surgery makes collapse worse in a real collapse regime (served rank 3.4 → 1.0; kNN −12–21pts). Archived."
+    },
+    {
+      "date": "2026-06-27",
+      "section": "EVIDENCE §3.4",
+      "headline": "Loss-space rank floor (VICReg) SUPPORTED",
+      "detail": "VICReg prevents collapse where it occurs (non-contrastive / low-negative regimes). Neutral on standard InfoNCE real-text. Kept as insurance."
+    },
+    {
+      "date": "2026-06-27",
+      "section": "EVIDENCE §3.6",
+      "headline": "Real-text validation: VICReg neutral; domain fine-tune beats SOTA in-domain",
+      "detail": "AG News kNN 0.892 / nDCG 0.822 after fine-tune. Per-tenant domain fine-tuning is the defensible moat — beats general commercial embeddings in-domain with no OOD forgetting. Reconfirmed 2026-06-28."
+    },
+    {
+      "date": "2026-06-28",
+      "section": "EVIDENCE §3.7",
+      "headline": "Tenant corpus vs commercial baseline (Phase A fleet)",
+      "detail": "Barlow Twins top method in Bayesian TPE search (robust 1.42, #1 of 6). Matryoshka (MRL) truncation training promoted — the real lever for cheap truncated serving. int8 quantized serving essentially lossless (kNN_int8 ≈ kNN_full)."
+    },
+    {
+      "date": "2026-06-28",
+      "section": "EVIDENCE §3.8",
+      "headline": "Large-scale VICReg campaign (500 runs)",
+      "detail": "VICReg rank floor confirmed regime-specific: +0.32 kNN for SimSiam, ~0 for InfoNCE batch≥16. Not a default term; insurance only."
+    },
+    {
+      "date": "2026-07-02",
+      "section": "EVIDENCE §2 / REV-905",
+      "headline": "Eval gate now fails closed",
+      "detail": "Removed the silent demo-pair fallback in core-api eval. Gates cannot pass on hard-coded demo pairs; MIN_REAL_PAIRS_EVAL=8 enforced. Deploy spine is honestly certifying."
+    }
+  ],
+  "verdicts": {
+    "shipped": [
+      { "name": "InfoNCE contrastive (default)", "metric": "AG News kNN 0.892 / nDCG 0.822", "evidence": "EVIDENCE §3.6, §3.7 (H-A)" },
+      { "name": "int8 quantized serving", "metric": "kNN_int8 ≈ kNN_full everywhere", "evidence": "EVIDENCE §3.7 (B)" }
+    ],
+    "promoted": [
+      { "name": "Domain fine-tuning", "metric": "+1.5% (300 pairs) → +3.0% (1,200 pairs) in-domain", "evidence": "EVIDENCE §3.6, §3.7 (H-C)" },
+      { "name": "Barlow Twins", "metric": "robust score 1.42 (#1 of 6 methods)", "evidence": "EVIDENCE §3.7 wave-2 TPE" },
+      { "name": "Matryoshka (MRL) truncation", "metric": "best truncated-dim kNN among methods", "evidence": "EVIDENCE §3.7 (B, wave-2)" }
+    ],
+    "rejected": [
+      { "name": "Three-tier spectral surgery (original ASN)", "metric": "rank 3.4 → 1.0; kNN −12–21pts", "evidence": "EVIDENCE §3.2" },
+      { "name": "spectral_lift (rank-floor surgery)", "metric": "rank 2.06 vs do-nothing 3.40", "evidence": "EVIDENCE §3.3" },
+      { "name": "Sleep / SHY consolidation (AwakenedSleepNet)", "metric": "phasic rank 9.99 / 5.71 vs continuous 21.0", "evidence": "EVIDENCE §3.5" },
+      { "name": "DINO-style centering", "metric": "robust score 1.08 (#6 of 6)", "evidence": "EVIDENCE §3.7 wave-2" }
+    ]
+  },
+  "deployGates": [
+    { "gate": "rankAboveBaseline", "rule": "effective_rank > 8.0", "status": "measured" },
+    { "gate": "ndcgNonRegression", "rule": "nDCG ≥ 0.35 (k=2 proxy; k=10 benchmark pending exam port)", "status": "measured" },
+    { "gate": "mrlWithinTolerance", "rule": "knn_t8 ≥ 0.30 AND (knn_full − knn_t8) ≤ 0.05; fail-closed if unmeasured", "status": "measured (fail-closed)" },
+    { "gate": "sufficientEvalPairs", "rule": "≥ 8 real collection pairs (no demo-pair fallback)", "status": "measured (REV-905)" }
+  ]
+}

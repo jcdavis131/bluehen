@@ -17,7 +17,7 @@ API = os.getenv("SYNTH_API_BASE_URL", "http://localhost:8000")
 ADMIN = os.getenv("API_SECRET_KEY", "change-me-32-bytes-min")
 
 # Phase B not yet active
-SKIP_SITE_IDS = frozenset({"finance-lab"})
+SKIP_SITE_IDS = frozenset({"simulation"})
 
 
 def deployable_sites(fleet: dict, site_id: str | None = None) -> list[dict]:

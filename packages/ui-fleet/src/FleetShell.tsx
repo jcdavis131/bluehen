@@ -17,7 +17,7 @@ export function FleetShell({
   const surface = getSiteCircuit(siteId);
   const nav = fleetNavSites(siteId);
   const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
-  const control = getSite("control");
+  const hq = getSite("hq");
 
   const toggleNav = useCallback(() => setNavOpen((v) => !v), []);
   const closeNav = useCallback(() => setNavOpen(false), []);
@@ -39,9 +39,9 @@ export function FleetShell({
           {navOpen ? "✕" : "☰"}
         </button>
         <nav className={`fleet-nav${navOpen ? " is-open" : ""}`} aria-label="Product surfaces">
-          {control && (
-            <Link href={siteHref(control, local)} onClick={closeNav}>
-              Operations Center
+          {hq && (
+            <Link href={siteHref(hq, local)} onClick={closeNav}>
+              Headquarters
             </Link>
           )}
           {nav.map((s) => {
@@ -57,8 +57,8 @@ export function FleetShell({
       <main className="fleet-main">{children}</main>
       <footer className="fleet-footer">
         <span>{BRAND.name} · {RE.dual}</span>
-        <a href="https://bhenre.com">Platform Console</a>
-        <a href="https://jcamd.com">Operations Center</a>
+        <a href="https://bhenre.com">Storefront</a>
+        <a href="https://jcamd.com">Headquarters</a>
       </footer>
     </div>
   );

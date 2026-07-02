@@ -4,7 +4,7 @@
 **Also called:** "arxiv exam app" (legacy repo)  
 **Domain:** arxiviq.com  
 **Status:** Active — Phase A  
-**Site id:** `research-rag`
+**Site id:** `research`
 
 ## What it is
 
@@ -26,5 +26,5 @@ live search on org corpus.
 
 ## Tech
 
-- App: `apps/sites/research-rag`
+- App: `apps/sites/research`
 - Workspace key: `data/workspaces/research-rag.env`

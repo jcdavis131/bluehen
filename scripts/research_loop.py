@@ -206,7 +206,7 @@ def maybe_realtext(state: dict) -> None:
             sys.executable,
             str(SCRIPTS / "realtext_methods.py"),
             "--site",
-            "research-rag",
+            "research",
             "--methods",
             "infonce,vicreg,barlow,mrl",
         ],

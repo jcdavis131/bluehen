@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "siteId": "research",
+  "status": "active",
+  "issuedAt": "2026-06-28T00:00:00Z",
+  "issuedBy": "operator",
+  "modelVersion": "*",
+  "recipe": {
+    "baseModel": "sentence-transformers/all-MiniLM-L6-v2",
+    "epochs": 3,
+    "batchSize": 16,
+    "loss": { "infoNceTemp": 0.07, "zeloWeight": 0 },
+    "asn": {
+      "kStrong": 8,
+      "kTail": 8,
+      "lambda": 0.5,
+      "newtonSchulzSteps": 5,
+      "matryoshkaDims": [64, 128, 256, 384]
+    },
+    "peft": true
+  },
+  "scorecardRef": null,
+  "rollbackCriteria": "Revert if rotating-slice nDCG drops >0.02 vs charter baseline.",
+  "notes": "Phase A bootstrap charter for Applied Research tenant."
+}

@@ -1,0 +1,36 @@
+import Link from "next/link";
+import { SiteSubnav, PageHeader } from "@synthaembed/ui-fleet";
+import { getSiteNav, GLOSSARY } from "@synthaembed/fleet";
+import { HillClimbActions } from "../../components/HillClimbActions";
+import { BdPromotionPanel } from "../../components/BdPromotionPanel";
+
+export const metadata = {
+  title: `Lifecycle Controls — Operations Center`,
+};
+
+export default function ActionsPage() {
+  const nav = getSiteNav("hq");
+
+  return (
+    <>
+      <PageHeader
+        eyebrow="Operations Center · jcamd.com"
+        title="Lifecycle Controls"
+        lead={
+          <>
+            Trigger full lifecycle runs while R&D continues background evaluation.{" "}
+            <Link href="/">← fleet map</Link>
+          </>
+        }
+        badge={<span className="bh-badge bh-badge--ok">Platform Orchestration</span>}
+      />
+      <SiteSubnav items={nav} currentPath="/actions" />
+      <h2 className="bh-section-title">{GLOSSARY.hillClimb} (intake → deployment)</h2>
+      <HillClimbActions />
+      <h2 className="bh-section-title" style={{ marginTop: "var(--bh-space-6)" }}>
+        {GLOSSARY.bdQueue} (Phase A+)
+      </h2>
+      <BdPromotionPanel />
+    </>
+  );
+}

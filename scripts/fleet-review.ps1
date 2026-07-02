@@ -16,11 +16,11 @@ Set-Location $Root
 $Pnpm = "npx pnpm@9.12.0"
 
 $Sites = @(
-    @{ Id = "hub";           Name = "Platform Console";    Port = 3000; Url = "http://localhost:3000" }
+    @{ Id = "storefront";           Name = "Platform Console";    Port = 3000; Url = "http://localhost:3000" }
     @{ Id = "dumbmodel";     Name = "Baseline Comparison";   Port = 3001; Url = "http://localhost:3001" }
-    @{ Id = "control";       Name = "Operations Center";    Port = 3002; Url = "http://localhost:3002" }
-    @{ Id = "benchmark-lab"; Name = "Validation Lab";      Port = 3003; Url = "http://localhost:3003" }
-    @{ Id = "research-rag"; Name = "Applied Research";     Port = 3004; Url = "http://localhost:3004" }
+    @{ Id = "hq";       Name = "Operations Center";    Port = 3002; Url = "http://localhost:3002" }
+    @{ Id = "validation"; Name = "Validation Lab";      Port = 3003; Url = "http://localhost:3003" }
+    @{ Id = "research"; Name = "Applied Research";     Port = 3004; Url = "http://localhost:3004" }
 )
 
 Write-Host ""
@@ -73,7 +73,7 @@ if ($Open) {
 if ($Build) {
     Write-Host "Building active sites (concurrency=2)..." -ForegroundColor Yellow
     $env:NODE_OPTIONS = "--max-old-space-size=8192"
-    Invoke-Expression "$Pnpm exec turbo run build --concurrency=2 --filter=@synthaembed/hub --filter=@synthaembed/dumbmodel --filter=@synthaembed/control --filter=@synthaembed/benchmark-lab --filter=@synthaembed/research-rag"
+    Invoke-Expression "$Pnpm exec turbo run build --concurrency=2 --filter=@synthaembed/storefront --filter=@synthaembed/dumbmodel --filter=@synthaembed/hq --filter=@synthaembed/validation --filter=@synthaembed/research"
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     Write-Host "Build OK." -ForegroundColor Green
     Write-Host ""

@@ -102,13 +102,13 @@
 }
 
 /* Per-site accent themes */
-.fleet-shell[data-site="hub"] {
+.fleet-shell[data-site="storefront"] {
   --bh-accent: var(--bh-hen-blue);
   --bh-accent-dim: var(--bh-hen-blue-dim);
   --bh-accent-muted: rgba(74, 124, 155, 0.12);
 }
 
-.fleet-shell[data-site="control"] {
+.fleet-shell[data-site="hq"] {
   --bh-accent: var(--bh-slate-blue);
   --bh-accent-dim: #455a6e;
   --bh-accent-muted: rgba(107, 127, 154, 0.12);
@@ -120,19 +120,25 @@
   --bh-accent-muted: rgba(184, 115, 74, 0.12);
 }
 
-.fleet-shell[data-site="benchmark-lab"] {
+.fleet-shell[data-site="validation"] {
   --bh-accent: var(--bh-clay);
   --bh-accent-dim: var(--bh-clay-dim);
   --bh-accent-muted: rgba(196, 165, 116, 0.12);
 }
 
-.fleet-shell[data-site="research-rag"] {
+.fleet-shell[data-site="research"] {
   --bh-accent: var(--bh-moss);
   --bh-accent-dim: var(--bh-moss-dim);
   --bh-accent-muted: rgba(107, 143, 113, 0.12);
 }
 
-.fleet-shell[data-site="finance-lab"] {
+.fleet-shell[data-site="simulation"] {
   --bh-accent: var(--bh-clay);
   --bh-accent-dim: var(--bh-clay-dim);
+}
+
+.fleet-shell[data-site="observatory"] {
+  --bh-accent: var(--bh-hen-blue);
+  --bh-accent-dim: var(--bh-hen-blue-dim);
+  --bh-accent-muted: rgba(74, 124, 155, 0.12);
 }

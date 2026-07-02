@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "packages" / "eval-harness"))
 import torch
 from asn_engine.spectral import effective_rank, newton_schulz, newton_schulz_cubic
 
-PHASE_A_SITES = ("hub", "benchmark-lab", "research-rag", "dumbmodel")
+PHASE_A_SITES = ("storefront", "validation", "research", "dumbmodel")
 DEFAULT_SEED = 42
 
 
@@ -131,7 +131,7 @@ def _train_eval(
 
 def run_ablation(
     *,
-    site_id: str = "hub",
+    site_id: str = "storefront",
     epochs: int = 10,
     pairs_n: int = 128,
     seed: int = DEFAULT_SEED,
@@ -208,7 +208,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Collect ASN evidence snapshot")
     parser.add_argument("--ablation", action="store_true", help="Run ASN vs baseline train")
     parser.add_argument("--all-sites", action="store_true", help="Ablation on all Phase A corpora")
-    parser.add_argument("--site", default="hub", help="Corpus site id (single-site ablation)")
+    parser.add_argument("--site", default="storefront", help="Corpus site id (single-site ablation)")
     parser.add_argument("--vicreg", action="store_true", help="Add InfoNCE+VICReg arm (no surgery)")
     parser.add_argument("--epochs", type=int, default=10, help="Training epochs per run")
     parser.add_argument("--pairs", type=int, default=128, help="Synthetic pairs per site")

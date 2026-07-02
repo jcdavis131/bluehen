@@ -224,7 +224,7 @@ def bd_queue(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
     from app.services import handoffs
 
     queue = handoffs.load_bd_queue()
-    bd_console = tenant.site_id == "benchmark-lab"
+    bd_console = tenant.site_id == "validation"
     return {
         "candidates": handoffs.list_queue_candidates(tenant.site_id, bd_console=bd_console),
         "siteId": tenant.site_id,

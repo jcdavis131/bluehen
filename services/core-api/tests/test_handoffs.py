@@ -27,41 +27,41 @@ def handoff_paths(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 
 def test_submit_bd_candidate_appends(handoff_paths):
     out = handoffs.submit_bd_candidate(
-        site_id="hub",
+        site_id="storefront",
         model_version="v-test-1",
         recipe={"epochs": 3},
         gates={"allPassed": True},
         checkpoint_path="/data/artifacts/x.pt",
     )
-    assert out["candidateId"] == "hub-v-test-1"
+    assert out["candidateId"] == "storefront-v-test-1"
     data = json.loads(handoff_paths["queue"].read_text())
     assert len(data["candidates"]) == 1
     assert data["candidates"][0]["status"] == "awaiting_pilot"
 
 
 def test_charter_gate_blocks_without_charter(handoff_paths):
-    assert handoffs.charter_allows_deploy("hub", "v1") is False
+    assert handoffs.charter_allows_deploy("storefront", "v1") is False
 
 
 def test_charter_wildcard_allows_deploy(handoff_paths):
-    handoffs.issue_charter(site_id="hub", model_version="*", recipe={"epochs": 3})
-    assert handoffs.charter_allows_deploy("hub", "v-any") is True
+    handoffs.issue_charter(site_id="storefront", model_version="*", recipe={"epochs": 3})
+    assert handoffs.charter_allows_deploy("storefront", "v-any") is True
 
 
 def test_charter_specific_version(handoff_paths):
-    handoffs.issue_charter(site_id="hub", model_version="v-only", recipe={})
-    assert handoffs.charter_allows_deploy("hub", "v-only") is True
-    assert handoffs.charter_allows_deploy("hub", "v-other") is False
+    handoffs.issue_charter(site_id="storefront", model_version="v-only", recipe={})
+    assert handoffs.charter_allows_deploy("storefront", "v-only") is True
+    assert handoffs.charter_allows_deploy("storefront", "v-other") is False
 
 
 def test_scorecard_updates_queue(handoff_paths):
     handoffs.submit_bd_candidate(
-        site_id="hub",
+        site_id="storefront",
         model_version="v1",
         recipe={},
         gates={},
         checkpoint_path="x.pt",
     )
-    handoffs.record_scorecard(site_id="hub", candidate_id="hub-v1", passed=True, notes="ok")
+    handoffs.record_scorecard(site_id="storefront", candidate_id="storefront-v1", passed=True, notes="ok")
     data = json.loads(handoff_paths["queue"].read_text())
     assert data["candidates"][0]["status"] == "pilot_passed"

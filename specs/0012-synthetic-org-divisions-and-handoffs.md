@@ -67,7 +67,7 @@ deploy. Worker may deploy when eval gates fail (serving path) — see Spec 0009.
 | **Embedding Research** | `research-org` | Research Lead (Cursor lab, Claude autoresearch) | Invent, ablate, measure; promote honest candidates |
 | **Business Development & Validation** | `bd-org` | BD Lead (`qa_benchmark`, slasso operators) | Real-world exams vs commercial baselines; charter winners |
 | **Business Implementation & Execution** | `execution-org` | Platform SRE (core-api, worker, trainer) | Deploy, serve, index; feed production truth back |
-| **Orchestration & Intelligence** | `orchestration-org` | Operator + Eve (`apps/synthorg`, `apps/control`) | Close the loop; route priorities; enforce budgets |
+| **Orchestration & Intelligence** | `orchestration-org` | Operator + Eve (`apps/synthorg`, `apps/hq`) | Close the loop; route priorities; enforce budgets |
 
 **Team metaphor (user intent):** Data builds datasets for Research. Research builds and tests
 approaches for BD. BD tests models on real-world scenarios to guide Execution. Orchestration
@@ -334,7 +334,7 @@ Orchestration monitors stall: e.g. `pairs` without `train` > 48h → escalate Re
 7. Worker auto-appends BD queue after eval gates pass. ✅ `services/worker/main.py` + `handoffs.py`
 8. Execution rejects deploy without BD charter file (when `SYNTH_CHARTER_GATE=1`). ✅ `models_svc.deploy_model`
 9. Hub UI renders closed-loop diagram from `org-divisions.json`. ✅ `ClosedLoopDiagram` on hub
-10. Operations Center: per-site hill-climb + charter/deploy promotion. ✅ `apps/control/actions`
+10. Headquarters: per-site hill-climb + charter/deploy promotion. ✅ `apps/hq/actions`
 
 ## Test plan
 

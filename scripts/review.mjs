@@ -3,12 +3,12 @@
 import { execSync } from "node:child_process";
 
 const sites = [
-  "@synthaembed/hub",
+  "@synthaembed/storefront",
   "@synthaembed/dumbmodel",
-  "@synthaembed/control",
-  "@synthaembed/benchmark-lab",
-  "@synthaembed/research-rag",
-  "@synthaembed/finance-lab",
+  "@synthaembed/hq",
+  "@synthaembed/validation",
+  "@synthaembed/research",
+  "@synthaembed/simulation",
 ];
 
 const filter = sites.map((s) => `--filter=${s}`).join(" ");

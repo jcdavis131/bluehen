@@ -31,8 +31,8 @@ Code ids (`data`, `research`, `bd`, …) stay stable in API and specs. UI uses d
 
 | Site | Surface | Domain |
 |---|---|---|
-| **hub** | Platform Console | bhenre.com |
-| **control** | Operations Center | jcamd.com |
+| **hub** | Storefront | bhenre.com |
+| **control** | Headquarters | jcamd.com |
 | **dumbmodel** | Baseline Comparison | dumbmodel.com |
 | **benchmark-lab** | Validation Lab | slasso.com |
 | **research-rag** | Applied Research | arxiviq.com |

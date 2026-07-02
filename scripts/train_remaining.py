@@ -6,7 +6,7 @@ import httpx
 
 REPO = Path(__file__).resolve().parents[1]
 API = os.getenv("SYNTH_API_BASE_URL", "http://localhost:8000")
-SITES = sys.argv[1:] or ["benchmark-lab", "research-rag", "dumbmodel"]
+SITES = sys.argv[1:] or ["validation", "research", "dumbmodel"]
 
 
 def key(site: str) -> str:

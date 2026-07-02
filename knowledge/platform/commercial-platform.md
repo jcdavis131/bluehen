@@ -2,12 +2,12 @@
 type: Site
 title: Commercial Platform (hub commerce)
 description: Buyer-facing surface on bhenre.com — pricing, contact briefings with lead capture, open-source Medusa-backed store (Shopify optional), legal pages.
-resource: /apps/sites/hub
+resource: /apps/sites/storefront
 tags: [commerce, hub, medusa, shopify, site]
 timestamp: 2026-07-02T00:00:00Z
 ---
 
-The user-facing commercial path on the Platform Console (bhenre.com),
+The user-facing commercial path on the Storefront (bhenre.com),
 built to close [e-commerce review](/reviews/ecommerce.md) EC-001 (no
 commercial path). Voice: measured, evidence-backed — no fabricated
 metrics, no synthetic urgency.

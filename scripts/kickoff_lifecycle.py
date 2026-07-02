@@ -15,7 +15,7 @@ REPO = Path(__file__).resolve().parents[1]
 WORKSPACES = REPO / "data" / "workspaces"
 API = os.getenv("SYNTH_API_BASE_URL", "http://localhost:8000")
 
-PHASE_A_SITES = ["benchmark-lab", "research-rag", "dumbmodel", "hub"]
+PHASE_A_SITES = ["validation", "research", "dumbmodel", "storefront"]
 
 
 def load_key(site_id: str) -> str | None:

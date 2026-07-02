@@ -56,7 +56,7 @@ def save_bd_queue(queue: dict) -> dict:
 
 def list_queue_candidates(site_id: str | None = None, *, bd_console: bool = False) -> list[dict]:
     candidates = load_bd_queue().get("candidates") or []
-    if bd_console or site_id == "benchmark-lab":
+    if bd_console or site_id == "validation":
         return candidates
     if site_id:
         return [c for c in candidates if c.get("siteId") == site_id]

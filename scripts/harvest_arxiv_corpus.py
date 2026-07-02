@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Harvest arXiv abstracts into research-rag corpus for Data org.
 
-Builds data/corpora/research-rag/corpus.jsonl from CS.CL / embedding-related queries.
+Builds data/corpora/research/corpus.jsonl from CS.CL / embedding-related queries.
 Each line: {"id", "title", "text", "source", "arxivId", "published"}.
 
 Usage:
@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WATCH = ROOT / "config" / "arxiv_watch_queries.json"
-CORPUS_DIR = ROOT / "data" / "corpora" / "research-rag"
+CORPUS_DIR = ROOT / "data" / "corpora" / "research"
 CORPUS_PATH = CORPUS_DIR / "corpus.jsonl"
 ATOM_NS = {"atom": "http://www.w3.org/2005/Atom"}
 
@@ -112,7 +112,7 @@ def harvest(max_papers: int, merge: bool) -> dict:
     meta_path.write_text(
         json.dumps(
             {
-                "siteId": "research-rag",
+                "siteId": "research",
                 "docCount": len(collected),
                 "source": "arxiv_harvest",
                 "queries": query_ids,

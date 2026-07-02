@@ -30,7 +30,7 @@ from asn_engine.train_loop import train_asn_with_seed
 from eval_harness.metrics import ndcg_at_k, retrieval_scores
 from transformers import AutoModel, AutoTokenizer
 
-PHASE_A_SITES = ("hub", "benchmark-lab", "research-rag", "dumbmodel")
+PHASE_A_SITES = ("storefront", "validation", "research", "dumbmodel")
 BACKBONE = "sentence-transformers/all-MiniLM-L6-v2"
 BGE = "BAAI/bge-small-en-v1.5"
 DEFAULT_SEED = 42
@@ -181,7 +181,7 @@ def run_site(*, site_id: str, epochs: int, pairs_n: int, seed: int) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Tenant corpus vs commercial baseline")
-    parser.add_argument("--site", default="hub")
+    parser.add_argument("--site", default="storefront")
     parser.add_argument("--all-sites", action="store_true")
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--pairs", type=int, default=128)

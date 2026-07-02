@@ -42,7 +42,7 @@ BUCKET2_PATTERNS = [
 BUCKET3_PATTERNS = [
     r"packages/asn-engine/",
     r"scripts/autoresearch_train\.py",
-    r"apps/sites/finance-lab/",
+    r"apps/sites/simulation/",
     r"docs/adr/",
     r"specs/00(10|11)",
     r"WHITEPAPER\.md",

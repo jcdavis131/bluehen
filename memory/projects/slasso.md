@@ -4,7 +4,7 @@
 **Also called:** "agent-lasso" (legacy repo)  
 **Domain:** slasso.com  
 **Status:** Active — Phase A  
-**Site id:** `benchmark-lab`
+**Site id:** `validation`
 
 ## What it is
 
@@ -26,6 +26,6 @@ pipeline UI. Silver Lasso lineage.
 
 ## Tech
 
-- App: `apps/sites/benchmark-lab`
+- App: `apps/sites/validation`
 - Workspace key: `data/workspaces/benchmark-lab.env`
 - Port local: 3003

@@ -21,7 +21,7 @@ from asn_engine.spectral import effective_rank, three_tier_surgery
 D_IN, K_LATENT, N_CLUSTERS = 128, 32, 8
 N_TRAIN, N_TEST, D_SERVE = 1024, 512, 64
 SIM_COEF = 25.0
-PHASE_A_SITES = ("hub", "benchmark-lab", "research-rag", "dumbmodel")
+PHASE_A_SITES = ("storefront", "validation", "research", "dumbmodel")
 
 
 def make_cluster_data(seed: int):

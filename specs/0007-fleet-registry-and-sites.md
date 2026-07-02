@@ -3,7 +3,7 @@
 - **Status:** Implemented
 - **Owner:** Platform
 - **Related specs:** 0001, 0002, 0006, 0012
-- **Implementation:** `config/fleet.json`, `packages/fleet`, `packages/ui-fleet`, `apps/sites/*`, `apps/control`
+- **Implementation:** `config/fleet.json`, `packages/fleet`, `packages/ui-fleet`, `apps/sites/*`, `apps/hq`
 
 ## Problem
 
@@ -39,12 +39,12 @@ Locked domains: `bhenre.com`, `jcamd.com`, `slasso.com`, `arxiviq.com`, `dumbmod
 
 | id | Domain | App |
 |---|---|---|
-| hub | bhenre.com | `apps/sites/hub` |
-| control | jcamd.com | `apps/control` |
+| storefront | bhenre.com | `apps/sites/storefront` |
+| hq | jcamd.com | `apps/hq` |
 | dumbmodel | dumbmodel.com | `apps/sites/dumbmodel` |
-| benchmark-lab | slasso.com | `apps/sites/benchmark-lab` |
-| research-rag | arxiviq.com | `apps/sites/research-rag` |
-| finance-lab | TBD | `apps/sites/finance-lab` (stub) |
+| validation | slasso.com | `apps/sites/validation` |
+| research | arxiviq.com | `apps/sites/research` |
+| simulation | TBD | `apps/sites/simulation` (stub) |
 
 ### Vercel pattern
 

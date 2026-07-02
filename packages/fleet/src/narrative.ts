@@ -72,35 +72,40 @@ export const SITE_CIRCUIT: Record<
   string,
   { stop: string; role: string; eyebrow: string }
 > = {
-  hub: {
-    stop: "Platform Console",
-    role: "Tenant dashboard, operating loop, lifecycle ledger — bhenre.com",
-    eyebrow: "Platform Console · bhenre.com",
+  storefront: {
+    stop: "Storefront",
+    role: "Public brand + commerce — store, pricing, briefings, proof surfaces — bhenre.com",
+    eyebrow: "Storefront · bhenre.com",
   },
-  control: {
-    stop: "Operations Center",
-    role: "Cross-tenant orchestration, fleet status, operator controls — jcamd.com",
-    eyebrow: "Operations Center · jcamd.com",
+  hq: {
+    stop: "Headquarters",
+    role: "The org hub — fleet directory, live operating loop, lifecycle controls — jcamd.com",
+    eyebrow: "Headquarters · jcamd.com",
   },
   dumbmodel: {
     stop: "Baseline Comparison",
-    role: "Transparent baseline benchmarks vs org-trained models — dumbmodel.com",
+    role: "Free embedder health check & collapse diagnostics — dumbmodel.com",
     eyebrow: "Baseline Comparison · dumbmodel.com",
   },
-  "benchmark-lab": {
+  validation: {
     stop: "Validation Lab",
-    role: "Certified RAG benchmarks, scorecards, promotion queue — slasso.com",
+    role: "Paid RAG certification, published scorecards, promotion queue — slasso.com",
     eyebrow: "Validation Lab · slasso.com",
   },
-  "research-rag": {
+  research: {
     stop: "Applied Research",
-    role: "Live retrieval demos and research method registry — arxiviq.com",
+    role: "Live arXiv retrieval assistant and research method registry — arxiviq.com",
     eyebrow: "Applied Research · arxiviq.com",
   },
-  "finance-lab": {
+  simulation: {
     stop: "Simulation Lab",
-    role: "Paper-trading validation on finance corpora — Phase B",
-    eyebrow: "Simulation Lab · coming soon",
+    role: "Phase B paper-trading across prediction markets, DFS, equities — simulation only",
+    eyebrow: "Simulation Lab · signals.bhenre.com",
+  },
+  observatory: {
+    stop: "Observatory",
+    role: "Run telemetry, effective-rank monitoring, collapse alerts — internal",
+    eyebrow: "Observatory · training.jcamd.com",
   },
 };
 
@@ -142,33 +147,39 @@ export const STAGE_RELAY: Record<string, string> = {
 
 /** Shared subnav labels per site */
 export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
-  hub: [
+  storefront: [
     { href: "/", label: "Overview" },
     { href: "/try", label: "Live Search" },
     { href: "/research", label: "Research Registry" },
-    { href: "/feedback", label: "Feedback" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/store", label: "Store" },
+    { href: "/contact", label: "Contact" },
   ],
-  control: [
+  hq: [
     { href: "/", label: "Fleet Map" },
     { href: "/actions", label: "Lifecycle Controls" },
     { href: "/feedback", label: "Feedback" },
   ],
   dumbmodel: [
     { href: "/", label: "Overview" },
+    { href: "/check", label: "Health Check" },
     { href: "/compare", label: "Compare" },
     { href: "/hall", label: "Hall of Cone" },
   ],
-  "benchmark-lab": [
+  validation: [
     { href: "/", label: "Overview" },
+    { href: "/certify", label: "Get Certified" },
     { href: "/try", label: "Run Benchmark" },
     { href: "/queue", label: "Validation Queue" },
     { href: "/feedback", label: "Feedback" },
   ],
-  "research-rag": [
+  research: [
     { href: "/", label: "Live Search" },
     { href: "/research-lab", label: "Research Registry" },
     { href: "/feedback", label: "Feedback" },
   ],
+  simulation: [{ href: "/", label: "Overview" }],
+  observatory: [{ href: "/", label: "Runs" }],
 };
 
 export function getSiteNav(siteId: string) {

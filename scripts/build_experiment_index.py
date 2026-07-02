@@ -3,7 +3,7 @@
 
 Scans declared evidence sources (EVIDENCE.md, SWEEP_REPORT.md, test files),
 validates each experiment's reference exists, derives run counts where parseable,
-and writes apps/sites/hub/data/experiments.json consumed by the hub /research page.
+and writes apps/sites/storefront/data/experiments.json consumed by the hub /research page.
 
 Usage:
   uv run python scripts/build_experiment_index.py            # write JSON + print summary
@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Iterable
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "apps" / "sites" / "hub" / "data" / "experiments.json"
+OUT = ROOT / "apps" / "sites" / "storefront" / "data" / "experiments.json"
 
 # Editorial registry of museum entries. `ref` is the evidence anchor the script
 # validates; `runs_hint` is a fallback when a count can't be parsed from source.

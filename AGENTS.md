@@ -34,7 +34,7 @@ uv run python scripts/pick_task.py render     # refresh TASKS.md
 |---|---|---|
 | **Fleet registry** | `config/fleet.json` | [0007](./specs/0007-fleet-registry-and-sites.md) |
 | **Fleet SDK** | `packages/fleet` | 0007 |
-| **Control plane** | `apps/control` → jcamd.com | 0007 |
+| **Control plane** | `apps/hq` → jcamd.com | 0007 |
 | **Fleet agent** | `apps/synthorg` (Eve + AI SDK v4) | [0006](./specs/0006-unified-cli-and-tracing.md) |
 | **Uniform API** | `services/core-api` v0.3 | [0004](./specs/0004-core-api.md) |
 | **Worker** | `services/worker` | [0009](./specs/0009-training-worker-lifecycle.md) |
@@ -70,12 +70,12 @@ Each row is a **mini-org front** with its own Vercel project + domain + workspac
 
 | Site | Domain | Status |
 |---|---|---|
-| hub | bhenre.com | active — trained ASN model deployed |
-| control | jcamd.com | active — fleet admin UI |
+| storefront | bhenre.com | active — trained ASN model deployed |
+| hq | jcamd.com | active — fleet admin UI |
 | dumbmodel | dumbmodel.com | active — public baseline proof |
-| benchmark-lab | slasso.com | active — Phase A |
-| research-rag | arxiviq.com | active — Phase A |
-| finance-lab | TBD | stub — Phase B |
+| validation | slasso.com | active — Phase A |
+| research | arxiviq.com | active — Phase A |
+| simulation | TBD | stub — Phase B |
 
 ## Rules for cross-site work
 

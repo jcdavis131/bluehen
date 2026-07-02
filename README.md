@@ -11,7 +11,7 @@
 ```
 config/fleet.json          ← single source of truth: all sites, domains, paths
 packages/fleet             ← fleet SDK (agent, CLI, control UI)
-apps/control               ← jcamd.com operator control plane
+apps/hq               ← jcamd.com operator control plane
 apps/synthorg              ← Eve fleet agent (operates across all sites)
 apps/sites/*               ← tenant fronts (hub, dumbmodel, slasso, arxiviq, finance-lab, …)
 services/core-api          ← uniform API chokepoint
@@ -26,8 +26,8 @@ knowledge/                 ← OKF knowledge bundle: platform concepts, dataset 
 ```
 
 **Training telemetry quick start:** `uv run python -m runboard demo` →
-`uv run python -m runboard serve` → `pnpm --filter @synthaembed/training-console dev`
-(Training Observatory on :3006). Details: [`knowledge/platform/training-console.md`](./knowledge/platform/training-console.md).
+`uv run python -m runboard serve` → `pnpm --filter @synthaembed/observatory dev`
+(Observatory on :3006). Details: [`knowledge/platform/training-console.md`](./knowledge/platform/training-console.md).
 
 **Continuous dataset builder:** `uv run python -m datalab watch --once` collects due
 sources from [`config/datalab_sources.json`](./config/datalab_sources.json), dedupes by
@@ -35,20 +35,20 @@ content hash, and grows the OKF dataset library in [`knowledge/datasets/`](./kno
 
 **Commerce:** the hub sells through an open-source Medusa backend
 ([`services/commerce`](./services/commerce/README.md), Store API :9000) with Stripe
-hosted payment; provider-agnostic client in `apps/sites/hub/lib/commerce.ts`
+hosted payment; provider-agnostic client in `apps/sites/storefront/lib/commerce.ts`
 (`COMMERCE_PROVIDER=medusa|shopify`). Buyer path: `/pricing` → `/contact` → `/store`.
 
 ## Site fleet & domains
 
 | Domain | Site id | Path | Status |
 |---|---|---|---|
-| [jcamd.com](https://jcamd.com) | control | `apps/control` | active |
-| [bhenre.com](https://bhenre.com) | hub | `apps/sites/hub` | active |
+| [jcamd.com](https://jcamd.com) | hq | `apps/hq` | active |
+| [bhenre.com](https://bhenre.com) | storefront | `apps/sites/storefront` | active |
 | [dumbmodel.com](https://dumbmodel.com) | dumbmodel | `apps/sites/dumbmodel` | active |
-| [slasso.com](https://slasso.com) | benchmark-lab | `apps/sites/benchmark-lab` | active |
-| [arxiviq.com](https://arxiviq.com) | research-rag | `apps/sites/research-rag` | active |
-| *(TBD)* | finance-lab | `apps/sites/finance-lab` | stub — Phase B |
-| *(local)* | training-console | `apps/sites/training-console` | active — Training Observatory (:3006) |
+| [slasso.com](https://slasso.com) | validation | `apps/sites/validation` | active |
+| [arxiviq.com](https://arxiviq.com) | research | `apps/sites/research` | active |
+| [signals.bhenre.com](https://signals.bhenre.com) | simulation | `apps/sites/simulation` | active — Simulation Lab (simulation only) |
+| [training.jcamd.com](https://training.jcamd.com) | observatory | `apps/sites/observatory` | active — Observatory (internal) |
 
 **Brand duo:** [bhenre.com](https://bhenre.com) (blue hen) · [dumbmodel.com](https://dumbmodel.com) (the cone)
 
@@ -75,7 +75,7 @@ apps/
     dumbmodel/            Public proof → dumbmodel.com
     benchmark-lab/        RAG benchmarks → slasso.com
     research-rag/         arXiv RAG → arxiviq.com
-    finance-lab/          Phase B stub (simulation only)
+    finance-lab/          Simulation Lab (simulation only)
 services/
   core-api/               FastAPI chokepoint
   worker/                 Postgres job consumer (production training path)
@@ -122,7 +122,7 @@ pnpm review
 uv run pytest packages/asn-engine/tests services/core-api/tests -q
 ```
 
-Each Phase A mini-org (`benchmark-lab`, `research-rag`, `dumbmodel`, `hub`) gets an isolated
+Each Phase A mini-org (`validation`, `research`, `dumbmodel`, `storefront`) gets an isolated
 workspace, org-specific corpus under `data/corpora/{siteId}/`, and its own ASN training job
 processed by the worker. Models land in `data/artifacts/{workspaceId}/`.
 

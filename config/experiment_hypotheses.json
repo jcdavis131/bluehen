@@ -54,7 +54,7 @@
       "nTrialsDefault": 32,
       "nSeedsPerTrial": 1,
       "objective": "tenant_ndcg",
-      "sites": ["hub", "benchmark-lab", "research-rag", "dumbmodel"],
+      "sites": ["storefront", "validation", "research", "dumbmodel"],
       "searchSpace": {
         "vicregVar": { "type": "float", "low": 0.0, "high": 4.0 },
         "vicregCov": { "type": "float", "low": 0.0, "high": 0.2 },
@@ -70,7 +70,7 @@
       "nTrialsDefault": 4,
       "nSeedsPerTrial": 2,
       "objective": "ndcg_full",
-      "sites": ["research-rag"],
+      "sites": ["research"],
       "command": "pnpm evidence:realtext:research-rag",
       "promoteIf": { "deltaNdcgVsInfonce": 0.005, "bothCorpora": true }
     },
@@ -79,7 +79,7 @@
       "hypothesis": "MRL-trained checkpoint improves knn_t8 vs post-hoc truncate on same queries",
       "priorSuccess": 0.6,
       "objective": "knn_t8",
-      "sites": ["research-rag"],
+      "sites": ["research"],
       "dependsOn": ["barlow_realtext or AR-308 KEEP"]
     },
     "rag_corpus_scale": {
@@ -87,7 +87,7 @@
       "hypothesis": "200-paper arXiv harvest improves exam recall without OOD forgetting > 2%",
       "priorSuccess": 0.65,
       "objective": "recall_at_10",
-      "sites": ["research-rag"],
+      "sites": ["research"],
       "command": "pnpm harvest:arxiv --max-papers 200"
     },
     "tier_drop_benchmark": {
@@ -95,14 +95,14 @@
       "hypothesis": "Document median rank delta full vs edge-d8-int8 on 20 fixed arXiv queries",
       "priorSuccess": 0.8,
       "objective": "median_rank_delta",
-      "sites": ["research-rag"]
+      "sites": ["research"]
     },
     "hard_negative_mining": {
       "tier": 1,
       "hypothesis": "Corpus-mined hard negatives beat in-batch negatives for pairwise nDCG on arXiv",
       "priorSuccess": 0.5,
       "objective": "ndcg_full",
-      "sites": ["research-rag"]
+      "sites": ["research"]
     }
   }
 }

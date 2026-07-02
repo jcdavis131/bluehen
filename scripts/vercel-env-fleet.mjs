@@ -99,7 +99,7 @@ const sharedApi = {
 for (const site of fleet.sites) {
   if (site.status !== "active" || !site.appPath?.startsWith("apps/")) continue;
 
-  if (site.id === "control") {
+  if (site.id === "hq") {
     const admin = process.env.API_SECRET_KEY ?? "";
     setSiteEnv(site, {
       ...sharedApi,

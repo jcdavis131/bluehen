@@ -41,7 +41,7 @@ apps/
     dumbmodel/           ← dumbmodel.com public proof
     benchmark-lab/       ← slasso.com RAG benchmark lab
     research-rag/        ← arxiviq.com research RAG org
-    finance-lab/         ← Phase B stub
+    finance-lab/         ← Simulation Lab (simulation only)
 services/
   core-api/              ← FastAPI uniform chokepoint
   worker/                ← Postgres job consumer (train → eval → deploy)
@@ -73,13 +73,13 @@ Owned domains to attach in Vercel (one custom domain per mini-org / project):
 
 | Domain | Mini-org | GitHub / app | Phase |
 |---|---|---|---|
-| **[jcamd.com](https://jcamd.com)** | **Fleet control plane** | `apps/control` | All | Operator map, pair-programming entry |
-| **[bhenre.com](https://bhenre.com)** | **Blue Hen RE hub** | `apps/sites/hub` | All | Platform dashboard + ledger |
-| **[slasso.com](https://slasso.com)** | **RAG Benchmark Lab** | `apps/sites/benchmark-lab` | A |
-| **[arxiviq.com](https://arxiviq.com)** | **Research RAG org** | `apps/sites/research-rag` | A |
+| **[jcamd.com](https://jcamd.com)** | **Fleet control plane** | `apps/hq` | All | Operator map, pair-programming entry |
+| **[bhenre.com](https://bhenre.com)** | **Blue Hen RE hub** | `apps/sites/storefront` | All | Platform dashboard + ledger |
+| **[slasso.com](https://slasso.com)** | **RAG Benchmark Lab** | `apps/sites/validation` | A |
+| **[arxiviq.com](https://arxiviq.com)** | **Research RAG org** | `apps/sites/research` | A |
 | **[dumbmodel.com](https://dumbmodel.com)** | **Dumb Model** public proof | `apps/sites/dumbmodel` | A → socialize |
 
-*(Phase B finance lab: domain TBD when `apps/sites/finance-lab` is scoped.)*
+*(Phase B finance lab: domain TBD when `apps/sites/simulation` is scoped.)*
 
 #### dumbmodel.com — brand direction (LOCKED)
 
@@ -121,12 +121,12 @@ Canonical production URLs should use custom domains above, not legacy names (e.g
 
 | GitHub repo | Custom domain | Vercel preview | Mini-org role | Phase | Repurpose path |
 |---|---|---|---|---|---|
-| [`henington-homes`](https://github.com/jcdavis131/henington-homes) | **bhenre.com** | `bhre.vercel.app` | **Platform hub** — monorepo; `apps/sites/hub` + `apps/synthorg` | All | **Done** (this repo) |
-| [`agent-lasso`](https://github.com/jcdavis131/agent-lasso) | **slasso.com** | TBD | **RAG Benchmark Lab** — benchmark exams, leaderboards, GraphRAG | **A** | `apps/sites/benchmark-lab`; migrate `benchmark_exam_engine` |
-| [`arxiv_exam_app`](https://github.com/jcdavis131/arxiv_exam_app) | **arxiviq.com** | TBD | **Research RAG org** — arXiv PDF RAG applied test | **A** | `apps/sites/research-rag` |
-| *(monorepo)* | **jcamd.com** | TBD | **Operator control plane** | All | `apps/control` |
+| [`henington-homes`](https://github.com/jcdavis131/henington-homes) | **bhenre.com** | `bhre.vercel.app` | **Platform hub** — monorepo; `apps/sites/storefront` + `apps/synthorg` | All | **Done** (this repo) |
+| [`agent-lasso`](https://github.com/jcdavis131/agent-lasso) | **slasso.com** | TBD | **RAG Benchmark Lab** — benchmark exams, leaderboards, GraphRAG | **A** | `apps/sites/validation`; migrate `benchmark_exam_engine` |
+| [`arxiv_exam_app`](https://github.com/jcdavis131/arxiv_exam_app) | **arxiviq.com** | TBD | **Research RAG org** — arXiv PDF RAG applied test | **A** | `apps/sites/research` |
+| *(monorepo)* | **jcamd.com** | TBD | **Operator control plane** | All | `apps/hq` |
 | *(monorepo)* | **dumbmodel.com** | TBD | **Dumb Model** — public anti-hype proof, Hall of Cone | A → socialize | `apps/sites/dumbmodel` **built** |
-| *(future)* | TBD | TBD | **Finance applied-test org** | **B** | `apps/sites/finance-lab` (stub) |
+| *(future)* | TBD | TBD | **Finance applied-test org** | **B** | `apps/sites/simulation` (stub) |
 | *(future v2)* | TBD | TBD | **Live trading org** | **C** | Deferred |
 
 **Multi-site pattern:** one GitHub monorepo (`henington-homes`), **multiple Vercel projects**
@@ -232,14 +232,14 @@ execution, no money movement, no live brokerage integration. Phase C is explicit
   first prod train job (ADR-002 action #7).
 - **Eve ↔ trace** — map eve session id → `SYNTH_TRACE_ID` (one session = one trace).
 - **Direct-access lint gate** — spec 0006: forbid DB/service calls outside `synth-core`.
-- **Phase B** — `apps/sites/finance-lab` stub (`@synthaembed/finance-lab` in `pnpm review`);
+- **Phase B** — `apps/sites/simulation` stub (`@synthaembed/simulation` in `pnpm review`);
   strategy-simulation eval harness TBD.
 - **Phase C** — live trading deferred (§3b guardrail).
 
 **Phase A+ closed loop (implemented):**
 - Worker → BD queue after eval gates; charter gate on deploy (`SYNTH_CHARTER_GATE=1`, default on).
 - Bootstrap charters: `config/recipes/{siteId}.json` for Phase A tenants.
-- Operator: Operations Center `/actions` — per-site hill-climb, charter issue, deploy promote.
+- Operator: Headquarters `/actions` — per-site hill-climb, charter issue, deploy promote.
 - API: `POST /v1/admin/hill-climb`, `/v1/admin/bd/charter`, `/v1/admin/deploy`, `GET /v1/bd/queue`.
 
 **Specs:** see `specs/README.md` — 0001–0012; **0012 Implemented** (registry + Phase A+ handoffs).

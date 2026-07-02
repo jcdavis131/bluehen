@@ -567,3 +567,91 @@
 - **Observed:** `siteHref(getSite("control")!, local)` — fleet SDK helpers for cross-site links, with a `local` flag for local vs prod URLs.
 - **Why it works:** Cross-site navigation logic (which site is "control", what its URL is in this env) comes from the SDK, not hardcoded. The `local` flag handles env-specific URLs. Confirms P-082.
 - **Maps to:** confirmation of `use-design-system`.
+
+## Tick 26: 2026-07-02 13:37 (UTC-5) — Vercel deploy
+
+### P-105 — Load the available integration's tools before using them
+- **Observed:** "The Vercel integration is available in this session — loading its tools and checking the existing projects before deploying."
+- **Why it works:** Before deploying, Fable 5 discovered the Vercel integration is available, loaded its tools, and inspected existing project state — rather than assuming or asking. You act on ground truth (what projects exist, their deploy state) not on assumption.
+- **Maps to:** `use-available-integrations` skill.
+
+### P-106 — Check existing state first; only act on the missing set
+- **Observed:** "All five existing projects deployed READY from the final push 4 minutes ago. Creating the two missing projects (finance-lab, training-console) and deploying them."
+- **Why it works:** Checked the existing projects' deploy state first, found five already READY from the recent push, so only created + deployed the two missing ones. The affected-set principle applied to deploys — don't redeploy what's already live and green.
+- **Maps to:** fold into `use-available-integrations` — inspect existing state, act only on the missing/delta set.
+
+### P-107 — Reuse stored credentials from the platform's auth file
+- **Observed:** `TOKEN=$(python -c "import json;print(json.load(open(r'.../com.vercel.cli/Data/auth.json'))['token'])")` — read the Vercel CLI's stored auth token from its standard auth.json to authenticate API calls, instead of asking the user for a token.
+- **Why it works:** The user has already logged into the Vercel CLI; its token is in a known location. Reusing it avoids a credential round-trip and lets the deploy proceed without blocking on the user. (Mind the scope — a CLI token's scope may differ from a deploy token; see `respect-the-guard`'s credential-scope note.)
+- **Maps to:** fold into `respect-the-guard` — reuse stored credentials from their standard location, and name the scope.
+
+### P-108 — Direct API call as fallback for ops the integration tools don't expose
+- **Observed:** `curl -s -X PATCH "https://api.vercel.com/v9/projects/..."` with the reused bearer token — when the loaded integration tools don't expose a specific operation (updating a project), fall back to a direct authenticated API call.
+- **Why it works:** Integration tools cover the common cases; the long tail needs the raw API. Reusing the same credential for the direct call keeps the fallback seamless.
+- **Maps to:** fold into `use-available-integrations` — integration tools first, direct API as fallback.
+
+## Tick 27: 2026-07-02 13:45 (UTC-5) — review handoff
+
+### P-109 — Monorepo subdirectory deploy: set Root Directory so workspace deps resolve
+- **Observed:** "fixed the monorepo Root Directory setting via the API (a subdirectory deploy can't see workspace:* packages)".
+- **Why it works:** A subdirectory deploy that doesn't set Root Directory can't resolve `workspace:*` packages — the build breaks on imports. Setting Root Directory via the API fixes the resolution scope. A monorepo deploy gotcha.
+- **Maps to:** fold into `use-available-integrations` — monorepo deploy gotcha.
+
+### P-110 — Lift SSO interstitial so review links are shareable
+- **Observed:** "lifted Vercel's SSO interstitial so their links are shareable."
+- **Why it works:** A deployment behind Vercel SSO can't be shared with reviewers who aren't on the team. Lifting the interstitial makes the URL publicly viewable for review.
+- **Maps to:** fold into `use-available-integrations` — review-deploy setting.
+
+### P-111 — "Designed states, not bugs" — pre-emptively label expected empty/error states
+- **Observed:** "these are designed states, not bugs: production core-api isn't deployed yet (the BLK-PROD item), so the hub badge reads 'API offline,' meters and race feed show their empty states, dumbmodel's health check will return a polite error, the store shows 'opening soon' (Medusa is local-only), and the Training Observatory shows its telemetry-unreachable guidance."
+- **Why it works:** A reviewer who hits "API offline" files it as a bug; a reviewer who knows it's the expected BLK-PROD state doesn't. Pre-emptively listing the expected empty/error states with their cause turns would-be bug reports into confirmed-designed behavior.
+- **Maps to:** refine `readiness-report` — include a "designed states, not bugs" section.
+
+### P-112 — Curated review tour with time budget + per-URL check items + framing
+- **Observed:** "Worth 10 minutes of your review: bhenre.com (hero button feel, card cascade, mascot following your cursor, ⌘K), dumbmodel.com/check (consent copy — read it as your lawyer would), slasso.com/certify, and the Signal Lab waitlist flow…"
+- **Why it works:** A time budget (10 min) tells the reviewer what they're committing; the URLs with per-site check items focus the review; the framing ("read it as your lawyer would") tells them *how* to review the consent copy. A vague "review the sites" gets a vague review; a curated tour gets a targeted one.
+- **Maps to:** refine `readiness-report` — include a curated review tour.
+
+### P-113 — Flag a prod limitation with the unblock condition + gating event
+- **Observed:** "it writes to the serverless instance's ephemeral disk in prod — a real lead store needs the LEADS_DIR decision from TECH_DEBT before you promote it."
+- **Why it works:** Names the prod limitation (ephemeral disk), the unblock condition (LEADS_DIR decision from TECH_DEBT), and the gating event (before you promote). The reviewer knows the waitlist works *for review* but not *for prod leads*, and exactly what unblocks prod.
+- **Maps to:** confirm `document-non-action` + `readiness-report`.
+
+### P-114 — Forward offer with the specific one-line unblock
+- **Observed:** "If you want finance-lab and training-console on real domains (or nicer *.vercel.app names), that's a one-line domain attach per project — tell me which domains and I'll wire them."
+- **Why it works:** Confirms P-101 — a forward offer with the specific unblock ("tell me which domains") and the cost ("one-line per project").
+- **Maps to:** confirms `readiness-report`'s forward-offer rule.
+
+## Tick 28: 2026-07-02 13:53 (UTC-5) — fleet rebrand (confirmations)
+
+### P-115 — Nav config keyed by site id; adding a site adds its nav key
+- **Observed:** Diff of a nav config object keyed by site id — `"research-rag"` renamed to `research`, plus new `simulation` and `observatory` keys.
+- **Why it works:** Nav structure is config-keyed by site id, so adding/rebranding a site is a config edit (add/rename its key), not a code change in every page. Confirms `metadata-align` + `policy-as-config` (structure as data).
+- **Maps to:** confirmation of `metadata-align`.
+
+### P-116 — Cross-cutting change (rebrand) handled with the phased board, split across two board items
+- **Observed:** `Execute Cursor rebrand plan P1–P4 (spine, renames, artifacts, backend)` and `Execute rebrand P5–P8 (role split, copy, docs, validate)` — a rebrand broken into named phases (P1–P8) grouped into two board tasks.
+- **Why it works:** A cross-cutting change is unmanageable as one task; the phased board (P-078) scales from feature → rebrand. The phases are ordered (spine/renames first, copy/docs/validate last) and grouped into reviewable board items. Confirms `progress-board`'s phased variant applies beyond features.
+- **Maps to:** confirmation of `progress-board` (phased variant) + `logical-commit-split`.
+
+### P-117 — Rebrand task bundles audit + subdomain wiring + vision close-out
+- **Observed:** `Fleet rebrand audit + subdomain wiring + vision close-out` as one task.
+- **Why it works:** The rebrand task includes the audit (what to rebrand), the subdomain wiring (the infra consequence), and the vision close-out (closing the spec/vision that drove the rebrand) — the full consequence chain in one task, not just the rename.
+- **Maps to:** confirmation of `close-the-loop` + `metadata-align` (subdomains are a surface).
+
+## Tick 29: 2026-07-02 14:01 (UTC-5) — rebrand alignment + conservative rename
+
+### P-118 — Clean up now-unused imports after a rename
+- **Observed:** "Cleaning the now-unused imports in the storefront page".
+- **Why it works:** A rename/rebrand leaves imports that referenced the old name now-unused. Explicitly cleaning them (not leaving them to a linter pass) keeps the diff clean and the rename complete in one phase.
+- **Maps to:** fold into `conservative-rename`.
+
+### P-119 — Conservative brand-alignment: paths and ids only, no blanket word replaces
+- **Observed:** "docs/memory brand alignment with conservative patterns (paths and ids only; no blanket word replaces)".
+- **Why it works:** A blanket word replace on a brand rename over-replaces — "cursor" the agent name vs "cursor" the CSS/UX term; "hub" the site vs "hub" the generic word. Restricting the replace to paths and ids (the structured references) avoids corrupting prose and creating false matches. This is the rename safety guard.
+- **Maps to:** `conservative-rename` skill.
+
+### P-120 — Rebrand phases 6–7 are the alignment phases (copy/metadata, then docs/memory)
+- **Observed:** "Phase 6 — copy/metadata alignment across the renamed sites" and "Phase 7 — docs/memory brand alignment".
+- **Why it works:** The rebrand's late phases are the `metadata-align` work — copy/metadata across sites, then docs/memory. Confirms `metadata-align` as a rebrand phase, ordered after the structural renames.
+- **Maps to:** confirmation of `metadata-align`.

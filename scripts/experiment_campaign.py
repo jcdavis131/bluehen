@@ -38,7 +38,7 @@ CAMPAIGN_DIR = ROOT / "data" / "evidence" / "campaign"
 RESULTS_PATH = CAMPAIGN_DIR / "results.jsonl"
 REPORT_PATH = ROOT / "EXPERIMENT_CAMPAIGN_REPORT.md"
 
-PHASE_A_SITES = ("hub", "benchmark-lab", "research-rag", "dumbmodel")
+PHASE_A_SITES = ("storefront", "validation", "research", "dumbmodel")
 ZERO_SHOT_MODELS = (
     "sentence-transformers/all-MiniLM-L6-v2",
     "BAAI/bge-small-en-v1.5",

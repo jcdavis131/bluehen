@@ -14,12 +14,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
 const SITE_PACKAGES = {
-  hub: "@synthaembed/hub",
-  control: "@synthaembed/control",
+  hub: "@synthaembed/storefront",
+  control: "@synthaembed/hq",
   dumbmodel: "@synthaembed/dumbmodel",
-  "benchmark-lab": "@synthaembed/benchmark-lab",
-  "research-rag": "@synthaembed/research-rag",
-  "finance-lab": "@synthaembed/finance-lab",
+  "validation": "@synthaembed/validation",
+  "research": "@synthaembed/research",
+  "simulation": "@synthaembed/simulation",
 };
 
 const siteId = process.argv[2];

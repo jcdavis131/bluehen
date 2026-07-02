@@ -1,13 +1,13 @@
 ---
 type: Site
-title: Training Observatory (training-console)
+title: Observatory (training-console)
 description: W&B/TensorBoard-style dashboard — live loss curves, effective-rank monitoring with collapse alerts, R2D curvature.
-resource: /apps/sites/training-console
+resource: /apps/sites/observatory
 tags: [dashboard, training, observability, site]
 timestamp: 2026-07-02T00:00:00Z
 ---
 
-Fleet site `training-console` (port 3006, registered in
+Fleet site `observatory` (port 3006, registered in
 `config/fleet.json`). Renders [runboard](/platform/experiment-tracking.md)
 runs via the [telemetry API](/platform/core-api-telemetry.md).
 
@@ -40,5 +40,5 @@ view). One axis per chart; crosshair + tooltip hover; recessive grid.
 ```powershell
 uv run python -m runboard demo    # seed synthetic telemetry (tagged demo)
 uv run python -m runboard serve   # local reader on :8100
-pnpm --filter @synthaembed/training-console dev   # console on :3006
+pnpm --filter @synthaembed/observatory dev   # console on :3006
 ```

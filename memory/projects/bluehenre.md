@@ -20,12 +20,12 @@ surfaces on Vercel, one core-api chokepoint, one Postgres with RLS.
 
 | Surface | Domain | Deep memory |
 |---------|--------|-------------|
-| Platform Console | bhenre.com | hub in fleet.json |
-| Operations Center | jcamd.com | control |
+| Storefront | bhenre.com | hub in fleet.json |
+| Headquarters | jcamd.com | hq |
 | Validation Lab | slasso.com | `memory/projects/slasso.md` |
 | Applied Research | arxiviq.com | `memory/projects/arxiviq.md` |
 | Baseline Comparison | dumbmodel.com | public proof site |
-| Simulation Lab | TBD | finance-lab stub |
+| Simulation Lab | TBD | simulation stub |
 
 ## Current blockers (P0)
 
@@ -44,7 +44,7 @@ surfaces on Vercel, one core-api chokepoint, one Postgres with RLS.
 
 | Layer | Path |
 |-------|------|
-| Sites | `apps/sites/*`, `apps/control` |
+| Sites | `apps/sites/*`, `apps/hq` |
 | API | `services/core-api` |
 | Worker | `services/worker` |
 | Trainer | `services/trainer` |

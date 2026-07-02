@@ -8,7 +8,7 @@ const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const fleet = fleetJson as FleetConfig;
 
 /** Tenant product sites — each team owns one; not operator/agent shells. */
-export const TENANT_SKIP = new Set(["control", "synthorg", "finance-lab"]);
+export const TENANT_SKIP = new Set(["hq", "synthorg", "simulation", "observatory"]);
 
 export interface WorkspaceCredentials {
   siteId: string;

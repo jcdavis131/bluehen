@@ -1,6 +1,7 @@
 # Update Log
 
 ## 2026-07-02
+* **Update**: Fleet rebrand executed (Cursor plan, 8 phases) — ids/dirs/packages renamed (hq, storefront, validation, research, simulation, observatory); role split: jcamd.com is the org hub with the live operating loop, bhenre.com is the storefront; Vercel rootDirectories re-pointed; signals.bhenre.com + training.jcamd.com attached.
 * **Update**: Venture fleet complete (Spec 0015, SITE-009..011) — slasso RAG certification (`/certify` + store product, price pending Operator), arxiviq design-partner subscription framing, finance-lab Signal Lab waitlist (simulation-only); venture blocks for all five public sites in fleet.json.
 * **Update**: Spec 0015 approved (venture fleet); dumbmodel venture v1 shipped — free embedding health check (`/check`, core-api `/v1/diagnose`), consented submissions → datalab inbox source `dumbmodel-health-checks`, store/briefing CTAs, venture block in fleet.json.
 * **Creation**: [Agentic org teams](/platform/agent-org.md) (Spec 0014) — agentkit runtime + Data Harvesting / R&D / Operations teams; first live runs logged in [/teams/](/teams/index.md).

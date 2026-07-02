@@ -56,12 +56,12 @@ Workplace shorthand, acronyms, nicknames, and internal language for Blue Hen RE.
 |----------|-------------|---------|
 | **bluehenre** | blue hen re folder | Monorepo / platform root |
 | **SynthaEmbed OS** | synthaembed | Internal platform name |
-| **Platform Console** | bhenre, hub | bhenre.com tenant dashboard |
-| **Operations Center** | jcamd, control | jcamd.com operator plane |
+| **Storefront** | bhenre, hub | bhenre.com tenant dashboard |
+| **Headquarters** | jcamd, control | jcamd.com operator plane |
 | **Validation Lab** | slasso, benchmark-lab, agent-lasso | slasso.com RAG benchmarks |
 | **Applied Research** | arxiviq, research-rag, arxiv exam | arxiviq.com research RAG |
 | **Baseline Comparison** | dumbmodel, Hall of Cone | dumbmodel.com public proof |
-| **Simulation Lab** | finance-lab, finance org | Phase B paper trading |
+| **Simulation Lab** | simulation, finance org | Phase B paper trading |
 | **Phoenix** | *(unused — reserve)* | — |
 | **the fleet** | product surfaces | All active mini-org sites |
 | **Operating Loop** | closed loop | Five-division handoff cycle |
@@ -70,10 +70,10 @@ Workplace shorthand, acronyms, nicknames, and internal language for Blue Hen RE.
 
 | Shorthand | Domain | Site id |
 |-----------|--------|---------|
-| bhenre | bhenre.com | hub |
-| jcamd | jcamd.com | control |
-| slasso | slasso.com | benchmark-lab |
-| arxiviq | arxiviq.com | research-rag |
+| bhenre | bhenre.com | storefront |
+| jcamd | jcamd.com | hq |
+| slasso | slasso.com | validation |
+| arxiviq | arxiviq.com | research |
 | dumbmodel | dumbmodel.com | dumbmodel |
 
 ## Operating Loop divisions

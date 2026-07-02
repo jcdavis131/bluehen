@@ -9,6 +9,7 @@
     "controlApp": "apps/control",
     "coreApi": "services/core-api",
     "trainer": "services/trainer",
+    "commerce": "services/commerce",
     "vercel": {
       "scope": "cams-projects-c5c4c5f6",
       "siteProjects": {

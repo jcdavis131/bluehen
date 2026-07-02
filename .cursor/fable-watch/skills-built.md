@@ -40,4 +40,8 @@
 | `pre-commit-hygiene` | P-044, P-045 | `~/.cursor/skills/pre-commit-hygiene/SKILL.md` |
 | `abstract-the-provider` | P-046 | `~/.cursor/skills/abstract-the-provider/SKILL.md` |
 | `validate-gate` (refined) | P-018, P-042 | `~/.cursor/skills/validate-gate/SKILL.md` |
+| `logical-commit-split` | P-047, P-048 | `~/.cursor/skills/logical-commit-split/SKILL.md` |
+| `respect-the-guard` | P-049 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
+| `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050 | `~/.cursor/skills/readiness-report/SKILL.md` |
+| `abstract-the-provider` (refined) | P-046, P-051 | `~/.cursor/skills/abstract-the-provider/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

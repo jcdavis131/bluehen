@@ -1,0 +1,10 @@
+# Railway service "commerce" — Medusa v2 backend (services/commerce)
+[build]
+builder = "dockerfile"
+dockerfilePath = "infra/Dockerfile.commerce"
+
+[deploy]
+releaseCommand = "npx medusa db:migrate"
+healthcheckPath = "/health"
+healthcheckTimeout = 120
+restartPolicyType = "on_failure"

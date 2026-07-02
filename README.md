@@ -16,6 +16,7 @@ apps/synthorg              ← Eve fleet agent (operates across all sites)
 apps/sites/*               ← tenant fronts (hub, dumbmodel, slasso, arxiviq, finance-lab, …)
 services/core-api          ← uniform API chokepoint
 services/worker            ← ASN train → eval → deploy pipeline
+services/commerce          ← Medusa v2 store backend (open source; own lockfile)
 packages/synth-core        ← only way in for agents, CLI, sites
 packages/eval-harness      ← deploy gates (nDCG, effective rank)
 packages/ui-fleet          ← shared FleetShell nav
@@ -31,6 +32,11 @@ knowledge/                 ← OKF knowledge bundle: platform concepts, dataset 
 **Continuous dataset builder:** `uv run python -m datalab watch --once` collects due
 sources from [`config/datalab_sources.json`](./config/datalab_sources.json), dedupes by
 content hash, and grows the OKF dataset library in [`knowledge/datasets/`](./knowledge/datasets/).
+
+**Commerce:** the hub sells through an open-source Medusa backend
+([`services/commerce`](./services/commerce/README.md), Store API :9000) with Stripe
+hosted payment; provider-agnostic client in `apps/sites/hub/lib/commerce.ts`
+(`COMMERCE_PROVIDER=medusa|shopify`). Buyer path: `/pricing` → `/contact` → `/store`.
 
 ## Site fleet & domains
 

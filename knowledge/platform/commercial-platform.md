@@ -58,13 +58,16 @@ LEADS_DIR=<override lead storage>               # optional; Vercel needs a durab
 Unset provider vars → the store renders its unconfigured state; the rest
 of the commercial path (pricing, contact, legal) works standalone.
 
-# Medusa self-hosting sketch
+# Medusa backend (scaffolded)
 
-Medusa is a Node service + Postgres (can share the Neon instance with its
-own database). Minimal path: `npx create-medusa-app@latest`, deploy the
-backend to Railway alongside core-api, create products + a region in
-Medusa Admin, generate a publishable key, install the Stripe payment
-provider, and point the env vars above at it.
+The backend lives at `services/commerce` (own npm lockfile, deliberately
+outside the pnpm workspace): `medusa-config.ts` with production
+fail-fast on placeholder secrets, a seed script that creates the USD
+region, sales channel, publishable key, and the two self-serve products
+(Evaluation Credits 10-pack, Design Partner Seat), plus
+`infra/Dockerfile.commerce` + `railway.commerce.toml` for deploy.
+Bring-up steps: [services/commerce/README.md](/../services/commerce/README.md)
+— needs a Postgres database (Neon branch or local :5433) and ~15 minutes.
 
 # Watchlist
 

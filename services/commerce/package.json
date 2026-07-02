@@ -1,0 +1,33 @@
+{
+  "name": "synthaembed-commerce",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Medusa v2 commerce backend for the hub store (open source, self-hosted)",
+  "scripts": {
+    "dev": "medusa develop",
+    "build": "medusa build",
+    "start": "medusa start",
+    "migrate": "medusa db:migrate",
+    "seed": "medusa exec ./src/scripts/seed.ts"
+  },
+  "dependencies": {
+    "@medusajs/admin-sdk": "^2.7.0",
+    "@medusajs/cli": "^2.7.0",
+    "@medusajs/framework": "^2.7.0",
+    "@medusajs/medusa": "^2.7.0",
+    "@medusajs/payment-stripe": "^2.7.0",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
+    "awilix": "^8.0.1",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -257,3 +257,28 @@
 - **Observed:** "Refactor hub commerce to provider-agnostic layer (Medusa default)" — when asked for an open-source Shopify alternative, Fable 5 didn't hard-swap Shopify→Medusa; it abstracted the commerce interface with Medusa as the default provider.
 - **Why it works:** A hard swap locks you to the new vendor; an agnostic layer with a default lets you swap again without a rewrite. The default means you ship now; the abstraction means you're not stuck.
 - **Maps to:** `abstract-the-provider` skill.
+
+### P-047 — Split a big migration into logical commits
+- **Observed:** "Pushed to GitHub as three logical commits (baseline migration → observability/data stack → commercial platform)".
+- **Why it works:** One giant migration commit is unreviewable and un-revertable. Splitting by logical concern makes review tractable and lets you revert one slice without rolling back the others.
+- **Maps to:** `logical-commit-split` skill.
+
+### P-048 — Branch name encodes the commit story
+- **Observed:** Branch `platform/fleet-baseline-observability-commerce` — the three logical commits are visible in the branch name itself.
+- **Why it works:** The branch name is the review's table of contents. A reviewer reads the name and knows the scope before opening a file.
+- **Maps to:** fold into `logical-commit-split`.
+
+### P-049 — Respect a safety guard; use the legitimate path; surface the relaxation
+- **Observed:** "Direct push to main is blocked by the safety guard against bypassing review, so the branch is ready to merge here: <compare URL>. If you'd rather I push straight to main in the future, add a Bash allow rule for git push origin main."
+- **Why it works:** Fable 5 hit a guard, didn't bypass it, used the legitimate path (branch + PR), and told the user exactly how to relax the guard if they want. Bypassing would have been faster and wrong.
+- **Maps to:** `respect-the-guard` skill.
+
+### P-050 — Surface the missing tool and the one-click alternative
+- **Observed:** "The gh CLI isn't installed, so I couldn't open the PR programmatically — one click on that link does it."
+- **Why it works:** Don't fail silently when a tool is missing; name the gap and give the manual alternative so the user can complete the action in one step.
+- **Maps to:** fold into `readiness-report` — a missing-tool gap is a "needs your input" item with a manual alternative.
+
+### P-051 — Next-step handoff for the chosen default provider
+- **Observed:** "For Medusa go-live you'll need to: stand up a Medusa backend (npx create-medusa-app@latest), create …".
+- **Why it works:** After the provider abstraction lands, the default provider still has to be stood up. Handing off the go-live steps for the chosen default closes the loop on `abstract-the-provider`.
+- **Maps to:** fold into `abstract-the-provider` — include the go-live handoff for the default.

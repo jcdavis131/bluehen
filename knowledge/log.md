@@ -1,6 +1,7 @@
 # Update Log
 
 ## 2026-07-02
+* **Update**: Scaffolded the Medusa v2 backend at `services/commerce` (config, seed with region/products/publishable key, Docker + Railway deploy files) and aligned README/package.json/fleet.json metadata; [commercial platform](/platform/commercial-platform.md) revised.
 * **Creation**: [Continuous dataset builder](/platform/dataset-watcher.md) — `datalab watch` with source registry, cadence scheduling, and content-hash dedupe; first pass materialized the two datasets below.
 * **Creation**: [Commercial platform](/platform/commercial-platform.md) — hub pricing/store/contact/legal with headless Shopify checkout and lead capture (closes EC-001).
 * **Creation**: Collected dataset [Evidence and science review ledgers](/datasets/20260702-110239-evidence-and-science-review-ledgers.md) (2 docs, 27 chunks).

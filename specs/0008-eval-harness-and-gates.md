@@ -30,8 +30,14 @@ Product claims about ASN quality must be **falsifiable in CI**, not asserted in 
 ### Gate thresholds (v0.3)
 
 - `rankAboveBaseline`: effective rank > 8.0
-- `ndcgNonRegression`: nDCG@10 ≥ 0.35 (pairwise demo eval)
-- `mrlWithinTolerance`: always true (Matryoshka stub)
+- `ndcgNonRegression`: nDCG@10 ≥ 0.35 (pairwise eval on real collection pairs)
+- `mrlWithinTolerance`: fails closed when Matryoshka retrieval is unmeasured (no stub `True`)
+- `sufficientEvalPairs`: ≥ 8 real collection pairs required (REV-905). Below the floor the
+  gate fails closed — `run_eval_for_workspace` returns `allPassed=False` with
+  `metrics.skipped="insufficient_real_pairs"` and does **not** substitute demo pairs. The
+  hard-coded demo pairs survive only behind an explicit `allow_demo=True` opt-in for manual
+  smoke; no production caller (`worker/main.py`, `/v1/eval/run`, lazy `gates_for_model`)
+  sets it. Train minimum stays 10 (`services/worker/main.py`).
 
 ### API
 
@@ -50,6 +56,7 @@ Product claims about ASN quality must be **falsifiable in CI**, not asserted in 
 |---|---|---|
 | Effective rank | Contrastive pairs from collection | > baseline 8.0 |
 | nDCG@10 | Pairwise anchor vs pos/neg (k=2) | ≥ 0.35 |
+| sufficientEvalPairs | Real collection pairs | ≥ 8 (fail closed, no demo fallback — REV-905) |
 | Combined | `allPassed = all(gates.values())` | Recorded; promotion policy TBD |
 
 ## Acceptance criteria

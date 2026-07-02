@@ -758,3 +758,67 @@
 - **Observed:** "2 monitors" in the status bar.
 - **Why it works:** Multiple named monitors can run concurrently (the `/readyz` monitor + another). Each is independently named, id'd, and time-bounded. Confirms `event-driven-wait` scales to concurrent watchers.
 - **Maps to:** confirmation of `event-driven-wait`.
+
+## Tick 34: 2026-07-02 14:41 (UTC-5) — review findings + handoff + gate limit
+
+### P-140 — Deep review found two real prod bugs; gates made non-overridable
+- **Observed:** "governance.get_trace had its def line destroyed (every trace read 500'd, and the orphaned body was the unscoped RLS-bypass query — restored with workspace scoping), and the worker deployed charter-approved models even when eval gates failed — a '*' charter meant gate-failed models auto-deployed; now gates are non-overridable."
+- **Why it works:** The review found real bugs with precise mechanisms (a destroyed def → 500s + RLS bypass; a '*' charter → gate-failed models auto-deployed). The gate-bypass was fixed by making gates non-overridable — a '*' charter can no longer override a failed gate. Confirms `verify-subagent-output` (the review had substance) + adds: gates should be non-overridable.
+- **Maps to:** refine `respect-the-guard` — gates are non-overridable.
+
+### P-141 — Parallel-edit convergence on the same file
+- **Observed:** "Cursor converged on the same file in parallel and extended it cleanly."
+- **Why it works:** Two agents edited the same file in parallel and converged cleanly because the changes were non-conflicting extensions. Confirms `lane-discipline` with the nuance that parallel same-file edits can converge when extensions don't overlap.
+- **Maps to:** confirmation of `lane-discipline`.
+
+### P-142 — Review findings queued as tracked REV-NNN items
+- **Observed:** "The remaining 8 highs/mediums are queued as REV-901…910 in TASKS.md".
+- **Why it works:** Review findings become tracked items (REV-901…910) in the task tracker, not prose in a report. Confirms `follow-procedure` (tracker IDs) + `readiness-report`.
+- **Maps to:** confirmation of `follow-procedure` + `readiness-report`.
+
+### P-143 — Prioritize the findings that gate the specific release
+- **Observed:** "the two I'd do before promoting dumbmodel's /check publicly: per-request torch model loading behind an unauthenticated route (trivial DoS), and leads writing to Vercel's read-only filesystem."
+- **Why it works:** Out of 8 findings, named the 2 that specifically gate the dumbmodel /check public promotion, with the mechanism. Prioritization tied to a concrete release, not generic severity.
+- **Maps to:** refine `readiness-report` — prioritize findings by what gates the specific release.
+
+### P-144 — HANDOFF.md opens with a dated session-continuation block
+- **Observed:** "HANDOFF.md now opens with a dated session-continuation block — live state, the exact 4-command gate sequence, and ordered follow-ups. That's the note to paste into any fresh session."
+- **Why it works:** A handoff note designed to be paste-able into a fresh session: dated, with live state, the exact gate command sequence, and ordered follow-ups. This is the session-to-session bridge — the most-read artifact at the start of the next session.
+- **Maps to:** refine `persist-learnings` — the handoff note is the paste-into-fresh-session form.
+
+### P-145 — PLAN.md rewritten as-built
+- **Observed:** "PLAN.md §3.1 rewritten as-built (live fleet, Railway, venture map)".
+- **Why it works:** The plan doc is rewritten to reflect what was actually built, not the original plan. Confirms `metadata-align` — the plan doc is a surface that should reflect as-built state.
+- **Maps to:** confirmation of `metadata-align`.
+
+### P-146 — Strategic flag: a gate that passes on thin corpora isn't proof
+- **Observed:** "with fewer than 5 training pairs, the eval gate silently scores against 3 demo pairs and can pass (REV-905) — until that's fixed, treat 'gates passed' on thin corpora as unproven."
+- **Why it works:** Fable 5 flagged a strategic limit of its own gate: on thin data the gate can silently pass. This is the caution against over-trusting a gate — "gates passed" is conditional on the corpus being sufficient. Confirms `validate-gate` with the gate-limits nuance.
+- **Maps to:** refine `validate-gate` — a gate that passes on thin data isn't proof; state the corpus condition.
+
+## Tick 35: 2026-07-02 14:49 (UTC-5) — e2e proof + served-vs-source
+
+### P-147 — Monitor stream-end acknowledged
+- **Observed:** "Monitor 'Storefront BFF reports core-api online with key' stream ended".
+- **Why it works:** The monitor's stream ending is explicitly acknowledged — completion of a wait, not just completion of a background command. Confirms `background-failure-triage` extended to monitors.
+- **Maps to:** confirmation of `background-failure-triage` + `event-driven-wait`.
+
+### P-148 — One end-to-end proof through a public site's BFF before closing out
+- **Observed:** "The fleet is on live data. One end-to-end proof through a public site's BFF, then closing out."
+- **Why it works:** Before declaring the fleet live, Fable 5 runs ONE end-to-end proof through a public site's BFF — a single concrete path through the live system (public site → BFF → core-api → key). You don't verify every path; you prove one complete path end-to-end, which validates the wiring. Then close out.
+- **Maps to:** refine `close-the-loop` — prove one complete e2e path before declaring a fleet live.
+
+### P-149 — Discrepancy diagnosed by comparing served value vs source value
+- **Observed:** "A 401 on storefront despite the push — the key Vercel serves differs from the file. Comparing directly."
+- **Why it works:** A 401 despite an env push means the value Vercel serves ≠ the value in the file. Rather than re-pushing blindly, Fable 5 compared the served value vs the source value directly. Confirms `diagnose-before-retry` + `correct-assumptions` — when a deployed value misbehaves, compare what's served vs what's source.
+- **Maps to:** refine `correct-assumptions` — compare served vs source.
+
+### P-150 — `vercel env pull` to fetch what's actually served in production
+- **Observed:** `vercel env pull /tmp/sf.env --environment production --yes` then parse and compare to the file's value.
+- **Why it works:** Pulls the production env vars to a local file to compare against the source. The served env is ground truth for what the deploy actually has; the source file is what you pushed. Discrepancy between them explains the 401.
+- **Maps to:** fold into `correct-assumptions` / `use-available-integrations` — pull the served env to verify.
+
+### P-151 — /btw side-question channel without interrupting
+- **Observed:** "Tip: Use /btw to ask a quick side question without interrupting Claude's current work" + user used "/btw Can we make dumbmodel.com a fun interactive game".
+- **Why it works:** A side-question channel that doesn't interrupt the main flow — the user can ask a parallel question while the agent keeps working. Platform feature, noted.
+- **Maps to:** note (platform feature).

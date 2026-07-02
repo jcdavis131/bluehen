@@ -34,9 +34,10 @@ Last full run: see `data/evidence/latest.json` → `mathTests`.
 |---|---|---|---|
 | `rankAboveBaseline` | erank > 8.0 on eval slice | **Hypothesis** | Prior ~62 deploy reports **retracted** (train_loop bug); re-measure per workspace |
 | `ndcgNonRegression` | pairwise nDCG@10 ≥ 0.35 | **Hypothesis** | k=2 proxy in harness today; expand to k=10 panel |
-| `mrlWithinTolerance` | Matryoshka truncate tolerance | **Not measured** | Stub `True` in gates.py — implement before claiming MRL |
+| `mrlWithinTolerance` | Matryoshka truncate tolerance | **Not measured** | Fails closed in `gates.py` when MRL retrieval unmeasured (no stub `True`) — implement measurement before claiming MRL |
+| `sufficientEvalPairs` | ≥ 8 real collection pairs | **Measured (gate mechanics)** | REV-905 (2026-07-02): `services/core-api/app/services/eval.py` now fails closed below 8 real pairs — no silent demo-pair substitution. Tests `services/core-api/tests/test_eval.py` (6 cases: 0/7/8/12 pairs + `allow_demo` opt-in). Train minimum stays 10 |
 
-Implementation: `packages/eval-harness/eval_harness/gates.py`
+Implementation: `packages/eval-harness/eval_harness/gates.py`, `services/core-api/app/services/eval.py`
 
 ---
 
@@ -405,3 +406,4 @@ Each ablation must log to ledger + this file before changing WHITEPAPER mechanis
 | 2026-06-27 | §3.5 sleep/SHY consolidation (`asn_engine/sleep.py` + `scripts/sleep_consolidation.py`): bio-inspired wake/sleep **REJECTED as a pattern** — homeostasis-only ~no effect; periodic VICReg "dreams" worse than baseline (9.99 @day50, 5.71 @day10). Same lesson as §3.2/§3.3: anti-collapse must be continuous in the loss. `synaptic_downscale` kept as collapse-neutral renormalizer. |
 | 2026-06-27 | §3.6 real-text validation (`scripts/realtext_validation.py`, AG News): VICReg vs InfoNCE **neutral** (ΔnDCG −0.0005) — InfoNCE already resists collapse on real text. Domain-tuned MiniLM (nDCG 0.822) **beats zero-shot BGE-small** (0.776) in-domain → domain adaptation is the measured product lever (caveat: in-domain vs zero-shot). |
 | 2026-06-28 | §3.7 two-wave sweep (**891 runs**, `scripts/sweep.py`+`bayes_search.py`+`domain_sweep.py`; see SWEEP_FINDINGS.md/SWEEP_REPORT.md): H-A confirmed (anti-collapse value regime-specific: SimSiam +0.32, InfoNCE ~0 @batch≥16); **Barlow Twins beats VICReg** (TPE robust-score 1.42 vs 1.17); H-B/H-D rejected (decorrelation doesn't aid truncation/retrieval; int8 free; MRL is the truncation lever); domain fine-tune +1.5–3% in-domain with **no OOD forgetting**. |
+| 2026-07-02 | REV-905: eval gate now **fails closed** below 8 real collection pairs — removed the silent demo-pair fallback in `services/core-api/app/services/eval.py` that could pass gates on 3 hard-coded demo pairs. Added `sufficientEvalPairs` gate, `MIN_REAL_PAIRS_EVAL=8` (train minimum unchanged at 10), `allow_demo` manual-smoke opt-in, and `services/core-api/tests/test_eval.py` (6 cases). Spec 0008 gate table + §2 updated. |

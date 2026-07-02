@@ -689,7 +689,7 @@
       "division": "infra",
       "status": "ready",
       "spec": "review-2026-07-02",
-      "notes": "guard before setting empty SYNTH_API_KEY"
+      "notes": "guard before setting empty SYNTH_API_KEY; ALSO: vercel env add does NOT overwrite existing vars (stale-key 401 in prod 2026-07-02) - script must rm+add or use env update"
     },
     {
       "id": "REV-903",
@@ -711,9 +711,12 @@
       "id": "REV-905",
       "title": "Eval gate must fail below minimum real-pair count (no demo-pair fallback)",
       "division": "research",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "eval.py falls back to 3 demo pairs and can pass gates"
+      "notes": "eval.py falls back to 3 demo pairs and can pass gates",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-02T19:46:48.107844+00:00",
+      "completedAt": "2026-07-02T19:50:45.599025+00:00"
     },
     {
       "id": "REV-906",

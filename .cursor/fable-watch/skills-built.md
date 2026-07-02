@@ -80,4 +80,10 @@
 | `idempotent-seed-script` (refined) | P-095, P-131 | `~/.cursor/skills/idempotent-seed-script/SKILL.md` |
 | `post-deploy-smoke` (refined) | P-123, P-124, P-132 | `~/.cursor/skills/post-deploy-smoke/SKILL.md` |
 | `metadata-align` (refined) | P-052, P-084, P-136 | `~/.cursor/skills/metadata-align/SKILL.md` |
+| `respect-the-guard` (refined) | P-049, P-058, P-098, P-107, P-140 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
+| `persist-learnings` (refined) | P-028, P-030, P-144 | `~/.cursor/skills/persist-learnings/SKILL.md` |
+| `validate-gate` (refined) | P-018, P-042, P-092, P-146 | `~/.cursor/skills/validate-gate/SKILL.md` |
+| `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050, P-053, P-101, P-111, P-112, P-113, P-143 | `~/.cursor/skills/readiness-report/SKILL.md` |
+| `close-the-loop` (refined) | P-054, P-055, P-056, P-057, P-100, P-148 | `~/.cursor/skills/close-the-loop/SKILL.md` |
+| `correct-assumptions` (refined) | P-062, P-149, P-150 | `~/.cursor/skills/correct-assumptions/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

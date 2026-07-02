@@ -72,7 +72,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**OMNI-001** — Omni-market B0 — verify sim harness + API + CLI~~
 - [x] ~~**OMNI-002** — Omni workerbee SkillOpt loop dry-run~~
 - [x] ~~**OMNI-003** — finance-lab build + typecheck in pnpm review~~
 - [x] ~~**SITE-008** — dumbmodel venture v1 — embedding health check + consent flywheel (Spec 0015)~~
@@ -80,6 +79,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**SITE-010** — arxiviq venture v1 — research assistant subscription (Spec 0015)~~
 - [x] ~~**SITE-011** — finance-lab venture v1 — signal lab waitlist, simulation only (Spec 0015)~~
 - [x] ~~**SITE-012** — Gamification & attention pass — motion system, hero CTAs, exploration tracker, cursor-aware mascot~~
+- [x] ~~**REV-905** — Eval gate must fail below minimum real-pair count (no demo-pair fallback)~~
 
 ## Specs & context
 

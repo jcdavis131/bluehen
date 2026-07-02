@@ -866,3 +866,32 @@
 - **Observed:** `Monitor(Third combined-image deployment terminal state)`.
 - **Why it works:** The monitor's event name includes the ordinal ("Third") so multiple monitors for the same event across retries are distinguishable in the task list and logs. Confirms `event-driven-wait` with the retry-naming detail.
 - **Maps to:** confirmation of `event-driven-wait`.
+
+## Tick 38: 2026-07-02 15:13 (UTC-5) — steady-state wait (confirmations)
+
+### P-160 — Fill-the-wait with a codebase analysis task
+- **Observed:** `Background command "Find all call sites and attributes used" completed (exit code 0)` — a refactoring-analysis task ran in the background while the build churned.
+- **Why it works:** Confirms `fill-the-wait` — the build wait is filled with an independent analysis task (call-site enumeration for a refactor), not idle.
+- **Maps to:** confirmation of `fill-the-wait`.
+
+### P-161 — Re-state the conditioned next action during a long wait
+- **Observed:** "Still building — the monitor will fire on the terminal state and I'll run the kickoffs immediately."
+- **Why it works:** During a long wait, re-states the conditioned next action so the user knows the plan hasn't stalled. Confirms P-033/P-158.
+- **Maps to:** confirmation of `progress-board` / `event-driven-wait`.
+
+## Tick 39: 2026-07-02 15:21 (UTC-5) — training running
+
+### P-162 — Pre-commit the outcome report shape before the work finishes
+- **Observed:** "I'll report the outcome per site — models, gates, deploys — when the worker finishes all four jobs."
+- **Why it works:** Before the training finishes, Fable 5 commits to the report shape it will deliver: per-site, with three columns (models, gates, deploys). Pre-committing the output contract sets expectations and makes the eventual report checkable against it.
+- **Maps to:** refine `readiness-report` — pre-commit the report shape.
+
+### P-163 — Per-job progress narration during a batch
+- **Observed:** "Research is training (200 pairs from the real arXiv corpus). Waiting for the remaining jobs."
+- **Why it works:** During a batch of 4 training jobs, narrates per-job progress (which site is training now, with the corpus size) and notes it's waiting for the rest. Confirms `progress-board` at the per-job granularity.
+- **Maps to:** confirmation of `progress-board`.
+
+### P-164 — State the corpus size and source so the gate result is interpretable
+- **Observed:** "200 pairs from the real arXiv corpus".
+- **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.
+- **Maps to:** refine `validate-gate` — state the corpus size/source with the gate result.

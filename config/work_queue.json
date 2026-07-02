@@ -690,9 +690,10 @@
       "id": "REV-902",
       "title": "vercel-env-fleet: fail loudly on missing workspace env files",
       "division": "infra",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "guard before setting empty SYNTH_API_KEY; ALSO: vercel env add does NOT overwrite existing vars (stale-key 401 in prod 2026-07-02) - script must rm+add or use env update"
+      "notes": "guard before setting empty SYNTH_API_KEY; ALSO: vercel env add does NOT overwrite existing vars (stale-key 401 in prod 2026-07-02) - script must rm+add or use env update",
+      "claimedBy": "claude"
     },
     {
       "id": "REV-903",
@@ -700,7 +701,7 @@
       "division": "research",
       "status": "ready",
       "spec": "review-2026-07-02",
-      "notes": "embed_texts loads torch model per call; indexing per chunk"
+      "notes": "embed_texts loads torch model per call; indexing per chunk | LRU cache landed (commit pending deploy after prod training completes); BFF rate limit still open"
     },
     {
       "id": "REV-904",
@@ -725,9 +726,10 @@
       "id": "REV-906",
       "title": "org-divisions.json publicSites/owns \u2192 new site ids",
       "division": "infra",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "division-site joins silently empty"
+      "notes": "division-site joins silently empty",
+      "claimedBy": "claude"
     },
     {
       "id": "REV-907",

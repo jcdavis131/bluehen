@@ -132,6 +132,42 @@ def deploy_model(
     return out
 
 
+# Loaded-encoder cache (REV-903): loading a checkpoint + tokenizer per call
+# was per-request work on search/diagnose and per-CHUNK work during indexing.
+# Small LRU keyed by checkpoint path; thread-safe; invalidated implicitly by
+# new model versions using new paths.
+_ENCODER_CACHE: "dict[str, tuple[object, object]]" = {}
+_ENCODER_CACHE_MAX = 2
+_ENCODER_LOCK = __import__("threading").Lock()
+
+
+def _load_encoder_cached(ckpt_path: str):
+    import torch
+
+    from asn_engine.model import ASNEncoder
+    from transformers import AutoTokenizer
+
+    with _ENCODER_LOCK:
+        cached = _ENCODER_CACHE.get(ckpt_path)
+        if cached is not None:
+            return cached
+
+    with open_checkpoint(ckpt_path) as ckpt:
+        state = torch.load(ckpt, map_location="cpu", weights_only=False)
+    recipe = state.get("recipe", {})
+    backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
+    encoder = ASNEncoder(backbone_name=backbone)
+    encoder.load_state_dict(state["model"])
+    encoder.eval()
+    tok = AutoTokenizer.from_pretrained(backbone)
+
+    with _ENCODER_LOCK:
+        if len(_ENCODER_CACHE) >= _ENCODER_CACHE_MAX and ckpt_path not in _ENCODER_CACHE:
+            _ENCODER_CACHE.pop(next(iter(_ENCODER_CACHE)))
+        _ENCODER_CACHE[ckpt_path] = (encoder, tok)
+    return encoder, tok
+
+
 def embed_texts(
     workspace_id: uuid.UUID,
     inputs: list[str],
@@ -157,21 +193,11 @@ def embed_texts(
         if mv is None:
             raise ValueError("no trained model; run training first")
 
-        from asn_engine.model import ASNEncoder
-        from transformers import AutoTokenizer
-
         ckpt_path = mv.checkpoint_path
         if not checkpoint_exists(ckpt_path):
             raise FileNotFoundError(f"checkpoint missing: {ckpt_path}")
 
-        with open_checkpoint(ckpt_path) as ckpt:
-            state = torch.load(ckpt, map_location="cpu", weights_only=False)
-        recipe = state.get("recipe", {})
-        backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
-        encoder = ASNEncoder(backbone_name=backbone)
-        encoder.load_state_dict(state["model"])
-        encoder.eval()
-        tok = AutoTokenizer.from_pretrained(backbone)
+        encoder, tok = _load_encoder_cached(ckpt_path)
 
         vectors = []
         with torch.no_grad():

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Functional divisions of the Blue Hen RE synthetic organization — ownership, handoffs, and closed loop. Normative companion to specs/0012.",
+  "description": "Functional divisions of the Blue Hen RE synthetic organization \u2014 ownership, handoffs, and closed loop. Normative companion to specs/0012.",
   "divisions": [
     {
       "id": "data",
@@ -8,8 +8,14 @@
       "codename": "data-org",
       "mission": "Mine, ingest, clean, chunk, and pair tenant corpora so Research never trains on garbage.",
       "owner": "Data Steward (agent: data_harvester)",
-      "primarySystems": ["core-api /v1/data/*", "services/worker ingest stage", "data/corpora/*"],
-      "publicSites": ["hub"],
+      "primarySystems": [
+        "core-api /v1/data/*",
+        "services/worker ingest stage",
+        "data/corpora/*"
+      ],
+      "publicSites": [
+        "storefront"
+      ],
       "owns": [
         "Raw source inventory per workspace",
         "Ingest pipelines and chunk quality",
@@ -22,7 +28,10 @@
         "Deploy gates or production serving",
         "Public marketing claims"
       ],
-      "deliversTo": ["research", "orchestration"],
+      "deliversTo": [
+        "research",
+        "orchestration"
+      ],
       "expectsFrom": {
         "orchestration": [
           "Prioritized harvest requests with site_id, source URLs, and acceptance criteria",
@@ -33,7 +42,7 @@
           "Labeling guidelines when supervised pairs are needed"
         ],
         "execution": [
-          "Production query logs (future) for hard-negative mining — optional Phase A+"
+          "Production query logs (future) for hard-negative mining \u2014 optional Phase A+"
         ]
       },
       "delivers": {
@@ -49,7 +58,7 @@
         ]
       },
       "sla": {
-        "phaseA": "≥8 docs, ≥64 pairs per Phase A tenant within 24h of harvest request",
+        "phaseA": "\u22658 docs, \u226564 pairs per Phase A tenant within 24h of harvest request",
         "quality": "No empty chunks; UTF-8 clean; workspace RLS enforced"
       }
     },
@@ -67,7 +76,10 @@
         "EVIDENCE.md",
         "program.md"
       ],
-      "publicSites": ["hub", "research-rag"],
+      "publicSites": [
+        "storefront",
+        "research"
+      ],
       "owns": [
         "Training recipes (loss, architecture hyperparams)",
         "Experiment ledger entries (train/eval stages)",
@@ -80,7 +92,10 @@
         "Customer SLAs",
         "Raw web scraping (delegates to Data Org)"
       ],
-      "deliversTo": ["bd", "orchestration"],
+      "deliversTo": [
+        "bd",
+        "orchestration"
+      ],
       "expectsFrom": {
         "data": [
           "Paired, chunked corpus ready for train_asn",
@@ -98,7 +113,7 @@
       "delivers": {
         "bd": [
           "Recipe candidate package: recipe JSON, checkpoint path, eval-harness gates, EVIDENCE snapshot date",
-          "Promotion criteria checklist (real-text ΔnDCG, OOD forgetting, edge tier knn_t8)",
+          "Promotion criteria checklist (real-text \u0394nDCG, OOD forgetting, edge tier knn_t8)",
           "Experiment museum card metadata"
         ],
         "orchestration": [
@@ -121,13 +136,16 @@
       "mission": "Stress-test Research candidates on real-world scenarios vs commercial baselines; charter winners for Execution.",
       "owner": "BD Lead (agent: qa_benchmark, benchmark-lab operators)",
       "primarySystems": [
-        "apps/sites/benchmark-lab",
+        "apps/sites/validation",
         "apps/sites/dumbmodel",
         "packages/eval-public",
         "content/fleet/bd/queue.json",
         "content/fleet/bd/scorecards/"
       ],
-      "publicSites": ["benchmark-lab", "dumbmodel"],
+      "publicSites": [
+        "validation",
+        "dumbmodel"
+      ],
       "owns": [
         "Benchmark exam definitions (YAML)",
         "Pilot scorecards vs BGE/e5/MiniLM",
@@ -140,7 +158,11 @@
         "Long-term production ops (Execution)",
         "Raw corpus ingest (Data)"
       ],
-      "deliversTo": ["execution", "research", "orchestration"],
+      "deliversTo": [
+        "execution",
+        "research",
+        "orchestration"
+      ],
       "expectsFrom": {
         "research": [
           "BD queue candidates with full eval artifact bundle",
@@ -188,7 +210,12 @@
         "POST /v1/embed",
         "POST /v1/search"
       ],
-      "publicSites": ["hub", "research-rag", "benchmark-lab", "dumbmodel"],
+      "publicSites": [
+        "storefront",
+        "research",
+        "validation",
+        "dumbmodel"
+      ],
       "owns": [
         "Production checkpoints and model_versions rows",
         "pgvector indexes and search SLAs",
@@ -201,7 +228,11 @@
         "Marketing copy",
         "Benchmark exam design"
       ],
-      "deliversTo": ["orchestration", "bd", "data"],
+      "deliversTo": [
+        "orchestration",
+        "bd",
+        "data"
+      ],
       "expectsFrom": {
         "bd": [
           "Approved execution charter with recipe JSON",
@@ -229,7 +260,7 @@
         ]
       },
       "sla": {
-        "deploy": "Charter → deployed + indexed within 4h on Phase A stack",
+        "deploy": "Charter \u2192 deployed + indexed within 4h on Phase A stack",
         "serving": "RFC 9457 errors; RLS isolation verified in CI"
       }
     },
@@ -237,32 +268,48 @@
       "id": "orchestration",
       "name": "Orchestration & Intelligence Org",
       "codename": "orchestration-org",
-      "mission": "Close the loop — detect gaps, route work, enforce budgets, and keep divisions aligned.",
-      "owner": "Operator + Eve Chief of Staff (apps/synthorg, apps/control)",
+      "mission": "Close the loop \u2014 detect gaps, route work, enforce budgets, and keep divisions aligned.",
+      "owner": "Operator + Eve Chief of Staff (apps/synthorg, apps/hq)",
       "primarySystems": [
         "apps/synthorg",
-        "apps/control",
+        "apps/hq",
         "auto_research_ledger",
         "scripts/kickoff_lifecycle.py",
         "Conductor hill_climb"
       ],
-      "publicSites": ["control", "hub"],
+      "publicSites": [
+        "hq",
+        "storefront"
+      ],
       "owns": [
         "Cross-division priorities and cost ceilings",
         "Data-gap backlog routing to Data Org",
         "Promotion workflow state machine",
         "Trace IDs across synth-core spans",
-        "Operator approval gates (BD → Execution)"
+        "Operator approval gates (BD \u2192 Execution)"
       ],
       "doesNotOwn": [
         "Division-specific deliverables (delegates)"
       ],
-      "deliversTo": ["data", "research", "bd", "execution"],
+      "deliversTo": [
+        "data",
+        "research",
+        "bd",
+        "execution"
+      ],
       "expectsFrom": {
-        "data": ["Harvest completion or SLA breach notice"],
-        "research": ["Hypothesis verdicts and queue submissions"],
-        "bd": ["Scorecards and charter requests"],
-        "execution": ["Fleet health and slice weakness signals"]
+        "data": [
+          "Harvest completion or SLA breach notice"
+        ],
+        "research": [
+          "Hypothesis verdicts and queue submissions"
+        ],
+        "bd": [
+          "Scorecards and charter requests"
+        ],
+        "execution": [
+          "Fleet health and slice weakness signals"
+        ]
       },
       "delivers": {
         "all": [
@@ -272,7 +319,7 @@
         ]
       },
       "sla": {
-        "response": "Gap detected → data request logged within 1 conductor cycle",
+        "response": "Gap detected \u2192 data request logged within 1 conductor cycle",
         "budget": "Never exceed RESEARCH_COST_CEILING_USD_PER_DAY per workspace"
       }
     }
@@ -287,8 +334,20 @@
       "Validation issues a production charter on pass",
       "Production deploys the model, builds the vector index, and serves retrieval",
       "Production and Validation publish metrics back to Orchestration",
-      "Orchestration opens data requests → back to Data Operations"
+      "Orchestration opens data requests \u2192 back to Data Operations"
     ],
-    "ledgerStages": ["collect", "chunk", "pairs", "train", "eval", "deploy", "index", "pilot", "charter", "feedback", "omni_sim"]
+    "ledgerStages": [
+      "collect",
+      "chunk",
+      "pairs",
+      "train",
+      "eval",
+      "deploy",
+      "index",
+      "pilot",
+      "charter",
+      "feedback",
+      "omni_sim"
+    ]
   }
 }

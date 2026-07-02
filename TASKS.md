@@ -44,14 +44,13 @@
   - `Extend core-api lifecycle or worker pair generation with corpus-mined negatives`
 - [ ] **RAG-505** — arXiv exam runner in eval-public (bd) · spec [0008](./specs/0008-*.md)
   - `Port exam logic → packages/eval-public; wire arxiviq homepage`
-- [ ] **SITE-002** — arxiviq /methods page (org recipe + evidence dates) (comms) · spec [0007](./specs/0007-*.md)
-  - `apps/sites/research-rag/app/methods/page.tsx`
 - [ ] **SITE-003** — dumbmodel /museum collapse failures (comms) · spec [0007](./specs/0007-*.md)
   - `apps/sites/dumbmodel/app/museum/page.tsx`
 - [ ] **SPEC-006** — Eve subagents + trace wiring (agent) · spec [0006](./specs/0006-*.md)
   - `apps/synthorg — subagent descriptions + synth-core trace IDs`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
+- [ ] **REV-901** — Run workspace site_id migration + bootstrap + vercel env (Operator gate) (infra) · spec [review-2026-07-02](./specs/review-2026-07-02-*.md)
 
 ## In progress
 
@@ -72,14 +71,14 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**OMNI-002** — Omni workerbee SkillOpt loop dry-run~~
-- [x] ~~**OMNI-003** — finance-lab build + typecheck in pnpm review~~
 - [x] ~~**SITE-008** — dumbmodel venture v1 — embedding health check + consent flywheel (Spec 0015)~~
 - [x] ~~**SITE-009** — slasso venture v1 — RAG certification (Spec 0015)~~
 - [x] ~~**SITE-010** — arxiviq venture v1 — research assistant subscription (Spec 0015)~~
 - [x] ~~**SITE-011** — finance-lab venture v1 — signal lab waitlist, simulation only (Spec 0015)~~
 - [x] ~~**SITE-012** — Gamification & attention pass — motion system, hero CTAs, exploration tracker, cursor-aware mascot~~
+- [x] ~~**REV-902** — vercel-env-fleet: fail loudly on missing workspace env files~~
 - [x] ~~**REV-905** — Eval gate must fail below minimum real-pair count (no demo-pair fallback)~~
+- [x] ~~**REV-906** — org-divisions.json publicSites/owns → new site ids~~
 
 ## Specs & context
 

@@ -111,9 +111,18 @@ for (const site of fleet.sites) {
 
   if (!site.domain) continue;
   const ws = parseEnvFile(resolve(ROOT, "data/workspaces", `${site.id}.env`));
+  if (!ws.SYNTH_API_KEY) {
+    // REV-902: never push an empty key — a blank SYNTH_API_KEY silently
+    // breaks every BFF route on the deployed site.
+    console.error(
+      `  ✗ ${site.id}: data/workspaces/${site.id}.env missing or has no SYNTH_API_KEY — skipped (run bootstrap:orgs first)`,
+    );
+    process.exitCode = 1;
+    continue;
+  }
   setSiteEnv(site, {
     ...sharedApi,
-    SYNTH_API_KEY: ws.SYNTH_API_KEY ?? "",
+    SYNTH_API_KEY: ws.SYNTH_API_KEY,
   });
 }
 

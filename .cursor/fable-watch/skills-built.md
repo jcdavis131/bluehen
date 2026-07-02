@@ -89,4 +89,6 @@
 | `use-available-integrations` (refined) | P-105, P-106, P-108, P-109, P-110, P-128, P-129, P-152, P-153, P-155 | `~/.cursor/skills/use-available-integrations/SKILL.md` |
 | `logical-commit-split` (refined) | P-047, P-048, P-154 | `~/.cursor/skills/logical-commit-split/SKILL.md` |
 | `diagnose-before-retry` (refined) | P-066, P-067, P-068, P-069, P-156 | `~/.cursor/skills/diagnose-before-retry/SKILL.md` |
+| `validate-gate` (refined) | P-018, P-042, P-092, P-146, P-164 | `~/.cursor/skills/validate-gate/SKILL.md` |
+| `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050, P-053, P-101, P-111, P-112, P-113, P-143, P-162 | `~/.cursor/skills/readiness-report/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

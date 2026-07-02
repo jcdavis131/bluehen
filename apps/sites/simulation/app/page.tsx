@@ -3,6 +3,12 @@ import { getSiteCircuit } from "@synthaembed/fleet";
 import Link from "next/link";
 import { WaitlistForm } from "../components/WaitlistForm";
 
+export const metadata = {
+  title: "Simulation Lab — paper-trading strategy reports",
+  description:
+    "Published strategy reports from paper-trading simulations across prediction markets, sports DFS, and retail equities. Simulation only — no live capital, no trading advice.",
+};
+
 const PLATFORMS = [
   { id: "kalshi", name: "Kalshi", category: "Prediction market" },
   { id: "polymarket", name: "Polymarket", category: "Prediction market" },

@@ -30,7 +30,7 @@ export default function TryPage() {
       <div className="bh-card" style={{ marginBottom: "var(--bh-space-5)" }}>
         <strong className="bh-card__title">Benchmark catalog (static)</strong>
         <p className="bh-card__body" style={{ marginTop: "var(--bh-space-2)" }}>
-          Select a theme below or write your own. YAML exam runner ships in Phase 3.
+          Select a theme below or write your own. YAML exam runner ships in Phase B.
         </p>
         <ul className="bh-card__body" style={{ margin: "var(--bh-space-2) 0 0", paddingLeft: 18 }}>
           {BENCHMARK_EXAMS.slice(0, 4).map((e) => (

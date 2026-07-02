@@ -34,6 +34,21 @@
       "glob": "docs/raw/arxiv/*.md",
       "tags": ["research", "arxiv"],
       "intervalMinutes": 720
+    },
+    {
+      "id": "validation-promotion-scorecards",
+      "name": "Validation Lab — promotion queue and certification scorecards",
+      "urls": ["content/fleet/bd/queue.json"],
+      "glob": "content/fleet/bd/scorecards/*.json",
+      "tags": ["venture", "validation", "bd"],
+      "intervalMinutes": 1440
+    },
+    {
+      "id": "arxiv-rss-cs-ir",
+      "name": "arXiv cs.IR daily listing (RSS)",
+      "urls": ["https://rss.arxiv.org/rss/cs.IR"],
+      "tags": ["research", "arxiv", "external"],
+      "intervalMinutes": 1440
     }
   ]
 }

@@ -10,6 +10,15 @@ const PLATFORM_NAMES: Record<string, string> = {
   robinhood: "Robinhood",
 };
 
+export async function generateMetadata({ params }: { params: Promise<{ platform: string }> }) {
+  const { platform } = await params;
+  const name = PLATFORM_NAMES[platform] ?? "Platform";
+  return {
+    title: `${name} paper trade — Simulation Lab`,
+    description: `Fixture-driven backtest for ${name} with platform rule enforcement. Simulation only — not live trading.`,
+  };
+}
+
 export default async function SimulatePage({ params }: { params: Promise<{ platform: string }> }) {
   const { platform } = await params;
   if (!VALID.has(platform)) notFound();

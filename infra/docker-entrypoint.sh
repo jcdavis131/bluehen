@@ -25,8 +25,14 @@ case "$mode" in
     cd /app/services/core-api
     echo "[entrypoint] running alembic upgrade head"
     "$UV/alembic" upgrade head || echo "[entrypoint] migrate warning - continuing"
-    echo "[entrypoint] starting worker (background)"
-    PYTHONPATH=/app/services/core-api "$UV/python" /app/services/worker/main.py &
+    echo "[entrypoint] starting supervised worker (background)"
+    (
+      while true; do
+        PYTHONPATH=/app/services/core-api "$UV/python" /app/services/worker/main.py
+        echo "[entrypoint] worker exited (rc=$?) - restarting in 10s (OOM kills land here)"
+        sleep 10
+      done
+    ) &
     echo "[entrypoint] starting uvicorn on 0.0.0.0:${PORT}"
     exec "$UV/uvicorn" app.main:app --host 0.0.0.0 --port "$PORT" --log-level info
     ;;

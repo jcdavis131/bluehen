@@ -11,6 +11,10 @@ DEFAULT_RECIPE = {
     "baseModel": "sentence-transformers/all-MiniLM-L6-v2",
     "epochs": 3,
     "batchSize": 8,
+    # Prod containers are plan-capped at 1 GB (Railway) — full fine-tune
+    # OOMs (4 observed kills). Head-only training fits; lift when the
+    # Operator upgrades the plan or Modal training (Spec 0011) lands.
+    "freezeBackbone": True,
     "loss": {"infoNceTemp": 0.07, "zeloWeight": 0},
     "asn": {
         "kStrong": 8,

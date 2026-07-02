@@ -125,7 +125,16 @@ def train_asn(
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     encoder = ASNEncoder(backbone_name=backbone).to(device)
     tokenizer = AutoTokenizer.from_pretrained(backbone)
-    opt = torch.optim.AdamW(encoder.parameters(), lr=lr)
+    # Opt-in head-only training (default OFF - autoresearch behavior is
+    # unchanged). Freezing the backbone drops grads + optimizer states +
+    # backbone activation storage: peak memory falls ~4x, which is what
+    # lets prod train inside a 1 GB container (Spec 0009 recipe choice).
+    if bool(recipe.get("freezeBackbone", False)):
+        for p in encoder.backbone.parameters():
+            p.requires_grad = False
+        encoder.backbone.eval()
+    trainable = [p for p in encoder.parameters() if p.requires_grad]
+    opt = torch.optim.AdamW(trainable, lr=lr)
     loader = DataLoader(PairDataset(pairs), batch_size=batch_size, shuffle=True, collate_fn=lambda items: items)
 
     global_step = 0

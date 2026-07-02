@@ -63,4 +63,6 @@
 | `use-design-system` (refined) | P-034, P-035, P-036, P-080, P-081, P-082, P-090 | `~/.cursor/skills/use-design-system/SKILL.md` |
 | `silent-op-recovery` (refined) | P-025, P-026, P-027, P-063, P-091 | `~/.cursor/skills/silent-op-recovery/SKILL.md` |
 | `validate-gate` (refined) | P-018, P-042, P-092 | `~/.cursor/skills/validate-gate/SKILL.md` |
+| `idempotent-seed-script` | P-095 | `~/.cursor/skills/idempotent-seed-script/SKILL.md` |
+| `document-non-action` (refined) | P-038, P-094 | `~/.cursor/skills/document-non-action/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

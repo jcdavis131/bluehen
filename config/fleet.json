@@ -34,15 +34,24 @@
       "phase": "all",
       "role": "operator-control-plane",
       "orgDivision": "orchestration",
-      "deliversTo": ["data", "research", "bd", "execution"],
-      "expectsFrom": ["bd", "execution", "research"],
+      "deliversTo": [
+        "data",
+        "research",
+        "bd",
+        "execution"
+      ],
+      "expectsFrom": [
+        "bd",
+        "execution",
+        "research"
+      ],
       "appPath": "apps/control",
       "package": "@synthaembed/control",
       "port": 3002,
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Operations Center — fleet map, lifecycle controls, and cross-tenant status."
+      "description": "Operations Center \u2014 fleet map, lifecycle controls, and cross-tenant status."
     },
     {
       "id": "hub",
@@ -51,16 +60,38 @@
       "phase": "all",
       "role": "platform-hub",
       "orgDivision": "orchestration",
-      "secondaryDivisions": ["research", "data"],
-      "deliversTo": ["research", "bd", "execution", "data"],
-      "expectsFrom": ["research", "bd", "execution", "data"],
+      "secondaryDivisions": [
+        "research",
+        "data"
+      ],
+      "deliversTo": [
+        "research",
+        "bd",
+        "execution",
+        "data"
+      ],
+      "expectsFrom": [
+        "research",
+        "bd",
+        "execution",
+        "data"
+      ],
       "appPath": "apps/sites/hub",
       "package": "@synthaembed/hub",
       "port": 3000,
       "vercelPreview": "bhre.vercel.app",
       "status": "active",
       "legacyRepo": "henington-homes",
-      "description": "Platform Console — operating loop, lifecycle ledger, and tenant overview."
+      "description": "Platform Console \u2014 operating loop, lifecycle ledger, and tenant overview.",
+      "venture": {
+        "valueProp": "B2B front door - managed embeddings & evaluation services",
+        "cta": {
+          "label": "Start a briefing",
+          "href": "/contact"
+        },
+        "monetization": "Pricing tiers -> briefings; self-serve store (Medusa)",
+        "dataConsent": "Leads via /contact (privacy at /legal/privacy); search relevance feedback"
+      }
     },
     {
       "id": "synthorg",
@@ -69,15 +100,25 @@
       "phase": "all",
       "role": "fleet-agent",
       "orgDivision": "orchestration",
-      "deliversTo": ["data", "research", "bd", "execution"],
-      "expectsFrom": ["data", "research", "bd", "execution"],
+      "deliversTo": [
+        "data",
+        "research",
+        "bd",
+        "execution"
+      ],
+      "expectsFrom": [
+        "data",
+        "research",
+        "bd",
+        "execution"
+      ],
       "appPath": "apps/synthorg",
       "package": "@synthaembed/synthorg",
       "port": null,
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Eve Chief of Staff — delegates lifecycle across all fleet sites via synth-core."
+      "description": "Eve Chief of Staff \u2014 delegates lifecycle across all fleet sites via synth-core."
     },
     {
       "id": "dumbmodel",
@@ -86,21 +127,32 @@
       "phase": "A",
       "role": "public-proof",
       "orgDivision": "bd",
-      "secondaryDivisions": ["research"],
-      "deliversTo": ["orchestration"],
-      "expectsFrom": ["research", "bd", "execution"],
+      "secondaryDivisions": [
+        "research"
+      ],
+      "deliversTo": [
+        "orchestration"
+      ],
+      "expectsFrom": [
+        "research",
+        "bd",
+        "execution"
+      ],
       "appPath": "apps/sites/dumbmodel",
       "package": "@synthaembed/dumbmodel",
       "port": 3001,
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Baseline Comparison — transparent embedder benchmarks with measured effective rank and nDCG.",
+      "description": "Baseline Comparison \u2014 transparent embedder benchmarks with measured effective rank and nDCG.",
       "venture": {
-        "valueProp": "Free embedding health check — paste text, get measured collapse diagnostics",
-        "cta": { "label": "Run the free health check", "href": "/check" },
+        "valueProp": "Free embedding health check \u2014 paste text, get measured collapse diagnostics",
+        "cta": {
+          "label": "Run the free health check",
+          "href": "/check"
+        },
         "monetization": "Evaluation Credits via bhenre.com/store; briefings via /contact",
-        "dataConsent": "Opt-in checkbox on /check; consented samples → data/datalab/inbox (datalab source: dumbmodel-health-checks)"
+        "dataConsent": "Opt-in checkbox on /check; consented samples \u2192 data/datalab/inbox (datalab source: dumbmodel-health-checks)"
       }
     },
     {
@@ -110,16 +162,35 @@
       "phase": "A",
       "role": "rag-benchmark",
       "orgDivision": "bd",
-      "secondaryDivisions": ["research"],
-      "deliversTo": ["execution", "research", "orchestration"],
-      "expectsFrom": ["research", "execution", "data"],
+      "secondaryDivisions": [
+        "research"
+      ],
+      "deliversTo": [
+        "execution",
+        "research",
+        "orchestration"
+      ],
+      "expectsFrom": [
+        "research",
+        "execution",
+        "data"
+      ],
       "appPath": "apps/sites/benchmark-lab",
       "package": "@synthaembed/benchmark-lab",
       "port": 3003,
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": "agent-lasso",
-      "description": "Validation Lab — certified RAG benchmarks, scorecards, and promotion queue."
+      "description": "Validation Lab \u2014 certified RAG benchmarks, scorecards, and promotion queue.",
+      "venture": {
+        "valueProp": "RAG certification - paid reproducible benchmark runs with published scorecards",
+        "cta": {
+          "label": "Get your RAG certified",
+          "href": "/certify"
+        },
+        "monetization": "RAG Certification Run product (store, USD placeholder pending Operator pricing)",
+        "dataConsent": "Customer eval sets under NDA; published scorecards only with clearance"
+      }
     },
     {
       "id": "research-rag",
@@ -128,16 +199,38 @@
       "phase": "A",
       "role": "research-rag",
       "orgDivision": "research",
-      "secondaryDivisions": ["data", "bd", "execution"],
-      "deliversTo": ["bd", "orchestration", "data"],
-      "expectsFrom": ["data", "bd", "execution", "orchestration"],
+      "secondaryDivisions": [
+        "data",
+        "bd",
+        "execution"
+      ],
+      "deliversTo": [
+        "bd",
+        "orchestration",
+        "data"
+      ],
+      "expectsFrom": [
+        "data",
+        "bd",
+        "execution",
+        "orchestration"
+      ],
       "appPath": "apps/sites/research-rag",
       "package": "@synthaembed/research-rag",
       "port": 3004,
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": "arxiv_exam_app",
-      "description": "Applied Research — live retrieval, research registry, and method evidence."
+      "description": "Applied Research \u2014 live retrieval, research registry, and method evidence.",
+      "venture": {
+        "valueProp": "Research retrieval assistant over arXiv - the live demo is the product",
+        "cta": {
+          "label": "Reserve a design-partner seat",
+          "href": "https://bhenre.com/store"
+        },
+        "monetization": "Design Partner Seat (store); usage-metered API later",
+        "dataConsent": "Query logging deferred until consent UI ships (Spec 0015 gate)"
+      }
     },
     {
       "id": "training-console",
@@ -146,16 +239,25 @@
       "phase": "all",
       "role": "training-observability",
       "orgDivision": "research",
-      "secondaryDivisions": ["orchestration", "data"],
-      "deliversTo": ["research", "orchestration"],
-      "expectsFrom": ["research", "data"],
+      "secondaryDivisions": [
+        "orchestration",
+        "data"
+      ],
+      "deliversTo": [
+        "research",
+        "orchestration"
+      ],
+      "expectsFrom": [
+        "research",
+        "data"
+      ],
       "appPath": "apps/sites/training-console",
       "package": "@synthaembed/training-console",
       "port": 3006,
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Training Observatory — live run telemetry, effective-rank monitoring, and collapse alerts."
+      "description": "Training Observatory \u2014 live run telemetry, effective-rank monitoring, and collapse alerts."
     },
     {
       "id": "finance-lab",
@@ -164,16 +266,34 @@
       "phase": "B",
       "role": "omni-market-simulation",
       "orgDivision": "bd",
-      "secondaryDivisions": ["data", "research"],
-      "deliversTo": ["execution", "orchestration"],
-      "expectsFrom": ["research", "data"],
+      "secondaryDivisions": [
+        "data",
+        "research"
+      ],
+      "deliversTo": [
+        "execution",
+        "orchestration"
+      ],
+      "expectsFrom": [
+        "research",
+        "data"
+      ],
       "appPath": "apps/sites/finance-lab",
       "package": "@synthaembed/finance-lab",
       "port": 3005,
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Simulation Lab — paper-trading across Kalshi, Polymarket, PrizePicks, Robinhood (Spec 0013)."
+      "description": "Simulation Lab \u2014 paper-trading across Kalshi, Polymarket, PrizePicks, Robinhood (Spec 0013).",
+      "venture": {
+        "valueProp": "Signal Lab - published paper-trading strategy reports; simulation only",
+        "cta": {
+          "label": "Join the waitlist",
+          "href": "/"
+        },
+        "monetization": "Waitlist -> premium research notes (Phase B gate; no live trading)",
+        "dataConsent": "Waitlist email stored for this list only (data/leads/waitlist.jsonl)"
+      }
     }
   ]
 }

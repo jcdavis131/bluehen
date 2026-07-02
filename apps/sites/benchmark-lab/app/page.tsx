@@ -20,8 +20,9 @@ export default function BenchmarkHome() {
         title="Validation Lab"
         lead={
           <>
-            Certified benchmarks across basic → advanced RAG tiers. Evidence-backed scorecards.{" "}
-            <Link href="/try">Run a benchmark →</Link>
+            Get your RAG stack certified — a paid, reproducible benchmark run with a published,
+            linkable scorecard. Evidence-backed, same harness that gates our own deploys.{" "}
+            <Link href="/certify">How certification works →</Link>
           </>
         }
         badge={<span className="bh-badge bh-badge--accent">Validation · {RE.tech}</span>}

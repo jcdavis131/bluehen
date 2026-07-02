@@ -73,14 +73,14 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**DONE-002** — arxiviq TierComparePanel + tier-aware /v1/search~~
-- [x] ~~**DONE-003** — Literature radar + harvest + FRONTIER_ARCHITECTURE.md~~
-- [x] ~~**DONE-004** — Spec alignment — unified BD queue path, 0012 Phase A vs A+ scope~~
 - [x] ~~**DONE-005** — Phase A+ runtime handoffs — handoffs.py, charter gate, control promotion UI~~
 - [x] ~~**OMNI-001** — Omni-market B0 — verify sim harness + API + CLI~~
 - [x] ~~**OMNI-002** — Omni workerbee SkillOpt loop dry-run~~
 - [x] ~~**OMNI-003** — finance-lab build + typecheck in pnpm review~~
 - [x] ~~**SITE-008** — dumbmodel venture v1 — embedding health check + consent flywheel (Spec 0015)~~
+- [x] ~~**SITE-009** — slasso venture v1 — RAG certification (Spec 0015)~~
+- [x] ~~**SITE-010** — arxiviq venture v1 — research assistant subscription (Spec 0015)~~
+- [x] ~~**SITE-011** — finance-lab venture v1 — signal lab waitlist, simulation only (Spec 0015)~~
 
 ## Specs & context
 

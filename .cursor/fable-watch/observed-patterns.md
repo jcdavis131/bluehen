@@ -501,3 +501,20 @@
 - **Observed:** `CI=true pnpm --filter … build`.
 - **Why it works:** Setting `CI=true` makes the build behave as it would in CI (fail on warnings, no interactive, stricter). Running it locally gives you CI-equivalent signal before pushing.
 - **Maps to:** refine `validate-gate` — set `CI=true` for local builds to get CI-equivalent behavior.
+
+## Tick 23: 2026-07-02 13:13 (UTC-5) — data seed, placeholder-pending-decision
+
+### P-093 — Spec + task ID cited in the file header
+- **Observed:** `add-certification.ts` opens with `/** Add the slasso RAG Certification product (Spec 0015, SITE-009). */`.
+- **Why it works:** Every new file's header cites its spec number and work-queue ID, so the work is traceable from code back to the tracker. This is the repo's documented "Spec traceability" convention (AGENTS.md) in practice.
+- **Maps to:** confirmation of `follow-procedure` + the repo's spec-traceability rule.
+
+### P-094 — Placeholder-pending-Operator-decision documented inline
+- **Observed:** `Price is a placeholder pending Operator pricing decision — adjust in [admin/UI]`.
+- **Why it works:** A data value that can't be finalized yet (price needs a product decision) is set to a placeholder with a documented owner (Operator) and next step (adjust in admin). This is `document-non-action` applied to a data value — a placeholder is a deferred decision, not a forgotten one.
+- **Maps to:** refine `document-non-action` — the placeholder-pending-decision variant.
+
+### P-095 — Idempotent data-seed script with skip-detection in the run grep
+- **Observed:** `add-certification.ts` is a one-shot data seed (`npx medusa exec ./src/scripts/add-certification.ts`), and the run command greps `grep -iE "certification|error|added|skip" | tail -3` — watching for "skip" because the seed detects if the product already exists and skips.
+- **Why it works:** A data-seed that isn't idempotent fails or duplicates on a second run. An idempotent seed (detect existing → skip) is re-runnable safely, and grepping for `added|skip|error` shows what actually happened in one line. This is the data-setup counterpart to `affected-tests` — a cheap, re-runnable, observable seeding step.
+- **Maps to:** `idempotent-seed-script` skill.

@@ -630,6 +630,39 @@
       "claimedBy": "claude",
       "claimedAt": "2026-07-02T17:51:38.408486+00:00",
       "completedAt": "2026-07-02T18:08:07.467408+00:00"
+    },
+    {
+      "id": "SITE-009",
+      "title": "slasso venture v1 \u2014 RAG certification (Spec 0015)",
+      "division": "bd",
+      "status": "done",
+      "spec": "0015",
+      "notes": "cert page, store product, venture block",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T18:12:18.066929+00:00",
+      "completedAt": "2026-07-02T18:14:04.022782+00:00"
+    },
+    {
+      "id": "SITE-010",
+      "title": "arxiviq venture v1 \u2014 research assistant subscription (Spec 0015)",
+      "division": "bd",
+      "status": "done",
+      "spec": "0015",
+      "notes": "venture homepage, subscription CTA, venture block",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T18:14:04.163842+00:00",
+      "completedAt": "2026-07-02T18:14:40.019025+00:00"
+    },
+    {
+      "id": "SITE-011",
+      "title": "finance-lab venture v1 \u2014 signal lab waitlist, simulation only (Spec 0015)",
+      "division": "bd",
+      "status": "done",
+      "spec": "0015",
+      "notes": "venture homepage, waitlist capture, venture block",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T18:14:40.135445+00:00",
+      "completedAt": "2026-07-02T18:16:43.956570+00:00"
     }
   ]
 }

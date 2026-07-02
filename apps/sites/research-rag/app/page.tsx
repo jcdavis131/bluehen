@@ -16,10 +16,11 @@ export default function ResearchRagPage() {
     <>
       <PageHeader
         eyebrow={surface?.eyebrow}
-        title="Applied Research"
+        title="Search arXiv like it's your own corpus"
         lead={
           <>
-            Live retrieval on your org corpus · {RE.tech} in production ·{" "}
+            A research retrieval assistant, live below — the same production stack we run for
+            customers, pointed at arXiv. {RE.tech} in production ·{" "}
             <Link href="/research-lab">browse the {GLOSSARY.experimentMuseum.toLowerCase()} →</Link>
           </>
         }
@@ -27,6 +28,23 @@ export default function ResearchRagPage() {
       />
       <SiteSubnav items={nav} currentPath="/" />
       <ArxivExamDemo />
+
+      <div className="bh-card bh-card--organic" style={{ marginTop: "var(--bh-space-6)" }}>
+        <div className="bh-card__title">Use this on your own papers</div>
+        <p className="bh-card__body">
+          Design-partner seats get a dedicated workspace: your corpus, monthly
+          retraining behind deploy gates, and direct roadmap input. First cohort,
+          quarterly terms.
+        </p>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <a className="bh-btn bh-btn--primary" href="https://bhenre.com/store">
+            Reserve a design-partner seat
+          </a>
+          <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=managed-embeddings">
+            Ask about a custom corpus
+          </a>
+        </div>
+      </div>
     </>
   );
 }

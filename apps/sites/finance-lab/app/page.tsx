@@ -1,6 +1,7 @@
 import { PageHeader } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import Link from "next/link";
+import { WaitlistForm } from "../components/WaitlistForm";
 
 const PLATFORMS = [
   { id: "kalshi", name: "Kalshi", category: "Prediction market" },
@@ -16,10 +17,21 @@ export default function FinanceLabPage() {
     <>
       <PageHeader
         eyebrow={surface?.eyebrow}
-        title={surface?.stop ?? "Omni-Market Simulation Lab"}
-        lead="Paper-trading validation across prediction markets, sports DFS, and retail equities. Simulation only — no live capital."
+        title="Signal Lab"
+        lead="Published strategy reports from paper-trading simulations across prediction markets, sports DFS, and retail equities. Simulation only — no live capital, no trading advice."
         badge={<span className="bh-badge bh-badge--warn">Phase B · simulation</span>}
       />
+
+      <div className="bh-card bh-card--organic" style={{ marginBottom: "var(--bh-space-4)" }}>
+        <div className="bh-card__title">Get the strategy reports</div>
+        <p className="bh-card__body">
+          When a simulation batch clears review, the write-up goes to the
+          waitlist first: strategy, platform rules applied, and measured
+          simulation results. Your email is stored for this list only — see the{" "}
+          <a href="https://bhenre.com/legal/privacy">privacy note</a>.
+        </p>
+        <WaitlistForm />
+      </div>
 
       <div className="bh-card" style={{ marginBottom: "var(--bh-space-4)" }}>
         <div className="bh-card__title">Omni-Market Alpha Engine (v4.0)</div>

@@ -84,8 +84,14 @@ class WatchState:
                 self.state = {}
 
     def save(self) -> None:
+        """Atomic write (REV-909): temp file + os.replace so a crash mid-write
+        can never corrupt the state and force full re-collection."""
+        import os
+
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.write_text(json.dumps(self.state, indent=2), encoding="utf-8")
+        tmp = self.path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(self.state, indent=2), encoding="utf-8")
+        os.replace(tmp, self.path)
 
     def entry(self, source_id: str) -> dict[str, Any]:
         return self.state.setdefault(source_id, {})

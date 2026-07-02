@@ -751,9 +751,10 @@
       "id": "REV-909",
       "title": "datalab watch_state atomic write + lock",
       "division": "research",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "crash corrupts state; concurrent runners race"
+      "notes": "atomic temp+rename save; cross-process lock still open if concurrent runners become real",
+      "claimedBy": "claude"
     },
     {
       "id": "REV-910",

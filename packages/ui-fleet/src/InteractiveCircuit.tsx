@@ -63,6 +63,7 @@ export function InteractiveCircuit({
         // keep last-known state
       }
     };
+    tick(); // immediate first poll — no blind first interval
     const id = setInterval(tick, pollMs);
     return () => {
       live = false;

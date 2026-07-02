@@ -21,6 +21,12 @@ const DIVISION_ACCENT: Record<string, string> = {
   execution: "#5cb87a",
 };
 
+/** Stable entry identity: ts + stage alone collide for same-second,
+ * same-stage entries — include a slice of the payload. */
+function entryKey(e: LedgerEntry): string {
+  return `${e.ts}-${e.stage}-${(e.notes ?? e.modelVersion ?? "").slice(0, 24)}`;
+}
+
 function relTime(ts?: string): string {
   if (!ts) return "";
   const ms = Date.now() - new Date(ts).getTime();
@@ -47,7 +53,7 @@ export function RaceFeed({
 }) {
   const [entries, setEntries] = useState<LedgerEntry[]>(initial.slice(0, limit));
   const [fresh, setFresh] = useState<Set<string>>(new Set());
-  const known = useRef(new Set(initial.map((e) => `${e.ts}-${e.stage}`)));
+  const known = useRef(new Set(initial.map(entryKey)));
 
   useEffect(() => {
     let live = true;
@@ -59,11 +65,14 @@ export function RaceFeed({
         if (!live || !data.entries) return;
         const arrived: string[] = [];
         for (const e of data.entries) {
-          const key = `${e.ts}-${e.stage}`;
+          const key = entryKey(e);
           if (!known.current.has(key)) {
             known.current.add(key);
             arrived.push(key);
           }
+        }
+        if (known.current.size > 500) {
+          known.current = new Set(data.entries.map(entryKey)); // bound growth
         }
         setEntries(data.entries.slice(0, limit));
         if (arrived.length > 0) {
@@ -74,6 +83,7 @@ export function RaceFeed({
         // feed keeps last-known entries; staleness is visible via timestamps
       }
     };
+    tick(); // immediate first poll — no blind first interval
     const id = setInterval(tick, pollMs);
     return () => {
       live = false;
@@ -92,7 +102,7 @@ export function RaceFeed({
   return (
     <ol className="bh-feed" aria-live="polite" aria-label="Race log feed">
       {entries.map((e, i) => {
-        const key = `${e.ts}-${e.stage}`;
+        const key = entryKey(e);
         const division = ledgerStageToDivision(e.stage);
         const accent = (division && DIVISION_ACCENT[division]) || "var(--bh-muted)";
         return (

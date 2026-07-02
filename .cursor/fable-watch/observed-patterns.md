@@ -891,6 +891,13 @@
 - **Why it works:** During a batch of 4 training jobs, narrates per-job progress (which site is training now, with the corpus size) and notes it's waiting for the rest. Confirms `progress-board` at the per-job granularity.
 - **Maps to:** confirmation of `progress-board`.
 
+## Tick 41: 2026-07-02 15:37 (UTC-5) — review finding fixed structurally
+
+### P-165 — Bounded LRU encoder cache to fix the per-request torch-loading DoS
+- **Observed:** Diff adds `_ENCODER_CACHE` (dict) with `_ENCODER_CACHE_MAX`, a `_ENCODER_LOCK`, and LRU eviction (`_ENCODER_CACHE.pop(next(iter(_ENCODER_CACHE)))` when full) — `encoder.load_state_dict(...)`, `encoder.eval()`, then cache under lock.
+- **Why it works:** This structurally fixes the review finding from P-143 ("per-request torch model loading behind an unauthenticated route — trivial DoS"). Instead of loading the model on every request, the encoder is loaded once and cached, with a bound (LRU eviction) so the cache can't grow unbounded, and a lock for thread safety. The DoS vector (per-request load) is removed by structure, not by a rate-limit check. Confirms the review → structural-fix loop.
+- **Maps to:** confirmation of `diagnose-before-retry` (structural fix) + the review-findings-to-fix loop.
+
 ### P-164 — State the corpus size and source so the gate result is interpretable
 - **Observed:** "200 pairs from the real arXiv corpus".
 - **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.

@@ -24,6 +24,7 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 | [0011](./0011-modal-trainer-production.md) | Modal GPU trainer (production) | **Draft** | `services/trainer` stub |
 | [0012](./0012-synthetic-org-divisions-and-handoffs.md) | Org divisions & closed loop | **Implemented** | registry + Phase A+ handoffs (`handoffs.py`, charters, control UI) |
 | [0013](./0013-omni-market-alpha-engine.md) | Omni-market alpha engine (Phase B) | **Ready** | `packages/omni-sim`, `/v1/omni/*`, finance-lab, `scripts/omni_*` |
+| [0014](./0014-agentic-org-teams.md) | Agentic org teams (GLM) + commerce boot | **Implemented** | `packages/agentkit`, `config/agent_teams.json`, `services/commerce` boot |
 
 **Production hosting:** Vercel (sites) + Railway (core-api + worker) + Neon Postgres — [ADR-002](../docs/adr/002-core-api-hosting.md), [ADR-003](../docs/adr/003-unified-org-cli.md) (CLI), [`infra/railway.md`](../infra/railway.md). Deploy task: `INF-003` (Operator).
 

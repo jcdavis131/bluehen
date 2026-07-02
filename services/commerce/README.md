@@ -49,8 +49,11 @@ endpoint `https://<service>/hooks/payment/stripe_stripe` and set
 
 ## Version note
 
-`@medusajs/*` pinned to `^2.7.0` (`@mikro-orm` pins follow Medusa's
-template). If `npm install` reports peer conflicts on a newer 2.x line,
+`@medusajs/*` pinned to `^2.7.0`; **all `@mikro-orm/*` pins must exactly
+match the `@mikro-orm/core` version Medusa resolves** (currently 6.6.14)
+or every module fails at init with a misleading
+"MikroORM failed to connect… Retrying" loop. If `npm install` reports
+peer conflicts on a newer 2.x line,
 regenerate the manifest with `npx create-medusa-app@latest --skip-db`
 and copy back `medusa-config.ts`, `src/scripts/seed.ts`, and the env
 template — those three files are the platform-specific parts.

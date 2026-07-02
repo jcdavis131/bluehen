@@ -34,8 +34,8 @@ jobs:
       - name: ASN math tests
         run: uv run pytest packages/asn-engine/tests -q
 
-      - name: Runboard + datalab tests
-        run: uv run pytest packages/runboard/tests packages/datalab/tests -q
+      - name: Runboard + datalab + agentkit tests
+        run: uv run pytest packages/runboard/tests packages/datalab/tests packages/agentkit/tests -q
 
   core-api:
     runs-on: ubuntu-latest

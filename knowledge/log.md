@@ -1,6 +1,8 @@
 # Update Log
 
 ## 2026-07-02
+* **Creation**: [Agentic org teams](/platform/agent-org.md) (Spec 0014) — agentkit runtime + Data Harvesting / R&D / Operations teams; first live runs logged in [/teams/](/teams/index.md).
+* **Update**: Commerce backend booted on a dedicated local Postgres 16 instance (data/pg-commerce, :5434); BLK-DISK resolved (10.4 GB npm cache was the root cause).
 * **Update**: Scaffolded the Medusa v2 backend at `services/commerce` (config, seed with region/products/publishable key, Docker + Railway deploy files) and aligned README/package.json/fleet.json metadata; [commercial platform](/platform/commercial-platform.md) revised.
 * **Creation**: [Continuous dataset builder](/platform/dataset-watcher.md) — `datalab watch` with source registry, cadence scheduling, and content-hash dedupe; first pass materialized the two datasets below.
 * **Creation**: [Commercial platform](/platform/commercial-platform.md) — hub pricing/store/contact/legal with headless Shopify checkout and lead capture (closes EC-001).

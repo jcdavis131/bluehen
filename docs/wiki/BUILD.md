@@ -40,6 +40,8 @@ Shared boot: [SESSION_BOOT.md](./SESSION_BOOT.md)
 | Data collection | `packages/datalab` | `python -m datalab collect` → `data/datalab/` + OKF dataset card |
 | Run tracking | `packages/runboard` | `python -m runboard {demo,list,serve}` → `data/runs/` |
 | Training console | `apps/sites/training-console` | Port 3006 — live run telemetry (`/v1/runs` on core-api or `runboard serve` :8100) |
+| Agent teams | `packages/agentkit` | `python -m agentkit run {data-harvesting,rnd,operations}` — Spec 0014; reports → `knowledge/teams/` |
+| Commerce backend | `services/commerce` | Medusa v2 on :9000; local PG at `data/pg-commerce` :5434 (`pg_ctl start -D data/pg-commerce`) |
 | Agent registry | `config/agents.json` | Lanes, session paths, task prefixes |
 | Utility scripts | `scripts/*.py` | Pure Python; FastAPI only when webhooks are required |
 | Task queue | `config/work_queue.json` | Fleet work intake via `pick_task.py` |

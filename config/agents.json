@@ -40,6 +40,15 @@
       "bucketDefault": 3,
       "openCodeAgent": "research",
       "notes": "Delegate lane - one autoresearch_train.py hypothesis; NEED_HUMAN if ambiguous"
+    },
+    "agentkit": {
+      "label": "Agentic org teams (GLM)",
+      "claimName": "agentkit",
+      "division": ["data", "research", "orchestration"],
+      "entrypoint": "packages/agentkit + config/agent_teams.json",
+      "sessionGlob": "data/agents/**/transcript.jsonl",
+      "taskPrefixes": [],
+      "notes": "Spec 0014 - data-harvesting/rnd/operations teams; deterministic duties always, GLM loop when GLM_API_KEY set; reports in knowledge/teams/"
     }
   },
   "sharedBoot": "docs/wiki/SESSION_BOOT.md",

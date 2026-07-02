@@ -6,10 +6,6 @@
 
 ## Why blocked?
 
-### BLK-DISK: C: drive nearly full (~0.2 GB free)
-- **Why:** ENOSPC caused Docker Desktop engine failure, worker crashes, failed writes (.next, checkpoints, HF cache). Research loop skips realtext below 400MB.
-- **Unblock:** Free 5+ GB: docker system prune -a, delete apps/*/.next, clear %TEMP%, empty Recycle Bin. Restart Docker Desktop.
-
 ### BLK-DOCKER: Docker Desktop API error (consequence of BLK-DISK)
 - **Why:** Postgres :5433, Redis :6379 unavailable — local API/worker/kickoff/migrate blocked.
 - **Unblock:** Fix BLK-DISK first, then: pnpm dev:stack && pnpm db:migrate
@@ -36,6 +32,12 @@
   - `.claude/autoresearch-delegate.md claude-3-mrl`
 - [ ] **AR-309** — Rank floor when served_rank < 12 (research) · spec [0003](./specs/0003-*.md)
   - `.claude/autoresearch-delegate.md claude-4-rankfloor`
+- [ ] **RT-401** — Real-text bake-off: research-rag corpus (research) · spec [0008](./specs/0008-*.md)
+  - `pnpm evidence:realtext:research-rag`
+- [ ] **RT-402** — Real-text bake-off: AG News + both sites (research) · spec [0008](./specs/0008-*.md)
+  - `uv run python scripts/realtext_methods.py --site both`
+- [ ] **RT-403** — Collapse-regime vs BGE/e5/Qwen3 panel (research) · spec [0008](./specs/0008-*.md)
+  - `uv run python scripts/collapse_regime.py`
 - [ ] **RAG-502** — Implement rag_chunk_ablation.py (research) · spec [0008](./specs/0008-*.md)
   - `Create scripts/rag_chunk_ablation.py — 256/512/1024 token chunks on research-rag holdout`
 - [ ] **RAG-503** — Hard negative mining in hill-climb pair builder (research) · spec [0009](./specs/0009-*.md)
@@ -60,15 +62,14 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **INF-001** — Local stack up (Postgres + Redis + migrate + bootstrap) · blockedBy: ['BLK-DISK', 'BLK-DOCKER']
 - [ ] **INF-002** — Run API + worker + verify research-rag search · blockedBy: ['BLK-DOCKER']
 - [ ] **INF-003** — Deploy core-api + worker to Railway + Neon · blockedBy: ['BLK-PROD']
-- [ ] **RT-401** — Real-text bake-off: research-rag corpus · blockedBy: ['BLK-DISK']
-- [ ] **RT-402** — Real-text bake-off: AG News + both sites · blockedBy: ['BLK-DISK']
-- [ ] **RT-403** — Collapse-regime vs BGE/e5/Qwen3 panel · blockedBy: ['BLK-DISK']
 - [ ] **RT-404** — Tenant Barlow recipe — all Phase A sites · blockedBy: ['RT-401']
 - [ ] **RAG-501** — Scale arXiv corpus to 200 papers + re-kickoff · blockedBy: ['BLK-DOCKER']
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
 - [ ] **BD-701** — slasso YAML exam runner · blockedBy: ['RAG-505']
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel · blockedBy: ['BD-701']
+- [ ] **LOOP-001** — Phase A+ hill-climb iteration — kickoff Phase A orgs, verify BD queue + ledger · blockedBy: ['BLK-DISK', 'BLK-DOCKER']
+- [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
 
 ## Recently done
 

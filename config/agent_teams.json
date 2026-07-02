@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "description": "Agentic org teams (Spec 0014). Teams are defined in packages/agentkit/agentkit/teams.py; this file is the operator-facing schedule + model policy. Run: uv run python -m agentkit run <id> [--loop MINUTES].",
+  "model": {
+    "provider": "glm",
+    "default": "glm-5.2",
+    "env": ["GLM_API_KEY", "GLM_BASE_URL", "GLM_MODEL"],
+    "note": "Any OpenAI-compatible endpoint works; without a key, teams run deterministic duties only."
+  },
+  "teams": [
+    {
+      "id": "data-harvesting",
+      "division": "data",
+      "cadenceMinutes": 360,
+      "enabled": true,
+      "notes": "Watch-tick + dataset inventory every 6h; LLM curates sources."
+    },
+    {
+      "id": "rnd",
+      "division": "research",
+      "cadenceMinutes": 720,
+      "enabled": true,
+      "notes": "Queue triage + telemetry review twice daily; feeds the delegate lanes."
+    },
+    {
+      "id": "operations",
+      "division": "orchestration",
+      "cadenceMinutes": 1440,
+      "enabled": true,
+      "notes": "Daily blockers report + platform health + Operator digest."
+    }
+  ]
+}

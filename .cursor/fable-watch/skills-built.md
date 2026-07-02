@@ -44,4 +44,13 @@
 | `respect-the-guard` | P-049 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
 | `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050 | `~/.cursor/skills/readiness-report/SKILL.md` |
 | `abstract-the-provider` (refined) | P-046, P-051 | `~/.cursor/skills/abstract-the-provider/SKILL.md` |
+| `metadata-align` | P-052 | `~/.cursor/skills/metadata-align/SKILL.md` |
+| `readiness-report` (refined again) | P-037, P-039, P-040, P-041, P-050, P-053 | `~/.cursor/skills/readiness-report/SKILL.md` |
+| `close-the-loop` | P-054, P-055, P-056, P-057 | `~/.cursor/skills/close-the-loop/SKILL.md` |
+| `respect-the-guard` (refined) | P-049, P-058 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
+| `disk-pressure-proactive` | P-059, P-060, P-061 | `~/.cursor/skills/disk-pressure-proactive/SKILL.md` |
+| `correct-assumptions` | P-062 | `~/.cursor/skills/correct-assumptions/SKILL.md` |
+| `silent-op-recovery` (refined) | P-025, P-026, P-027, P-063 | `~/.cursor/skills/silent-op-recovery/SKILL.md` |
+| `background-failure-triage` (refined) | P-019, P-065 | `~/.cursor/skills/background-failure-triage/SKILL.md` |
+| `diagnose-before-retry` | P-066, P-067, P-068, P-069 | `~/.cursor/skills/diagnose-before-retry/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

@@ -18,6 +18,7 @@ resolution-markers = [
 
 [manifest]
 members = [
+    "agentkit",
     "asn-engine",
     "datalab",
     "omni-sim",
@@ -26,6 +27,32 @@ members = [
     "synthaembed-os",
     "synthaembed-trainer",
 ]
+
+[[package]]
+name = "agentkit"
+version = "0.1.0"
+source = { editable = "packages/agentkit" }
+dependencies = [
+    { name = "datalab" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "runboard" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "datalab", editable = "packages/datalab" },
+    { name = "httpx", specifier = ">=0.27" },
+    { name = "pydantic", specifier = ">=2.8" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8" },
+    { name = "runboard", editable = "packages/runboard" },
+]
+provides-extras = ["dev"]
 
 [[package]]
 name = "aiohappyeyeballs"

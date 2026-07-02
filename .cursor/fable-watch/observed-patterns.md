@@ -282,3 +282,99 @@
 - **Observed:** "For Medusa go-live you'll need to: stand up a Medusa backend (npx create-medusa-app@latest), create …".
 - **Why it works:** After the provider abstraction lands, the default provider still has to be stood up. Handing off the go-live steps for the chosen default closes the loop on `abstract-the-provider`.
 - **Maps to:** fold into `abstract-the-provider` — include the go-live handoff for the default.
+
+### P-052 — Align every metadata/docs surface after a structural change
+- **Observed:** After adding the commerce service, Fable 5 updated: README architecture diagram + buyer path + quick starts; root `package.json` (description/repository/homepage); `config/fleet.json` (registers `commerce: services/commerce`); OKF commercial-platform concept + bundle log.
+- **Why it works:** A new service that lands in code but not in the docs/registry creates drift — the README lies, the fleet registry doesn't know about it, the package metadata is stale. Aligning every surface that references the structure keeps the docs truthful at the moment the structure changes (when context is loaded), instead of a painful doc-debt cleanup later.
+- **Maps to:** `metadata-align` skill.
+
+### P-053 — Tool-gap handoff with both the install path and the no-tool manual alternative
+- **Observed:** "the GitHub-side repo description/topics need the gh CLI, which isn't installed. If you want them set, run: `! winget install GitHub.cli` then `! gh auth login`, and I'll push the description and topics — or paste the package.json description into the repo's About box on GitHub, which takes ten seconds."
+- **Why it works:** Two paths, not one. The install path (`winget install …; gh auth login`) restores the programmatic route; the manual path ("paste into the About box, ten seconds") lets the user finish right now without installing anything. The manual path's time estimate ("ten seconds") tells the user it's trivial.
+- **Maps to:** refine `readiness-report` — give both the install path and the no-tool manual alternative with a time estimate.
+
+### P-054 — Explicit "closes the full request chain" closure
+- **Observed:** "That closes the full request chain: merged and pushed to main (c229ebc), Medusa backend scaffolded at services/commerce with deploy files, README/package.json/fleet.json aligned, and now the GitHub-side About panel matches the repo."
+- **Why it works:** After a long multi-step request, the user wants to know the *whole* arc is closed, not just that the last step ran. Naming the chain end-to-end (merge → scaffold → docs align → GitHub metadata) confirms completeness against the original ask.
+- **Maps to:** `close-the-loop` skill.
+
+### P-055 — Cite the commit SHA in the closure
+- **Observed:** "merged and pushed to main (c229ebc)".
+- **Why it works:** The SHA is the auditable anchor — the user can `git show c229ebc` to verify exactly what landed. A closure without a SHA is a claim; a closure with a SHA is a checkable fact.
+- **Maps to:** fold into `close-the-loop`.
+
+### P-056 — "Two small notes for later" — deferred items separated from the closure
+- **Observed:** "Two small notes for later: (a) `gh auth login --web` for full gh functionality; (b) Medusa first boot waiting on a Postgres database (Neon branch, or local once Docker is unblocked)."
+- **Why it works:** A closure that hides its loose ends is dishonest; a closure that mixes loose ends into the win is muddy. Separating "this is closed" from "two small notes for later" keeps the win clear and the follow-ups visible.
+- **Maps to:** fold into `close-the-loop`.
+
+### P-057 — Time estimate + doc pointer on the deferred next step
+- **Observed:** "15 minutes via services/commerce/README.md whenever you're ready."
+- **Why it works:** The deferred step gets a time estimate ("15 minutes") and a doc pointer (`services/commerce/README.md`) so the user can pick it up later without re-deriving it. "Whenever you're ready" signals it's not blocking.
+- **Maps to:** fold into `close-the-loop`.
+
+### P-058 — Note the precise capability boundary of the available credential
+- **Observed:** "the stored git token works for pushes and metadata but not gh's interactive features."
+- **Why it works:** A credential that "works" is not a credential that "works for everything". Naming the exact scope (pushes + metadata yes; interactive gh no) prevents a future silent failure when an interactive gh command is attempted.
+- **Maps to:** fold into `respect-the-guard` — credential scope is guard-adjacent.
+
+## Tick 15: 2026-07-02 11:53 (UTC-5) — disk pressure
+
+### P-059 — Proactive cache pruning before installs fail, while foreground work continues
+- **Observed:** "Disk is at 2.0 GB with two installs incoming — pruning the uv cache for headroom while I build agentkit".
+- **Why it works:** A constrained-disk environment (BLK-DISK) makes installs fail mid-flight, leaving broken state. Pruning *before* the install fails is cheaper than recovering after. And the prune is run *in parallel* with the foreground build — disk-headroom work doesn't block feature work.
+- **Maps to:** `disk-pressure-proactive` skill.
+
+### P-060 — State the safety property of the prune before running it
+- **Observed:** "Pruning the pnpm store (safe, removes only unreferenced packages)".
+- **Why it works:** A prune command sounds destructive. Naming its safety property ("removes only unreferenced packages") tells the user it won't break installed packages, so they trust it without a confirm round-trip.
+- **Maps to:** fold into `disk-pressure-proactive`.
+
+### P-061 — Multi-target prune cascade with bounded recursion
+- **Observed:** `Clear-RecycleBin -Force; Get-ChildItem apps -Recurse -Directory -Filter ".next" -Depth 3 | ForEach-Object { measure size … }` — recycle bin, then build-output dirs under apps with `-Depth 3` and a size measurement before deletion.
+- **Why it works:** Pruning one source isn't enough; a cascade hits the cheap wins in priority order (recycle bin → build output → package stores). `-Depth 3` bounds the recursion so the scan itself doesn't cost more than the reclaim. Measuring before deleting gives a reclaim estimate.
+- **Maps to:** fold into `disk-pressure-proactive`.
+
+## Tick 16: 2026-07-02 12:01 (UTC-5) — assumption correction + Medusa boot
+
+### P-062 — State assumption corrections explicitly with evidence
+- **Observed:** "PG16 is already running on :5432 — it existed all along."
+- **Why it works:** The documented blocker (BLK-DOCKER) said Postgres :5433 was unavailable, so the assumption was "no Postgres". On checking, PG16 was running on :5432 the whole time. Stating the correction + the evidence (the port found) updates the mental model out loud, so the user and any other agent aren't still operating on the wrong assumption. Silent correction leaves everyone else blocked on a non-blocker.
+- **Maps to:** `correct-assumptions` skill.
+
+### P-063 — Capture exit code + sample output for a long command
+- **Observed:** `npx medusa db:migrate > "$CLAUDE_JOB_DIR/tmp/medusa-migrate.log" 2>&1; echo "migrate exit=$?"; tail -5 "$CLAUDE_JOB_DIR/tmp/medusa-migrate.log"`.
+- **Why it works:** A long command's full output floods context; silence loses the exit code. The idiom — redirect to a job-dir log, echo the exit code explicitly, tail the log for a sample — gives you the fate (exit code) + a bounded sample, without the flood. This is the routine-capture counterpart to silent-op-recovery's kill-and-restart.
+- **Maps to:** refine `silent-op-recovery` — add the capture-exit-and-sample idiom for observable long commands.
+
+### P-064 — Check the auth/config state before an action that depends on it
+- **Observed:** "Now I need access to create the medusa database; checking the auth config."
+- **Why it works:** A "create database" action depends on having the right DB auth. Verifying the auth/config *before* the action avoids a failed action and a recovery cycle.
+- **Maps to:** confirmation of `session-orient` — recon before action.
+
+### P-065 — Acknowledge background-op completion too, not just failure
+- **Observed:** "Background command 'Size of build outputs' completed (exit code 0)".
+- **Why it works:** A background op completing is information (reclaim done, gate passed). Acknowledging it — not just the failures — keeps the background state legible and lets you reap the result.
+- **Maps to:** refine `background-failure-triage` — acknowledge both completion and failure explicitly.
+
+## Tick 17: 2026-07-02 12:09 (UTC-5) — diagnose before retry
+
+### P-066 — Diagnose the failure from logs before retrying
+- **Observed:** "The migration started (created the migrations table) then lost connectivity mid-run — checking the Postgres server log."
+- **Why it works:** A blind retry of a failed op reproduces the failure and wastes a cycle. Reading the relevant log (Postgres server log) to form a hypothesis *before* retrying turns the retry into a test of the hypothesis. The diagnosis also names how far the op got ("created the migrations table") — useful for idempotency reasoning.
+- **Maps to:** `diagnose-before-retry` skill.
+
+### P-067 — Distinguish op failure from self-caused interruption
+- **Observed:** "Postgres itself is healthy — the disconnect line is my TaskStop."
+- **Why it works:** The disconnect in the log was caused by Fable 5's *own* TaskStop, not a Postgres failure. Misdiagnosing a self-caused artifact as an infra failure leads to "fixing" healthy infrastructure. Recognizing your own stops/kills in the log is the guard against that.
+- **Maps to:** fold into `diagnose-before-retry`.
+
+### P-068 — Hypothesize a likely cause with supporting context, not certainty
+- **Observed:** "The failure may have been transient load (three parallel jobs at the time)."
+- **Why it works:** Names the hypothesis (transient load) + the supporting context (three parallel jobs at the time), with appropriate uncertainty ("may have been"). Doesn't assert certainty it can't back. The hypothesis then drives the retry strategy (foreground, no parallel load).
+- **Maps to:** fold into `diagnose-before-retry`.
+
+### P-069 — Retry in foreground with timeout + CR-to-NL + blank-strip + tail
+- **Observed:** `timeout 420 npx medusa db:migrate 2>&1 | tr '\r' '\n' | grep -vE "^\s*$" | tail -15`.
+- **Why it works:** The retry is observable and bounded — foreground (not backgrounded) for direct view; `timeout 420` so it can't hang forever; `tr '\r' '\n'` converts progress-bar carriage returns to newlines so they don't smear into one line; `grep -vE "^\s*$"` strips blanks; `tail -15` bounds the output. The retry is also the hypothesis test (no parallel load this time → if it succeeds, transient load was likely).
+- **Maps to:** fold into `diagnose-before-retry` — the retry-with-observability idiom.

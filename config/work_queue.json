@@ -5,10 +5,10 @@
   "blockers": [
     {
       "id": "BLK-DISK",
-      "active": true,
-      "title": "C: drive nearly full (~0.2 GB free)",
-      "why": "ENOSPC caused Docker Desktop engine failure, worker crashes, failed writes (.next, checkpoints, HF cache). Research loop skips realtext below 400MB.",
-      "unblock": "Free 5+ GB: docker system prune -a, delete apps/*/.next, clear %TEMP%, empty Recycle Bin. Restart Docker Desktop.",
+      "active": false,
+      "title": "RESOLVED 2026-07-02: C: drive freed to ~10 GB",
+      "why": "Root cause was a 10.4 GB npm cache; cleared (npm cache clean --force) plus stale .next outputs. HF cache (360 GB) and Docker WSL VHDs (46 GB) remain the structural consumers.",
+      "unblock": "Resolved. BLK-DOCKER still needs Docker Desktop restart (disk no longer the cause).",
       "blocksTasks": [
         "INF-001",
         "INF-002",

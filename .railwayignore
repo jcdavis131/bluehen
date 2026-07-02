@@ -1,0 +1,31 @@
+# Railway upload context — replaces .gitignore for `railway up`.
+# Key difference: data/corpora IS included (baked into the image).
+
+node_modules/
+**/.next/
+**/.turbo/
+**/dist/
+.venv/
+**/__pycache__/
+.git/
+.opencode/
+.claude/
+.cursor/
+docs/raw/
+
+# local data stays local — corpora is the one exception
+data/artifacts/
+data/workspaces/
+data/runs/
+data/datalab/
+data/agents/
+data/traces/
+data/leads/
+data/deploy/
+data/pg-commerce/
+data/autoresearch/
+
+# secrets
+.env
+.env.*
+**/.vercel/

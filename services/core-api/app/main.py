@@ -11,11 +11,13 @@ from pydantic import BaseModel, Field
 
 from app.auth import TenantCtx, require_admin, require_tenant, trace_from_request
 from app.config import ARTIFACTS_DIR, CORPORA_DIR, USE_MEMORY
-from app.database import ensure_schema
+from app.database import db_session, ensure_schema
 from app.errors import http_exception_handler, validation_exception_handler
+from app.models import Lead
 from app.services import admin, data, governance, jobs, models_svc, omni
 from app.services.lifecycle import hill_climb
 from app.services.search import search_chunks
+from sqlalchemy import select
 
 app = FastAPI(title="SynthaEmbed Core API", version="0.3.0")
 app.add_exception_handler(HTTPException, http_exception_handler)
@@ -223,6 +225,69 @@ def embed(body: dict, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
         )
     except (ValueError, FileNotFoundError) as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.post("/v1/leads", status_code=201)
+def create_lead(body: dict, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    """Durable lead capture (REV-904). Persists to the Postgres `leads` table
+    so customer contact/waitlist signups survive Vercel's ephemeral filesystem.
+    Validates email + a required message-or-interest field, truncates fields,
+    and scopes the row to the caller's workspace via RLS."""
+    max_field = 2000
+
+    def clean(v) -> str:
+        return str(v or "").strip()[:max_field]
+
+    email = clean(body.get("email"))
+    if not email or "@" not in email or "." not in email.split("@")[-1]:
+        raise HTTPException(status_code=400, detail="valid email required")
+    message = clean(body.get("message"))
+    interest = clean(body.get("interest"))
+    if not message and not interest:
+        raise HTTPException(status_code=400, detail="message or interest required")
+
+    lead = Lead(
+        workspace_id=tenant.workspace_id,
+        name=clean(body.get("name")),
+        email=email,
+        company=clean(body.get("company")),
+        topic=clean(body.get("topic")) or "general",
+        message=message or interest,
+        source=clean(body.get("source")) or "site",
+    )
+    with db_session(tenant.workspace_id) as session:
+        session.add(lead)
+        session.flush()
+        lead_id = lead.id
+
+    return {"ok": True, "id": lead_id}
+
+
+@app.get("/v1/leads")
+def list_leads(
+    tenant: Annotated[TenantCtx, Depends(require_tenant)],
+    limit: int = 100,
+):
+    """List this workspace's leads (newest first). Tenant-scoped via RLS."""
+    with db_session(tenant.workspace_id) as session:
+        rows = session.scalars(
+            select(Lead).order_by(Lead.received_at.desc()).limit(min(max(limit, 1), 500))
+        ).all()
+        return {
+            "leads": [
+                {
+                    "id": r.id,
+                    "name": r.name,
+                    "email": r.email,
+                    "company": r.company,
+                    "topic": r.topic,
+                    "message": r.message,
+                    "source": r.source,
+                    "receivedAt": r.received_at.isoformat() if r.received_at else None,
+                }
+                for r in rows
+            ]
+        }
 
 
 @app.get("/v1/admin/fleet")

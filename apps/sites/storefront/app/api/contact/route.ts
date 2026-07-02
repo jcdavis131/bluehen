@@ -1,10 +1,15 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
+import { hasCoreApi, siteLead } from "@synthaembed/ui-fleet/site-api";
 
-/** Lead capture: validate, persist to data/leads/leads.jsonl, and optionally
- * forward to CONTACT_WEBHOOK_URL (Slack/Zapier/inbox bridge). Persistence is
- * the source of truth; the webhook is best-effort. */
+/** Lead capture (REV-904): validate, then persist durably.
+ *
+ * In production (SYNTH_API_KEY set) leads POST to core-api /v1/leads, which
+ * stores them in the Postgres `leads` table — Vercel's ephemeral filesystem
+ * no longer drops customer leads. In local dev (no key) leads fall back to
+ * data/leads/leads.jsonl. A CONTACT_WEBHOOK_URL forward is best-effort in both
+ * paths; the durable store is the source of truth. */
 
 const LEADS_DIR = process.env.LEADS_DIR ?? path.join(process.cwd(), "..", "..", "..", "data", "leads");
 const MAX_FIELD = 2000;
@@ -43,15 +48,29 @@ export async function POST(req: NextRequest) {
   }
 
   const record = { ...lead, receivedAt: new Date().toISOString(), source: "storefront/contact" };
-  try {
-    await mkdir(LEADS_DIR, { recursive: true });
-    await appendFile(
-      path.join(LEADS_DIR, "leads.jsonl"),
-      JSON.stringify(record) + "\n",
-      "utf-8",
-    );
-  } catch {
-    return NextResponse.json({ error: "could not record briefing" }, { status: 500 });
+
+  // Durable path: core-api Postgres leads table.
+  if (hasCoreApi()) {
+    try {
+      await siteLead({ ...record, source: "storefront/contact" });
+    } catch (e) {
+      return NextResponse.json(
+        { error: "could not record briefing" },
+        { status: 502 },
+      );
+    }
+  } else {
+    // Dev fallback: local JSONL (ephemeral on Vercel, fine for local dev).
+    try {
+      await mkdir(LEADS_DIR, { recursive: true });
+      await appendFile(
+        path.join(LEADS_DIR, "leads.jsonl"),
+        JSON.stringify(record) + "\n",
+        "utf-8",
+      );
+    } catch {
+      return NextResponse.json({ error: "could not record briefing" }, { status: 500 });
+    }
   }
 
   const webhook = process.env.CONTACT_WEBHOOK_URL;

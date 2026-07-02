@@ -4,7 +4,7 @@
 > Queue detail: [TASKS.md](../TASKS.md) · Session context: [HANDOFF.md](../HANDOFF.md) ·
 > Deep review: [docs/reviews/deep-review-2026-07-02.md](./reviews/deep-review-2026-07-02.md)
 
-**Last updated: 2026-07-02 ~22:15 UTC**
+**Last updated: 2026-07-02 ~23:10 UTC**
 
 ## Production surfaces
 
@@ -19,7 +19,7 @@
 
 | Work | Owner | State |
 |---|---|---|
-| Prod training — research (200 pairs) | worker | **Attempt #3 running since 22:11 UTC**, first with step telemetry + runboard run; attempts 1–2 lost to OOM (fixed: 8 GB + batch 8 + stale-job requeue) |
+| Prod training — research (200 pairs) | worker | **Attempt #4 starting**: root cause found via container SSH — torch spawned host-core-count threads in a 2-vCPU cgroup (loadavg 9+, zero steps). Pinned OMP/MKL=2 + torch.set_num_threads; redeploying |
 | 3 queued training jobs (dumbmodel, storefront, validation) | worker | Pending behind research; tiny corpora — expect `insufficient pairs` fails or fail-closed gates (honest outcomes) |
 | REV-904 durable leads (`Lead` model + migration 007 landed; endpoint WIP) | cursor | In progress in working tree; tests green with it |
 | REV-907/911 hardening (weights_only, embed caps) | claude | Committed; **deploys on next Railway restart window** (not worth killing training) |
@@ -33,6 +33,12 @@ agentkit org teams (Spec 0014) · runboard/datalab/Observatory stack ·
 prod cutover (Railway + migration + bootstrap + fleet envs) · deep review
 16 findings → **REV-901..911 all closed except REV-904** · worker crash
 recovery + live training telemetry.
+
+## Orchestration (new)
+
+Dynamic workflow live: [ORCHESTRATION.md](./ORCHESTRATION.md) — per-subagent
+stepwise playbooks baked into executable GLM charters (agentkit teams.py).
+Gate: `GLM_API_KEY`.
 
 ## Risks / watch
 

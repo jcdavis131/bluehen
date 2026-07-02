@@ -35,6 +35,13 @@ def _pairs_for_job(workspace_id: UUID, collection_id: UUID | None) -> list[dict]
 
 
 def process_job(payload: dict) -> None:
+    import torch
+
+    # Containers advertise the HOST's cores; unpinned torch spawns that many
+    # threads inside a 2-vCPU cgroup and thrashes (observed loadavg 9+ with
+    # zero completed steps). Pin to the cgroup allocation.
+    torch.set_num_threads(int(__import__("os").environ.get("OMP_NUM_THREADS", "2")))
+
     from asn_engine.train_loop import train_asn
 
     job_id = payload["id"]

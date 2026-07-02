@@ -96,4 +96,7 @@
 | `event-driven-wait` (refined) | P-032, P-126, P-170, P-171, P-172 | `~/.cursor/skills/event-driven-wait/SKILL.md` |
 | `respect-the-guard` (refined) | P-049, P-058, P-098, P-107, P-140, P-173 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
 | `background-failure-triage` (refined) | P-019, P-065, P-174 | `~/.cursor/skills/background-failure-triage/SKILL.md` |
+| `respect-the-guard` (refined) | P-049, P-058, P-098, P-107, P-140, P-173, P-177 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
+| `validate-gate` (refined) | P-018, P-042, P-092, P-146, P-164, P-184 | `~/.cursor/skills/validate-gate/SKILL.md` |
+| `background-failure-triage` (refined) | P-019, P-065, P-174, P-186 | `~/.cursor/skills/background-failure-triage/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

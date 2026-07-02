@@ -111,3 +111,17 @@ class ModelVersion(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     workspace: Mapped["Workspace"] = relationship(backref="models")
+
+
+class Lead(Base):
+    __tablename__ = "leads"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    workspace_id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), ForeignKey("corporate_workspaces.id"), index=True)
+    name: Mapped[str] = mapped_column(Text, default="")
+    email: Mapped[str] = mapped_column(Text, nullable=False)
+    company: Mapped[str] = mapped_column(Text, default="")
+    topic: Mapped[str] = mapped_column(Text, default="general")
+    message: Mapped[str] = mapped_column(Text, default="")
+    source: Mapped[str] = mapped_column(Text, nullable=False)
+    received_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

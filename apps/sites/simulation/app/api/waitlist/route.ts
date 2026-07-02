@@ -1,10 +1,14 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
+import { hasCoreApi, siteLead } from "@synthaembed/ui-fleet/site-api";
 
-/** Signal-lab waitlist capture (Spec 0015). Same persistence pattern as
- * hub lead capture: JSONL under data/leads (source of truth), optional
- * webhook forward. Simulation-only venture — no live-trading promises. */
+/** Signal-lab waitlist capture (Spec 0015, REV-904).
+ *
+ * In production (SYNTH_API_KEY set) signups POST to core-api /v1/leads (Postgres
+ * `leads` table) so they survive Vercel's ephemeral filesystem. In local dev
+ * (no key) they fall back to data/leads/waitlist.jsonl. A CONTACT_WEBHOOK_URL
+ * forward is best-effort. Simulation-only venture — no live-trading promises. */
 
 const LEADS_DIR =
   process.env.LEADS_DIR ?? path.join(process.cwd(), "..", "..", "..", "data", "leads");
@@ -28,12 +32,29 @@ export async function POST(req: NextRequest) {
     receivedAt: new Date().toISOString(),
     source: "simulation/waitlist",
   };
-  try {
-    await mkdir(LEADS_DIR, { recursive: true });
-    await appendFile(path.join(LEADS_DIR, "waitlist.jsonl"), JSON.stringify(record) + "\n", "utf-8");
-  } catch {
-    return NextResponse.json({ error: "could not record signup" }, { status: 500 });
+
+  // Durable path: core-api Postgres leads table.
+  if (hasCoreApi()) {
+    try {
+      await siteLead({
+        email,
+        message: record.interest,
+        topic: record.interest,
+        source: "simulation/waitlist",
+      });
+    } catch {
+      return NextResponse.json({ error: "could not record signup" }, { status: 502 });
+    }
+  } else {
+    // Dev fallback: local JSONL.
+    try {
+      await mkdir(LEADS_DIR, { recursive: true });
+      await appendFile(path.join(LEADS_DIR, "waitlist.jsonl"), JSON.stringify(record) + "\n", "utf-8");
+    } catch {
+      return NextResponse.json({ error: "could not record signup" }, { status: 500 });
+    }
   }
+
   const webhook = process.env.CONTACT_WEBHOOK_URL;
   if (webhook) {
     try {

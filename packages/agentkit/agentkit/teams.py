@@ -105,9 +105,21 @@ research needs.{_COMMON_RULES}""",
         Duty("watch-tick", "Run the dataset builder over due sources", _duty_watch_tick),
         Duty("dataset-inventory", "Inventory recent datasets", _duty_dataset_inventory),
     ],
-    llm_task="Review the duty results and the source registry. Identify coverage "
-    "gaps relative to the platform's research needs (see /platform/data-pipeline.md). "
-    "If a clearly-justified new source exists, add it; otherwise recommend candidates.",
+    llm_task=(
+        "Execute the data-harvesting playbook, in order: "
+        "(1) list_watch_sources and compare coverage against the venture map in "
+        "read_knowledge('platform/commercial-platform.md') — every venture with a "
+        "consented data path needs at least one registry source. "
+        "(2) Score each gap: value to R&D training (contrastive pairs, relevance labels) "
+        "over acquisition cost. "
+        "(3) Register AT MOST 2 new sources this run via add_watch_source (https URLs or "
+        "existing repo paths only; pick intervalMinutes matching real change cadence). "
+        "(4) Run watch_tick and confirm new sources materialize or report their errors. "
+        "(5) Report: sources added with one-line justification, datasets materialized vs "
+        "unchanged, coverage gaps deliberately left open and why. "
+        "Escalate (in the report, addressed to the orchestrator) if any source has "
+        "failed 3 consecutive runs."
+    ),
 )
 
 RND = Team(
@@ -128,9 +140,20 @@ training code; you prepare and prioritize work for the delegate lanes
         Duty("queue-snapshot", "Open research queue + blockers", _duty_queue_snapshot),
         Duty("telemetry-review", "Recent runs, collapse alerts, surgeries", _duty_telemetry_review),
     ],
-    llm_task="Triage the open research queue against the telemetry review: "
-    "rank the top 3 items to run next (with one-line rationale each), flag any "
-    "run with collapse alerts for follow-up, and note datasets ready for training.",
+    llm_task=(
+        "Execute the R&D triage playbook, in order: "
+        "(1) From the queue snapshot, rank open AR-/RAG-/RT- items by expected evidence "
+        "value per compute-hour; output the top 3 with one-line rationale each and which "
+        "delegate lane should run them (claude / opencode research). "
+        "(2) From the telemetry review, flag every run with collapse alerts or surgeries: "
+        "write a one-paragraph hypothesis (what likely collapsed and why) citing the "
+        "run id — never speculate without naming the run. "
+        "(3) Cross-check list_datasets for corpora large enough to train on that no "
+        "queue item covers; propose (do NOT execute) new queue items with an explicit "
+        "eval gate for each. "
+        "(4) Report in the standing format: NEXT (3 ranked), WATCH (collapse flags), "
+        "PROPOSE (new items). You never edit training code or merge recipes."
+    ),
 )
 
 OPERATIONS = Team(
@@ -149,9 +172,18 @@ status digest the Operator reads first.{_COMMON_RULES}""",
         Duty("blockers-report", "Blockers + claimed/stale tasks", _duty_blockers_report),
         Duty("platform-health", "Datalab + runboard health check", _duty_platform_health),
     ],
-    llm_task="Write the Operator's status digest: blockers ranked by impact with "
-    "the single next unblock action for each, stale claims to reap, and overall "
-    "platform health in one line.",
+    llm_task=(
+        "Execute the operations playbook, in order: "
+        "(1) Health sweep: from platform-health duty results plus work_queue blockers, "
+        "verify each production arrow (datalab ok, runboard ok, open blockers count). "
+        "(2) Reap: list queue items claimed >48h with no status change as candidates to "
+        "unclaim (recommend, do not modify). "
+        "(3) Digest for the Operator, exactly this format: HEALTH (one line), "
+        "BLOCKERS (ranked, each with the single next unblock action and owner), "
+        "REAP (stale claims), SPEND (budget notes if visible in duties). "
+        "(4) End with the one thing the Operator should do today. "
+        "Escalate loudly at the top of the report if any live surface is degraded."
+    ),
 )
 
 TEAMS: dict[str, Team] = {t.id: t for t in (DATA_HARVESTING, RND, OPERATIONS)}

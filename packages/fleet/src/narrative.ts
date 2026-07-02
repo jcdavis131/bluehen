@@ -165,6 +165,7 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/check", label: "Health Check" },
     { href: "/compare", label: "Compare" },
     { href: "/hall", label: "Hall of Cone" },
+    { href: "/museum", label: "Museum" },
   ],
   validation: [
     { href: "/", label: "Overview" },

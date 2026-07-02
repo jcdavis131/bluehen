@@ -146,3 +146,28 @@ export async function siteHillClimb(corpusUri = "corpus.jsonl") {
     body: JSON.stringify({ corpusUri }),
   });
 }
+
+export type LeadInput = {
+  name?: string;
+  email: string;
+  company?: string;
+  topic?: string;
+  message?: string;
+  interest?: string;
+  source: string;
+};
+
+/** Durable lead capture → core-api /v1/leads (Postgres, REV-904).
+ * Use this when SYNTH_API_KEY is configured (prod/Vercel). Sites without a
+ * key (local dev) fall back to JSONL in their own route handler. */
+export async function siteLead(input: LeadInput) {
+  return apiFetch("/v1/leads", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+/** True when a workspace API key is configured (i.e. core-api is reachable). */
+export function hasCoreApi(): boolean {
+  return Boolean(process.env.SYNTH_API_KEY);
+}

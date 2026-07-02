@@ -961,6 +961,65 @@
 - **Why it works:** The previous monitor ended and a new one is armed for the next compound event (telemetry deploy lands AND training progress/completion visible). Confirms P-171 (chain monitors) + P-172 (compound events).
 - **Maps to:** confirmation of `event-driven-wait`.
 
+## Tick 55: 2026-07-02 17:30 (UTC-5) — input validation as a guard
+
+### P-177 — Bounded input limits as a DoS guard
+- **Observed:** `if not isinstance(inputs, list) or len(inputs) > EMBED_MAX_INPUTS: raise HTTPException(400, detail=f"inputs must be a list of at most {EMBED_MAX_INPUTS} texts")`, then `body["inputs"] = [str(t)[:EMBED_MAX_CHARS] for t in inputs]`.
+- **Why it works:** Input validation with bounded limits (max inputs, max chars per input) is a DoS guard at the API boundary — it complements the encoder cache (P-165) by preventing huge batches from reaching it. The 400 error is clear about the limit. This is `respect-the-guard` at the input layer.
+- **Maps to:** refine `respect-the-guard` — input limits as a guard.
+
+### P-178 — Named constants for the limits
+- **Observed:** `EMBED_MAX_INPUTS`, `EMBED_MAX_CHARS` — named constants, not magic numbers.
+- **Why it works:** Limits are named constants so they're grep-able and tunable in one place. Confirms P-013 (named constants).
+- **Maps to:** confirmation of P-013.
+
+### P-179 — Truncate, don't reject, for length limits
+- **Observed:** `[str(t)[:EMBED_MAX_CHARS] for t in inputs]` — truncates each input to max chars rather than rejecting.
+- **Why it works:** For length limits on still-usable input, truncate rather than reject — the input is bounded and the request succeeds. Rejecting a 5001-char input is harsher than truncating to 5000. Softer validation that still bounds the resource.
+- **Maps to:** note (validation policy).
+
+### P-180 — Targeted test run for the changed packages
+- **Observed:** `uv run --no-sync python -m pytest services/core-api/tests packages/agentkit/tests -q 2>&1 | Select-Object -Last 1`.
+- **Why it works:** Confirms `affected-tests` (P-009) — only the touched package test dirs, `--no-sync`, `-q`, tailed to last 1 line.
+- **Maps to:** confirmation of `affected-tests`.
+
+## Tick 56: 2026-07-02 17:41 (UTC-5) — lead coordination + gate fails closed
+
+### P-181 — Lane-based task delegation across agents
+- **Observed:** "OpenCode — RAG-502 and RAG-505: bucket-1, scriptable, its lane exactly. Claude (this loop) — LOOP-001 plus continued shepherding of the training pipeline."
+- **Why it works:** As lead, Fable 5 delegates tasks to specific agents based on their lane (OpenCode gets RAG scriptable tasks; Claude keeps the training loop). Confirms `lane-discipline` at the lead level.
+- **Maps to:** confirmation of `lane-discipline`.
+
+### P-182 — Deterministic until key, then judgment activates
+- **Observed:** "they stay deterministic until you provide GLM_API_KEY, at which point the judgment layer (queue triage, source curation, operator digests) activates on the cadences in config/agent_teams.json."
+- **Why it works:** Confirms `deterministic-core-llm-judgment` (P-070) — the teams stay deterministic until the key, then the judgment layer activates.
+- **Maps to:** confirmation of `deterministic-core-llm-judgment`.
+
+### P-183 — Parallel agent fixed the thin-corpus gate limit
+- **Observed:** "REV-905 was fixed by Cursor in parallel while I was mid-review — the eval gate now fails closed on thin corpora with an explicit sufficientEvalPairs gate."
+- **Why it works:** The thin-corpus gate limit Fable 5 flagged in P-146 was structurally fixed by Cursor in parallel — the gate now fails closed on thin corpora. The cross-agent review → fix loop closes the concern Fable 5 raised.
+- **Maps to:** confirmation of `correct-assumptions` + the multi-agent review-fix loop.
+
+### P-184 — Gate fails closed on thin corpora
+- **Observed:** "the eval gate now fails closed on thin corpora with an explicit sufficientEvalPairs gate."
+- **Why it works:** The thin-corpus gate now fails closed (rejects) rather than silently passing. This is the structural fix for P-146 — instead of "treat gates passed on thin corpora as unproven" (a caution), the gate itself fails closed (a structural enforcement). The caution became a gate.
+- **Maps to:** refine `validate-gate` — the gate fails closed on thin corpora.
+
+### P-185 — Scoreboard tracks findings across agents with ownership
+- **Observed:** "REV-901 through REV-911 are all closed except REV-904 (Cursor's lane)."
+- **Why it works:** A scoreboard of review findings with closure status + which agent's lane owns the open one. Confirms `progress-board` at the cross-agent finding level.
+- **Maps to:** confirmation of `progress-board`.
+
+### P-186 — Batch non-urgent deploys; don't kill a running job for them
+- **Observed:** "The REV-907/911 code deploys to Railway batched with the next restart window — the research training job is mid-flight again and I won't kill it for a non-urgent hardening deploy."
+- **Why it works:** A non-urgent hardening deploy is batched into the next restart window rather than killing a running training job. Killing a mid-flight training job for a non-urgent deploy wastes the training progress; batching waits for a natural restart window. The urgency of the deploy must exceed the cost of interrupting the running job.
+- **Maps to:** refine `background-failure-triage` — don't kill a running job for a non-urgent deploy.
+
+### P-187 — Hill-climb loop stays armed on the training monitor
+- **Observed:** "The hill-climb loop stays armed on the training monitor; next event or heartbeat resumes it."
+- **Why it works:** The loop is armed on the monitor — event-driven resumption. Confirms `event-driven-wait` + `auto-mode`.
+- **Maps to:** confirmation of `event-driven-wait`.
+
 ### P-164 — State the corpus size and source so the gate result is interpretable
 - **Observed:** "200 pairs from the real arXiv corpus".
 - **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.

@@ -39,6 +39,9 @@ export default function HomePage() {
         <Link href="/hall" className="bh-btn bh-btn--ghost">
           Hall of Cone
         </Link>
+        <Link href="/museum" className="bh-btn bh-btn--ghost">
+          Museum of Collapse
+        </Link>
         <a href="https://bhenre.com" className="bh-btn bh-btn--hen" target="_blank" rel="noopener noreferrer">
           Platform Console →
         </a>
@@ -64,6 +67,13 @@ export default function HomePage() {
           <p className="bh-card__body">
             Reference panel of baseline embedders ranked by effective rank. Validate improvements on
             the Validation Lab (slasso.com).
+          </p>
+        </div>
+        <div className="bh-card">
+          <h2 className="bh-card__title bh-card__title--lg">Museum of Collapse</h2>
+          <p className="bh-card__body">
+            The failure modes we measure against — anisotropy, dimension starvation, MRL truncation
+            cliffs — each with the diagnostic or gate that catches it before a model ships.
           </p>
         </div>
         <div className="bh-card">

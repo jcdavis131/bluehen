@@ -340,10 +340,13 @@
       "division": "bd",
       "priority": 34,
       "title": "arXiv exam runner in eval-public",
-      "status": "ready",
+      "status": "done",
       "spec": "0008",
       "command": "Port exam logic \u2192 packages/eval-public; wire arxiviq homepage",
-      "lane": "opencode"
+      "lane": "opencode",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-02T22:45:35.514902+00:00",
+      "completedAt": "2026-07-02T22:45:35.986191+00:00"
     },
     {
       "id": "SRV-601",
@@ -412,10 +415,13 @@
       "division": "comms",
       "priority": 62,
       "title": "dumbmodel /museum collapse failures",
-      "status": "ready",
+      "status": "done",
       "spec": "0007",
       "command": "apps/sites/dumbmodel/app/museum/page.tsx",
-      "lane": "cursor"
+      "lane": "cursor",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-02T22:55:41.060899+00:00",
+      "completedAt": "2026-07-02T22:55:41.290612+00:00"
     },
     {
       "id": "SITE-004",
@@ -714,10 +720,13 @@
       "id": "REV-904",
       "title": "Durable lead storage (LEADS_DIR volume or core-api endpoint)",
       "division": "bd",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
       "notes": "contact + waitlist write to ephemeral FS on Vercel",
-      "lane": "cursor"
+      "lane": "cursor",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-02T22:39:38.407655+00:00",
+      "completedAt": "2026-07-02T22:45:35.075752+00:00"
     },
     {
       "id": "REV-905",

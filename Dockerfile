@@ -30,7 +30,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app/services/core-api \
     PATH="/app/.venv/bin:$PATH" \
     SYNTH_ARTIFACTS_DIR=/data/artifacts \
-    SYNTH_CORPORA_DIR=/data/corpora \
+    SYNTH_CORPORA_DIR=/app/corpora \
     RUNBOARD_DIR=/data/runs \
     DATALAB_DIR=/data/datalab
 
@@ -48,6 +48,7 @@ COPY packages/runboard packages/runboard
 COPY services/core-api services/core-api
 COPY services/trainer services/trainer
 COPY services/worker services/worker
+COPY data/corpora /app/corpora
 COPY infra/docker-entrypoint.sh infra/docker-entrypoint.sh
 
 # smoke: import the app AND the lazily-imported telemetry service

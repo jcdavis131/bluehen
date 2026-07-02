@@ -15,7 +15,6 @@ node_modules
 # Local data (mount volumes or ingest via API in prod)
 data/artifacts
 data/workspaces
-data/corpora
 
 # Nested uv locks (root lock is sufficient)
 packages/**/uv.lock

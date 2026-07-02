@@ -19,6 +19,17 @@ case "$mode" in
   worker)
     exec "$UV/python" /app/services/worker/main.py
     ;;
+  all)
+    # Combined api + worker in one container: shared filesystem for model
+    # checkpoints (true service split needs MODEL_REGISTRY_URI -> S3).
+    cd /app/services/core-api
+    echo "[entrypoint] running alembic upgrade head"
+    "$UV/alembic" upgrade head || echo "[entrypoint] migrate warning - continuing"
+    echo "[entrypoint] starting worker (background)"
+    PYTHONPATH=/app/services/core-api "$UV/python" /app/services/worker/main.py &
+    echo "[entrypoint] starting uvicorn on 0.0.0.0:${PORT}"
+    exec "$UV/uvicorn" app.main:app --host 0.0.0.0 --port "$PORT" --log-level info
+    ;;
   migrate)
     cd /app/services/core-api
     exec "$UV/alembic" upgrade head

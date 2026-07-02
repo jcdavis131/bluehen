@@ -196,9 +196,20 @@ def diagnose(body: DiagnoseIn, tenant: Annotated[TenantCtx, Depends(require_tena
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
+EMBED_MAX_INPUTS = 64
+EMBED_MAX_CHARS = 2000
+
+
 @app.post("/v1/embed")
 def embed(body: dict, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
     try:
+        inputs = body.get("inputs", [])
+        if not isinstance(inputs, list) or len(inputs) > EMBED_MAX_INPUTS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"inputs must be a list of at most {EMBED_MAX_INPUTS} texts",
+            )
+        body["inputs"] = [str(t)[:EMBED_MAX_CHARS] for t in inputs]
         truncate = body.get("truncate")
         if truncate is not None and not isinstance(truncate, bool):
             truncate = bool(truncate)

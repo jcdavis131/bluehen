@@ -3,7 +3,7 @@ type: Team Report
 title: R&D Team — run log
 description: Living run log for the R&D Team (research division).
 tags: [team, agents, research]
-timestamp: "2026-07-02T17:06:46Z"
+timestamp: 2026-07-02T22:29:49Z
 ---
 
 You are the R&D team lead for Blue Hen RE (research division).
@@ -23,6 +23,16 @@ Operating rules (non-negotiable):
 Runs append below, newest first. Transcripts live in `data/agents/`.
 
 # Runs
+
+## 2026-07-02 — run `20260702-172949-rnd`
+
+| Duty | Status | Result |
+|---|---|---|
+| queue-snapshot | ok | `{"researchOpen": [{"id": "AR-301", "title": "Barlow \u03bb=0.022 near champion", "division": "research", "claimedBy": null, "blockedBy": []}, {"id": "AR-302", "title": "Synthetic D_SERVE=32 edge stress", "division": "research", "claimedBy": null, "blockedBy": []}, {"id": "AR-303", "title": "AUG=0.5 …` |
+| telemetry-review | ok | `{"runs": [{"run": "20260702-102553-asn-demo-barlow-60208f", "status": "finished", "collapseAlerts": 8, "surgeries": 1}]}` |
+
+**LLM loop:** skipped (GLM_API_KEY not set)
+
 
 ## 2026-07-02 — run `20260702-120646-rnd`
 

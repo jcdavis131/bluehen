@@ -310,7 +310,8 @@
       "status": "ready",
       "spec": "0008",
       "command": "Create scripts/rag_chunk_ablation.py \u2014 256/512/1024 token chunks on research-rag holdout",
-      "acceptance": "Script runs; best chunk size logged"
+      "acceptance": "Script runs; best chunk size logged",
+      "lane": "opencode"
     },
     {
       "id": "RAG-503",
@@ -341,7 +342,8 @@
       "title": "arXiv exam runner in eval-public",
       "status": "ready",
       "spec": "0008",
-      "command": "Port exam logic \u2192 packages/eval-public; wire arxiviq homepage"
+      "command": "Port exam logic \u2192 packages/eval-public; wire arxiviq homepage",
+      "lane": "opencode"
     },
     {
       "id": "SRV-601",
@@ -412,7 +414,8 @@
       "title": "dumbmodel /museum collapse failures",
       "status": "ready",
       "spec": "0007",
-      "command": "apps/sites/dumbmodel/app/museum/page.tsx"
+      "command": "apps/sites/dumbmodel/app/museum/page.tsx",
+      "lane": "cursor"
     },
     {
       "id": "SITE-004",
@@ -571,7 +574,8 @@
         "INF-001"
       ],
       "acceptance": "All Phase A jobs complete; BD queue has gate-pass entries; ledger shows eval/deploy/index",
-      "note": "Attempted 2026-06-29: docker compose Internal Server Error (C: ~0.4GB free). Unblock INF-000 first."
+      "note": "Attempted 2026-06-29: docker compose Internal Server Error (C: ~0.4GB free). Unblock INF-000 first.",
+      "lane": "claude"
     },
     {
       "id": "OMNI-001",
@@ -622,7 +626,8 @@
       "dependsOn": [
         "INF-001"
       ],
-      "acceptance": "API simulate returns 200 + ledger omni_sim"
+      "acceptance": "API simulate returns 200 + ledger omni_sim",
+      "lane": "cursor"
     },
     {
       "id": "SITE-008",
@@ -682,9 +687,10 @@
       "id": "REV-901",
       "title": "Run workspace site_id migration + bootstrap + vercel env (Operator gate)",
       "division": "infra",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "scripts/migrate_workspace_site_ids.py --execute, rename data/workspaces/*.env, bootstrap:orgs, vercel-env-fleet --execute"
+      "notes": "Executed 2026-07-02 with Operator approval: 4 rows migrated, env files renamed, bootstrap EXISTING x5, Vercel envs corrected",
+      "claimedBy": "claude"
     },
     {
       "id": "REV-902",
@@ -710,7 +716,8 @@
       "division": "bd",
       "status": "ready",
       "spec": "review-2026-07-02",
-      "notes": "contact + waitlist write to ephemeral FS on Vercel"
+      "notes": "contact + waitlist write to ephemeral FS on Vercel",
+      "lane": "cursor"
     },
     {
       "id": "REV-905",
@@ -718,7 +725,7 @@
       "division": "research",
       "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "eval.py falls back to 3 demo pairs and can pass gates",
+      "notes": "fail-closed sufficientEvalPairs gate + explicit allow_demo opt-in (landed by Cursor in parallel)",
       "claimedBy": "cursor",
       "claimedAt": "2026-07-02T19:46:48.107844+00:00",
       "completedAt": "2026-07-02T19:50:45.599025+00:00"
@@ -736,9 +743,11 @@
       "id": "REV-907",
       "title": "torch.load weights_only + checkpoint integrity on request path",
       "division": "research",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "pickle deserialization = RCE if artifacts writable"
+      "notes": "pickle deserialization = RCE if artifacts writable",
+      "lane": "claude",
+      "claimedBy": "claude"
     },
     {
       "id": "REV-908",

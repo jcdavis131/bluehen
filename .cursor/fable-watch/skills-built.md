@@ -95,4 +95,5 @@
 | `follow-procedure` (refined) | P-017, P-043, P-168 | `~/.cursor/skills/follow-procedure/SKILL.md` |
 | `event-driven-wait` (refined) | P-032, P-126, P-170, P-171, P-172 | `~/.cursor/skills/event-driven-wait/SKILL.md` |
 | `respect-the-guard` (refined) | P-049, P-058, P-098, P-107, P-140, P-173 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
+| `background-failure-triage` (refined) | P-019, P-065, P-174 | `~/.cursor/skills/background-failure-triage/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

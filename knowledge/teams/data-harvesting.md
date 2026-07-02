@@ -3,7 +3,7 @@ type: Team Report
 title: Data Harvesting Team — run log
 description: Living run log for the Data Harvesting Team (data division).
 tags: [team, agents, data]
-timestamp: "2026-07-02T17:06:46Z"
+timestamp: 2026-07-02T22:29:50Z
 ---
 
 You are the Data Harvesting team lead for Blue Hen RE (the Data
@@ -24,6 +24,16 @@ Operating rules (non-negotiable):
 Runs append below, newest first. Transcripts live in `data/agents/`.
 
 # Runs
+
+## 2026-07-02 — run `20260702-172950-data-harvesting`
+
+| Duty | Status | Result |
+|---|---|---|
+| watch-tick | ok | `{"reports": [{"sourceId": "dumbmodel-health-checks", "sources": 0, "action": "empty", "failures": []}]}` |
+| dataset-inventory | ok | `{"recent": [{"id": "20260702-110239-wiki---goals-and-build-docs", "docs": 3, "chunks": 8}, {"id": "20260702-110239-evidence-and-science-review-ledgers", "docs": 2, "chunks": 27}, {"id": "20260702-104700-wiki-smoke", "docs": 2, "chunks": 5}]}` |
+
+**LLM loop:** skipped (GLM_API_KEY not set)
+
 
 ## 2026-07-02 — run `20260702-120646-data-harvesting`
 

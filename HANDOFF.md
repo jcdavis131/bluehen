@@ -25,6 +25,11 @@ same day (get_trace restored w/ RLS scoping; charter no longer overrides eval ga
 EXISTING × 5 (+ new observatory workspace), Vercel envs pushed to all 7 projects,
 fleet rebuilt. `scripts/migrate_workspace_site_ids.py` is now a no-op (idempotent).
 
+**Delegation (2026-07-02):** open queue items carry a `lane` field —
+cursor: REV-904 (durable leads), SITE-001..003, OMNI-004 · opencode:
+RAG-502/505 · claude: LOOP-001 (post-training). REV-901..911 all closed
+except REV-904. Agent-team reports refresh in knowledge/teams/.
+
 **Then:** REV-903..910 in TASKS.md (from the deep review — rate-limit public diagnose +
 checkpoint cache before announcing dumbmodel /check; durable LEADS_DIR before real leads).
 Worker service on Railway not yet created (`railway add`? same image, `CMD worker`).

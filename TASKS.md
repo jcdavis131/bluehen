@@ -50,7 +50,7 @@
   - `apps/synthorg — subagent descriptions + synth-core trace IDs`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
-- [ ] **REV-901** — Run workspace site_id migration + bootstrap + vercel env (Operator gate) (infra) · spec [review-2026-07-02](./specs/review-2026-07-02-*.md)
+- [ ] **REV-904** — Durable lead storage (LEADS_DIR volume or core-api endpoint) (bd) · spec [review-2026-07-02](./specs/review-2026-07-02-*.md)
 
 ## In progress
 
@@ -71,11 +71,11 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**SITE-012** — Gamification & attention pass — motion system, hero CTAs, exploration tracker, cursor-aware mascot~~
 - [x] ~~**REV-902** — vercel-env-fleet: fail loudly on missing workspace env files~~
 - [x] ~~**REV-903** — Checkpoint LRU cache in models_svc + rate limit public diagnose BFF~~
 - [x] ~~**REV-905** — Eval gate must fail below minimum real-pair count (no demo-pair fallback)~~
 - [x] ~~**REV-906** — org-divisions.json publicSites/owns → new site ids~~
+- [x] ~~**REV-907** — torch.load weights_only + checkpoint integrity on request path~~
 - [x] ~~**REV-908** — agentkit add_watch_source: URL allowlist + glob deny data/workspaces~~
 - [x] ~~**REV-909** — datalab watch_state atomic write + lock~~
 - [x] ~~**REV-910** — work_queue commands + package.json scripts reconciliation~~

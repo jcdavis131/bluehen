@@ -944,6 +944,23 @@
 - **Why it works:** Each dangerous/deploy script has a dry-run form (the base name, the safe default) and an explicit `:exec` form (actually executes). The dry-run is the path of least resistance — you run `pnpm deploy:railway` to preview, and must explicitly opt into `pnpm deploy:railway:exec` to execute. This is a guard convention in the scripts themselves: the safe action is the default, the destructive action requires an explicit flag.
 - **Maps to:** refine `respect-the-guard` — the `:exec` variant pattern.
 
+## Tick 52: 2026-07-02 17:05 (UTC-5) — failure-state completeness
+
+### P-174 — On exception, finish the run as "failed" AND mark the job failed
+- **Observed:** `except Exception as exc: log.exception("job %s failed", job_id); if run is not None: run.finish("failed"); jobs.fail_job(job_id, workspace_id, str(exc))`.
+- **Why it works:** On a job exception, Fable 5 finishes the telemetry run as "failed" AND marks the job row failed. Failure state is written to *every* tracker that owns a view of the job — the telemetry run and the job table — not just one. A failure that marks the job but leaves the telemetry run "running" produces a stuck run; a failure that finishes the run but leaves the job "in_progress" produces a stuck job. Both must be updated.
+- **Maps to:** refine `background-failure-triage` — failure-state completeness.
+
+### P-175 — Job outcome logged with the key facts
+- **Observed:** `log.info("job %s done model=%s gates=%s", job_id, result.model_version, gates_passed)`.
+- **Why it works:** The job-done log line includes the three facts that make the outcome interpretable: job_id, model_version, gates_passed. A log line with just "job done" is uninformative; with the model version and gate result, the log is auditable and the outcome is checkable from the log alone.
+- **Maps to:** confirmation of `validate-gate` + `cost-transparency` (log outcomes with key facts).
+
+### P-176 — New monitor armed for the next compound event
+- **Observed:** `Monitor(Telemetry deploy lands; training progress/completion visible)`.
+- **Why it works:** The previous monitor ended and a new one is armed for the next compound event (telemetry deploy lands AND training progress/completion visible). Confirms P-171 (chain monitors) + P-172 (compound events).
+- **Maps to:** confirmation of `event-driven-wait`.
+
 ### P-164 — State the corpus size and source so the gate result is interpretable
 - **Observed:** "200 pairs from the real arXiv corpus".
 - **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.

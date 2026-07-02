@@ -21,7 +21,7 @@ def evaluate_checkpoint(
     from asn_engine.model import ASNEncoder
     from transformers import AutoTokenizer
 
-    state = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    state = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     recipe = state.get("recipe", {})
     backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
     encoder = ASNEncoder(backbone_name=backbone)

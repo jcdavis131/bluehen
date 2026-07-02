@@ -153,7 +153,7 @@ def _load_encoder_cached(ckpt_path: str):
             return cached
 
     with open_checkpoint(ckpt_path) as ckpt:
-        state = torch.load(ckpt, map_location="cpu", weights_only=False)
+        state = torch.load(ckpt, map_location="cpu", weights_only=True)
     recipe = state.get("recipe", {})
     backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
     encoder = ASNEncoder(backbone_name=backbone)

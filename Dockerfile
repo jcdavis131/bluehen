@@ -16,7 +16,8 @@ COPY services/core-api services/core-api
 COPY services/trainer services/trainer
 COPY services/worker services/worker
 
-RUN uv sync --all-packages --extra model \
+# db extra is required: app.auth imports sqlalchemy at module level
+RUN uv sync --all-packages --extra model --extra db \
     && uv pip install --python .venv/bin/python torch \
          --index-url https://download.pytorch.org/whl/cpu --force-reinstall
 

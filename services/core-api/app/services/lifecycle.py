@@ -10,7 +10,7 @@ from app.services import data, governance, jobs
 DEFAULT_RECIPE = {
     "baseModel": "sentence-transformers/all-MiniLM-L6-v2",
     "epochs": 3,
-    "batchSize": 16,
+    "batchSize": 8,
     "loss": {"infoNceTemp": 0.07, "zeloWeight": 0},
     "asn": {
         "kStrong": 8,

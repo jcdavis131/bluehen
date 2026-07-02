@@ -12,4 +12,4 @@ restartPolicyMaxRetries = 10
 # Railway injects $PORT (often 8080). Domain target port must match $PORT, not EXPOSE 8000.
 [deploy.limitOverride.containers]
 cpu = 2
-memoryBytes = 4294967296
+memoryBytes = 8589934592

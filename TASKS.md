@@ -71,11 +71,11 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**SITE-009** — slasso venture v1 — RAG certification (Spec 0015)~~
 - [x] ~~**SITE-010** — arxiviq venture v1 — research assistant subscription (Spec 0015)~~
 - [x] ~~**SITE-011** — finance-lab venture v1 — signal lab waitlist, simulation only (Spec 0015)~~
 - [x] ~~**SITE-012** — Gamification & attention pass — motion system, hero CTAs, exploration tracker, cursor-aware mascot~~
 - [x] ~~**REV-902** — vercel-env-fleet: fail loudly on missing workspace env files~~
+- [x] ~~**REV-903** — Checkpoint LRU cache in models_svc + rate limit public diagnose BFF~~
 - [x] ~~**REV-905** — Eval gate must fail below minimum real-pair count (no demo-pair fallback)~~
 - [x] ~~**REV-906** — org-divisions.json publicSites/owns → new site ids~~
 - [x] ~~**REV-909** — datalab watch_state atomic write + lock~~

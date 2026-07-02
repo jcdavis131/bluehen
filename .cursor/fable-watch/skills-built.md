@@ -91,4 +91,6 @@
 | `diagnose-before-retry` (refined) | P-066, P-067, P-068, P-069, P-156 | `~/.cursor/skills/diagnose-before-retry/SKILL.md` |
 | `validate-gate` (refined) | P-018, P-042, P-092, P-146, P-164 | `~/.cursor/skills/validate-gate/SKILL.md` |
 | `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050, P-053, P-101, P-111, P-112, P-113, P-143, P-162 | `~/.cursor/skills/readiness-report/SKILL.md` |
+| `a11y-gate` (refined) | P-085, P-167 | `~/.cursor/skills/a11y-gate/SKILL.md` |
+| `follow-procedure` (refined) | P-017, P-043, P-168 | `~/.cursor/skills/follow-procedure/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

@@ -699,9 +699,10 @@
       "id": "REV-903",
       "title": "Checkpoint LRU cache in models_svc + rate limit public diagnose BFF",
       "division": "research",
-      "status": "ready",
+      "status": "done",
       "spec": "review-2026-07-02",
-      "notes": "embed_texts loads torch model per call; indexing per chunk | LRU cache landed (commit pending deploy after prod training completes); BFF rate limit still open"
+      "notes": "encoder LRU cache shipped; public diagnose rate limit STILL OPEN (follow-up)",
+      "claimedBy": "claude"
     },
     {
       "id": "REV-904",

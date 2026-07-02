@@ -56,9 +56,26 @@ def job_status(workspace_id: uuid.UUID, job_id: str) -> dict:
         }
 
 
+STALE_RUNNING_MINUTES = 30
+
+
 def claim_next_job() -> dict | None:
-    """Worker claims one pending job; returns serializable job payload."""
+    """Worker claims one pending job; returns serializable job payload.
+
+    Jobs stuck in 'running' (worker crash / OOM restart) are requeued after
+    STALE_RUNNING_MINUTES so a container restart never strands work.
+    """
+    from datetime import timedelta
+
     with db_session() as session:
+        cutoff = datetime.now(timezone.utc) - timedelta(minutes=STALE_RUNNING_MINUTES)
+        requeued = session.execute(
+            update(TrainingJob)
+            .where(TrainingJob.status == "running", TrainingJob.updated_at < cutoff)
+            .values(status="pending", updated_at=datetime.now(timezone.utc))
+        )
+        if requeued.rowcount:
+            session.flush()
         job = session.scalar(
             select(TrainingJob)
             .where(TrainingJob.status == "pending")

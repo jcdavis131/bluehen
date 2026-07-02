@@ -898,6 +898,28 @@
 - **Why it works:** This structurally fixes the review finding from P-143 ("per-request torch model loading behind an unauthenticated route — trivial DoS"). Instead of loading the model on every request, the encoder is loaded once and cached, with a bound (LRU eviction) so the cache can't grow unbounded, and a lock for thread safety. The DoS vector (per-request load) is removed by structure, not by a rate-limit check. Confirms the review → structural-fix loop.
 - **Maps to:** confirmation of `diagnose-before-retry` (structural fix) + the review-findings-to-fix loop.
 
+## Tick 44: 2026-07-02 16:01 (UTC-5) — fix + tracker update
+
+### P-166 — Extract inline key construction into a named function
+- **Observed:** `const key = entryKey(e)` replacing `const key = \`${e.ts}-${e.stage}\``.
+- **Why it works:** Inline key construction is extracted into a named `entryKey(e)` function — a readability/maintainability refactor. Same class as P-013 (named constants). Small code-craft.
+- **Maps to:** note (code-craft, like P-013).
+
+### P-167 — ARIA live region for a dynamic feed
+- **Observed:** `<ol className="bh-feed" aria-live="polite" aria-label="Race log feed">`.
+- **Why it works:** A dynamic feed uses `aria-live="polite"` + `aria-label` so screen readers announce updates. Confirms `a11y-gate` with the feed-specific detail.
+- **Maps to:** refine `a11y-gate` — dynamic feeds use aria-live.
+
+### P-168 — Mark a review finding done in the tracker via a script
+- **Observed:** `python -X utf8 - <<'EOF' import json; d = json.load(open('config/work_queue.json')); for t in d['tasks']: if t.get('id') == 'REV-909': t['status'] = 'done'; t['claimedBy'] = 'claude'; t['notes'] = '…'`.
+- **Why it works:** A review finding (REV-909) is fixed and marked done in the work queue via a script: load the JSON, find by id, set status='done', claimedBy='claude', add notes. The fix is recorded in the tracker, not just in code. Confirms `follow-procedure` (tracker is the procedure).
+- **Maps to:** refine `follow-procedure` — mark findings done in the tracker via a script.
+
+### P-169 — Task notes record both the fix AND the remaining gap
+- **Observed:** `t['notes'] = 'atomic temp+rename save; cross-process lock still ope…'`.
+- **Why it works:** The notes capture what was done (atomic temp+rename save) AND what's still open (cross-process lock still open). A finding marked "done" with a remaining gap documented is honest — the fix landed, the limitation is recorded. Confirms `document-non-action`.
+- **Maps to:** confirmation of `document-non-action`.
+
 ### P-164 — State the corpus size and source so the gate result is interpretable
 - **Observed:** "200 pairs from the real arXiv corpus".
 - **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.

@@ -1,6 +1,7 @@
 # Update Log
 
 ## 2026-07-02
+* **Update**: Spec 0015 approved (venture fleet); dumbmodel venture v1 shipped — free embedding health check (`/check`, core-api `/v1/diagnose`), consented submissions → datalab inbox source `dumbmodel-health-checks`, store/briefing CTAs, venture block in fleet.json.
 * **Creation**: [Agentic org teams](/platform/agent-org.md) (Spec 0014) — agentkit runtime + Data Harvesting / R&D / Operations teams; first live runs logged in [/teams/](/teams/index.md).
 * **Update**: Commerce backend booted on a dedicated local Postgres 16 instance (data/pg-commerce, :5434); BLK-DISK resolved (10.4 GB npm cache was the root cause).
 * **Update**: Scaffolded the Medusa v2 backend at `services/commerce` (config, seed with region/products/publishable key, Docker + Railway deploy files) and aligned README/package.json/fleet.json metadata; [commercial platform](/platform/commercial-platform.md) revised.

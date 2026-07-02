@@ -177,6 +177,25 @@ def models_list(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
     return models_svc.list_models(tenant.workspace_id)
 
 
+class DiagnoseIn(BaseModel):
+    texts: list[str] = Field(min_length=1, max_length=64)
+    consent: bool = False
+
+
+@app.post("/v1/diagnose")
+def diagnose(body: DiagnoseIn, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    """Embedding health check (Spec 0015): measured diagnostics on a
+    user-submitted sample; consented submissions feed the datalab inbox."""
+    from app.services.diagnose import diagnose_corpus
+
+    try:
+        return diagnose_corpus(
+            tenant.workspace_id, body.texts, consent=body.consent, site_id=tenant.site_id
+        )
+    except (ValueError, FileNotFoundError) as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
 @app.post("/v1/embed")
 def embed(body: dict, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
     try:

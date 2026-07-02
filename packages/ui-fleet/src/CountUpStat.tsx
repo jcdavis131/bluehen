@@ -6,15 +6,21 @@ import { useEffect, useRef, useState } from "react";
  * Honors prefers-reduced-motion (renders the final value immediately). */
 export function CountUpStat({
   value,
-  format = (v) => String(Math.round(v)),
+  digits = 0,
+  prefix = "",
+  suffix = "",
   durationMs = 700,
   className,
 }: {
   value: number;
-  format?: (v: number) => string;
+  /** Serializable formatting (functions cannot cross the RSC boundary). */
+  digits?: number;
+  prefix?: string;
+  suffix?: string;
   durationMs?: number;
   className?: string;
 }) {
+  const format = (v: number) => `${prefix}${v.toFixed(digits)}${suffix}`;
   const ref = useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = useState<number | null>(null);
 

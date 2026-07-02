@@ -11,11 +11,12 @@ export default function HomePage() {
     <>
       <PageHeader
         eyebrow={surface?.eyebrow}
-        title="How does your embedding compare?"
+        title="How dumb is your model?"
         lead={
           <>
-            Side-by-side retrieval benchmarks with effective rank and nDCG@10 — measured on{" "}
-            {BRAND.name} eval gates, not marketing claims.
+            Paste your text, get measured diagnostics in seconds — effective rank, space
+            utilization, redundancy — under a production embedding model. Free, no signup.
+            Benchmarks measured on {BRAND.name} eval gates, not marketing claims.
           </>
         }
         badge={
@@ -29,7 +30,10 @@ export default function HomePage() {
       <SiteSubnav items={nav} currentPath="/" />
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--bh-space-3)", marginBottom: "var(--bh-space-8)" }}>
-        <Link href="/compare" className="bh-btn bh-btn--primary">
+        <Link href="/check" className="bh-btn bh-btn--primary">
+          Run the free health check
+        </Link>
+        <Link href="/compare" className="bh-btn bh-btn--ghost">
           Compare models
         </Link>
         <Link href="/hall" className="bh-btn bh-btn--ghost">

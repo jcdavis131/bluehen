@@ -16,4 +16,4 @@ export { SearchHitList } from "./SearchHitList";
 export { SiteSubnav, ApiStatusBanner } from "./SiteSubnav";
 export { PageHeader } from "./PageHeader";
 export type { SiteNavItem } from "./SiteSubnav";
-export type { SearchHit, SearchResult, FeedbackInput } from "./site-api";
+export type { SearchHit, SearchResult, FeedbackInput, DiagnoseResult } from "./site-api";

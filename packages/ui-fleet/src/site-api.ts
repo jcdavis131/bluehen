@@ -74,6 +74,26 @@ export async function siteModels() {
   return apiFetch("/v1/models");
 }
 
+export type DiagnoseResult = {
+  samples: number;
+  dims: number;
+  effectiveRank: number;
+  maxPossibleRank: number;
+  utilization: number;
+  meanPairwiseSimilarity: number;
+  modelVersion: string;
+  consentStored: boolean;
+};
+
+/** Embedding health check (Spec 0015) — measured diagnostics on a
+ * user-submitted text sample; consent gates datalab-inbox storage. */
+export async function siteDiagnose(texts: string[], consent: boolean): Promise<DiagnoseResult> {
+  return apiFetch("/v1/diagnose", {
+    method: "POST",
+    body: JSON.stringify({ texts, consent }),
+  }) as Promise<DiagnoseResult>;
+}
+
 export async function siteBudget() {
   return apiFetch("/v1/budget");
 }

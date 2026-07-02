@@ -14,7 +14,7 @@ export function DumbnessMeter({ score, label }: { score: number; label?: string 
       max={100}
       tone={clamped >= 60 ? "danger" : clamped >= 30 ? "clay" : "moss"}
       direction="lower-better"
-      format={(v) => `${v.toFixed(0)}${label ? ` · ${label}` : ""}`}
+      suffix={label ? ` · ${label}` : ""}
     />
   );
 }

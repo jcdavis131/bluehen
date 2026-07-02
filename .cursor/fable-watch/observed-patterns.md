@@ -452,3 +452,52 @@
 - **Observed:** `InteractiveCircuit.tsx` imports `BRAND`, `getDivisionRelay`, `getLedgerStages`, `getOrgDivision`, `GLOSSARY`, `ledgerStageToDivision` — a full suite of domain primitives from `@synthaembed/fleet`.
 - **Why it works:** Confirms P-082 at scale — the UI pulls brand constants, glossary, division/stage mappers, and relay lookups from the SDK rather than hardcoding any of it. The SDK is the single source of domain truth; the UI is a pure view over it.
 - **Maps to:** confirmation of `use-design-system`'s SDK-owns-domain-logic rule (P-082).
+
+## Tick 21: 2026-07-02 12:48 (UTC-5) — spec index, a11y gate, touched-sites build
+
+### P-084 — Spec index maintained with status + sign-off state per spec
+- **Observed:** specs README diff — a table with spec link, status (`**Implemented**` / `**Draft**`), and notes ("Awaiting Operator sign-off on venture map + consent language").
+- **Why it works:** A specs index that tracks each spec's status and what's blocking it makes the spec backlog scannable and shows which drafts need sign-off. This is the registry surface for specs — part of `metadata-align`.
+- **Maps to:** refine `metadata-align` — the specs README is a registry surface to keep statused.
+
+### P-085 — Static a11y verification of new UI primitives (while builds run)
+- **Observed:** "While builds run, static a11y verification of the new primitives (animations gated, keyboard/aria present)."
+- **Why it works:** New UI primitives can ship with unguarded animations (no `prefers-reduced-motion`), missing keyboard support, or absent ARIA. A static a11y check on each new primitive catches these before they ship — and it's a perfect fill-the-wait task while builds run. The three things to check: animations gated, keyboard accessible, ARIA present.
+- **Maps to:** `a11y-gate` skill.
+
+### P-086 — Backgrounded build across only the touched sites
+- **Observed:** "Production build all three touched sites" — a backgrounded production build across the three sites this change touched, not all sites.
+- **Why it works:** `affected-tests` (P-009) applied to builds — build only the touched sites, not the whole fleet. Cheaper, less noise, faster signal.
+- **Maps to:** fold into `affected-tests` — the build analog of the affected-tests rule.
+
+### P-087 — Transport retry with backoff + visible attempt cap
+- **Observed:** "Unable to connect to API (FailedToOpenSocket) · Retrying in 13s · attempt 6/10".
+- **Why it works:** A connection failure retries with a backoff (13s) and a visible attempt cap (6/10). The cap prevents infinite retry; the visibility tells the user it's happening. This is the harness's transport behavior, not a deliberate agent pattern — noted, not a skill.
+- **Maps to:** note only (platform transport behavior).
+
+## Tick 22: 2026-07-02 13:05 (UTC-5) — policy-as-config, build verification
+
+### P-088 — Encode consent + data flow as config, not code
+- **Observed:** fleet.json diff: `"dataConsent": "Opt-in checkbox on /check; consented samples → data/datalab/inbox (datalab source: dumbmodel-health-checks)"`.
+- **Why it works:** The consent mechanism (opt-in checkbox on `/check`) AND the data flow (where consented samples go, what source they're tagged as) are encoded in config, not hardcoded. This makes consent auditable (it's a data field, grep-able), changeable without a code edit, and visible to the fleet registry. Consent/policy-as-code is the compliance counterpart to infrastructure-as-code.
+- **Maps to:** `policy-as-config` skill.
+
+### P-089 — Verify phase runs three gates: new tests, typechecks, production build
+- **Observed:** "Verification — new tests, typechecks, production build".
+- **Why it works:** Confirms `validate-gate` — the verify phase is exactly the three-gate stack.
+- **Maps to:** confirmation of `validate-gate`.
+
+### P-090 — Keep the package's barrel export current when adding a type
+- **Observed:** `index.ts` diff — added `DiagnoseResult` to `export type { ... }`.
+- **Why it works:** A new type that isn't exported from the package's barrel (`index.ts`) is invisible to consumers. Keeping the export surface current is part of "the primitive is done".
+- **Maps to:** refine `use-design-system` — keep the barrel export current.
+
+### P-091 — Build verification with exit-code capture + targeted error-grep
+- **Observed:** `CI=true pnpm --filter @synthaembed/dumbmodel --filter @synthaembed/hub build > "$JOB_DIR/tmp/venture-build2.log" 2>&1; echo "exit=$?"; grep -E "error|Failed" "$JOB_DIR/tmp/venture-build2.log" | head -4`.
+- **Why it works:** The capture-exit-and-sample idiom (P-063) applied to a build, refined with a targeted `grep -E "error|Failed" | head -4` — show the exit code AND surface just the error/Failed lines. Faster diagnosis than a raw tail when the build log is long.
+- **Maps to:** refine `silent-op-recovery` — add the error-grep variant to the capture idiom.
+
+### P-092 — `CI=true` to force CI-equivalent build behavior locally
+- **Observed:** `CI=true pnpm --filter … build`.
+- **Why it works:** Setting `CI=true` makes the build behave as it would in CI (fail on warnings, no interactive, stricter). Running it locally gives you CI-equivalent signal before pushing.
+- **Maps to:** refine `validate-gate` — set `CI=true` for local builds to get CI-equivalent behavior.

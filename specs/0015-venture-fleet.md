@@ -1,6 +1,6 @@
 # Spec 0015 — Venture fleet: every public site is a business
 
-**Status:** Draft (awaiting Operator sign-off) · **Author:** Claude · 2026-07-02
+**Status:** Ready (Operator approved 2026-07-02; sequencing: dumbmodel first) · **Author:** Claude
 
 ## Operator direction (verbatim intent)
 

@@ -57,4 +57,10 @@
 | `agent-guardrails` | P-073 | `~/.cursor/skills/agent-guardrails/SKILL.md` |
 | `progress-board` (refined) | P-006, P-015, P-078 | `~/.cursor/skills/progress-board/SKILL.md` |
 | `use-design-system` (refined) | P-034, P-035, P-036, P-080, P-081, P-082 | `~/.cursor/skills/use-design-system/SKILL.md` |
+| `a11y-gate` | P-085 | `~/.cursor/skills/a11y-gate/SKILL.md` |
+| `metadata-align` (refined) | P-052, P-084 | `~/.cursor/skills/metadata-align/SKILL.md` |
+| `policy-as-config` | P-088 | `~/.cursor/skills/policy-as-config/SKILL.md` |
+| `use-design-system` (refined) | P-034, P-035, P-036, P-080, P-081, P-082, P-090 | `~/.cursor/skills/use-design-system/SKILL.md` |
+| `silent-op-recovery` (refined) | P-025, P-026, P-027, P-063, P-091 | `~/.cursor/skills/silent-op-recovery/SKILL.md` |
+| `validate-gate` (refined) | P-018, P-042, P-092 | `~/.cursor/skills/validate-gate/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

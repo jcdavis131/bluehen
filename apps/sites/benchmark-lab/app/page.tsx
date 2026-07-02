@@ -81,7 +81,7 @@ export default function BenchmarkHome() {
                 target={0.35}
                 targetLabel="deploy gate"
                 tone="clay"
-                format={(v) => v.toFixed(2)}
+                digits={2}
               />
             </div>
           </div>

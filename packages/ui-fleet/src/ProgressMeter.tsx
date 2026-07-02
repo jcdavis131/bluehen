@@ -12,7 +12,9 @@ export function ProgressMeter({
   max,
   target,
   targetLabel,
-  format = (v) => String(v),
+  digits = 0,
+  prefix = "",
+  suffix = "",
   tone = "accent",
   direction = "higher-better",
 }: {
@@ -22,11 +24,15 @@ export function ProgressMeter({
   /** Threshold marker (e.g. the deploy gate). */
   target?: number;
   targetLabel?: string;
-  format?: (v: number) => string;
+  /** Serializable formatting (functions cannot cross the RSC boundary). */
+  digits?: number;
+  prefix?: string;
+  suffix?: string;
   tone?: "accent" | "moss" | "clay" | "danger";
   /** For burn-down meters pass "lower-better" — passing the target flags instead of clearing. */
   direction?: "higher-better" | "lower-better";
 }) {
+  const format = (v: number) => `${prefix}${v.toFixed(digits)}${suffix}`;
   const clamped = Math.max(0, Math.min(1, max > 0 ? value / max : 0));
   const targetPct = target != null && max > 0 ? Math.max(0, Math.min(1, target / max)) : null;
   const cleared =

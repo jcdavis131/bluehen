@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
+  siteDiagnose,
   siteFeedback,
   siteHealth,
   siteBdQueue,
@@ -26,6 +27,24 @@ export async function POST_search(req: NextRequest) {
     if (body.truncateDims != null) opts.truncateDims = Number(body.truncateDims);
     if (body.quant === "int8") opts.quant = "int8";
     const data = await siteSearch(query, opts.k, opts);
+    return NextResponse.json(data);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    const status = msg.includes("SYNTH_API_KEY") ? 503 : 502;
+    return NextResponse.json({ error: msg }, { status });
+  }
+}
+
+export async function POST_diagnose(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const texts = Array.isArray(body.texts)
+      ? body.texts.map((t: unknown) => String(t)).filter((t: string) => t.trim())
+      : [];
+    if (texts.length === 0) {
+      return NextResponse.json({ error: "texts required" }, { status: 400 });
+    }
+    const data = await siteDiagnose(texts.slice(0, 64), body.consent === true);
     return NextResponse.json(data);
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);

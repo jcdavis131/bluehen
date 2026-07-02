@@ -619,6 +619,17 @@
         "INF-001"
       ],
       "acceptance": "API simulate returns 200 + ledger omni_sim"
+    },
+    {
+      "id": "SITE-008",
+      "title": "dumbmodel venture v1 \u2014 embedding health check + consent flywheel (Spec 0015)",
+      "division": "bd",
+      "status": "done",
+      "spec": "0015",
+      "notes": "core-api /v1/diagnose, dumbmodel /check, venture homepage, datalab inbox source, fleet.json venture block",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T17:51:38.408486+00:00",
+      "completedAt": "2026-07-02T18:08:07.467408+00:00"
     }
   ]
 }

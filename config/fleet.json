@@ -95,7 +95,13 @@
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Baseline Comparison — transparent embedder benchmarks with measured effective rank and nDCG."
+      "description": "Baseline Comparison — transparent embedder benchmarks with measured effective rank and nDCG.",
+      "venture": {
+        "valueProp": "Free embedding health check — paste text, get measured collapse diagnostics",
+        "cta": { "label": "Run the free health check", "href": "/check" },
+        "monetization": "Evaluation Credits via bhenre.com/store; briefings via /contact",
+        "dataConsent": "Opt-in checkbox on /check; consented samples → data/datalab/inbox (datalab source: dumbmodel-health-checks)"
+      }
     },
     {
       "id": "benchmark-lab",

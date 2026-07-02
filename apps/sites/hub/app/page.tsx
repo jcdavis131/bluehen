@@ -103,7 +103,7 @@ export default async function HubPage() {
           value={
             remaining !== null ? (
               <>
-                $<CountUpStat value={remaining} format={(v) => v.toFixed(2)} /> left
+                <CountUpStat value={remaining} digits={2} prefix="$" /> left
               </>
             ) : (
               "—"
@@ -119,7 +119,8 @@ export default async function HubPage() {
                 targetLabel="ceiling"
                 direction="lower-better"
                 tone="clay"
-                format={(v) => `$${v.toFixed(2)}`}
+                digits={2}
+                prefix="$"
               />
             ) : (
               `ceiling $${ceiling ?? "—"}`
@@ -140,7 +141,7 @@ export default async function HubPage() {
                     target={GATE_BASELINE_RANK}
                     targetLabel="gate"
                     tone="accent"
-                    format={(v) => v.toFixed(1)}
+                    digits={1}
                   />
                 )}
                 {ndcg !== null && (
@@ -151,7 +152,7 @@ export default async function HubPage() {
                     target={GATE_MIN_NDCG10}
                     targetLabel="gate"
                     tone="moss"
-                    format={(v) => v.toFixed(3)}
+                    digits={3}
                   />
                 )}
               </span>

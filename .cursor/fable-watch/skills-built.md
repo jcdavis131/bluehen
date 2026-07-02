@@ -53,4 +53,8 @@
 | `silent-op-recovery` (refined) | P-025, P-026, P-027, P-063 | `~/.cursor/skills/silent-op-recovery/SKILL.md` |
 | `background-failure-triage` (refined) | P-019, P-065 | `~/.cursor/skills/background-failure-triage/SKILL.md` |
 | `diagnose-before-retry` | P-066, P-067, P-068, P-069 | `~/.cursor/skills/diagnose-before-retry/SKILL.md` |
+| `deterministic-core-llm-judgment` | P-070 | `~/.cursor/skills/deterministic-core-llm-judgment/SKILL.md` |
+| `agent-guardrails` | P-073 | `~/.cursor/skills/agent-guardrails/SKILL.md` |
+| `progress-board` (refined) | P-006, P-015, P-078 | `~/.cursor/skills/progress-board/SKILL.md` |
+| `use-design-system` (refined) | P-034, P-035, P-036, P-080, P-081, P-082 | `~/.cursor/skills/use-design-system/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

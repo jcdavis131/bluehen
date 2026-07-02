@@ -411,6 +411,66 @@
       "command": "apps/sites/dumbmodel/app/museum/page.tsx"
     },
     {
+      "id": "SITE-004",
+      "division": "comms",
+      "priority": 63,
+      "title": "Fleet UI/UX engagement audit + hub gamification design",
+      "status": "done",
+      "spec": null,
+      "command": "Author docs/reviews/ui-ux-engagement-audit.md per docs/prompts/fable-ui-ux-review.md (Phase 1 + 2). No code yet.",
+      "acceptance": "Audit card per site; hub ranked #1; concrete gamification design (interactive circuit, race feed, earned meters, milestones, guided /try, one mascot beat, micro-interactions) with shared-vs-local primitive split.",
+      "note": "Brief: docs/prompts/fable-ui-ux-review.md. Voice = enterprise B2B, no sports metaphors, no emoji in product UI without Operator approval. Lean on existing vocab (race log / operating loop / hill-climb / deploy gate).",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T17:32:08.218532+00:00",
+      "completedAt": "2026-07-02T17:35:40.575007+00:00"
+    },
+    {
+      "id": "SITE-005",
+      "division": "comms",
+      "priority": 64,
+      "title": "ui-fleet engagement primitives (ProgressMeter, InteractiveCircuit, RaceFeed, MilestoneStrip, CommandPalette)",
+      "status": "done",
+      "spec": null,
+      "command": "packages/ui-fleet \u2014 add shared primitives per SITE-004 design; extend tokens, don't fork. Generalize apps/sites/dumbmodel DumbnessMeter \u2192 ProgressMeter.",
+      "acceptance": "Primitives exported from @synthaembed/ui-fleet; pnpm --filter @synthaembed/ui-fleet build green; prefers-reduced-motion honored.",
+      "dependsOn": [
+        "SITE-004"
+      ],
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T17:35:40.863729+00:00",
+      "completedAt": "2026-07-02T17:41:15.363170+00:00"
+    },
+    {
+      "id": "SITE-006",
+      "division": "comms",
+      "priority": 65,
+      "title": "Hub engagement pass \u2014 interactive circuit, race feed, earned meters, guided /try, \u2318K",
+      "status": "done",
+      "spec": null,
+      "command": "apps/sites/hub \u2014 wire SITE-005 primitives into home + /try; data via existing BFF routes (/healthz, /v1/budget, /v1/ledger, /v1/models); add thin core-api SSE/poll for ledger if needed (no DB from site).",
+      "acceptance": "pnpm --filter @synthaembed/hub build + pnpm review pass; browser smoke (count-up, hover, \u2318K, interactive circuit) respects reduced-motion; every metric traces to a real core-api field.",
+      "dependsOn": [
+        "SITE-005"
+      ],
+      "completedAt": "2026-07-02T17:41:15.647871+00:00"
+    },
+    {
+      "id": "SITE-007",
+      "division": "comms",
+      "priority": 66,
+      "title": "Sibling site consistency pass \u2014 adopt shared engagement primitives",
+      "status": "done",
+      "spec": "0007",
+      "command": "Light passes on dumbmodel, benchmark-lab, research-rag \u2014 adopt ProgressMeter/RaceFeed/MilestoneStrip from ui-fleet; don't fork. finance-lab stays simulation-framed.",
+      "acceptance": "pnpm review green; no new design tokens; sibling sites use shared primitives, not copies.",
+      "dependsOn": [
+        "SITE-006"
+      ],
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T17:41:15.949465+00:00",
+      "completedAt": "2026-07-02T17:44:00.850174+00:00"
+    },
+    {
       "id": "SPEC-006",
       "division": "agent",
       "priority": 70,

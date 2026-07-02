@@ -1,6 +1,15 @@
 export { FleetShell } from "./FleetShell";
 export { siteHref, fleetNavSites } from "./urls";
 export { ClosedLoopDiagram } from "./ClosedLoopDiagram";
+export { InteractiveCircuit } from "./InteractiveCircuit";
+export { RaceFeed } from "./RaceFeed";
+export type { LedgerEntry } from "./RaceFeed";
+export { ProgressMeter } from "./ProgressMeter";
+export { MilestoneStrip } from "./MilestoneStrip";
+export { CommandPalette } from "./CommandPalette";
+export type { PaletteItem } from "./CommandPalette";
+export { CountUpStat } from "./CountUpStat";
+export { ConeMascot, HenMascot } from "./mascots";
 export { LiveSearchPanel } from "./LiveSearchPanel";
 export { FeedbackForm } from "./FeedbackForm";
 export { SearchHitList } from "./SearchHitList";

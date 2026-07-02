@@ -1,9 +1,15 @@
 import {
-  ClosedLoopDiagram,
+  CountUpStat,
   fleetNavSites,
+  HenMascot,
+  InteractiveCircuit,
+  MilestoneStrip,
   PageHeader,
+  ProgressMeter,
+  RaceFeed,
   siteHref,
   SiteSubnav,
+  type LedgerEntry,
 } from "@synthaembed/ui-fleet";
 import {
   BRAND,
@@ -11,14 +17,19 @@ import {
   getSiteNav,
   GLOSSARY,
   RE,
-  stageLabel,
+  ledgerStageToDivision,
   getSite,
   listSites,
+  LOOP_ORDER,
 } from "@synthaembed/fleet";
 import Link from "next/link";
 
 const API = process.env.SYNTH_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 const KEY = process.env.SYNTH_API_KEY ?? "";
+
+// Deploy gates — Spec 0008, packages/eval-harness/eval_harness/gates.py
+const GATE_BASELINE_RANK = 8.0;
+const GATE_MIN_NDCG10 = 0.35;
 
 async function apiGet(path: string) {
   try {
@@ -37,16 +48,28 @@ export default async function HubPage() {
   const [health, budget, ledgerData, modelsData] = await Promise.all([
     apiGet("/healthz"),
     apiGet("/v1/budget"),
-    apiGet("/v1/ledger?limit=10"),
+    apiGet("/v1/ledger?limit=30"),
     apiGet("/v1/models"),
   ]);
-  const ledger = ledgerData?.entries ?? [];
+  const ledger: LedgerEntry[] = ledgerData?.entries ?? [];
   const latestStage = ledger.length ? String(ledger[0]?.stage ?? "") : null;
-  const deployed = (modelsData?.models ?? []).find((m: { deployed?: boolean }) => m.deployed);
+  const models = modelsData?.models ?? [];
+  const deployed = models.find((m: { deployed?: boolean }) => m.deployed);
   const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
   const sites = fleetNavSites("hub");
   const circuit = getSiteCircuit("hub");
   const nav = getSiteNav("hub");
+
+  // Mascot looks toward the active division's position in the loop.
+  const activeDivision = latestStage ? ledgerStageToDivision(latestStage) : null;
+  const activeIdx = activeDivision ? LOOP_ORDER.indexOf(activeDivision) : -1;
+  const gaze = activeIdx >= 0 ? (activeIdx / (LOOP_ORDER.length - 1)) * 2 - 1 : 0;
+
+  const remaining = typeof budget?.remainingUsd === "number" ? budget.remainingUsd : null;
+  const ceiling = typeof budget?.ceilingUsd === "number" ? budget.ceilingUsd : null;
+  const spent = remaining !== null && ceiling !== null ? ceiling - remaining : null;
+  const rank = typeof deployed?.effectiveRank === "number" ? deployed.effectiveRank : null;
+  const ndcg = typeof deployed?.ndcg10 === "number" ? deployed.ndcg10 : null;
 
   return (
     <>
@@ -62,34 +85,97 @@ export default async function HubPage() {
           </>
         }
         badge={
-          <span className={`bh-badge ${health ? "bh-badge--ok" : "bh-badge--warn"}`}>
-            {health ? "API online" : "API offline"}
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <HenMascot size={36} gaze={gaze} />
+            <span className={`bh-badge ${health ? "bh-badge--ok" : "bh-badge--warn"}`}>
+              {health ? "API online" : "API offline"}
+            </span>
           </span>
         }
       />
 
       <SiteSubnav items={nav} currentPath="/" />
 
-      <div className="fleet-grid" style={{ marginBottom: 28 }}>
+      <div className="fleet-grid" style={{ marginBottom: 20 }}>
         <StatCard label="core-api" value={health ? "Online" : "Offline"} meta={API} />
         <StatCard
           label={GLOSSARY.budget}
-          value={budget ? `$${budget.remainingUsd?.toFixed(2) ?? "—"} left` : "—"}
-          meta={`ceiling $${budget?.ceilingUsd ?? 50}`}
+          value={
+            remaining !== null ? (
+              <>
+                $<CountUpStat value={remaining} format={(v) => v.toFixed(2)} /> left
+              </>
+            ) : (
+              "—"
+            )
+          }
+          meta={
+            spent !== null && ceiling !== null ? (
+              <ProgressMeter
+                label="burn-down"
+                value={spent}
+                max={ceiling}
+                target={ceiling}
+                targetLabel="ceiling"
+                direction="lower-better"
+                tone="clay"
+                format={(v) => `$${v.toFixed(2)}`}
+              />
+            ) : (
+              `ceiling $${ceiling ?? "—"}`
+            )
+          }
         />
         <StatCard
           label={GLOSSARY.deployedModel}
           value={deployed?.version ?? "—"}
-          meta={`rank ${deployed?.effectiveRank ?? "—"} · nDCG ${deployed?.ndcg10 ?? "—"}`}
+          meta={
+            rank !== null || ndcg !== null ? (
+              <span className="bh-stack" style={{ gap: 8 }}>
+                {rank !== null && (
+                  <ProgressMeter
+                    label="effective rank"
+                    value={rank}
+                    max={Math.max(rank, GATE_BASELINE_RANK) * 1.5}
+                    target={GATE_BASELINE_RANK}
+                    targetLabel="gate"
+                    tone="accent"
+                    format={(v) => v.toFixed(1)}
+                  />
+                )}
+                {ndcg !== null && (
+                  <ProgressMeter
+                    label="nDCG@10"
+                    value={ndcg}
+                    max={1}
+                    target={GATE_MIN_NDCG10}
+                    targetLabel="gate"
+                    tone="moss"
+                    format={(v) => v.toFixed(3)}
+                  />
+                )}
+              </span>
+            ) : (
+              "no deployed model yet"
+            )
+          }
         />
         <StatCard
           label={GLOSSARY.fleet}
-          value={`${listSites({ status: "active" }).length} active`}
+          value={
+            <>
+              <CountUpStat value={listSites({ status: "active" }).length} /> active
+            </>
+          }
           meta={<a href={siteHref(getSite("control")!, local)}>Open Operations Center →</a>}
         />
       </div>
 
-      <ClosedLoopDiagram activeLedgerStage={latestStage} />
+      <MilestoneStrip ledger={ledger} models={models} />
+
+      <div style={{ marginTop: 20 }}>
+        <InteractiveCircuit initialLedger={ledger} />
+      </div>
 
       <h2 className="bh-section-title">Product surfaces</h2>
       <div className="fleet-grid" style={{ marginBottom: 32 }}>
@@ -113,25 +199,7 @@ export default async function HubPage() {
 
       <h2 className="bh-section-title">{GLOSSARY.raceLog}</h2>
       <div className="fleet-card" style={{ padding: 0, overflow: "hidden" }}>
-        {ledger.length === 0 ? (
-          <div className="bh-muted" style={{ padding: 16, fontSize: "0.8125rem" }}>
-            No entries yet. Start core-api and run: <code>synth budget</code>
-          </div>
-        ) : (
-          ledger.map((e: Record<string, unknown>, i: number) => (
-            <div
-              key={i}
-              className="bh-mono"
-              style={{
-                padding: "10px 16px",
-                borderTop: i ? "1px solid var(--bh-border)" : "none",
-                fontSize: "0.8125rem",
-              }}
-            >
-              {stageLabel(String(e.stage ?? "—"))} · {String(e.notes ?? e.modelVersion ?? "")}
-            </div>
-          ))
-        )}
+        <RaceFeed initial={ledger} />
       </div>
     </>
   );
@@ -143,7 +211,7 @@ function StatCard({
   meta,
 }: {
   label: string;
-  value: string;
+  value: React.ReactNode;
   meta?: React.ReactNode;
 }) {
   return (

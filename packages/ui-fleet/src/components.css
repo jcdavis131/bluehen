@@ -873,3 +873,236 @@
 .bh-registry-card[data-stage="retired"] {
   background: linear-gradient(180deg, var(--bh-stage-retired-tint), transparent 60%), var(--bh-surface);
 }
+
+/* ---------------------------------------------------------------------
+   Engagement primitives (SITE-005) — ProgressMeter, RaceFeed,
+   InteractiveCircuit, MilestoneStrip, CommandPalette + utilities.
+   All animation is gated behind prefers-reduced-motion. */
+
+/* Utilities previously referenced but undefined */
+.bh-mono {
+  font-family: var(--bh-font-mono);
+  font-size: 0.8125em;
+}
+.bh-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+}
+
+/* Card hover lift (motion-safe) */
+@media (prefers-reduced-motion: no-preference) {
+  .fleet-card,
+  .bh-card {
+    transition: transform var(--bh-duration) var(--bh-ease), border-color var(--bh-duration) var(--bh-ease);
+  }
+  a.fleet-card:hover,
+  a.bh-card:hover {
+    transform: translateY(-1px);
+    border-color: var(--bh-border-strong);
+  }
+}
+
+/* ProgressMeter */
+.bh-meter { width: 100%; }
+.bh-meter__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--bh-space-2);
+  margin-bottom: 6px;
+}
+.bh-meter__value { font-weight: 600; font-size: 0.8125rem; }
+.bh-meter__gate { color: var(--bh-muted); font-weight: 400; }
+.bh-meter__gate.is-cleared { color: var(--bh-moss); }
+.bh-meter__track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bh-inset);
+  border: 1px solid var(--bh-border);
+  overflow: hidden;
+}
+.bh-meter__fill {
+  height: 100%;
+  border-radius: 999px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bh-meter__fill { transition: width 0.4s var(--bh-ease-out); }
+}
+.bh-meter__tick {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--bh-text-secondary);
+  transform: translateX(-1px);
+}
+
+/* RaceFeed */
+.bh-feed { list-style: none; margin: 0; padding: 0; }
+.bh-feed__item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--bh-space-3);
+  padding: 10px 16px;
+  border-top: 1px solid var(--bh-border);
+  font-size: 0.8125rem;
+}
+.bh-feed__item:first-child { border-top: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .bh-feed__item.is-fresh {
+    animation: bh-feed-in 0.5s var(--bh-ease-out);
+  }
+  @keyframes bh-feed-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+.bh-feed__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+  align-self: center;
+}
+.bh-feed__stage { flex: none; min-width: 110px; }
+.bh-feed__body { flex: 1; color: var(--bh-text-secondary); min-width: 0; }
+.bh-feed__delta { margin-left: 8px; font-family: var(--bh-font-mono); font-size: 0.75rem; }
+.bh-feed__delta.is-up { color: var(--bh-moss); }
+.bh-feed__delta.is-down { color: var(--bh-danger); }
+.bh-feed__cost { margin-left: 8px; color: var(--bh-muted); font-size: 0.75rem; }
+.bh-feed__time { flex: none; color: var(--bh-muted); font-size: 0.75rem; display: flex; gap: 8px; align-items: baseline; }
+.bh-feed__here {
+  border: 1px solid var(--bh-accent);
+  color: var(--bh-accent);
+  border-radius: 999px;
+  padding: 0 8px;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* InteractiveCircuit */
+.bh-circuit__node {
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+.bh-circuit__node:focus-visible {
+  outline: 2px solid var(--bh-border-focus);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bh-circuit__node.is-pulsing {
+    animation: bh-pulse 1.8s var(--bh-ease) 3;
+  }
+  @keyframes bh-pulse {
+    50% { box-shadow: 0 0 0 4px var(--bh-accent-muted); }
+  }
+}
+.bh-circuit__since {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.6875rem;
+  color: var(--bh-muted);
+}
+.bh-circuit__detail {
+  margin-top: var(--bh-space-4);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-surface-raised);
+  padding: var(--bh-space-4);
+}
+.bh-circuit__detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--bh-space-3);
+  margin-bottom: var(--bh-space-3);
+}
+.bh-circuit__detail-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px var(--bh-space-4);
+  margin: 0;
+  font-size: 0.8125rem;
+}
+.bh-circuit__detail-grid dt { color: var(--bh-muted); }
+.bh-circuit__detail-grid dd { margin: 0; }
+
+/* MilestoneStrip */
+.bh-milestones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-2) var(--bh-space-5);
+  padding: var(--bh-space-3) 0;
+  border-top: 1px solid var(--bh-border);
+  border-bottom: 1px solid var(--bh-border);
+  font-size: 0.75rem;
+  color: var(--bh-muted);
+}
+.bh-milestone { display: inline-flex; align-items: baseline; gap: 6px; }
+.bh-milestone.is-done { color: var(--bh-text-secondary); }
+.bh-milestone__mark { font-size: 0.625rem; }
+.bh-milestone.is-done .bh-milestone__mark { color: var(--bh-moss); }
+.bh-milestone__date { color: var(--bh-muted); }
+
+/* CommandPalette */
+.bh-palette__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 13, 10, 0.7);
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  padding-top: 12vh;
+}
+.bh-palette {
+  width: min(560px, calc(100vw - 32px));
+  align-self: flex-start;
+  background: var(--bh-surface-raised);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-lg);
+  box-shadow: var(--bh-shadow-lg);
+  overflow: hidden;
+}
+.bh-palette__input {
+  width: 100%;
+  padding: 14px 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--bh-border);
+  color: var(--bh-text);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+.bh-palette__input:focus { outline: none; }
+.bh-palette__list {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  max-height: 320px;
+  overflow: auto;
+}
+.bh-palette__item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--bh-space-3);
+  padding: 9px 10px;
+  border-radius: var(--bh-radius-md);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.bh-palette__item.is-active {
+  background: var(--bh-accent-muted);
+  outline: 1px solid var(--bh-accent-dim);
+}
+.bh-palette__hint { color: var(--bh-muted); font-size: 0.75rem; }
+.bh-palette__empty { padding: 12px; font-size: 0.8125rem; }
+.bh-palette__footer {
+  padding: 8px 16px;
+  border-top: 1px solid var(--bh-border);
+  font-size: 0.6875rem;
+}

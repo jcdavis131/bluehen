@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BENCHMARK_EXAMS, RAG_TIERS, hallOfCone } from "@synthaembed/eval-public";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
+import { PageHeader, ProgressMeter, SiteSubnav } from "@synthaembed/ui-fleet";
 import { getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
 
 export const metadata = {
@@ -71,7 +71,18 @@ export default function BenchmarkHome() {
               {m.name}
             </div>
             <div className="bh-meta" style={{ marginTop: "var(--bh-space-1)" }}>
-              erank {m.effectiveRank.toFixed(1)} · nDCG {m.ndcg10.toFixed(2)}
+              erank {m.effectiveRank.toFixed(1)}
+            </div>
+            <div style={{ marginTop: "var(--bh-space-2)" }}>
+              <ProgressMeter
+                label="nDCG@10 (reference data)"
+                value={m.ndcg10}
+                max={1}
+                target={0.35}
+                targetLabel="deploy gate"
+                tone="clay"
+                format={(v) => v.toFixed(2)}
+              />
             </div>
           </div>
         ))}

@@ -378,3 +378,77 @@
 - **Observed:** `timeout 420 npx medusa db:migrate 2>&1 | tr '\r' '\n' | grep -vE "^\s*$" | tail -15`.
 - **Why it works:** The retry is observable and bounded — foreground (not backgrounded) for direct view; `timeout 420` so it can't hang forever; `tr '\r' '\n'` converts progress-bar carriage returns to newlines so they don't smear into one line; `grep -vE "^\s*$"` strips blanks; `tail -15` bounds the output. The retry is also the hypothesis test (no parallel load this time → if it succeeds, transient load was likely).
 - **Maps to:** fold into `diagnose-before-retry` — the retry-with-observability idiom.
+
+## Tick 18: 2026-07-02 12:17 (UTC-5) — agent teams
+
+### P-070 — Deterministic duties are load-bearing; the LLM adds judgment only
+- **Observed:** "The design principle: deterministic duties are load-bearing and always execute; the LLM adds judgment only."
+- **Why it works:** An agent where the LLM is the backbone fails when the LLM hallucinates, drifts, or is unavailable. An agent where the deterministic duties are the backbone *always runs* (reliable, auditable, no hallucination) and the LLM only adds ranking/curation/judgment on top. If the LLM layer is off, the agent still does its load-bearing work; if it's on, the work is better. This is the robust agent architecture.
+- **Maps to:** `deterministic-core-llm-judgment` skill.
+
+### P-071 — Map teams to the existing division model, don't invent a new structure
+- **Observed:** "The three teams map to your division model: Data Harvesting (data), R&D (research), Operations (orchestration)."
+- **Why it works:** Inventing a new team structure creates a parallel org that drifts from the real one. Mapping to the existing division model keeps the agent org and the human org aligned — same lanes, same vocabulary, same handoffs.
+- **Maps to:** confirmation of `follow-procedure` (the division model is the procedure).
+
+### P-072 — Per-team scope boundary stated explicitly (what it never touches)
+- **Observed:** "R&D never touches training code — it feeds the delegate lanes."
+- **Why it works:** A team's scope is defined as much by what it *doesn't* touch as what it does. "Never touches training code" is a crisp boundary that prevents the R&D team from colliding with the Claude (terminal) lane.
+- **Maps to:** `lane-discipline` extended to sub-agent teams — note it.
+
+### P-073 — Per-team allowlists + bounded loops + full transcripts
+- **Observed:** "per-team allowlists, bounded loops, full transcripts."
+- **Why it works:** An autonomous agent team without guardrails can run forever, do things it shouldn't, and leave no trail. Allowlists (what it can do), bounded loops (can't run forever), and full transcripts (auditable) are the three guardrails that make autonomy safe.
+- **Maps to:** `agent-guardrails` skill.
+
+### P-074 — Living OKF run log per team, append-per-run, in a fixed dir
+- **Observed:** "each now has a living OKF run log in knowledge/teams/ that appends per run."
+- **Why it works:** A recurring agent needs an append-only run log in a fixed location so each run is auditable and trend-visible over time. The fixed dir makes collection trivial; append-per-run keeps history.
+- **Maps to:** fold into `sme-fanout` (the output contract applied to recurring runs).
+
+### P-075 — Offline eval gate in CI + exact counts + secrets scan before push
+- **Observed:** "50 Python tests passed (10 new agentkit tests run fully offline as the spec's eval gate, now in CI), 7 environment-gated skips, zero failures, secrets scan clean before push."
+- **Why it works:** The eval gate runs *fully offline* (no network dependency → no flaky failures), is wired into CI (runs every time, not just locally), reports exact counts + skip reasons, and the secrets scan runs before the push. Confirms `validate-gate` + `pre-commit-hygiene`.
+- **Maps to:** confirmation of `validate-gate` (offline eval gate in CI) + `pre-commit-hygiene`.
+
+### P-076 — Config-driven scheduling with the exact command
+- **Observed:** "schedule per config/agent_teams.json: uv run python -m agentkit run operations --loop 1440".
+- **Why it works:** Scheduling is config-driven (the cadence lives in a file, not hardcoded) and the exact command is given so the user can run it without deriving it.
+- **Maps to:** confirmation of `readiness-report` / `close-the-loop` (exact commands).
+
+### P-077 — Name the single user-only input
+- **Observed:** "set GLM_API_KEY — that's the one input only you can provide."
+- **Why it works:** Of all the readiness items, exactly one is user-only (the API key). Naming it as "the one input only you can provide" focuses the user on the single action that unlocks the LLM layer.
+- **Maps to:** confirmation of `readiness-report` (the credential item).
+
+## Tick 19 (manual rerun): 2026-07-02 12:35 (UTC-5) — phased feature delivery
+
+### P-078 — Phased board: numbered phases each with a named deliverable, in dependency order, last phase = verify+report
+- **Observed:** `Phase 1: Fleet engagement audit → docs/reviews/ui-ux-engagement-audit.md`, `Phase 2: Hub gamification design (shared vs local)`, `Phase 3: Build ui-fleet primitives + hub wiring + sibling passes`, `Phase 4: Verify, task done, readiness report`.
+- **Why it works:** A large feature tracked as one task is unmanageable; tracked as ad-hoc sub-steps is invisible. Numbered phases each with a concrete deliverable (often a file path) make the plan legible and each "done" unambiguous. Phases are in dependency order (audit → design → build → verify), and the last phase is explicitly "Verify, task done, readiness report" — the gate is built into the plan.
+- **Maps to:** refine `progress-board` — the phased variant.
+
+### P-079 — Audit phase writes to a fixed review path
+- **Observed:** `docs/reviews/ui-ux-engagement-audit.md` — the audit phase's deliverable is a doc at a fixed review path.
+- **Why it works:** A fixed review path makes the audit collectable and comparable across runs. Confirms `sme-fanout`'s fixed-output-dir pattern.
+- **Maps to:** confirmation of `sme-fanout`.
+
+### P-080 — "Shared vs local" decision in feature design
+- **Observed:** `Phase 2: Hub gamification design (shared vs local)`.
+- **Why it works:** A feature built for one site may belong in the shared `ui-fleet` package (available to all sites) or as hub-local code. Deciding shared-vs-local *in the design phase* prevents building a shared thing locally (or vice-versa) and having to move it.
+- **Maps to:** refine `use-design-system` — decide shared vs local placement during design.
+
+### P-081 — Build shared primitive → wire into primary → pass through siblings
+- **Observed:** `Phase 3: Build ui-fleet primitives + hub wiring + sibling passes`.
+- **Why it works:** The shared primitive is built once (in `ui-fleet`), wired into the primary site (hub), then propagated through sibling sites. This is the shared-primitive-then-propagate pattern — build once, use everywhere.
+- **Maps to:** refine `use-design-system` — the primitive-then-propagate build order.
+
+### P-082 — UI components consume domain logic from the SDK, don't hardcode it
+- **Observed:** `import { ledgerStageToDivision, stageLabel } from "@synthaembed/fleet";` — `RaceFeed.tsx` pulls stage→division mapping and stage labels from the fleet SDK.
+- **Why it works:** Domain mappings (stage→division, labels) are business logic that lives in one place — the fleet SDK. A UI component that hardcodes them drifts from the source of truth. Importing from the SDK keeps the UI a pure view over the SDK's model.
+- **Maps to:** refine `use-design-system` — UI consumes domain logic from the SDK, never hardcodes it.
+
+### P-083 — Heavy SDK domain-layer reuse across primitives (confirms P-082)
+- **Observed:** `InteractiveCircuit.tsx` imports `BRAND`, `getDivisionRelay`, `getLedgerStages`, `getOrgDivision`, `GLOSSARY`, `ledgerStageToDivision` — a full suite of domain primitives from `@synthaembed/fleet`.
+- **Why it works:** Confirms P-082 at scale — the UI pulls brand constants, glossary, division/stage mappers, and relay lookups from the SDK rather than hardcoding any of it. The SDK is the single source of domain truth; the UI is a pure view over it.
+- **Maps to:** confirmation of `use-design-system`'s SDK-owns-domain-logic rule (P-082).

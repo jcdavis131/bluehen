@@ -37,7 +37,7 @@ export default function ResearchRagPage() {
           quarterly terms.
         </p>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <a className="bh-btn bh-btn--primary" href="https://bhenre.com/store">
+          <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
             Reserve a design-partner seat
           </a>
           <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=managed-embeddings">

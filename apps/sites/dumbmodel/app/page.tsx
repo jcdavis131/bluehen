@@ -30,7 +30,7 @@ export default function HomePage() {
       <SiteSubnav items={nav} currentPath="/" />
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--bh-space-3)", marginBottom: "var(--bh-space-8)" }}>
-        <Link href="/check" className="bh-btn bh-btn--primary">
+        <Link href="/check" className="bh-btn bh-btn--primary bh-btn--hero">
           Run the free health check
         </Link>
         <Link href="/compare" className="bh-btn bh-btn--ghost">

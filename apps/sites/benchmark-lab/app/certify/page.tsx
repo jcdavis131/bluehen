@@ -1,4 +1,4 @@
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
+import { PageHeader, Reveal, SiteSubnav } from "@synthaembed/ui-fleet";
 import { getSiteCircuit, getSiteNav } from "@synthaembed/fleet";
 import Link from "next/link";
 
@@ -37,11 +37,13 @@ export default function CertifyPage() {
       <SiteSubnav items={nav} currentPath="/certify" />
 
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
-        {STEPS.map((s) => (
-          <div key={s.title} className="bh-card">
-            <div className="bh-card__title">{s.title}</div>
-            <p className="bh-card__body">{s.body}</p>
-          </div>
+        {STEPS.map((s, i) => (
+          <Reveal key={s.title} index={i}>
+            <div className="bh-card">
+              <div className="bh-card__title">{s.title}</div>
+              <p className="bh-card__body">{s.body}</p>
+            </div>
+          </Reveal>
         ))}
       </div>
 
@@ -57,7 +59,7 @@ export default function CertifyPage() {
       </div>
 
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-        <a className="bh-btn bh-btn--primary" href="https://bhenre.com/store">
+        <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
           Book a certification run
         </a>
         <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">

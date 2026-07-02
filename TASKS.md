@@ -73,7 +73,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**DONE-005** — Phase A+ runtime handoffs — handoffs.py, charter gate, control promotion UI~~
 - [x] ~~**OMNI-001** — Omni-market B0 — verify sim harness + API + CLI~~
 - [x] ~~**OMNI-002** — Omni workerbee SkillOpt loop dry-run~~
 - [x] ~~**OMNI-003** — finance-lab build + typecheck in pnpm review~~
@@ -81,6 +80,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**SITE-009** — slasso venture v1 — RAG certification (Spec 0015)~~
 - [x] ~~**SITE-010** — arxiviq venture v1 — research assistant subscription (Spec 0015)~~
 - [x] ~~**SITE-011** — finance-lab venture v1 — signal lab waitlist, simulation only (Spec 0015)~~
+- [x] ~~**SITE-012** — Gamification & attention pass — motion system, hero CTAs, exploration tracker, cursor-aware mascot~~
 
 ## Specs & context
 

@@ -518,3 +518,52 @@
 - **Observed:** `add-certification.ts` is a one-shot data seed (`npx medusa exec ./src/scripts/add-certification.ts`), and the run command greps `grep -iE "certification|error|added|skip" | tail -3` — watching for "skip" because the seed detects if the product already exists and skips.
 - **Why it works:** A data-seed that isn't idempotent fails or duplicates on a second run. An idempotent seed (detect existing → skip) is re-runnable safely, and grepping for `added|skip|error` shows what actually happened in one line. This is the data-setup counterpart to `affected-tests` — a cheap, re-runnable, observable seeding step.
 - **Maps to:** `idempotent-seed-script` skill.
+
+## Tick 24: 2026-07-02 13:21 (UTC-5) — ventures shipped
+
+### P-096 — "Demo became the product" reframing
+- **Observed:** "arxiviq.com — the demo became the product. Homepage now opens with 'Search arXiv like it's your own corpus' — the live tier-compare panel is the pitch — followed by a design-partner subscription CTA into the store."
+- **Why it works:** Recognized that for arxiviq the demo *is* the product and restructured the homepage so the demo leads, with a CTA into the store. Product-strategy insight, not strictly an agent behavior — noted.
+- **Maps to:** note (product insight).
+
+### P-097 — Deferral tied to a spec gate, recorded in the venture block
+- **Observed:** "One honest deferral, recorded in the venture block: query logging waits until a consent UI ships, per the gate you set in Spec 0015."
+- **Why it works:** The deferral isn't ad-hoc — it's tied to a gate set in a spec (0015), and recorded in the venture block (config). So the deferral is traceable (to the spec), auditable (in config), and unblocked by a known condition (consent UI ships). This is `document-non-action` + `policy-as-config` together.
+- **Maps to:** confirmation of `document-non-action` + `policy-as-config`.
+
+### P-098 — Guardrail kept explicit in user-facing copy
+- **Observed:** "Every line of copy keeps the guardrail explicit — simulation only, no live capital, no trading advice."
+- **Why it works:** A guardrail isn't just code-enforced; it's stated in the user-facing copy so the promise is visible to the user and the brand. The v1 "no live trading" guardrail (Spec 0001) is enforced in every line of finance-lab copy, not just in the code that doesn't place trades.
+- **Maps to:** refine `respect-the-guard` — guardrails appear in copy, not just code.
+
+### P-099 — Registry as source of truth; internal vs public explicit
+- **Observed:** "all five public sites now carry a venture block in config/fleet.json (valueProp, CTA, monetization, dataConsent)… Control and training-console remain explicitly internal."
+- **Why it works:** The business layer is config-inspectable the same way the fleet is, and internal sites are *explicitly* internal (not just absent from the public list). Confirms `metadata-align` + `policy-as-config`.
+- **Maps to:** confirmation of `metadata-align` + `policy-as-config`.
+
+### P-100 — End-to-end funnel narration
+- **Observed:** "The full funnel, end to end: dumbmodel's free check → hub store credits; slasso certification → store checkout; arxiviq → design-partner seat; finance-lab → waitlist → future premium notes — every path terminating in the live Medusa backend or the leads file, and consented interactions flowing into the datalab inbox for the R&D flywheel."
+- **Why it works:** Narrates the whole business funnel, confirming every path terminates somewhere real (Medusa or leads file) and consented data flows into the R&D flywheel. This is the business-layer close-the-loop — not just "the code is done" but "the funnel is wired end to end".
+- **Maps to:** refine `close-the-loop` — narrate the end-to-end funnel, not just the code arc.
+
+### P-101 — Open items with owners + a forward offer
+- **Observed:** "Open items for you: set the certification price in Medusa Admin, review the consent copy on dumbmodel /check and the finance-lab privacy line before public deploy, and when you're ready to take arxiviq's query-log flywheel live I'll spec the consent UI as the next SITE task."
+- **Why it works:** Open items name the owner ("for you" = Operator) + the precondition ("before public deploy"), and Fable 5 proactively offers the next spec as a follow-up ("I'll spec the consent UI as the next SITE task"). The forward offer turns a deferred item into a proposed next action.
+- **Maps to:** refine `readiness-report` — open items name owners + preconditions, and include a forward offer for the next spec.
+
+## Tick 25: 2026-07-02 13:29 (UTC-5) — attention pass (confirmations)
+
+### P-102 — Glossary constants for UI labels
+- **Observed:** `label={GLOSSARY.fleet}` for a StatCard label, instead of a string literal.
+- **Why it works:** Vocabulary lives in the `GLOSSARY` constant, not hardcoded. Renaming "Fleet" → "Fleet OS" is a one-place change. Confirms P-082/P-083 (SDK owns domain logic, including vocabulary).
+- **Maps to:** confirmation of `use-design-system`.
+
+### P-103 — Shared `Reveal` animation wrapper with stagger index
+- **Observed:** `<Reveal index={3}>…</Reveal>` wrapping content for animation, with an `index` prop for staggered reveal.
+- **Why it works:** A shared animation primitive is the right place to enforce `prefers-reduced-motion` once (see `a11y-gate`), and the `index` prop gives staggered reveal without per-call timing code. Confirms `use-design-system` + reinforces `a11y-gate`.
+- **Maps to:** confirmation of `use-design-system` + `a11y-gate`.
+
+### P-104 — Cross-site nav via SDK helpers with a local flag
+- **Observed:** `siteHref(getSite("control")!, local)` — fleet SDK helpers for cross-site links, with a `local` flag for local vs prod URLs.
+- **Why it works:** Cross-site navigation logic (which site is "control", what its URL is in this env) comes from the SDK, not hardcoded. The `local` flag handles env-specific URLs. Confirms P-082.
+- **Maps to:** confirmation of `use-design-system`.

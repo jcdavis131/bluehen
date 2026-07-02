@@ -1106,3 +1106,147 @@
   border-top: 1px solid var(--bh-border);
   font-size: 0.6875rem;
 }
+
+/* ---------------------------------------------------------------------
+   Attention pass (SITE-012) — motion system, hero CTAs, liveness,
+   staggered entrances. Every animation is motion-safe; motion marks
+   only genuinely live or user-triggered state. */
+
+:root {
+  --bh-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --bh-duration-enter: 480ms;
+}
+
+/* Hero CTA — the one action per page you most want taken (Fitts's law:
+   bigger target, faster acquisition). */
+.bh-btn--hero {
+  font-size: 1.0625rem;
+  padding: 18px 34px;
+  border-radius: var(--bh-radius-md);
+  position: relative;
+  overflow: hidden;
+}
+.bh-btn--hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.09) 50%, transparent 60%);
+  transform: translateX(-120%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bh-btn--hero:hover::after,
+  .bh-btn--hero:focus-visible::after {
+    transition: transform 650ms var(--bh-ease-out);
+    transform: translateX(120%);
+  }
+  .bh-btn:active {
+    transform: scale(0.98);
+  }
+  .bh-btn--hero {
+    transition: transform var(--bh-duration) var(--bh-ease), box-shadow var(--bh-duration-slow) var(--bh-ease);
+  }
+  .bh-btn--hero:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--bh-shadow-md), var(--bh-glow-accent);
+  }
+}
+
+/* Staggered entrance — pages compose rather than appear. Apply .bh-rise
+   to children; set --rise-i per child. Motion-safe: static without it. */
+@media (prefers-reduced-motion: no-preference) {
+  .bh-rise {
+    opacity: 0;
+    animation: bh-rise var(--bh-duration-enter) var(--bh-ease-out) forwards;
+    animation-delay: calc(var(--rise-i, 0) * 70ms);
+  }
+  @keyframes bh-rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Liveness dot — attach ONLY to elements backed by polling live data. */
+.bh-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bh-muted);
+}
+.bh-live__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bh-moss);
+  position: relative;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bh-live__dot::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid var(--bh-moss);
+    opacity: 0;
+    animation: bh-live-ring 2.4s var(--bh-ease) infinite;
+  }
+  @keyframes bh-live-ring {
+    0% { transform: scale(0.5); opacity: 0.7; }
+    70% { transform: scale(1.4); opacity: 0; }
+    100% { opacity: 0; }
+  }
+}
+
+/* Meter: animate-on-view + gate-cleared moment */
+@media (prefers-reduced-motion: no-preference) {
+  .bh-meter__fill.is-entering {
+    width: 0 !important;
+  }
+  .bh-meter__track.is-cleared-flash {
+    animation: bh-gate-clear 1.1s var(--bh-ease) 1;
+  }
+  @keyframes bh-gate-clear {
+    30% { box-shadow: 0 0 0 3px rgba(107, 143, 113, 0.35); }
+  }
+}
+
+/* Exploration tracker — quiet completion drive across surfaces */
+.bh-explore {
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-3);
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  color: var(--bh-muted);
+  padding: var(--bh-space-2) 0;
+}
+.bh-explore__pips {
+  display: inline-flex;
+  gap: 5px;
+}
+.bh-explore__pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--bh-border-strong);
+}
+.bh-explore__pip.is-visited {
+  background: var(--bh-accent);
+  border-color: var(--bh-accent);
+}
+.bh-explore a {
+  color: var(--bh-text-secondary);
+}
+
+/* Palette hint chip in shell nav */
+.bh-kbd {
+  font-family: var(--bh-font-mono);
+  font-size: 0.6875rem;
+  color: var(--bh-muted);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-sm);
+  padding: 2px 7px;
+  background: var(--bh-inset);
+}

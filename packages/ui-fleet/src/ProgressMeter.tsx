@@ -1,10 +1,16 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 /**
  * ProgressMeter — progress toward a measured target (generalized from
  * dumbmodel's DumbnessMeter). Every number rendered comes from the
  * caller; nothing is invented here. Typical uses: effective rank / nDCG
  * vs the deploy gate (Spec 0008), budget burn-down.
+ *
+ * Attention details (motion-safe): the fill animates from zero on first
+ * scroll into view (goal-gradient made visible); crossing the target on
+ * a live update flashes the track once.
  */
 export function ProgressMeter({
   label,
@@ -39,6 +45,38 @@ export function ProgressMeter({
     target != null &&
     (direction === "higher-better" ? value >= target : value <= target);
 
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [entered, setEntered] = useState(false);
+  const [flash, setFlash] = useState(false);
+  const prevCleared = useRef<boolean | null>(null);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setEntered(true);
+      return;
+    }
+    const obs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        // next frame so the 0-width state paints first, then transitions up
+        requestAnimationFrame(() => setEntered(true));
+        obs.disconnect();
+      }
+    });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (prevCleared.current === false && cleared) {
+      setFlash(true);
+      const t = setTimeout(() => setFlash(false), 1200);
+      return () => clearTimeout(t);
+    }
+    prevCleared.current = cleared;
+  }, [cleared]);
+
   const toneVar = {
     accent: "var(--bh-accent)",
     moss: "var(--bh-moss)",
@@ -62,7 +100,8 @@ export function ProgressMeter({
         </span>
       </div>
       <div
-        className="bh-meter__track"
+        ref={trackRef}
+        className={`bh-meter__track${flash ? " is-cleared-flash" : ""}`}
         role="meter"
         aria-label={label}
         aria-valuemin={0}
@@ -70,7 +109,7 @@ export function ProgressMeter({
         aria-valuenow={value}
       >
         <div
-          className="bh-meter__fill"
+          className={`bh-meter__fill${entered ? "" : " is-entering"}`}
           style={{ width: `${clamped * 100}%`, background: toneVar }}
         />
         {targetPct != null && (

@@ -124,3 +124,21 @@ verification below.*
   `MilestoneStrip`, `CommandPalette`, `CountUpStat`, mascots); dumbmodel
   + benchmark-lab adopted shared primitives; fleet-wide utility classes
   (`bh-mono`, `bh-stack`) defined.
+
+## SITE-012 addendum — attention & gamification deepening (2026-07-02)
+
+Principles → mechanisms (all motion-safe, all data honest):
+
+| Principle | Mechanism shipped |
+|---|---|
+| Fitts's law (target acquisition) | `.bh-btn--hero` — one oversized primary CTA per page, sheen sweep + lift on hover, press-scale feedback |
+| Goal-gradient | ProgressMeter fills animate from zero on first view; crossing a deploy gate flashes the track once |
+| Curiosity gap / variable reveal | dumbmodel health-check results develop in sequence (meta → meters → verdict → CTA); re-run prompt invites a second slice |
+| Competence feedback | press states, cleared-gate moment, palette hint chip (`⌘K jump anywhere`) |
+| Feeling seen | `MascotBeacon` — the hen's gaze follows the pointer (idle → active-division gaze; off for touch/reduced-motion); `ReturnGreeting` — "since your last visit: N loop advances" computed from real ledger vs local timestamp; first-timers see nothing |
+| Completion drive (Zeigarnik) | `ExplorationTracker` — visited-surface pips scoped honestly to bhenre.com (localStorage is per-origin) |
+| Salience = liveness only | `.bh-live` pulsing dot attached exclusively to polling-backed sections; staggered `.bh-rise` entrances on load |
+
+New shared primitives: `Reveal`, `ExplorationTracker`, `ReturnGreeting`,
+`MascotBeacon`; motion tokens (`--bh-ease-spring`, enter duration). All
+five public sites build green.

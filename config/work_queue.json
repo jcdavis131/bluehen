@@ -663,6 +663,16 @@
       "claimedBy": "claude",
       "claimedAt": "2026-07-02T18:14:40.135445+00:00",
       "completedAt": "2026-07-02T18:16:43.956570+00:00"
+    },
+    {
+      "id": "SITE-012",
+      "title": "Gamification & attention pass \u2014 motion system, hero CTAs, exploration tracker, cursor-aware mascot",
+      "division": "bd",
+      "status": "done",
+      "spec": "0015",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-02T18:26:29.519533+00:00",
+      "completedAt": "2026-07-02T18:32:01.822877+00:00"
     }
   ]
 }

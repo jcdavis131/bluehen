@@ -51,7 +51,7 @@ export function WaitlistForm() {
           <option value="methodology">Methodology</option>
         </select>
       </label>
-      <button type="submit" className="bh-btn bh-btn--primary" disabled={status === "sending"}>
+      <button type="submit" className="bh-btn bh-btn--primary bh-btn--hero" disabled={status === "sending"}>
         {status === "sending" ? "Joining…" : "Join the waitlist"}
       </button>
       {status === "error" && (

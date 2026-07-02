@@ -65,4 +65,7 @@
 | `validate-gate` (refined) | P-018, P-042, P-092 | `~/.cursor/skills/validate-gate/SKILL.md` |
 | `idempotent-seed-script` | P-095 | `~/.cursor/skills/idempotent-seed-script/SKILL.md` |
 | `document-non-action` (refined) | P-038, P-094 | `~/.cursor/skills/document-non-action/SKILL.md` |
+| `respect-the-guard` (refined) | P-049, P-058, P-098 | `~/.cursor/skills/respect-the-guard/SKILL.md` |
+| `close-the-loop` (refined) | P-054, P-055, P-056, P-057, P-100 | `~/.cursor/skills/close-the-loop/SKILL.md` |
+| `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050, P-053, P-101 | `~/.cursor/skills/readiness-report/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

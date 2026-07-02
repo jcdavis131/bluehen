@@ -1,14 +1,18 @@
 import {
   CountUpStat,
+  ExplorationTracker,
   fleetNavSites,
-  HenMascot,
   InteractiveCircuit,
+  MascotBeacon,
   MilestoneStrip,
   PageHeader,
   ProgressMeter,
   RaceFeed,
+  ReturnGreeting,
+  Reveal,
   siteHref,
   SiteSubnav,
+  type ExplorationSurface,
   type LedgerEntry,
 } from "@synthaembed/ui-fleet";
 import {
@@ -30,6 +34,16 @@ const KEY = process.env.SYNTH_API_KEY ?? "";
 // Deploy gates — Spec 0008, packages/eval-harness/eval_harness/gates.py
 const GATE_BASELINE_RANK = 8.0;
 const GATE_MIN_NDCG10 = 0.35;
+
+// Exploration tracker scope: bhenre.com surfaces only (localStorage is
+// per-origin — claiming cross-site visits would be dishonest).
+const HUB_SURFACES: ExplorationSurface[] = [
+  { id: "home", label: "Operating Loop", href: "/" },
+  { id: "try", label: "Live Search", href: "/try" },
+  { id: "research", label: "Experiment Museum", href: "/research" },
+  { id: "pricing", label: "Pricing", href: "/pricing" },
+  { id: "store", label: "Store", href: "/store" },
+];
 
 async function apiGet(path: string) {
   try {
@@ -86,7 +100,7 @@ export default async function HubPage() {
         }
         badge={
           <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-            <HenMascot size={36} gaze={gaze} />
+            <MascotBeacon size={36} restingGaze={gaze} />
             <span className={`bh-badge ${health ? "bh-badge--ok" : "bh-badge--warn"}`}>
               {health ? "API online" : "API offline"}
             </span>
@@ -96,8 +110,32 @@ export default async function HubPage() {
 
       <SiteSubnav items={nav} currentPath="/" />
 
-      <div className="fleet-grid" style={{ marginBottom: 20 }}>
-        <StatCard label="core-api" value={health ? "Online" : "Offline"} meta={API} />
+      <ReturnGreeting ledger={ledger} />
+
+      <div
+        style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginBottom: 24 }}
+      >
+        <Link href="/try" className="bh-btn bh-btn--primary bh-btn--hero">
+          Try live search
+        </Link>
+        <Link href="/pricing" className="bh-btn bh-btn--ghost">
+          Pricing
+        </Link>
+        <Link href="/contact" className="bh-btn bh-btn--ghost">
+          Start a briefing
+        </Link>
+        <span className="bh-live" style={{ marginLeft: "auto" }}>
+          <span className="bh-kbd">⌘K</span> jump anywhere
+        </span>
+      </div>
+
+      <ExplorationTracker surfaces={HUB_SURFACES} currentId="home" />
+
+      <div className="fleet-grid" style={{ margin: "20px 0" }}>
+        <Reveal index={0}>
+          <StatCard label="core-api" value={health ? "Online" : "Offline"} meta={API} />
+        </Reveal>
+        <Reveal index={1}>
         <StatCard
           label={GLOSSARY.budget}
           value={
@@ -127,6 +165,8 @@ export default async function HubPage() {
             )
           }
         />
+        </Reveal>
+        <Reveal index={2}>
         <StatCard
           label={GLOSSARY.deployedModel}
           value={deployed?.version ?? "—"}
@@ -161,6 +201,8 @@ export default async function HubPage() {
             )
           }
         />
+        </Reveal>
+        <Reveal index={3}>
         <StatCard
           label={GLOSSARY.fleet}
           value={
@@ -170,6 +212,7 @@ export default async function HubPage() {
           }
           meta={<a href={siteHref(getSite("control")!, local)}>Open Operations Center →</a>}
         />
+        </Reveal>
       </div>
 
       <MilestoneStrip ledger={ledger} models={models} />
@@ -180,25 +223,31 @@ export default async function HubPage() {
 
       <h2 className="bh-section-title">Product surfaces</h2>
       <div className="fleet-grid" style={{ marginBottom: 32 }}>
-        {sites.map((s) => {
+        {sites.map((s, i) => {
           const stop = getSiteCircuit(s.id);
           return (
-            <a
-              key={s.id}
-              href={siteHref(s, local)}
-              className="fleet-card"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <div style={{ fontWeight: 600 }}>{stop?.stop ?? s.name}</div>
-              <div className="bh-muted" style={{ fontSize: "0.8125rem", marginTop: 4 }}>
-                {s.domain}
-              </div>
-            </a>
+            <Reveal key={s.id} index={i}>
+              <a
+                href={siteHref(s, local)}
+                className="fleet-card"
+                style={{ textDecoration: "none", color: "inherit", display: "block" }}
+              >
+                <div style={{ fontWeight: 600 }}>{stop?.stop ?? s.name}</div>
+                <div className="bh-muted" style={{ fontSize: "0.8125rem", marginTop: 4 }}>
+                  {s.domain}
+                </div>
+              </a>
+            </Reveal>
           );
         })}
       </div>
 
-      <h2 className="bh-section-title">{GLOSSARY.raceLog}</h2>
+      <h2 className="bh-section-title" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {GLOSSARY.raceLog}
+        <span className="bh-live">
+          <span className="bh-live__dot" aria-hidden /> live
+        </span>
+      </h2>
       <div className="fleet-card" style={{ padding: 0, overflow: "hidden" }}>
         <RaceFeed initial={ledger} />
       </div>

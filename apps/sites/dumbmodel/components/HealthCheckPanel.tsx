@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ProgressMeter } from "@synthaembed/ui-fleet";
+import { ProgressMeter, Reveal } from "@synthaembed/ui-fleet";
 import type { DiagnoseResult } from "@synthaembed/ui-fleet";
 
 const PLACEHOLDER = `Paste 3–64 representative text samples, one per line, e.g.:
@@ -96,52 +96,66 @@ export function HealthCheckPanel() {
       )}
 
       {result && (
-        <div style={{ marginTop: 20 }} aria-live="polite">
-          <div className="bh-meta" style={{ marginBottom: 12 }}>
-            {result.samples} samples · {result.dims}d embeddings ·{" "}
-            <code>{result.modelVersion}</code>
-            {result.consentStored && " · stored with consent"}
-          </div>
+        <div style={{ marginTop: 20 }} aria-live="polite" key={`${result.effectiveRank}-${result.samples}`}>
+          <Reveal index={0}>
+            <div className="bh-meta" style={{ marginBottom: 12 }}>
+              {result.samples} samples · {result.dims}d embeddings ·{" "}
+              <code>{result.modelVersion}</code>
+              {result.consentStored && " · stored with consent"}
+            </div>
+          </Reveal>
           <div className="bh-stack">
-            <ProgressMeter
-              label="Effective rank of your sample"
-              value={result.effectiveRank}
-              max={result.maxPossibleRank}
-              digits={1}
-              tone={result.utilization < 0.3 ? "danger" : result.utilization < 0.6 ? "clay" : "moss"}
-            />
-            <ProgressMeter
-              label="Space utilization"
-              value={result.utilization * 100}
-              max={100}
-              digits={0}
-              suffix="%"
-              tone={result.utilization < 0.3 ? "danger" : "accent"}
-            />
-            <ProgressMeter
-              label="Mean pairwise similarity (lower = more diverse)"
-              value={result.meanPairwiseSimilarity}
-              max={1}
-              direction="lower-better"
-              digits={3}
-              tone="clay"
-            />
+            <Reveal index={1}>
+              <ProgressMeter
+                label="Effective rank of your sample"
+                value={result.effectiveRank}
+                max={result.maxPossibleRank}
+                digits={1}
+                tone={result.utilization < 0.3 ? "danger" : result.utilization < 0.6 ? "clay" : "moss"}
+              />
+            </Reveal>
+            <Reveal index={2}>
+              <ProgressMeter
+                label="Space utilization"
+                value={result.utilization * 100}
+                max={100}
+                digits={0}
+                suffix="%"
+                tone={result.utilization < 0.3 ? "danger" : "accent"}
+              />
+            </Reveal>
+            <Reveal index={3}>
+              <ProgressMeter
+                label="Mean pairwise similarity (lower = more diverse)"
+                value={result.meanPairwiseSimilarity}
+                max={1}
+                direction="lower-better"
+                digits={3}
+                tone="clay"
+              />
+            </Reveal>
           </div>
-          <p className="bh-card__body" style={{ marginTop: 14 }}>
-            {result.utilization < 0.3
-              ? "Your samples cluster tightly — retrieval over content like this will struggle to distinguish documents. A domain-tuned model typically recovers usable rank."
-              : result.utilization < 0.6
-                ? "Moderate spread. There is measurable headroom — domain tuning usually widens separation on content like this."
-                : "Healthy spread — your content occupies a large share of the embedding space under the serving model."}
-          </p>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
-            <a className="bh-btn bh-btn--primary" href="https://bhenre.com/store">
-              Run a full evaluation — credits
-            </a>
-            <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">
-              Talk to the team
-            </a>
-          </div>
+          <Reveal index={4}>
+            <p className="bh-card__body" style={{ marginTop: 14 }}>
+              {result.utilization < 0.3
+                ? "Your samples cluster tightly — retrieval over content like this will struggle to distinguish documents. A domain-tuned model typically recovers usable rank."
+                : result.utilization < 0.6
+                  ? "Moderate spread. There is measurable headroom — domain tuning usually widens separation on content like this."
+                  : "Healthy spread — your content occupies a large share of the embedding space under the serving model."}
+            </p>
+            <p className="bh-muted" style={{ fontSize: "0.8125rem", margin: "6px 0 0" }}>
+              Curious how it shifts? Run it again with a different slice — docs
+              vs. marketing copy usually score differently.
+            </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
+              <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
+                Run a full evaluation — credits
+              </a>
+              <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">
+                Talk to the team
+              </a>
+            </div>
+          </Reveal>
         </div>
       )}
     </div>

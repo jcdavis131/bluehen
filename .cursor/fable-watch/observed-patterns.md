@@ -822,3 +822,25 @@
 - **Observed:** "Tip: Use /btw to ask a quick side question without interrupting Claude's current work" + user used "/btw Can we make dumbmodel.com a fun interactive game".
 - **Why it works:** A side-question channel that doesn't interrupt the main flow — the user can ask a parallel question while the agent keeps working. Platform feature, noted.
 - **Maps to:** note (platform feature).
+
+## Tick 36: 2026-07-02 14:57 (UTC-5) — prod training stand-up
+
+### P-152 — Combined api+worker in one container for a shared filesystem
+- **Observed:** "entrypoint 'all' mode: worker (background) + uvicorn in one container: shared filesystem for model…".
+- **Why it works:** When api and worker need a shared filesystem (e.g. for model files / baked corpora), combine them in one container with an 'all' entrypoint mode — worker runs backgrounded, uvicorn foreground. This solves the shared-fs constraint that separate containers (with separate filesystems) can't.
+- **Maps to:** fold into `use-available-integrations` — prod architecture pattern.
+
+### P-153 — Persistent volume attached via CLI
+- **Observed:** `railway volume add --mount-path /data --service api`.
+- **Why it works:** Provisions a persistent volume at `/data` on the api service via the Railway CLI. Persistent storage for things that must survive redeploy (leads, run logs, model cache).
+- **Maps to:** fold into `use-available-integrations` — provision persistent storage via CLI.
+
+### P-154 — Structured conventional-commit message with bullet points
+- **Observed:** `git commit -q -m "feat(prod): combined api+worker mode, baked corpora, persistent /data volume - entrypoint 'all' mode: worker (background) + uvicorn in …"`.
+- **Why it works:** Conventional-commit prefix (`feat(prod):`) + a summary line + bullet points of the changes. The message is the change's documentation in history. Confirms `logical-commit-split` + `follow-procedure`.
+- **Maps to:** refine `logical-commit-split` — the commit message shape.
+
+### P-155 — Baked corpora as a deploy artifact
+- **Observed:** "baked corpora" in the commit summary.
+- **Why it works:** Corpora are baked into the image (not fetched at runtime) — prod reproducibility and no runtime fetch dependency. A deploy with baked corpora is self-contained.
+- **Maps to:** note (prod reproducibility).

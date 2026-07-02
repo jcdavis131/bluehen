@@ -1,0 +1,14 @@
+{
+  "siteId": "research",
+  "docCount": 702,
+  "source": "arxiv_harvest",
+  "queries": [
+    "embedding_collapse",
+    "matryoshka_edge",
+    "rag_retrieval",
+    "small_embedding",
+    "contrastive_ssl",
+    "multimodal_embed"
+  ],
+  "minPapers": 500
+}

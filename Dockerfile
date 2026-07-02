@@ -48,7 +48,7 @@ COPY packages/runboard packages/runboard
 COPY services/core-api services/core-api
 COPY services/trainer services/trainer
 COPY services/worker services/worker
-COPY data/corpora /app/corpora
+COPY content/corpora /app/corpora
 COPY infra/docker-entrypoint.sh infra/docker-entrypoint.sh
 
 # smoke: import the app AND the lazily-imported telemetry service

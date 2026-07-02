@@ -655,3 +655,30 @@
 - **Observed:** "Phase 6 — copy/metadata alignment across the renamed sites" and "Phase 7 — docs/memory brand alignment".
 - **Why it works:** The rebrand's late phases are the `metadata-align` work — copy/metadata across sites, then docs/memory. Confirms `metadata-align` as a rebrand phase, ordered after the structural renames.
 - **Maps to:** confirmation of `metadata-align`.
+
+## Tick 30: 2026-07-02 14:09 (UTC-5) — post-deploy smoke + failure acknowledgement
+
+### P-121 — Run the Python suite while builds churn (fill-the-wait)
+- **Observed:** "Running the Python suite while builds churn".
+- **Why it works:** The long build is a window to run the test suite in parallel. Confirms `fill-the-wait`.
+- **Maps to:** confirmation of `fill-the-wait`.
+
+### P-122 — Acknowledge test failures + locate them precisely before fixing
+- **Observed:** "Two test failures are half-swept literals in the test file itself — inspecting".
+- **Why it works:** Acknowledges the failures (doesn't hide them), locates them precisely ("half-swept literals in the test file itself" — leftover literals from the rename), and says it's inspecting. Confirms `diagnose-before-retry` applied to test failures.
+- **Maps to:** confirmation of `diagnose-before-retry` + `validate-gate`.
+
+### P-123 — Post-deploy smoke loop: bounded retry polling live URLs for expected content
+- **Observed:** `for i in 1 2 3 4 5 6 7 8; do ok=1; for u in "https://jcamd.com|Headquarters" "https://www.bhenre.com|Storefront"; do url="${u%%|*}"; want="${u##*|}"; hit=$(curl -sL --max-time 20 "$url" | grep -c "$want"); [ "$hit" -ge 1 ] || ok=0; done; [ "$ok" = 1 ] && break; done` — a bounded (8-iteration) retry loop that polls live URLs and greps for expected content, breaking when both match.
+- **Why it works:** A deploy isn't "done" when the API returns 200; it's done when the live URL serves the expected content (deploy propagation has a delay). Polling the live URL for an expected string confirms the deploy actually propagated, with a bounded retry so it can't loop forever.
+- **Maps to:** `post-deploy-smoke` skill.
+
+### P-124 — `export TERM=dumb` to keep scripted output clean
+- **Observed:** The smoke loop opens with `export TERM=dumb`.
+- **Why it works:** Setting `TERM=dumb` stops terminal control sequences from polluting the scripted output. A small hygiene touch for any scripted command.
+- **Maps to:** fold into `post-deploy-smoke`.
+
+### P-125 — Re-point all Vercel projects after the rename
+- **Observed:** "All Vercel projects re-pointed."
+- **Why it works:** After the rebrand, the Vercel projects are re-pointed to the new paths/names. Confirms `metadata-align` + `use-available-integrations` at the platform layer.
+- **Maps to:** confirmation of `metadata-align` + `use-available-integrations`.

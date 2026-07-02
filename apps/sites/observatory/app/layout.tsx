@@ -3,7 +3,7 @@ import "./console.css";
 import { FleetShell } from "@synthaembed/ui-fleet";
 
 export const metadata = {
-  title: "Training Observatory — Blue Hen RE",
+  title: "Observatory — training.jcamd.com",
   description:
     "Live training-run telemetry: loss curves, effective-rank monitoring, collapse alerts, and R2D curvature.",
 };

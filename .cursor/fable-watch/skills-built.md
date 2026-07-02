@@ -73,4 +73,5 @@
 | `use-available-integrations` (refined) | P-105, P-106, P-108, P-109, P-110 | `~/.cursor/skills/use-available-integrations/SKILL.md` |
 | `readiness-report` (refined) | P-037, P-039, P-040, P-041, P-050, P-053, P-101, P-111, P-112, P-113 | `~/.cursor/skills/readiness-report/SKILL.md` |
 | `conservative-rename` | P-118, P-119 | `~/.cursor/skills/conservative-rename/SKILL.md` |
+| `post-deploy-smoke` | P-123, P-124 | `~/.cursor/skills/post-deploy-smoke/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |

@@ -45,6 +45,7 @@
 | **Baseline Comparison** | dumbmodel · dumbmodel.com |
 | **Simulation Lab** | simulation · signals.bhenre.com |
 | **Observatory** | observatory · training.jcamd.com |
+| **Data Refinery** | refinery · data.bhenre.com (planned) |
 
 → Details: `memory/projects/` · Registry: `config/fleet.json`
 

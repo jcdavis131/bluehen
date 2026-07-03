@@ -933,10 +933,11 @@
     {
       "id": "DR-104",
       "title": "Refinery fleet wiring: registry, nav, workspace bootstrap, Vercel project, domain (Operator G1)",
-      "status": "blocked",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+      "notes": "Vercel project prj_ApNggow\u2026, envs set, prod deploy READY, live at refinery-zeta.vercel.app (200), registry active. OPEN: data.bhenre.com attach = Operator G1 (classifier-enforced).",
+      "claimedBy": "claude"
     },
     {
       "id": "DR-105",

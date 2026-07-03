@@ -307,7 +307,7 @@
     {
       "id": "refinery",
       "name": "Data Refinery",
-      "domain": "data.bhenre.com",
+      "domain": "refinery-zeta.vercel.app",
       "phase": "B",
       "role": "Data Operations business unit \u2014 provenance-carrying datasets, custom harvests, dataset prep (Spec 0018)",
       "orgDivision": "data",
@@ -327,7 +327,7 @@
       "package": "@synthaembed/refinery",
       "port": null,
       "vercelPreview": null,
-      "status": "planned",
+      "status": "active",
       "legacyRepo": null,
       "description": "Data Refinery \u2014 the Data Operations division as a business: browse OKF datasets, contribute consented data, request custom harvests.",
       "venture": {
@@ -336,7 +336,8 @@
         "spec": "0018"
       },
       "orgRole": "business-unit",
-      "division": "data"
+      "division": "data",
+      "notes": "Interim Vercel alias; swap domain to data.bhenre.com on Operator G1 approval"
     }
   ]
 }

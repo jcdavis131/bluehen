@@ -28,6 +28,8 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 | [0015](./0015-venture-fleet.md) | Venture fleet — one business per public site | **Ready** | Approved; dumbmodel venture v1 in progress (SITE-008) |
 | [0016](./0016-dumbmodel-game-layer.md) | dumbmodel game layer — play → labeled training data | **Draft** | Awaiting Operator sign-off (game set + consent copy); phase 3 gated on REV-903 |
 | [0017](./0017-fleet-tastemaker-redesign.md) | Fleet tastemaker redesign — Kubrick × Wes Anderson × modernized TUI | **Ready** | `packages/ui-fleet` tokens + primitives; 7-site spine rollout |
+| [0018](./0018-data-refinery.md) | Data Refinery — harvesting & dataset-prep venture | **Active** | `packages/datalab`, `apps/sites/refinery` (data.bhenre.com), DR-101..107, migration 009 |
+| [0019](./0019-corporate-topology.md) | Corporate topology — one company site, revenue-bearing business units | **Active** | Refines 0015/0012/0018; company-site restructure + BU team strips |
 
 **Production hosting:** Vercel (sites) + Railway (core-api + worker) + Neon Postgres — [ADR-002](../docs/adr/002-core-api-hosting.md), [ADR-003](../docs/adr/003-unified-org-cli.md) (CLI), [`infra/railway.md`](../infra/railway.md). Deploy task: `INF-003` (Operator).
 

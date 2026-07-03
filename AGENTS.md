@@ -75,7 +75,9 @@ Each row is a **mini-org front** with its own Vercel project + domain + workspac
 | dumbmodel | dumbmodel.com | active — public baseline proof |
 | validation | slasso.com | active — Phase A |
 | research | arxiviq.com | active — Phase A |
-| simulation | TBD | stub — Phase B |
+| simulation | signals.bhenre.com | active — Simulation Lab (simulation only) |
+| observatory | training.jcamd.com | active — Observatory (internal) |
+| refinery | data.bhenre.com | planned — Data Refinery (Spec 0018) |
 
 ## Rules for cross-site work
 

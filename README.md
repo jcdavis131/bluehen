@@ -13,7 +13,7 @@ config/fleet.json          ← single source of truth: all sites, domains, paths
 packages/fleet             ← fleet SDK (agent, CLI, control UI)
 apps/hq               ← jcamd.com operator control plane
 apps/synthorg              ← Eve fleet agent (operates across all sites)
-apps/sites/*               ← tenant fronts (storefront, dumbmodel, validation, research, simulation, observatory)
+apps/sites/*               ← tenant fronts (storefront, dumbmodel, validation, research, simulation, observatory, refinery)
 services/core-api          ← uniform API chokepoint
 services/worker            ← ASN train → eval → deploy pipeline
 services/commerce          ← Medusa v2 store backend (open source; own lockfile)
@@ -49,6 +49,7 @@ hosted payment; provider-agnostic client in `apps/sites/storefront/lib/commerce.
 | [arxiviq.com](https://arxiviq.com) | research | `apps/sites/research` | active |
 | [signals.bhenre.com](https://signals.bhenre.com) | simulation | `apps/sites/simulation` | active — Simulation Lab (simulation only) |
 | [training.jcamd.com](https://training.jcamd.com) | observatory | `apps/sites/observatory` | active — Observatory (internal) |
+| [data.bhenre.com](https://data.bhenre.com) | refinery | `apps/sites/refinery` | planned — Data Refinery (Spec 0018) |
 
 **Brand duo:** [bhenre.com](https://bhenre.com) (blue hen) · [dumbmodel.com](https://dumbmodel.com) (the cone)
 
@@ -77,6 +78,7 @@ apps/
     research/            arXiv RAG → arxiviq.com
     simulation/          Simulation Lab → signals.bhenre.com (simulation only)
     observatory/         Internal training view → training.jcamd.com
+    refinery/            Data Refinery → data.bhenre.com (planned, Spec 0018)
 services/
   core-api/               FastAPI chokepoint
   worker/                 Postgres job consumer (production training path)

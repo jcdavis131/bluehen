@@ -3,9 +3,13 @@ import "./console.css";
 import { FleetShell } from "@synthaembed/ui-fleet";
 
 export const metadata = {
-  title: "Observatory — training.jcamd.com",
-  description:
-    "Live training-run telemetry: loss curves, effective-rank monitoring, collapse alerts, and R2D curvature.",
+  metadataBase: new URL("https://training.jcamd.com"),
+  title: {
+    default: "Observatory — Blue Hen RE",
+    template: "%s — Observatory · Blue Hen RE",
+  },
+  description: "Live training telemetry: loss curves, effective-rank monitoring, collapse alerts.",
+  openGraph: { siteName: "Observatory · Blue Hen RE", type: "website" },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

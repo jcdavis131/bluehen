@@ -224,3 +224,26 @@ Touched: services/core-api/app/main.py, scripts/pick_task.py, infra/docker-entry
 - No action taken — uncommitted work belongs to Eve (research/synthorg lane) + Tastemaker (SITE-014). Cursor lane = sites/core-api/scripts; no Cursor-lane drift this tick.
 - Documented as non-action: monitored two in-flight efforts, did not block, will re-check on next wake.
 - Heartbeat re-armed (20m). Watcher 844529 still running.
+## Run 2026-07-02T21:21:32 (loop tick 4 — heartbeat 970205; HEAD advanced 803e2b9 → a524113 via fab61ea)
+
+### Phase 0 — Orient
+- HEAD: a524113 feat(design): site-tinted ambient wash on the shell canvas
+- working tree: clean (0 changed) — all tick-3 drift committed
+- two commits since tick 2: fab61ea (big Tastemaker + Eve trace sweep), a524113 (ambient wash)
+
+### Phase 4 — Gates
+- no Python changed in either commit → no smoke-import needed
+- ui-fleet barrel: all 6 Tastemaker primitives exported (Axis, TitleCard, RuledSection, StatusLine, TTYFrame, Marginalia) + ApiStatusBanner; SiteSubnav still absent. Consistent.
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 6 — Metadata-align
+- tick-1 specs/README.md fix (spec 0010/0013 finance-lab→simulation) now committed in fab61ea. All tick-1 docs fixes are in git history.
+- specs/0017-fleet-tastemaker-redesign.md + specs/0006 updates committed. Index current.
+
+### Loop hygiene
+- Detected duplicate heartbeat (stacked 970205 + 251866 from successive re-arms). Killed redundant PID 22476 (251866). Now: 1 watcher (844529) + 1 heartbeat (re-armed below). Self-corrected the anti-pattern.
+
+### Phase 9 — Close-out
+- One e2e path proven: barrel consistency check on all new primitives → ok.
+- No Cursor-lane action needed; all work was design (Tastemaker) + Eve (synthorg) lanes.
+- Heartbeat re-armed (20m, single). Watcher 844529 still running.

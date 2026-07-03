@@ -3,8 +3,13 @@ import { CommandPalette, FleetShell, siteHref, type PaletteItem } from "@synthae
 import { listSites } from "@synthaembed/fleet";
 
 export const metadata = {
-  title: "Blue Hen RE — Storefront",
-  description: "Public brand + commerce — store, pricing, briefings · bhenre.com",
+  metadataBase: new URL("https://bhenre.com"),
+  title: {
+    default: "Storefront — Blue Hen RE",
+    template: "%s — Storefront · Blue Hen RE",
+  },
+  description: "Governed embedding operations: store, pricing, briefings, and proof surfaces.",
+  openGraph: { siteName: "Storefront · Blue Hen RE", type: "website" },
 };
 
 function paletteItems(): PaletteItem[] {

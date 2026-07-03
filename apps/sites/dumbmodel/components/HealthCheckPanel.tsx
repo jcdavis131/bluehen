@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ProgressMeter, Reveal } from "@synthaembed/ui-fleet";
 import type { DiagnoseResult } from "@synthaembed/ui-fleet";
+import { encodeShareParam, verdictFor } from "../lib/share";
 
 const PLACEHOLDER = `Paste 3–64 representative text samples, one per line, e.g.:
 
@@ -19,15 +20,41 @@ export function HealthCheckPanel() {
   const [result, setResult] = useState<DiagnoseResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
 
   const texts = raw
     .split(/\n+/)
     .map((t) => t.trim())
     .filter(Boolean);
 
+  // Stateless permalink (Spec 0020, UX-122): the measured result travels
+  // base64url-encoded in the URL itself — no result storage exists.
+  // encodeShareParam returns null for a malformed API response; in that
+  // case the share affordance simply is not rendered.
+  const shareParam = result ? encodeShareParam(result) : null;
+  // Absolute form for the clipboard and the visible fallback link — a
+  // relative path pasted into chat or email would not resolve to this site.
+  // window is safe here: this value is only used inside `result && …` JSX,
+  // and results exist only after a client-side interaction, never in SSR.
+  const shareUrl =
+    shareParam && typeof window !== "undefined"
+      ? new URL(`/check/result?d=${shareParam}`, window.location.origin).toString()
+      : null;
+
+  async function copyShareLink() {
+    if (!shareUrl) return;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopyState("copied");
+    } catch {
+      setCopyState("failed");
+    }
+  }
+
   async function run() {
     setLoading(true);
     setError(null);
+    setCopyState("idle");
     try {
       const res = await fetch("/api/diagnose", {
         method: "POST",
@@ -37,6 +64,9 @@ export function HealthCheckPanel() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? `check failed (${res.status})`);
       setResult(data as DiagnoseResult);
+      // Reset again after the response lands: a copy performed while this
+      // request was in flight referenced the previous result's link.
+      setCopyState("idle");
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       setResult(null);
@@ -137,32 +167,38 @@ export function HealthCheckPanel() {
           </div>
           <Reveal index={4}>
             <p className="bh-card__body" style={{ marginTop: 14 }}>
-              {result.utilization < 0.3
-                ? "Your samples cluster tightly — retrieval over content like this will struggle to distinguish documents. A domain-tuned model typically recovers usable rank."
-                : result.utilization < 0.6
-                  ? "Moderate spread. There is measurable headroom — domain tuning usually widens separation on content like this."
-                  : "Healthy spread — your content occupies a large share of the embedding space under the serving model."}
+              {verdictFor(result.utilization)}
             </p>
             <p className="bh-muted" style={{ fontSize: "0.8125rem", margin: "6px 0 0" }}>
               Curious how it shifts? Run it again with a different slice — docs
               vs. marketing copy usually score differently.
             </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
+            <p className="bh-muted" style={{ fontSize: "0.8125rem", margin: "10px 0 0" }}>
+              This was the free spot-check on {result.samples} lines. Evaluation
+              credits buy the full treatment: your corpus run through the
+              complete benchmark suite with a scored, comparable report.
+            </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
               <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
                 Run a full evaluation — credits
               </a>
               <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">
                 Talk to the team
               </a>
-              <a
-                className="bh-btn bh-btn--ghost"
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`/api/og?erank=${result.effectiveRank}&util=${result.utilization}&model=${encodeURIComponent(result.modelVersion)}&score=${Math.round((1 - result.utilization) * 100)}&samples=${result.samples}`}
-              >
-                Share card ↗
-              </a>
+              {shareUrl && (
+                <button type="button" className="bh-btn bh-btn--ghost" onClick={copyShareLink}>
+                  {copyState === "copied" ? "Link copied ✓" : "Copy share link"}
+                </button>
+              )}
             </div>
+            {shareUrl && (
+              <p className="bh-muted" style={{ fontSize: "0.75rem", margin: "8px 0 0", wordBreak: "break-all" }} aria-live="polite">
+                {copyState === "failed"
+                  ? "Clipboard said no — grab the link by hand: "
+                  : "Shareable results page (numbers travel in the link — nothing stored): "}
+                <a href={shareUrl}>{shareUrl}</a>
+              </p>
+            )}
           </Reveal>
         </div>
       )}

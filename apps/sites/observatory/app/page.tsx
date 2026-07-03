@@ -58,7 +58,7 @@ export default function RunListPage() {
           marginalia="Live run telemetry · autoresearch loop"
         >
           <p className="bh-title-card__copy">
-            Live run telemetry across the autoresearch loop — loss, effective rank,
+            Live run telemetry across the autoresearch loop: loss, effective rank,
             collapse alerts, and R2D curvature.
           </p>
         </TitleCard>
@@ -66,7 +66,7 @@ export default function RunListPage() {
         <RuledSection label="Run summary">
           {error && runs !== null && (
             <div className="stale-banner" role="status">
-              Telemetry source unreachable — run list may be stale.
+              Telemetry source unreachable. Run list may be stale.
             </div>
           )}
 
@@ -122,7 +122,7 @@ export default function RunListPage() {
               ))}
             </div>
             <Marginalia>
-              Each run records loss, effective rank, and collapse alerts — the same signals that gate deploys.
+              Each run records loss, effective rank, and collapse alerts: the same signals that gate deploys.
             </Marginalia>
           </RuledSection>
         )}

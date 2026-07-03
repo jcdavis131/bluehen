@@ -114,7 +114,7 @@ export function FleetShell({
             {fleetOpen && (
               <div className="fleet-switcher__panel" role="menu" aria-label="Organization surfaces">
                 <p className="fleet-switcher__lede">
-                  One organization — {BRAND.name}. Every surface feeds the same
+                  One organization: {BRAND.name}. Every surface feeds the same
                   operating loop: {BRAND.tagline.toLowerCase()}
                 </p>
                 {ROLE_GROUPS.map((group) => {
@@ -159,7 +159,7 @@ export function FleetShell({
             <span className="fleet-footer__title">{BRAND.name}</span>
             <p className="fleet-footer__note">
               {RE.dual}. One organization operating a governed embedding
-              lifecycle — every deploy passes published evaluation gates.
+              lifecycle; every deploy passes published evaluation gates.
             </p>
           </div>
           {ROLE_GROUPS.map((group) => {

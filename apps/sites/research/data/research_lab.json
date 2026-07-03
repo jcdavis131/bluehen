@@ -1,5 +1,5 @@
 {
-  "title": "Applied Research — Research Registry",
+  "title": "Applied Research: Research Registry",
   "subtitle": "Every embedding method the research org has tried, with measured verdicts and its stage in the Research → Business Development → Execution pipeline.",
   "updated": "2026-06-28",
   "evidenceProgram": {
@@ -30,7 +30,7 @@
       "name": "Barlow Twins",
       "stage": "Promoted to Business Development",
       "status": "Validating on real text",
-      "summary": "Redundancy-reduction objective. Top method in the Bayesian search — keeps full-dim quality while resisting collapse. Real-text confirmation vs VICReg in progress.",
+      "summary": "Redundancy-reduction objective. Top method in the Bayesian search; keeps full-dim quality while resisting collapse. Real-text confirmation vs VICReg in progress.",
       "keyMetric": "robust score 1.42 (#1 of 6 methods, synthetic)",
       "evidence": "EVIDENCE §3.7 wave-2 TPE"
     },
@@ -46,7 +46,7 @@
       "name": "int8 quantized serving",
       "stage": "In Execution",
       "status": "Measured",
-      "summary": "Per-vector int8 quantization for edge serving. Essentially lossless — ship it as the default cheap-serving tier.",
+      "summary": "Per-vector int8 quantization for edge serving. Essentially lossless; ship it as the default cheap-serving tier.",
       "keyMetric": "kNN_int8 ≈ kNN_full everywhere",
       "evidence": "EVIDENCE §3.7 (B)"
     },
@@ -70,7 +70,7 @@
       "name": "Three-tier spectral surgery (original ASN)",
       "stage": "Archived (rejected)",
       "status": "Rejected",
-      "summary": "Periodic weight-space SVD surgery shrinking the weak singular band. Fights anisotropy, not collapse — in a real collapse regime it made collapse worse (rank 3.4→1.0).",
+      "summary": "Periodic weight-space SVD surgery shrinking the weak singular band. Fights anisotropy, not collapse. In a real collapse regime it made collapse worse (rank 3.4→1.0).",
       "keyMetric": "served rank 3.4 → 1.0; kNN −12–21pts",
       "evidence": "EVIDENCE §3.2"
     },
@@ -78,7 +78,7 @@
       "name": "spectral_lift (rank-floor surgery)",
       "stage": "Archived (rejected)",
       "status": "Rejected",
-      "summary": "Redesigned surgery that lifts weak singular values. Fixes the harm of three-tier but still loses to doing nothing — weight-space surgery can't outrun the collapse gradient.",
+      "summary": "Redesigned surgery that lifts weak singular values. Fixes the harm of three-tier but still loses to doing nothing; weight-space surgery can't outrun the collapse gradient.",
       "keyMetric": "rank 2.06 vs do-nothing 3.40",
       "evidence": "EVIDENCE §3.3"
     },

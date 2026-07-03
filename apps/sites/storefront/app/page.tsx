@@ -113,10 +113,9 @@ export default async function HubPage() {
           <p className="bh-card__body" style={{ maxWidth: 640, marginBottom: 18 }}>
             {BRAND.name} is one company operating {""}
             {listSites({ status: "active" }).filter((s) => s.orgRole === "business-unit").length}{" "}
-            business units on a single governed lifecycle — each one a
-            user-facing product that builds, serves, and earns. This site is
-            the company itself: the story, the store, and the gates everything
-            ships through.
+            business units on a single governed lifecycle. Each one is a user-facing product that
+            builds, serves, and earns. This site is the company itself: the story, the store, and
+            the gates everything ships through.
           </p>
           <div className="bh-grid bh-grid--2">
             {listSites({ status: "active" })
@@ -137,12 +136,12 @@ export default async function HubPage() {
               })}
           </div>
           <p className="bh-meta" style={{ marginTop: 14 }}>
-            Internal operations —{" "}
+            Internal operations ({" "}
             {listSites({ status: "active" })
               .filter((s) => s.orgRole === "internal")
               .map((s) => getSiteCircuit(s.id)?.stop ?? s.name)
               .join(" · ")}{" "}
-            — run in the open on the same registry.
+            ) run in the open on the same registry.
           </p>
         </RuledSection>
 
@@ -268,7 +267,7 @@ export default async function HubPage() {
             <div className="bh-card__title">The full operating loop lives at Headquarters</div>
             <p className="bh-card__body">
               Live circuit, {GLOSSARY.raceLog.toLowerCase()}, and lifecycle controls moved to the
-              org hub — <a href={siteHref(getSite("hq")!, local)}>jcamd.com</a>. This storefront
+              org hub at <a href={siteHref(getSite("hq")!, local)}>jcamd.com</a>. This storefront
               keeps the proof surfaces: <Link href="/try">live search</Link> and the{" "}
               <Link href="/research">research registry</Link>.
             </p>

@@ -7,7 +7,7 @@ export const metadata = {
     default: "Headquarters — Blue Hen RE",
     template: "%s — Headquarters · Blue Hen RE",
   },
-  description: "The org hub — fleet directory, live operating loop, lifecycle controls.",
+  description: "The org hub: fleet directory, live operating loop, lifecycle controls.",
   openGraph: { siteName: "Headquarters · Blue Hen RE", type: "website" },
 };
 

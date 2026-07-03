@@ -8,7 +8,7 @@ export default function TermsPage() {
       <PageHeader
         eyebrow="Legal"
         title="Service Terms"
-        lead="Baseline terms for evaluation and managed-service engagements. Template pending counsel review — signed order forms govern."
+        lead="Baseline terms for evaluation and managed-service engagements. Template pending counsel review; signed order forms govern."
       />
       <div className="bh-card">
         <p className="bh-card__body">

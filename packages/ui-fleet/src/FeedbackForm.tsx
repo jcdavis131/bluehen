@@ -113,7 +113,7 @@ export function FeedbackForm({
 
       {status === "ok" && (
         <p className="bh-alert bh-alert--ok" style={{ marginTop: 12, marginBottom: 0 }}>
-          Recorded in {GLOSSARY.raceLog} — Orchestration will route to the appropriate division.
+          Recorded in {GLOSSARY.raceLog}. Orchestration will route to the appropriate division.
         </p>
       )}
       {error && (

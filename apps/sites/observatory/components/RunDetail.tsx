@@ -84,7 +84,7 @@ export function RunDetail({ runId }: { runId: string }) {
     <>
       {error && (
         <div className="stale-banner" role="status">
-          Telemetry source unreachable — showing last received data ({rows.length} steps).
+          Telemetry source unreachable. Showing last received data ({rows.length} steps).
         </div>
       )}
       <div className="console-eyebrow">
@@ -103,7 +103,7 @@ export function RunDetail({ runId }: { runId: string }) {
           <span aria-hidden>▲</span>
           <span>
             <strong>Rank collapse:</strong> effective rank {latestRank?.toFixed(1)} is below the
-            floor of {rankFloor?.toFixed(0)} — spectral surgery / heterosynaptic decay expected.
+            floor of {rankFloor?.toFixed(0)}; spectral surgery / heterosynaptic decay expected.
           </span>
         </div>
       )}

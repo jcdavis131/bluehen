@@ -11,7 +11,7 @@ export default function RequestsPage() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Custom harvests & dataset prep"
-        lead="Scope a source, a cadence, and a format — the Data Operations team runs the same SSRF-guarded, provenance-carrying pipeline that powers this catalog, for your corpus. Simulation-grade honesty: proposals quote measured pipeline throughput, not promises."
+        lead="Scope a source, a cadence, and a format. The Data Operations team runs the same SSRF-guarded, provenance-carrying pipeline that powers this catalog, for your corpus. Simulation-grade honesty: proposals quote measured pipeline throughput, not promises."
       />
       <RequestForm />
     </>

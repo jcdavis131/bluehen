@@ -14,7 +14,7 @@ export default function ComparePage() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Model comparison"
-        lead="Same query and corpus — evaluate retrieval quality across baseline and org-trained embedders."
+        lead="Same query and corpus. Evaluate retrieval quality across baseline and org-trained embedders."
       />
       <ComparePanel />
       <p className="bh-muted" style={{ marginTop: "var(--bh-space-6)", fontSize: "0.8125rem" }}>

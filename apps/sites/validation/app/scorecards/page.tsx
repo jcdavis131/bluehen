@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Scorecards — Validation Lab",
   description:
-    "Published validation scorecards — first-class OKF documents rendered from content/fleet/bd/scorecards/.",
+    "Published validation scorecards, first-class OKF documents rendered from content/fleet/bd/scorecards/.",
 };
 
 type ScorecardMeta = {
@@ -102,7 +102,7 @@ export default async function ScorecardsIndexPage() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Scorecards"
-        lead="Published validation rulings as first-class OKF documents. Docs are the data — no separate backend."
+        lead="Published validation rulings as first-class OKF documents. Docs are the data, no separate backend."
         badge={<span className="bh-badge bh-badge--accent">Docs as data</span>}
       />
 
@@ -119,7 +119,7 @@ export default async function ScorecardsIndexPage() {
           </p>
           {!dir && (
             <p className="bh-meta" style={{ marginTop: "var(--bh-space-3)" }}>
-              The scorecards directory was not found in this deploy — it is bundled via{" "}
+              The scorecards directory was not found in this deploy. It is bundled via{" "}
               <code>outputFileTracingIncludes</code>. If this shows on the hosted site, check the
               validation <code>next.config</code> tracing globs.
             </p>

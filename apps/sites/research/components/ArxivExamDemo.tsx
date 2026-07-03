@@ -8,7 +8,7 @@ const STEPS = [
   { id: "indexed", label: "Corpus indexed", hint: "arXiv abstracts → chunks in pgvector" },
   { id: "embed", label: "Embed query (two tiers)", hint: "Full 384d vs Matryoshka t=8 + int8" },
   { id: "retrieve", label: "Retrieve top-k", hint: "Side-by-side rank comparison" },
-  { id: "exam", label: "Exam — org vs BGE/e5 panel", hint: "arXiv MCQ scorecard, top-3 retrieval" },
+  { id: "exam", label: "Exam: org vs BGE/e5 panel", hint: "arXiv MCQ scorecard, top-3 retrieval" },
 ];
 
 export function ArxivExamDemo() {
@@ -34,7 +34,7 @@ export function ArxivExamDemo() {
       <div className="fleet-card">
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
           <span className={`fleet-badge ${online ? "ok" : "warn"}`}>
-            {online === null ? "Checking API…" : online ? "Live stack" : "Offline — see setup below"}
+            {online === null ? "Checking API…" : online ? "Live stack" : "Offline, see setup below"}
           </span>
           {modelVersion && (
             <span className="fleet-badge ok" style={{ fontFamily: "ui-monospace" }}>

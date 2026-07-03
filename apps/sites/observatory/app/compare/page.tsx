@@ -123,8 +123,8 @@ export default function ComparePage() {
       <div className="console-eyebrow">Observatory · Blue Hen RE</div>
       <h1 className="console-h1">Compare runs</h1>
       <p className="console-sub">
-        Overlay two training runs on the same metric charts — loss, effective
-        rank, R2D curvature — to see which trained better or collapsed less.
+        Overlay two training runs on the same metric charts (loss, effective
+        rank, R2D curvature) to see which trained better or collapsed less.
       </p>
 
       {listError && runs === null && (
@@ -151,7 +151,7 @@ export default function ComparePage() {
 
       {listError && runs !== null && (
         <div className="stale-banner" role="status">
-          Telemetry source unreachable — run list may be stale.
+          Telemetry source unreachable. Run list may be stale.
         </div>
       )}
 

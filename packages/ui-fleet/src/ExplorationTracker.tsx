@@ -63,7 +63,7 @@ export function ExplorationTracker({
             · next: <a href={next.href}>{next.label} →</a>
           </>
         )}
-        {!next && " — the whole loop, end to end."}
+        {!next && ". The whole loop, end to end."}
       </span>
     </div>
   );

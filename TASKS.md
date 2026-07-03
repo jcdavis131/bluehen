@@ -45,6 +45,7 @@
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
+- [ ] **HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal (None)
 
 ## In progress
 

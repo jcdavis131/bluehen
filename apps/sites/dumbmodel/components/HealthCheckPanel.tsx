@@ -68,7 +68,7 @@ export function HealthCheckPanel() {
           style={{ marginTop: 3 }}
         />
         <span className="bh-muted">
-          Store my samples to improve public benchmarks. Optional — unchecked
+          Store my samples to improve public benchmarks. Optional; unchecked
           submissions are analyzed and discarded. Stored samples carry no
           account identity. See the{" "}
           <a href="https://bhenre.com/legal/privacy">privacy note</a>.
@@ -138,18 +138,18 @@ export function HealthCheckPanel() {
           <Reveal index={4}>
             <p className="bh-card__body" style={{ marginTop: 14 }}>
               {result.utilization < 0.3
-                ? "Your samples cluster tightly — retrieval over content like this will struggle to distinguish documents. A domain-tuned model typically recovers usable rank."
+                ? "Your samples cluster tightly. Retrieval over content like this will struggle to distinguish documents. A domain-tuned model typically recovers usable rank."
                 : result.utilization < 0.6
-                  ? "Moderate spread. There is measurable headroom — domain tuning usually widens separation on content like this."
-                  : "Healthy spread — your content occupies a large share of the embedding space under the serving model."}
+                  ? "Moderate spread. There is measurable headroom; domain tuning usually widens separation on content like this."
+                  : "Healthy spread. Your content occupies a large share of the embedding space under the serving model."}
             </p>
             <p className="bh-muted" style={{ fontSize: "0.8125rem", margin: "6px 0 0" }}>
-              Curious how it shifts? Run it again with a different slice — docs
+              Curious how it shifts? Run it again with a different slice; docs
               vs. marketing copy usually score differently.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
               <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
-                Run a full evaluation — credits
+                Run a full evaluation with credits
               </a>
               <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">
                 Talk to the team

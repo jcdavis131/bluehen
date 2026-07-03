@@ -58,7 +58,7 @@ export default async function BenchmarkHome() {
           marginalia={`Certification · ${RE.tech} harness`}
         >
           <p className="bh-title-card__copy">
-            Get your RAG stack certified — a paid, reproducible benchmark run with a published,
+            Get your RAG stack certified: a paid, reproducible benchmark run with a published,
             linkable scorecard. Evidence-backed, same harness that gates our own deploys.{" "}
             <Link href="/certify">How certification works →</Link>
           </p>
@@ -111,7 +111,7 @@ export default async function BenchmarkHome() {
         >
           <p className="bh-meta" style={{ marginBottom: "var(--bh-space-4)" }}>
             {live
-              ? "Measured model versions from this workspace via /v1/models — the same rows the worker records during training."
+              ? "Measured model versions from this workspace via /v1/models. The same rows the worker records during training."
               : "Reference fixtures from the eval-public panel. Live per-workspace metrics appear here once a model is trained and the API is reachable (SYNTH_API_KEY set)."}
           </p>
           <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
@@ -175,7 +175,7 @@ export default async function BenchmarkHome() {
                 ))}
           </div>
           <Marginalia>
-            {GLOSSARY.deployedModel} rows are the same evidence the worker records — no marketing claims, only measured gates.
+            {GLOSSARY.deployedModel} rows are the same evidence the worker records. Measured gates, not marketing claims.
           </Marginalia>
           <Link href="https://dumbmodel.com">Baseline comparison on dumbmodel.com →</Link>
         </RuledSection>

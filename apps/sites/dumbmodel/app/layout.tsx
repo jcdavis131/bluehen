@@ -8,7 +8,7 @@ export const metadata = {
     default: "Baseline Comparison — Blue Hen RE",
     template: "%s — Baseline Comparison · Blue Hen RE",
   },
-  description: "Free embedder health check and collapse diagnostics — every score is measured.",
+  description: "Free embedder health check and collapse diagnostics. Every score is measured.",
   openGraph: { siteName: "Baseline Comparison · Blue Hen RE", type: "website" },
 };
 

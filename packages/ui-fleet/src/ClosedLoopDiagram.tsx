@@ -54,7 +54,7 @@ export function ClosedLoopDiagram({
         <div>
           <h2 style={{ fontSize: 16, margin: "0 0 6px" }}>{BRAND.operatingLoop}</h2>
           <p style={{ margin: 0, fontSize: 13, opacity: 0.72, maxWidth: 640, lineHeight: 1.5 }}>
-            Five functional divisions operate as one continuous improvement cycle — Data Operations
+            Five functional divisions operate as one continuous improvement cycle. Data Operations
             prepares corpora, R&D trains and evaluates, Validation certifies against benchmarks,
             Production serves retrieval, and Orchestration routes gaps back to data.{" "}
             <span style={{ opacity: 0.65 }}>({RE.dual} · Spec 0012)</span>

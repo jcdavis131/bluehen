@@ -51,7 +51,7 @@ export function GuidedTry() {
           <LiveSearchPanel
             siteId="storefront"
             title="Query B"
-            description="Phrase the same question differently — compare which passages each retrieves."
+            description="Phrase the same question differently and compare which passages each retrieves."
             defaultQuery={COMPARE_DEFAULTS[1]}
             showFeedback={false}
           />

@@ -1,7 +1,7 @@
 /**
- * Blue Hen RE — Enterprise platform narrative
+ * Blue Hen RE, enterprise platform narrative
  *
- * Public brand: B2B embedding operations — governed lifecycle, measurable gates.
+ * Public brand: B2B embedding operations, governed lifecycle, measurable gates.
  * Technical layer: RAG Embeddings (unchanged in API & specs).
  *
  * @see docs/VOICE_AND_PLATFORM.md
@@ -74,42 +74,42 @@ export const SITE_CIRCUIT: Record<
 > = {
   storefront: {
     stop: "Storefront",
-    role: "The company website — who Blue Hen RE is, the divisions, the operating loop, store & pricing — bhenre.com",
+    role: "Company website at bhenre.com. Who Blue Hen RE is, the divisions, the operating loop, store and pricing.",
     eyebrow: "Storefront · bhenre.com",
   },
   hq: {
     stop: "Headquarters",
-    role: "Internal cockpit — fleet directory, live operating loop, lifecycle controls — jcamd.com",
+    role: "Internal cockpit at jcamd.com. Fleet directory, live operating loop, lifecycle controls.",
     eyebrow: "Headquarters · jcamd.com",
   },
   dumbmodel: {
     stop: "Baseline Comparison",
-    role: "Diagnostics unit — free embedder health checks; funnel + consented data — dumbmodel.com",
+    role: "Diagnostics unit at dumbmodel.com. Free embedder health checks; funnel and consented data.",
     eyebrow: "Baseline Comparison · dumbmodel.com",
   },
   validation: {
     stop: "Validation Lab",
-    role: "Certification unit — paid RAG certification & published scorecards — slasso.com",
+    role: "Certification unit at slasso.com. Paid RAG certification with published scorecards.",
     eyebrow: "Validation Lab · slasso.com",
   },
   research: {
     stop: "Applied Research",
-    role: "Applied Research unit — live retrieval assistant, method registry, case studies — arxiviq.com",
+    role: "Applied Research unit at arxiviq.com. Live retrieval assistant, method registry, case studies.",
     eyebrow: "Applied Research · arxiviq.com",
   },
   simulation: {
     stop: "Simulation Lab",
-    role: "Signals unit — paper-trading strategy reports (simulation only, Spec 0013)",
+    role: "Signals unit. Paper-trading strategy reports, simulation only (Spec 0013).",
     eyebrow: "Simulation Lab · signals.bhenre.com",
   },
   refinery: {
     stop: "Data Refinery",
-    role: "Data Operations unit — provenance-carrying datasets, custom harvests, dataset prep — data.bhenre.com (Spec 0018)",
+    role: "Data Operations unit at data.bhenre.com. Provenance-carrying datasets, custom harvests, dataset prep (Spec 0018).",
     eyebrow: "Data Refinery · data.bhenre.com",
   },
   observatory: {
     stop: "Observatory",
-    role: "Internal telemetry — run monitoring, effective rank, collapse alerts",
+    role: "Internal telemetry. Run monitoring, effective rank, collapse alerts.",
     eyebrow: "Observatory · training.jcamd.com",
   },
 };

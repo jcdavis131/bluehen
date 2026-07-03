@@ -2,7 +2,7 @@ import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit, GLOS
 import { GuidedTry } from "../../components/GuidedTry";
 
 export const metadata = {
-  title: `${GLOSSARY.liveSearch} — Platform Console`,
+  title: `${GLOSSARY.liveSearch} — Storefront`,
 };
 
 const API = process.env.SYNTH_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
@@ -31,7 +31,7 @@ export default async function HubTryPage() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title={GLOSSARY.liveSearch}
-        lead="Tenant workspace retrieval — same production path used across all product surfaces."
+        lead="Tenant workspace retrieval on the same production path used across all product surfaces."
       />
       <GuidedTry />
 
@@ -40,11 +40,11 @@ export default async function HubTryPage() {
         <p className="bh-card__body">
           Retrieval quality here tracks two measured properties of the serving
           model{deployed?.version ? <> (<code>{deployed.version}</code>)</> : null}:{" "}
-          <strong>effective rank</strong> — how many embedding dimensions carry
-          signal{typeof deployed?.effectiveRank === "number" ? <> (currently {deployed.effectiveRank.toFixed(1)})</> : null};
-          collapsed models rank everything alike — and <strong>nDCG@10</strong> —
-          how well the top-10 ordering matches relevance judgments
-          {typeof deployed?.ndcg10 === "number" ? <> (currently {deployed.ndcg10.toFixed(3)})</> : null}.
+          <strong>effective rank</strong> (how many embedding dimensions carry
+          signal{typeof deployed?.effectiveRank === "number" ? <>; currently {deployed.effectiveRank.toFixed(1)}</> : null};
+          collapsed models rank everything alike) and <strong>nDCG@10</strong> (how well the
+          top-10 ordering matches relevance judgments
+          {typeof deployed?.ndcg10 === "number" ? <>; currently {deployed.ndcg10.toFixed(3)}</> : null}).
           Both must clear the deploy gate (Spec 0008) before a model serves this
           page. Method details in the <Link href="/research">experiment museum</Link>;
           measured results in EVIDENCE.md.

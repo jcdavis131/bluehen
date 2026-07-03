@@ -22,7 +22,7 @@ const STAGE_STYLE: Record<string, { accent: string; tint: string; blurb: string 
   "In Research": {
     accent: "var(--bh-stage-rd)",
     tint: "var(--bh-stage-rd-tint)",
-    blurb: "Under active investigation in the research org — measured, but not yet promoted.",
+    blurb: "Under active investigation in the research org: measured, but not yet promoted.",
   },
   "Promoted to Business Development": {
     accent: "var(--bh-stage-validate)",
@@ -32,7 +32,7 @@ const STAGE_STYLE: Record<string, { accent: string; tint: string; blurb: string 
   "In Execution": {
     accent: "var(--bh-stage-prod)",
     tint: "var(--bh-stage-prod-tint)",
-    blurb: "Validated and shipped — part of the production serving / training path today.",
+    blurb: "Validated and shipped. Part of the production serving / training path today.",
   },
   "Archived (rejected)": {
     accent: "var(--bh-stage-retired)",
@@ -97,7 +97,7 @@ export default async function ResearchLabPage() {
             <>
               <p style={{ fontSize: 12.5, color: "var(--fleet-muted)", margin: 0, lineHeight: 1.5 }}>
                 Measured model versions from this workspace&apos;s core-api{" "}
-                <code>/v1/models</code> — ranked by effective rank.
+                <code>/v1/models</code>, ranked by effective rank.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {[...liveModels]

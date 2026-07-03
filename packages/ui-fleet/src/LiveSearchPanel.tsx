@@ -59,7 +59,7 @@ export function LiveSearchPanel({
     const comment =
       rating === "up"
         ? "Search results are relevant for this query"
-        : "Search results miss the mark — corpus or model needs improvement";
+        : "Search results miss the mark; corpus or model needs improvement";
     try {
       const res = await fetch("/api/feedback", {
         method: "POST",
@@ -155,7 +155,7 @@ export function LiveSearchPanel({
               </button>
               {feedbackSent && (
                 <span className="bh-alert bh-alert--ok" style={{ padding: "4px 10px", margin: 0 }}>
-                  Split logged — thank you.
+                  Split logged. Thank you.
                 </span>
               )}
             </div>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 /** Consented contribution: the user sees exactly what will be stored and
- * must check consent explicitly (Spec 0018 §3 /contribute). */
+ * must check consent explicitly (Spec 0018, /contribute). */
 export function ContributeForm() {
   const [raw, setRaw] = useState("");
   const [consent, setConsent] = useState(false);
@@ -35,11 +35,11 @@ export function ContributeForm() {
   if (result) {
     return (
       <div className="bh-card bh-card--organic" aria-live="polite">
-        <h2 className="bh-card__title">Received — with a receipt</h2>
+        <h2 className="bh-card__title">Received, with a receipt</h2>
         <p className="bh-card__body">
           {result.stored} texts stored for review. Your provenance receipt:{" "}
           <code>{result.receipt}</code>. Approved contributions enter the
-          public catalog with this receipt in their lineage; keep it — erasure is
+          public catalog with this receipt in their lineage; keep it. Erasure is
           handled on request via <a href="https://bhenre.com/contact?topic=data-erasure">contact</a>, quoting this receipt.
         </p>
       </div>
@@ -63,7 +63,7 @@ export function ContributeForm() {
       <label style={{ display: "flex", gap: 8, alignItems: "flex-start", marginBottom: 14, fontSize: "0.8125rem" }}>
         <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ marginTop: 3 }} />
         <span className="bh-muted">
-          I consent to these texts being stored, reviewed, and — if approved —
+          I consent to these texts being stored, reviewed, and, if approved,
           published in the dataset catalog and used for model training. No
           account identity is attached; the receipt is the only link.{" "}
           <a href="https://bhenre.com/legal/privacy">Privacy note</a>.

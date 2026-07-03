@@ -40,13 +40,13 @@ export default async function CatalogPage({
 
       {!page && (
         <div className="bh-alert">
-          Catalog unreachable — retry shortly (<code>GET /v1/catalog/datasets</code>).
+          Catalog unreachable. Retry shortly (<code>GET /v1/catalog/datasets</code>).
         </div>
       )}
       {page && page.items.length === 0 && (
         <div className="bh-alert">
-          No datasets match. The catalog grows on every harvest —{" "}
-          <Link href="/requests">request one</Link>.
+          No datasets match. The catalog grows on every harvest.{" "}
+          <Link href="/requests">Request one</Link>.
         </div>
       )}
 

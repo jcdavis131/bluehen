@@ -96,7 +96,7 @@ export function InteractiveCircuit({
         <div>
           <h2 style={{ fontSize: 16, margin: "0 0 6px" }}>{BRAND.operatingLoop}</h2>
           <p style={{ margin: 0, fontSize: 13, opacity: 0.72, maxWidth: 640, lineHeight: 1.5 }}>
-            Live board — select a division for its latest {GLOSSARY.raceLog} entry. (Spec 0012)
+            Live board: select a division for its latest {GLOSSARY.raceLog} entry. (Spec 0012)
           </p>
         </div>
         {latest && (

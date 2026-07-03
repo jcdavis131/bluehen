@@ -36,7 +36,7 @@ export function RequestForm({ presetTopic }: { presetTopic?: string }) {
         <h2 className="bh-card__title">Request received</h2>
         <p className="bh-card__body">
           The Data Operations team reviews scope and responds by email with a
-          measured proposal — corpus size, cadence, provenance guarantees, and
+          measured proposal: corpus size, cadence, provenance guarantees, and
           price.
         </p>
       </div>
@@ -54,7 +54,7 @@ export function RequestForm({ presetTopic }: { presetTopic?: string }) {
       <label className="bh-label" htmlFor="req-scope">Scope</label>
       <textarea id="req-scope" className="bh-textarea" rows={5} value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="What sources, what cadence, what format — and what the data is for."
+                placeholder="What sources, what cadence, what format, and what the data is for."
                 style={{ marginBottom: 14 }} />
       <button type="submit" className="bh-btn bh-btn--primary" disabled={busy}>
         {busy ? "Sending…" : "Request a proposal"}

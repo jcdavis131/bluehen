@@ -7,7 +7,7 @@ export const metadata = {
     default: "Simulation Lab — Blue Hen RE",
     template: "%s — Simulation Lab · Blue Hen RE",
   },
-  description: "Paper-trading strategy reports across prediction markets, DFS, and equities — simulation only, no live capital.",
+  description: "Paper-trading strategy reports across prediction markets, DFS, and equities. Simulation only; no live capital.",
   openGraph: { siteName: "Simulation Lab · Blue Hen RE", type: "website" },
 };
 

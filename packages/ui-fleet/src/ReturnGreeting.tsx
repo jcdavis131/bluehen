@@ -25,7 +25,7 @@ export function ReturnGreeting({ ledger }: { ledger: LedgerEntry[] }) {
     if (advances.length === 0) return;
     const latest = advances[0];
     setLine(
-      `Since your last visit: ${advances.length} loop advance${advances.length === 1 ? "" : "s"} — latest, ${stageLabel(latest.stage)}.`,
+      `Since your last visit: ${advances.length} loop advance${advances.length === 1 ? "" : "s"}; latest, ${stageLabel(latest.stage)}.`,
     );
   }, [ledger]);
 

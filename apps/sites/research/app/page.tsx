@@ -33,7 +33,7 @@ export default function ResearchRagPage() {
           marginalia={`${RE.tech} in production · live search`}
         >
           <p className="bh-title-card__copy">
-            A research retrieval assistant, live below — the same production stack we run for
+            A research retrieval assistant, live below. The same production stack we run for
             customers, pointed at arXiv. {RE.tech} in production ·{" "}
             <Link href="/research-lab">
               browse the {GLOSSARY.experimentMuseum.toLowerCase()} →
@@ -67,7 +67,7 @@ export default function ResearchRagPage() {
               </a>
             </div>
             <Marginalia>
-              Each partner workspace trains behind the same evaluation gates that gate our own deploys.
+              Each partner workspace trains behind the same evaluation gates as our own deploys.
             </Marginalia>
           </div>
         </RuledSection>

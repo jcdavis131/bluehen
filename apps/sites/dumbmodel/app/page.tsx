@@ -13,7 +13,7 @@ import { BRAND, getSiteCircuit, RE } from "@synthaembed/fleet";
 export const metadata = {
   title: "Dumb Model — how dumb is your embedding?",
   description:
-    "Paste your text, get measured diagnostics — effective rank, space utilization, redundancy. Free, no signup.",
+    "Paste your text, get measured diagnostics: effective rank, space utilization, redundancy. Free, no signup.",
 };
 
 export default function HomePage() {
@@ -39,8 +39,8 @@ export default function HomePage() {
             <HenMascot size={40} />
           </span>
           <p className="bh-title-card__copy">
-            Paste your text, get measured diagnostics in seconds — effective rank, space
-            utilization, redundancy — under a production embedding model. Free, no signup.
+            Paste your text and get measured diagnostics in seconds: effective rank, space
+            utilization, redundancy, all under a production embedding model. Free, no signup.
             Benchmarks measured on {BRAND.name} eval gates, not marketing claims.
           </p>
         </TitleCard>
@@ -63,16 +63,16 @@ export default function HomePage() {
                 Museum of Collapse
               </Link>
               <a
-                href="https://bhenre.com"
+                href="https://jcamd.com"
                 className="bh-btn bh-btn--hen"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Platform Console →
+                Headquarters →
               </a>
             </div>
             <Marginalia>
-              Every score traces to a reproducible eval gate — nDCG, effective rank, rotating slice.
+              Every score traces to a reproducible eval gate: nDCG, effective rank, rotating slice.
             </Marginalia>
           </div>
         </RuledSection>
@@ -89,7 +89,7 @@ export default function HomePage() {
             <div className="bh-card">
               <h2 className="bh-card__title bh-card__title--lg">Side-by-side RAG</h2>
               <p className="bh-card__body">
-                Same query, same corpus — compare a commercial baseline against an org-trained model
+                Same query, same corpus. Compare a commercial baseline against an org-trained model
                 on multi-hop retrieval tasks.
               </p>
             </div>
@@ -103,8 +103,8 @@ export default function HomePage() {
             <div className="bh-card">
               <h2 className="bh-card__title bh-card__title--lg">Museum of Collapse</h2>
               <p className="bh-card__body">
-                The failure modes we measure against — anisotropy, dimension starvation, MRL
-                truncation cliffs — each with the diagnostic or gate that catches it before a model
+                The failure modes we measure against: anisotropy, dimension starvation, MRL
+                truncation cliffs. Each one has a diagnostic or gate that catches it before a model
                 ships.
               </p>
             </div>

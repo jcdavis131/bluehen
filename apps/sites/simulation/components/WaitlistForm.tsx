@@ -31,7 +31,7 @@ export function WaitlistForm() {
     return (
       <p className="bh-card__body" role="status">
         You&apos;re on the list. Strategy reports go out when simulation batches
-        clear review — simulation results only, never trading advice.
+        clear review; simulation results only, never trading advice.
       </p>
     );
   }

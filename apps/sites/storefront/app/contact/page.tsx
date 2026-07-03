@@ -36,7 +36,7 @@ function ContactForm() {
       <div className="bh-card">
         <div className="bh-card__title">Briefing received</div>
         <p className="bh-card__body">
-          Thank you — the team reviews briefings each business day and will
+          Thank you. The team reviews briefings each business day and will
           reply from a bhenre.com address within two business days.
         </p>
       </div>

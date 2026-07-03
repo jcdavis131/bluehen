@@ -42,7 +42,7 @@ export default async function DatasetPage({
         </section>
       ) : (
         <div className="bh-alert" style={{ marginBottom: 20 }}>
-          No OKF card recorded for this dataset — cards are generated on
+          No OKF card recorded for this dataset. Cards are generated on
           harvest (<code>POST /v1/admin/datalab/harvest</code>).
         </div>
       )}

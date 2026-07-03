@@ -70,12 +70,12 @@ export default async function OrgPage() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Org"
-        lead="The org's living status board and per-division team digests. Docs are the data — no separate backend."
+        lead="The org's living status board and per-division team digests. Docs are the data, no separate backend."
       />
 
       {anyMissing && (
         <div className="bh-alert bh-alert--warn" style={{ marginBottom: "var(--bh-space-5)" }}>
-          Some docs were not found in this deploy — they are bundled via{" "}
+          Some docs were not found in this deploy. They are bundled via{" "}
           <code>outputFileTracingIncludes</code>; if this shows on the hosted cockpit,
           check the hq <code>next.config</code> tracing globs.
         </div>

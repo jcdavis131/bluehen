@@ -1,6 +1,6 @@
 import { FeedbackForm, PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit, GLOSSARY } from "@synthaembed/fleet";
 export const metadata = {
-  title: `${GLOSSARY.feedback} — Platform Console`,
+  title: `${GLOSSARY.feedback} — Storefront`,
 };
 
 export default function HubFeedbackPage() {
@@ -11,7 +11,7 @@ export default function HubFeedbackPage() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title={GLOSSARY.feedback}
-        lead={`Operational signals route to Platform Orchestration — recorded in the ${GLOSSARY.raceLog}.`}
+        lead={`Operational signals route to Platform Orchestration and are recorded in the ${GLOSSARY.raceLog}.`}
       />
       <FeedbackForm siteId="storefront" division="orchestration" />
     </>

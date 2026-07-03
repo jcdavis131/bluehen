@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PageHeader, siteHref } from "@synthaembed/ui-fleet";import { getSite, getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";import experiments from "../../data/experiments.json";
 
 export const metadata = {
-  title: `${GLOSSARY.experimentMuseum} — Platform Console`,
+  title: `${GLOSSARY.experimentMuseum} — Storefront`,
 };
 
 export default function ResearchPage() {
@@ -18,7 +18,7 @@ export default function ResearchPage() {
         title={GLOSSARY.experimentMuseum}
         lead={
           <>
-            Evidence-backed experiment summaries — background evaluation continues.{" "}
+            Evidence-backed experiment summaries. Background evaluation continues.{" "}
             {registryHref && (
               <Link href={registryHref}>Full registry on Applied Research →</Link>
             )}

@@ -55,7 +55,7 @@ export function HillClimbActions() {
       <div className="bh-card bh-note">
         <strong>Operator note:</strong> Per-tenant {GLOSSARY.hillClimb.toLowerCase()} via{" "}
         <code>POST /v1/admin/hill-climb</code> (uses workspace for each <code>siteId</code>).
-        Requires <code>API_SECRET_KEY</code> on Operations Center.
+        Requires <code>API_SECRET_KEY</code> on Headquarters.
       </div>
     </div>
   );

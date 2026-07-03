@@ -60,7 +60,7 @@ const EXHIBITS: Exhibit[] = [
     signature:
       "distinct inputs map to near-identical vectors; top-k overlap is near-total across queries.",
     cause:
-      "Loss minimized by mapping everything to a single region — the model ‘wins’ retrieval by returning the same chunks regardless of query.",
+      "Loss minimized by mapping everything to a single region; the model ‘wins’ retrieval by returning the same chunks regardless of query.",
     detection: "nDCG@10 non-regression gate + collapse score on the panel.",
     hardening: "eval-harness ndcgNonRegression gate",
   },
@@ -83,7 +83,7 @@ const EXHIBITS: Exhibit[] = [
     signature:
       "< 5 real eval pairs; gate still reads green by falling back to hard-coded demo pairs.",
     cause:
-      "A deploy gate measured on toy data passes models that have never been tested on real pairs — ‘deploy gate’ means nothing for thin corpora.",
+      "A deploy gate measured on toy data passes models that have never been tested on real pairs. ‘deploy gate’ means nothing for thin corpora.",
     detection:
       "sufficientEvalPairs gate fails (not falls back) below a minimum real-pair count.",
     hardening: "eval-harness sufficientEvalPairs (REV-905)",
@@ -95,7 +95,7 @@ const EXHIBITS: Exhibit[] = [
     signature:
       "same input text yields different embeddings across calls; indexing and serve diverge.",
     cause:
-      "Checkpoint + tokenizer reloaded on every request (or per chunk) — nondeterministic init, cache misses, and a trivial DoS surface.",
+      "Checkpoint + tokenizer reloaded on every request (or per chunk): nondeterministic init, cache misses, and a trivial DoS surface.",
     detection:
       "Checkpoint LRU cache + deterministic serve path; health check reproducibility.",
     hardening: "checkpoint cache (REV-903)",
@@ -109,7 +109,7 @@ export default function MuseumPage() {
       <PageHeader
         eyebrow="Reference catalog"
         title="Museum of Collapse"
-        lead="The failure modes we measure against. Every exhibit is a real way embeddings go wrong — and the diagnostic or gate that catches it before a model ships."
+        lead="The failure modes we measure against. Every exhibit is a real way embeddings go wrong, with the diagnostic or gate that catches it before a model ships."
         badge={<ConeMascot size={48} />}
       />
 

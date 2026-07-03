@@ -44,8 +44,8 @@ export async function ProductionCaseStudy() {
         training (frozen backbone, features extracted once) → evaluation gates
         on the served representation → charter → deploy. The trained artifact
         is a ~3&nbsp;MB projection head stored in Postgres; the backbone loads
-        from the baked HuggingFace cache at serve time — no GPU, no shared
-        filesystem, no plan upgrade.
+        from the baked HuggingFace cache at serve time, with no GPU, no shared
+        filesystem, and no plan upgrade.
       </p>
 
       {deployed ? (
@@ -80,12 +80,12 @@ export async function ProductionCaseStudy() {
       ) : (
         <div className="bh-alert" style={{ marginTop: 14 }}>
           {apiError ? (
-            <>Production API unreachable from this build — metrics render when{" "}
+            <>Production API unreachable from this build. Metrics render when{" "}
             <code>SYNTH_API_KEY</code> is configured.</>
           ) : (
             <>No deployed model yet for this tenant. The lifecycle produces one
             end-to-end: <code>POST /v1/admin/hill-climb {"{"}&quot;siteId&quot;:
-            &quot;research&quot;{"}"}</code> — metrics appear here the moment the
+            &quot;research&quot;{"}"}</code>. Metrics appear here the moment the
             worker&apos;s eval gates pass and the charter deploys it.</>
           )}
         </div>

@@ -8,7 +8,7 @@ export const metadata = {
     template: "%s — Data Refinery · Blue Hen RE",
   },
   description:
-    "Provenance-carrying datasets, custom harvests, and dataset preparation — the Data Operations division of Blue Hen RE.",
+    "Provenance-carrying datasets, custom harvests, and dataset preparation. The Data Operations division of Blue Hen RE.",
   openGraph: { siteName: "Data Refinery · Blue Hen RE", type: "website" },
 };
 

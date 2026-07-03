@@ -13,7 +13,7 @@ const STEPS = [
   },
   {
     title: "2 · Run",
-    body: "We execute the benchmark on the shared harness — nDCG@10, effective rank, latency — with pinned versions and a reproduction script you keep.",
+    body: "We execute the benchmark on the shared harness (nDCG@10, effective rank, latency) with pinned versions and a reproduction script you keep.",
   },
   {
     title: "3 · Scorecard",
@@ -29,7 +29,7 @@ export default function CertifyPage() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Get your RAG certified"
-        lead="A reproducible benchmark run of your retrieval stack, scored against published thresholds — with a scorecard you can link in sales conversations."
+        lead="A reproducible benchmark run of your retrieval stack, scored against published thresholds, with a scorecard you can link in sales conversations."
       />
 
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
@@ -49,7 +49,7 @@ export default function CertifyPage() {
           Every published number is measured on the same harness that gates our
           own deploys (Spec 0008): nDCG@10 against relevance judgments and
           effective rank of the serving embeddings. Methodology and pinned
-          versions ship with every scorecard — a certification you cannot
+          versions ship with every scorecard. A certification you cannot
           reproduce is not one we publish.
         </p>
       </div>

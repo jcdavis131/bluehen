@@ -30,8 +30,8 @@ export default function MethodsPage() {
         lead={
           <>
             The org recipe behind arxiviq.com, with the dated evidence that supports each choice. Every
-            claim traces to a row in <code>EVIDENCE.md</code>. {RE.tech} is not shipped on a hypothesis —
-            see the <Link href="/research-lab">Research Registry</Link> for the full method table.
+            claim traces to a row in <code>EVIDENCE.md</code>. {RE.tech} is not shipped on a hypothesis.
+            See the <Link href="/research-lab">Research Registry</Link> for the full method table.
           </>
         }
         badge={<span className="fleet-badge ok">R&amp;D · Evidence-backed</span>}
@@ -142,7 +142,7 @@ export default function MethodsPage() {
         <strong style={{ fontSize: 15 }}>Deploy gates (eval-harness)</strong>
         <p style={{ fontSize: 12.5, opacity: 0.7, lineHeight: 1.5, margin: "6px 0 14px", maxWidth: 720 }}>
           A model reaches arxiviq.com only when every gate passes for real. Gates fail closed when a
-          dimension is unmeasured — never stubbed true.
+          dimension is unmeasured, never stubbed true.
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {(deployGates as Gate[]).map((g) => (

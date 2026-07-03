@@ -58,7 +58,7 @@ async function getFleetStatus() {
 
 export const metadata = {
   title: "Headquarters — Blue Hen RE",
-  description: "The org hub — fleet directory, live operating loop, lifecycle controls · jcamd.com",
+  description: "The org hub: fleet directory, live operating loop, lifecycle controls. jcamd.com",
 };
 
 export default async function HqPage() {
@@ -83,7 +83,7 @@ export default async function HqPage() {
           marginalia={`${BRAND.operatingLoop} · fleet control`}
         >
           <p className="bh-title-card__copy">
-            The org hub — every venture, one {BRAND.operatingLoop}.{" "}
+            The org hub: every venture on one {BRAND.operatingLoop}.{" "}
             <Link href="/actions">Lifecycle controls →</Link>
           </p>
         </TitleCard>
@@ -93,7 +93,7 @@ export default async function HqPage() {
             <div className="bh-card">
               <div className="bh-label">core-api</div>
               <div className={`bh-stat ${online ? "bh-stat--ok" : "bh-stat--danger"}`}>
-                {online ? "Online" : "Offline — run uvicorn"}
+                {online ? "Online" : "Offline, run uvicorn"}
               </div>
             </div>
             <div className="bh-card">
@@ -178,7 +178,7 @@ export default async function HqPage() {
             })}
           </div>
           <Marginalia>
-            One organization, one {BRAND.operatingLoop.toLowerCase()} — every surface feeds the same lifecycle.
+            One organization on one {BRAND.operatingLoop.toLowerCase()}. Every surface feeds the same lifecycle.
           </Marginalia>
         </RuledSection>
       </Axis>

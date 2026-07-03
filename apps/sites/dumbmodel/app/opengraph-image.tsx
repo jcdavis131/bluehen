@@ -7,7 +7,7 @@ import { ImageResponse } from "next/og";
  * dynamic /api/og route.
  */
 export const runtime = "edge";
-export const alt = "dumbmodel — How dumb is your embedding?";
+export const alt = "dumbmodel: How dumb is your embedding?";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -45,7 +45,7 @@ export default function OgImage() {
           How dumb is your model?
         </div>
         <div style={{ fontSize: 30, color: C.muted, marginTop: 20, maxWidth: 820 }}>
-          Free measured diagnostics — effective rank, space utilization, redundancy.
+          Free measured diagnostics: effective rank, space utilization, redundancy.
           Benchmarks measured on eval gates, not marketing claims.
         </div>
         <div

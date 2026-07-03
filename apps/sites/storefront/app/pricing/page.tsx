@@ -24,7 +24,7 @@ const TIERS = [
   {
     name: "Enterprise Platform",
     price: "Annual",
-    body: "The full operating loop — data collection, training, evaluation, serving, and observability — deployed in your cloud with our team operating it alongside yours.",
+    body: "The full operating loop (data collection, training, evaluation, serving, and observability) deployed in your cloud, with our team operating it alongside yours.",
     items: ["Private deployment", "Custom eval suites and SLAs", "Quarterly architecture reviews"],
     cta: { label: "Start a briefing", href: "/contact?topic=enterprise" },
   },
@@ -36,7 +36,7 @@ export default function PricingPage() {
       <PageHeader
         eyebrow="Commerce"
         title="Pricing"
-        lead="Three engagement shapes. Every claim in a proposal traces to a measured result — the same rule the platform holds itself to."
+        lead="Three engagement shapes. Every claim in a proposal traces to a measured result, the same rule the platform holds itself to."
       />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
         {TIERS.map((t) => (

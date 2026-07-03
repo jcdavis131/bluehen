@@ -14,7 +14,7 @@ export default async function Home() {
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Datasets with receipts"
-        lead="The Data Operations division of Blue Hen RE, as a product: every dataset here carries its provenance — source, extractor, chunking strategy, and an OKF card — because training data you can't audit is training data you can't trust."
+        lead="The Data Operations division of Blue Hen RE, as a product. Every dataset here carries its provenance (source, extractor, chunking strategy, and an OKF card), because training data you can't audit is training data you can't trust."
       />
 
       <TeamStrip siteId="refinery" />
@@ -44,7 +44,7 @@ export default async function Home() {
         </Reveal>
       ) : (
         <div className="bh-alert">
-          Catalog unreachable — counts render when the production API responds
+          Catalog unreachable. Counts render when the production API responds
           (<code>GET /v1/catalog/stats</code>).
         </div>
       )}

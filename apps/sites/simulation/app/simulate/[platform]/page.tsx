@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ platform:
   const name = PLATFORM_NAMES[platform] ?? "Platform";
   return {
     title: `${name} paper trade — Simulation Lab`,
-    description: `Fixture-driven backtest for ${name} with platform rule enforcement. Simulation only — not live trading.`,
+    description: `Fixture-driven backtest for ${name} with platform rule enforcement. Simulation only; not live trading.`,
   };
 }
 

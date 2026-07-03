@@ -3,7 +3,7 @@ import { PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@sy
 import { BdPromotionPanel } from "../../components/BdPromotionPanel";
 
 export const metadata = {
-  title: `Lifecycle Controls — Operations Center`,
+  title: `Lifecycle Controls — Headquarters`,
 };
 
 export default function ActionsPage() {
@@ -11,7 +11,7 @@ export default function ActionsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Operations Center · jcamd.com"
+        eyebrow="Headquarters · jcamd.com"
         title="Lifecycle Controls"
         lead={
           <>

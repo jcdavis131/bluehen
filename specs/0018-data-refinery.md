@@ -56,9 +56,11 @@ IA (SITE_NAV):
   `/v1/datalab/submit`. Shows exactly what will be stored.
 - `/requests` — custom harvest/prep offer: scope form → `/v1/leads`
   (source: refinery). Enterprise voice, measured proof points.
-- `/ops` — division console (workspace-key gated, `noindex`): source
-  registry table w/ health (last tick, consecutive failures), tick-now
-  action, inbox review queue (approve → catalog), failure log.
+- ~~`/ops` on the public site~~ **Amended at launch review (DR-107):**
+  the division console requires ADMIN-key operations (sources, tick-now,
+  review queue) and admin keys never ship to public-site infrastructure.
+  The console lives on hq (internal, admin-keyed) instead — queued as
+  HQ-OPS-1. The public site carries no /ops route by design.
 
 ## 4. Data plane (core-api) — API contract
 

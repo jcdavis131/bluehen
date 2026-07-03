@@ -1,5 +1,5 @@
 {
-  "title": "How the arxiviq model is trained — method, recipe, and evidence",
+  "title": "How the arxiviq model is trained: method, recipe, and evidence",
   "subtitle": "The org recipe behind arxiviq.com, with the dated evidence that supports each choice. Every claim here traces to a row in EVIDENCE.md. Nothing is shipped on a hypothesis.",
   "updated": "2026-07-02",
   "recipe": {
@@ -45,13 +45,13 @@
       "date": "2026-06-27",
       "section": "EVIDENCE §3.6",
       "headline": "Real-text validation: VICReg neutral; domain fine-tune beats SOTA in-domain",
-      "detail": "AG News kNN 0.892 / nDCG 0.822 after fine-tune. Per-tenant domain fine-tuning is the defensible moat — beats general commercial embeddings in-domain with no OOD forgetting. Reconfirmed 2026-06-28."
+      "detail": "AG News kNN 0.892 / nDCG 0.822 after fine-tune. Per-tenant domain fine-tuning is the defensible moat: it beats general commercial embeddings in-domain with no OOD forgetting. Reconfirmed 2026-06-28."
     },
     {
       "date": "2026-06-28",
       "section": "EVIDENCE §3.7",
       "headline": "Tenant corpus vs commercial baseline (Phase A fleet)",
-      "detail": "Barlow Twins top method in Bayesian TPE search (robust 1.42, #1 of 6). Matryoshka (MRL) truncation training promoted — the real lever for cheap truncated serving. int8 quantized serving essentially lossless (kNN_int8 ≈ kNN_full)."
+      "detail": "Barlow Twins top method in Bayesian TPE search (robust 1.42, #1 of 6). Matryoshka (MRL) truncation training promoted, the real lever for cheap truncated serving. int8 quantized serving essentially lossless (kNN_int8 ≈ kNN_full)."
     },
     {
       "date": "2026-06-28",

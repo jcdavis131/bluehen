@@ -13,7 +13,7 @@ import { WaitlistForm } from "../components/WaitlistForm";
 export const metadata = {
   title: "Simulation Lab — paper-trading strategy reports",
   description:
-    "Published strategy reports from paper-trading simulations across prediction markets, sports DFS, and retail equities. Simulation only — no live capital, no trading advice.",
+    "Published strategy reports from paper-trading simulations across prediction markets, sports DFS, and retail equities. Simulation only; no live capital, no trading advice.",
 };
 
 const PLATFORMS = [
@@ -42,7 +42,7 @@ export default function FinanceLabPage() {
         >
           <p className="bh-title-card__copy">
             Published strategy reports from paper-trading simulations across prediction markets,
-            sports DFS, and retail equities. Simulation only — no live capital, no trading advice.
+            sports DFS, and retail equities. Simulation only; no live capital, no trading advice.
           </p>
         </TitleCard>
 
@@ -54,7 +54,7 @@ export default function FinanceLabPage() {
             <p className="bh-card__body">
               When a simulation batch clears review, the write-up goes to the
               waitlist first: strategy, platform rules applied, and measured
-              simulation results. Your email is stored for this list only — see the{" "}
+              simulation results. Your email is stored for this list only. See the{" "}
               <a href="https://bhenre.com/legal/privacy">privacy note</a>.
             </p>
             <WaitlistForm />

@@ -641,6 +641,12 @@
   background: rgba(107, 143, 113, 0.06);
 }
 
+.bh-alert--warn {
+  color: var(--bh-clay);
+  border-color: var(--bh-clay-dim);
+  background: rgba(196, 165, 116, 0.06);
+}
+
 /* ── Table (benchmark lab) ──────────────────────────────── */
 
 .bh-table-wrap {

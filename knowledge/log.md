@@ -1,5 +1,11 @@
 # Update Log
 
+## 2026-07-03
+* **Creation**: Collected dataset [arXiv cs.IR daily listing (RSS)](/datasets/20260703-185828-arxiv-cs-ir-daily-listing--rss.md) (1 docs, 27 chunks).
+* **Creation**: Collected dataset [Validation Lab — promotion queue and certification scorecards](/datasets/20260703-185827-validation-lab---promotion-queue-and-certificati.md) (1 docs, 1 chunks).
+* **Creation**: Collected dataset [Evidence and science review ledgers](/datasets/20260703-185827-evidence-and-science-review-ledgers.md) (2 docs, 30 chunks).
+* **Creation**: Collected dataset [Wiki — goals and build docs](/datasets/20260703-185827-wiki---goals-and-build-docs.md) (3 docs, 8 chunks).
+
 ## 2026-07-02
 * **Creation**: Collected dataset [arXiv cs.IR daily listing (RSS)](/datasets/20260702-185049-arxiv-cs-ir-daily-listing--rss.md) (1 docs, 35 chunks).
 * **Creation**: Collected dataset [Validation Lab — promotion queue and certification scorecards](/datasets/20260702-185048-validation-lab---promotion-queue-and-certificati.md) (1 docs, 1 chunks).

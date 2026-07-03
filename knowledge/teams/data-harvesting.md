@@ -3,7 +3,7 @@ type: Team Report
 title: Data Harvesting Team — run log
 description: Living run log for the Data Harvesting Team (data division).
 tags: [team, agents, data]
-timestamp: 2026-07-02T23:30:00Z
+timestamp: 2026-07-03T23:58:28Z
 ---
 
 You are the Data Harvesting team lead for Blue Hen RE (the Data
@@ -24,6 +24,16 @@ Operating rules (non-negotiable):
 Runs append below, newest first. Transcripts live in `data/agents/`.
 
 # Runs
+
+## 2026-07-03 — run `20260703-185827-data-harvesting`
+
+| Duty | Status | Result |
+|---|---|---|
+| watch-tick | ok | `{"reports": [{"sourceId": "wiki-goals", "sources": 3, "action": "collected", "datasetId": "20260703-185827-wiki---goals-and-build-docs", "docs": 3, "chunks": 8, "fingerprint": "5ce6872b517861f7"}, {"sourceId": "evidence-ledger", "sources": 2, "action": "collected", "datasetId": "20260703-185827-evid…` |
+| dataset-inventory | ok | `{"recent": [{"id": "20260703-185828-arxiv-cs-ir-daily-listing--rss", "docs": 1, "chunks": 27}, {"id": "20260703-185827-wiki---goals-and-build-docs", "docs": 3, "chunks": 8}, {"id": "20260703-185827-validation-lab---promotion-queue-and-certificati", "docs": 1, "chunks": 1}, {"id": "20260703-185827-ev…` |
+
+**LLM loop:** skipped (GLM_API_KEY not set)
+
 
 ## 2026-07-03 — orchestrated run (judgment layer)
 

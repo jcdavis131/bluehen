@@ -49,6 +49,9 @@ COPY services/core-api services/core-api
 COPY services/trainer services/trainer
 COPY services/worker services/worker
 COPY content/corpora /app/corpora
+# Charters + BD queue: the deploy authorization layer must exist in-image
+COPY config/recipes /app/config/recipes
+COPY content/fleet /app/content/fleet
 COPY infra/docker-entrypoint.sh infra/docker-entrypoint.sh
 
 # smoke: import the app AND the lazily-imported telemetry service

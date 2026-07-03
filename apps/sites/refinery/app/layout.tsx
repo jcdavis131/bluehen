@@ -1,8 +1,9 @@
 import "@synthaembed/ui-fleet/styles.css";
 import { FleetShell } from "@synthaembed/ui-fleet";
+import { SITE_ORIGIN } from "../lib/site";
 
 export const metadata = {
-  metadataBase: new URL("https://data.bhenre.com"),
+  metadataBase: new URL(SITE_ORIGIN),
   title: {
     default: "Data Refinery — Blue Hen RE",
     template: "%s — Data Refinery · Blue Hen RE",

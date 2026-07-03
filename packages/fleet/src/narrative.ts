@@ -104,8 +104,8 @@ export const SITE_CIRCUIT: Record<
   },
   refinery: {
     stop: "Data Refinery",
-    role: "Data Operations unit — provenance-carrying datasets, custom harvests, dataset prep — data.bhenre.com (Spec 0018)",
-    eyebrow: "Data Refinery · data.bhenre.com",
+    role: "Data Operations unit — provenance-carrying datasets, custom harvests, dataset prep (Spec 0018)",
+    eyebrow: "Data Refinery",
   },
   observatory: {
     stop: "Observatory",

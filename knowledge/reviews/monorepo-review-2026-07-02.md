@@ -485,3 +485,24 @@ catalog.py changed (Cursor lane). Type-guard fix (structural: sources stored as 
 - Heartbeat 536172 fired → re-arming one (earned). Watcher 844529 still running.
 ## Run 2026-07-03T00:47:31 (loop tick 26 — fallback 309510 fired; no new commit past 4743a70. Repo quiet ~21m. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
 
+## Run 2026-07-03T01:02:51 (loop tick 27 — watcher occurrence 19; HEAD 4743a70 → dbcb4d0)
+
+### Trigger
+dbcb4d0 feat(refinery): DR-102 — rate limits, harvest job runner, submission review.
+Python (Cursor lane): new app/ratelimit.py, new app/services/harvest.py, app/main.py, services/worker/main.py.
+
+### Phase 4 — Gates
+- smoke-import core-api.main + ratelimit + services.harvest: ok
+- smoke-import services.worker.main: ok
+- no tests for new ratelimit/harvest modules (third coverage gap — after worker tick 13, catalog tick 22). core-api tests deferred (BLK-DOCKER).
+- Corpus: 0 test cases for new modules. Gate is smoke-import only.
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 8 — Triage (finding)
+- Third coverage gap logged: ratelimit + harvest services ship without unit tests. Growing list: worker (tick 13), catalog (tick 22), ratelimit+harvest (tick 27). All prod-critical core-api/worker. Strong signal for a dedicated test-coverage task.
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import 4 modules → all green. DR-102 imports clean.
+- Per tick-8 rule: NOT re-arming heartbeat (382995 still pending). Watcher 844529 still running.
+## Run 2026-07-03T01:07:54 (loop tick 28 — fallback 382995 fired; no new commit past dbcb4d0. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

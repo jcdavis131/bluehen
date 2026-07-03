@@ -54,7 +54,7 @@ def run_harvest_job(payload: dict) -> None:
 
     job_id, source_id = payload["id"], payload["source_id"]
     try:
-        registry = load_registry()
+        registry = load_registry(REPO_ROOT / "config" / "datalab_sources.json")
         source = next((s for s in registry if s.id == source_id), None)
         if source is None:
             _finish(job_id, "failed", f"unknown source: {source_id}")
@@ -65,6 +65,7 @@ def run_harvest_job(payload: dict) -> None:
             source, state,
             data_root=data_root,
             knowledge_root=os.getenv("OKF_DATASETS_DIR"),
+            repo_root=REPO_ROOT,  # containers have no .git for autodetection
         )
         state.save()
         from app.services.catalog import sync_from_datalab

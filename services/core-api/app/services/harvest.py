@@ -71,6 +71,12 @@ def run_harvest_job(payload: dict) -> None:
         from app.services.catalog import sync_from_datalab
 
         synced = sync_from_datalab()
+        try:
+            from app.services.wiki import rebuild_wiki
+
+            rebuild_wiki()
+        except Exception as exc:
+            log.warning("wiki rebuild after harvest failed: %s", exc)
         log.info("harvest %s source=%s report=%s sync=%s", job_id, source_id,
                  report.get("action"), synced.get("synced"))
         _finish(job_id, "completed")

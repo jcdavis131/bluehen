@@ -382,6 +382,32 @@ def datalab_sources(_: Annotated[None, Depends(require_admin)]):
     }
 
 
+@app.get("/v1/wiki")
+def wiki_list(response: Response, _rl: Annotated[None, Depends(rate_limit("wiki", 120))] = None):
+    from app.services import wiki
+
+    response.headers["Cache-Control"] = CATALOG_CACHE
+    return wiki.list_pages()
+
+
+@app.get("/v1/wiki/{slug}")
+def wiki_page(slug: str, response: Response, _rl: Annotated[None, Depends(rate_limit("wiki", 120))] = None):
+    from app.services import wiki
+
+    out = wiki.get_page(slug)
+    if out is None:
+        raise HTTPException(status_code=404, detail="wiki page not found")
+    response.headers["Cache-Control"] = CATALOG_CACHE
+    return out
+
+
+@app.post("/v1/admin/wiki/rebuild")
+def wiki_rebuild(_: Annotated[None, Depends(require_admin)]):
+    from app.services.wiki import rebuild_wiki
+
+    return rebuild_wiki()
+
+
 @app.post("/v1/admin/catalog/sync")
 def catalog_sync(_: Annotated[None, Depends(require_admin)]):
     from app.services import catalog

@@ -62,14 +62,14 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**DR-104** — Refinery fleet wiring: registry, nav, workspace bootstrap, Vercel project, domain (Operator G1)~~
-- [x] ~~**DR-105** — Refinery flywheel: dumbmodel inbox review queue -> catalog; RSS + scorecard cards visible~~
 - [x] ~~**DR-106** — Refinery scale hardening: k6 load test + cache verify + honest EVIDENCE row~~
 - [x] ~~**DR-107** — Refinery launch review: 5-SME OKF living reviews + deploy checklist~~
 - [x] ~~**SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)~~
 - [x] ~~**SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)~~
 - [x] ~~**HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal~~
 - [x] ~~**AR-310** — Re-measure champion under fixed-seed repeats (5x) — is baseline 1.465 reproducible?~~
+- [x] ~~**DR-108** — Wiki Refinery deterministic layer (Spec 0020)~~
+- [x] ~~**DR-109** — Wiki Refinery GLM refinement pass (Spec 0020)~~
 
 ## Specs & context
 

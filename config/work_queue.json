@@ -1131,6 +1131,24 @@
       "claimedBy": "claude",
       "claimedAt": "2026-07-03T18:42:50.134806+00:00",
       "completedAt": "2026-07-03T18:43:23.130351+00:00"
+    },
+    {
+      "id": "DR-108",
+      "title": "Wiki Refinery deterministic layer (Spec 0020)",
+      "status": "done",
+      "lane": "claude",
+      "claimedBy": "claude",
+      "priority": "P1",
+      "notes": "migration 010, wiki.py builder (index/topics/dataset pages/link-map, computed cross-links, refinement-preserving upserts), /v1/wiki public + admin rebuild, triggers on boot sync + harvest completion, /wiki on refinery site, Markdown promoted to ui-fleet"
+    },
+    {
+      "id": "DR-109",
+      "title": "Wiki Refinery GLM refinement pass (Spec 0020)",
+      "status": "done",
+      "lane": "claude",
+      "claimedBy": "claude",
+      "priority": "P2",
+      "notes": "refine_changed_pages wired into every rebuild behind GLM_API_KEY (agentkit client, now shipped in image); labeled dated sections, honest deterministic-only footer when unkeyed. ACTIVATES when Operator sets the key."
     }
   ]
 }

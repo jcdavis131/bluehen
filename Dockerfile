@@ -7,6 +7,7 @@ ENV UV_COMPILE_BYTECODE=1 \
 
 # every [tool.uv.workspace] member must be present or `uv sync` fails
 COPY pyproject.toml uv.lock ./
+COPY packages/agentkit packages/agentkit
 COPY packages/asn-engine packages/asn-engine
 COPY packages/datalab packages/datalab
 COPY packages/eval-harness packages/eval-harness
@@ -43,6 +44,7 @@ RUN apt-get update \
     && mkdir -p /data/artifacts /data/corpora /data/runs /data/datalab
 
 COPY --from=builder /app/.venv /app/.venv
+COPY packages/agentkit packages/agentkit
 COPY packages/asn-engine packages/asn-engine
 COPY packages/datalab packages/datalab
 COPY packages/eval-harness packages/eval-harness

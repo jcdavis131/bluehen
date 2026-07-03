@@ -284,6 +284,9 @@ def run_forever(poll_seconds: float = 2.0) -> None:
         from app.services.catalog import sync_from_datalab
 
         log.info("catalog sync: %s", sync_from_datalab())
+        from app.services.wiki import rebuild_wiki
+
+        log.info("wiki rebuild: %s", rebuild_wiki())
     except Exception as exc:
         log.warning("catalog sync failed (admin endpoint can retry): %s", exc)
 

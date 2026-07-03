@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import { Markdown } from "../../components/Markdown";
+import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import { Markdown } from "@synthaembed/ui-fleet";
 
 export const dynamic = "force-dynamic";
 

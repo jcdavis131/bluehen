@@ -1079,3 +1079,43 @@
 - **Observed:** "Background command 'Run AR-306 experiment (autoresearch framework)' failed with exit code 1." The failed background experiment is surfaced with its name + exit code, and the loop continues to the next item (AR-308, AR-309).
 - **Why it works:** A background failure doesn't abort the foreground lane (P-019), but it IS reported — name + exit code — so the failure is visible and can be triaged. Silently swallowing it would hide a systemic issue; aborting on it would stall the queue. Report + continue is the middle path.
 - **Maps to:** ackground-failure-triage (P-019) — background failure is reported (name + exit code) and the lane continues; confirmed in the experiment context.
+
+### P-199 - Phantom/stale baseline is confirmed with a null run before trusting experiment results
+- **Observed:** "AR-310 done: baseline phantom confirmed" — commit message: "baseline 1.465 confirmed stale via null run (true baseline 1.411)". Fable 5 didn't accept the displayed champion metric; it ran a null/control run to establish the true baseline before concluding AR-310.
+- **Why it works:** A champion file can drift from what the framework actually measures ("phantom baseline"). Comparing experiments against a phantom baseline produces false DISCARD/KEEP decisions. The null run is cheap evidence that re-anchors the baseline before the verdict. Diagnose the measurement, not just the experiment.
+- **Maps to:** refine diagnose-before-retry + alidate-gate — when baseline looks suspect, confirm with a null/control run before accepting experiment outcomes.
+
+### P-200 - Experiment close-out updates report + queue + TASKS.md + push in one chain
+- **Observed:** Single close-out line chain: "rnd report resolution appended → done AR-310 → Wrote TASKS.md → 5475d22..bcf91ef main -> main". Four trackers updated in one pass; push reports the commit range.
+- **Why it works:** Failure-state completeness (P-065) applied to success: the experiment report, work queue, human summary (TASKS.md), and git remote all reflect the same outcome. The commit range in the push line makes "what shipped" checkable without opening git log.
+- **Maps to:** refine close-the-loop + ackground-failure-triage (failure-state completeness) — success close-out hits every tracker + names the SHA range.
+
+### P-201 - Loop tick polls named blockers before picking work (Docker, domain, keys)
+- **Observed:** "Loop tick — checking whether any gate cleared (Docker for RT-401, domain, keys) and taking the pulse." One compound shell: docker info && echo DOCKER UP || echo docker down; curl -s -o /dev/null -w "data.bhenre.com: %{http_code}" https://data.bhenre.com; python -c "print('GLM key:', bool(os.environ.get('GLM_API_KEY')))"; plus git log.
+- **Why it works:** Extends P-194 (deploy + queue) with **blocker-aware** recon: each check maps to a known blocked task (RT-401 ↔ Docker, refinery ↔ domain, agent teams ↔ GLM key). The loop doesn't blindly pick the next queue item — it first asks whether any blocker cleared since last tick. Cheap compound command, parseable labels.
+- **Maps to:** refine session-orient + ollow-procedure — loop-tick recon includes named blocker probes tied to work_queue blockers, not just generic git status.
+
+### P-202 - Compound recon uses labeled echo/curl -w output for machine-readable pulse
+- **Observed:** Recon chains semicolon-separated checks with explicit labels (DOCKER UP / docker down, data.bhenre.com: %{http_code}, GLM key: True/False) in one shell invocation (~39s).
+- **Why it works:** Labels make the pulse scannable in terminal output and agent context without parsing raw exit codes. curl -w "%{http_code}" gives HTTP status without body noise. One round-trip beats three separate tool calls.
+- **Maps to:** refine session-orient — compound blocker pulse with labeled outputs in a single shell command.
+
+### P-203 - Read existing queue task shape and append location before adding new items
+- **Observed:** Before appending a new BD task: "Let me look at how BD tasks are structured and the end of the task list where I'll append." Reads one file (work_queue.json or TASKS.md) to match conventions.
+- **Why it works:** New queue entries inherit the same fields, IDs, and dependency style as neighbors. Appending at the documented end avoids merge conflicts and orphan tasks. Read-before-write on shared config beats guessing schema from memory.
+- **Maps to:** refine match-conventions + metadata-align — before editing work_queue.json, read existing task rows and the append point.
+
+### P-204 - Spin up a named git worktree before spec-scoped implementation
+- **Observed:** Creating worktree(spec-0021-cert-driven-research) → branch worktree-spec-0021-cert-driven-research at .claude/worktrees/spec-0021-cert-driven-research. Main stays untouched while spec work begins.
+- **Why it works:** Isolates a spec-sized change without stashing or polluting main. Worktree name mirrors spec ID so context survives session gaps. Enables parallel lanes (loop on main, feature in worktree) without branch checkout churn.
+- **Maps to:** refine conservative-rename / lane-discipline — spec-bound work gets its own worktree + branch before first edit.
+
+### P-205 - When gh blocks PR creation, confirm repo identity and offer link + auth unblock
+- **Observed:** PR step failed (no gh auth, API route denied). Fable 5 did not assume the remote: asked whether jcdavis131/henington-homes is the intended GitHub home. Offered two paths: open the draft PR from the posted GitHub link, or run gh auth login --web -h github.com so the agent can create it.
+- **Why it works:** Monorepo codename (bluehenre) often differs from GitHub repo slug (henington-homes). Confirming remote identity prevents PRs against the wrong repo. Dual unblock (manual link now vs auth for automation later) matches P-032 but in the PR gate context — the user can ship without blocking on CLI setup.
+- **Maps to:** refine agent-guardrails + use-available-integrations — PR creation failure → confirm remote, post link, give exact auth command.
+
+### P-206 - Spec close-out recap when automated PR step is deferred
+- **Observed:** After Spec 0021 + BD-703 committed and pushed: ※ recap: Spec 0021 (cert-driven research loop, 90-day customer-driven policy) plus BD-703 task are committed and pushed. To open the draft PR, either click the GitHub link I posted or run gh auth login…
+- **Why it works:** Push succeeded but PR automation failed — recap bridges the gap: names spec + policy headline, queue task ID, confirms push, states the one blocked next step with both unblock paths. Operator can act without re-reading the whole session.
+- **Maps to:** refine recap-on-long-session + close-the-loop — success close-out recap when the final gate (PR) needs human or auth.

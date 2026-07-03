@@ -6,6 +6,7 @@ import {
   TitleCard,
   TeamStrip,
 } from "@synthaembed/ui-fleet";
+import { apiFetch } from "@synthaembed/ui-fleet/site-api";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import Link from "next/link";
 import { WaitlistForm } from "../components/WaitlistForm";
@@ -23,15 +24,48 @@ const PLATFORMS = [
   { id: "robinhood", name: "Robinhood", category: "Retail brokerage" },
 ];
 
-export default function FinanceLabPage() {
+const LEDGER_WINDOW = 200;
+
+type LiveProof = {
+  live: boolean;
+  /** Platform rulebooks in the RootMem registry, via /v1/omni/platforms. */
+  platformCount: number;
+  /** omni_sim entries in the last LEDGER_WINDOW Operations Ledger rows. */
+  simRuns: number;
+};
+
+/** Live proof metric (Spec 0019 §2.4, UX-124): measured from the core API or
+ * the honest empty state — never an invented number. Published-report count
+ * is stated statically because it is repo truth: no report has cleared
+ * review yet (update the copy when the first one ships). */
+async function liveProof(): Promise<LiveProof> {
+  try {
+    const [registry, ledger] = await Promise.all([
+      apiFetch("/v1/omni/platforms") as Promise<{ platforms?: unknown[] }>,
+      apiFetch(`/v1/ledger?limit=${LEDGER_WINDOW}`) as Promise<{
+        entries?: { stage?: string }[];
+      }>,
+    ]);
+    return {
+      live: true,
+      platformCount: (registry.platforms ?? []).length,
+      simRuns: (ledger.entries ?? []).filter((e) => e.stage === "omni_sim").length,
+    };
+  } catch {
+    return { live: false, platformCount: 0, simRuns: 0 };
+  }
+}
+
+export default async function FinanceLabPage() {
   const surface = getSiteCircuit("simulation");
+  const proof = await liveProof();
 
   return (
     <>
       <StatusLine
         site="signals.bhenre.com"
         section="Simulation Lab"
-        status="Phase B · simulation only"
+        status={proof.live ? "Live metrics · simulation only" : "Phase B · simulation only"}
       />
 
       <Axis wide>
@@ -47,6 +81,48 @@ export default function FinanceLabPage() {
         </TitleCard>
 
       <TeamStrip siteId="simulation" />
+
+        <RuledSection label="Measured, not promised">
+          {proof.live ? (
+            <div className="bh-grid">
+              <div className="bh-card">
+                <div className="bh-card__title bh-mono">{proof.platformCount}</div>
+                <p className="bh-card__body">
+                  Platform rulebooks enforced on every simulated trade — measured live from{" "}
+                  <code>/v1/omni/platforms</code> (RootMem registry).
+                </p>
+              </div>
+              <div className="bh-card">
+                <div className="bh-card__title bh-mono">{proof.simRuns}</div>
+                <p className="bh-card__body">
+                  Paper-simulation runs recorded in the last {LEDGER_WINDOW} Operations Ledger
+                  entries for this workspace.
+                </p>
+              </div>
+              <div className="bh-card">
+                <div className="bh-card__title bh-mono">0</div>
+                <p className="bh-card__body">
+                  Published strategy reports — none have cleared review yet. The first
+                  write-ups go to the waitlist.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="bh-card">
+              <div className="bh-card__title">No published reports yet</div>
+              <p className="bh-card__body">
+                No simulation batch has cleared review, and the metrics API is not reachable
+                from this deploy — so there is no live number to show here. Measured run
+                counts appear when the API is online; report write-ups go to the waitlist
+                first.
+              </p>
+            </div>
+          )}
+          <Marginalia>
+            Every figure on this page is measured or absent — no projections, no
+            hypothetical returns.
+          </Marginalia>
+        </RuledSection>
 
         <RuledSection label="Get the strategy reports">
           <div className="bh-card bh-card--organic">
@@ -95,23 +171,25 @@ export default function FinanceLabPage() {
                   className="bh-link"
                   style={{ marginTop: "var(--bh-space-2)", display: "inline-block" }}
                 >
-                  Run paper sim →
+                  What the simulation covers →
                 </Link>
               </div>
             ))}
           </div>
         </RuledSection>
 
-        <RuledSection label="Agent workerbees">
-          <div className="bh-card">
-            <div className="bh-card__title">CLI</div>
-            <pre className="bh-card__body" style={{ overflow: "auto", fontSize: 13 }}>
+        <RuledSection label="Internal operations">
+          <details className="bh-card">
+            <summary style={{ cursor: "pointer", fontWeight: 600 }}>
+              Agent CLI (for the team, not required to use this site)
+            </summary>
+            <pre className="bh-card__body" style={{ overflow: "auto", fontSize: 13, marginTop: "var(--bh-space-2)" }}>
 {`uv run python scripts/omni_simulate.py --platform kalshi
 uv run python scripts/omni_loop.py --iterations 1
 synth omni platforms
 synth omni simulate kalshi --strategy baseline-momentum`}
             </pre>
-          </div>
+          </details>
           <Marginalia>
             Simulation only. Phase C live trading is deferred under the v1 guardrail.
           </Marginalia>

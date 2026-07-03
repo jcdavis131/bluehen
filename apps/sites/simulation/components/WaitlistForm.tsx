@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export function WaitlistForm() {
+export function WaitlistForm({ defaultInterest = "prediction-markets" }: { defaultInterest?: string } = {}) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +44,7 @@ export function WaitlistForm() {
       </label>
       <label className="bh-label" style={{ flex: "1 1 180px" }}>
         Most interested in
-        <select name="interest" className="bh-select" style={{ width: "100%", marginTop: 4 }} defaultValue="prediction-markets">
+        <select name="interest" className="bh-select" style={{ width: "100%", marginTop: 4 }} defaultValue={defaultInterest}>
           <option value="prediction-markets">Prediction markets</option>
           <option value="sports-dfs">Sports DFS</option>
           <option value="equities">Equities</option>

@@ -1,0 +1,20 @@
+{
+  "dataset_id": "20260702-104700-wiki-smoke",
+  "name": "wiki-smoke",
+  "created_at": "2026-07-02T15:47:00.666065Z",
+  "sources": [
+    "docs/wiki/GOALS.md",
+    "docs/wiki/BUILD.md"
+  ],
+  "doc_count": 2,
+  "chunk_count": 5,
+  "chunk_strategy": "sentence",
+  "extractor": "heuristic",
+  "vector_store": null,
+  "okf_card": "datasets/20260702-104700-wiki-smoke.md",
+  "stats": {
+    "failures": [],
+    "totalTokensEst": 1414,
+    "traceId": "20260702-104700-9f108f80"
+  }
+}

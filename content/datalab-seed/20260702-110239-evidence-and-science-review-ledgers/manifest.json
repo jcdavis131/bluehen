@@ -1,0 +1,20 @@
+{
+  "dataset_id": "20260702-110239-evidence-and-science-review-ledgers",
+  "name": "Evidence and science review ledgers",
+  "created_at": "2026-07-02T16:02:39.459633Z",
+  "sources": [
+    "EVIDENCE.md",
+    "SCIENCE_REVIEW.md"
+  ],
+  "doc_count": 2,
+  "chunk_count": 27,
+  "chunk_strategy": "sentence",
+  "extractor": "heuristic",
+  "vector_store": null,
+  "okf_card": "datasets/20260702-110239-evidence-and-science-review-ledgers.md",
+  "stats": {
+    "failures": [],
+    "totalTokensEst": 11246,
+    "traceId": "20260702-110239-da534e13"
+  }
+}

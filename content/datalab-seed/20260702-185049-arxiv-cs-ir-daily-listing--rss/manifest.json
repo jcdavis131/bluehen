@@ -1,0 +1,19 @@
+{
+  "dataset_id": "20260702-185049-arxiv-cs-ir-daily-listing--rss",
+  "name": "arXiv cs.IR daily listing (RSS)",
+  "created_at": "2026-07-02T23:50:49.249930Z",
+  "sources": [
+    "https://rss.arxiv.org/rss/cs.IR"
+  ],
+  "doc_count": 1,
+  "chunk_count": 35,
+  "chunk_strategy": "sentence",
+  "extractor": "heuristic",
+  "vector_store": null,
+  "okf_card": "datasets/20260702-185049-arxiv-cs-ir-daily-listing--rss.md",
+  "stats": {
+    "failures": [],
+    "totalTokensEst": 16206,
+    "traceId": "20260702-185048-55bb350d"
+  }
+}

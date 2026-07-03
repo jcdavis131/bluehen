@@ -53,7 +53,7 @@ COPY content/corpora /app/corpora
 COPY config/recipes /app/config/recipes
 COPY content/fleet /app/content/fleet
 # Refinery catalog seeds (Spec 0018): local datalab manifests + OKF cards
-COPY data/datalab /app/seed/datalab
+COPY content/datalab-seed /app/seed/datalab
 COPY knowledge/datasets /app/knowledge/datasets
 COPY infra/docker-entrypoint.sh infra/docker-entrypoint.sh
 

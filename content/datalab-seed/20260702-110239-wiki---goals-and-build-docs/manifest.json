@@ -1,0 +1,21 @@
+{
+  "dataset_id": "20260702-110239-wiki---goals-and-build-docs",
+  "name": "Wiki — goals and build docs",
+  "created_at": "2026-07-02T16:02:39.451579Z",
+  "sources": [
+    "docs/wiki/GOALS.md",
+    "docs/wiki/BUILD.md",
+    "docs/wiki/IMPROVEMENT_LOOP.md"
+  ],
+  "doc_count": 3,
+  "chunk_count": 8,
+  "chunk_strategy": "sentence",
+  "extractor": "heuristic",
+  "vector_store": null,
+  "okf_card": "datasets/20260702-110239-wiki---goals-and-build-docs.md",
+  "stats": {
+    "failures": [],
+    "totalTokensEst": 2357,
+    "traceId": "20260702-110239-84ab5b83"
+  }
+}

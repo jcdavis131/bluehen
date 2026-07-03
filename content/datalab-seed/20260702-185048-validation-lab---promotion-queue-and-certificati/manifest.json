@@ -1,0 +1,19 @@
+{
+  "dataset_id": "20260702-185048-validation-lab---promotion-queue-and-certificati",
+  "name": "Validation Lab — promotion queue and certification scorecards",
+  "created_at": "2026-07-02T23:50:48.216835Z",
+  "sources": [
+    "content/fleet/bd/queue.json"
+  ],
+  "doc_count": 1,
+  "chunk_count": 1,
+  "chunk_strategy": "sentence",
+  "extractor": "heuristic",
+  "vector_store": null,
+  "okf_card": "datasets/20260702-185048-validation-lab---promotion-queue-and-certificati.md",
+  "stats": {
+    "failures": [],
+    "totalTokensEst": 298,
+    "traceId": "20260702-185048-c3b16b54"
+  }
+}

@@ -35,6 +35,16 @@ def _iso(dt_str: str | None) -> datetime:
         return datetime.now(timezone.utc)
 
 
+def _first_source_id(sources) -> str | None:
+    """Manifests store sources as dicts OR plain strings — accept both."""
+    if not isinstance(sources, list) or not sources:
+        return None
+    first = sources[0]
+    if isinstance(first, dict):
+        return str(first.get("id") or first.get("url") or "")[:128] or None
+    return str(first)[:128]
+
+
 def sync_from_datalab() -> dict:
     """Upsert catalog rows from datalab manifests (+ their OKF cards).
 
@@ -97,7 +107,7 @@ def sync_from_datalab() -> dict:
                     "chunkStrategy": m.get("chunk_strategy"),
                     "manifest": str(mf.parent.name),
                 },
-                source_id=(m.get("sources") or [{}])[0].get("id") if isinstance(m.get("sources"), list) and m.get("sources") else None,
+                source_id=_first_source_id(m.get("sources")),
                 sample=sample,
                 updated_at=datetime.now(timezone.utc),
             )

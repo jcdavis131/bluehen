@@ -467,3 +467,5 @@ Seed data bake (content/datalab-seed/*/manifest.json + chunks.jsonl + docs.jsonl
 ### Phase 9 — Close-out
 - One e2e path proven: manifest JSON valid + Dockerfile COPY additive.
 - Per tick-8 rule: NOT re-arming heartbeat (536172 still pending). Watcher 844529 still running.
+## Run 2026-07-03T00:21:06 (loop tick 24 — watcher occurrence 17; HEAD d4862d3 → 2a44aea. fix(refinery): seed/HF env vars + code default for seed dir. catalog.py changed. smoke-import core-api.services.catalog: ok. No tests (catalog gap, tick 22). Not re-arming (536172 pending). Watcher 844529 running.)
+

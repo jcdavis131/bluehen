@@ -5,7 +5,7 @@ from __future__ import annotations
 import time
 from typing import Annotated, Any
 
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field
 
@@ -221,6 +221,73 @@ def diagnose(body: DiagnoseIn, tenant: Annotated[TenantCtx, Depends(require_tena
         )
     except (ValueError, FileNotFoundError) as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+# ── Data Refinery catalog (Spec 0018) — public reads, consented writes ──
+
+CATALOG_CACHE = "public, s-maxage=60, stale-while-revalidate=300"
+
+
+@app.get("/v1/catalog/stats")
+def catalog_stats(response: Response):
+    from app.services import catalog
+
+    response.headers["Cache-Control"] = CATALOG_CACHE
+    return catalog.stats()
+
+
+@app.get("/v1/catalog/datasets")
+def catalog_list(response: Response, cursor: str | None = None, limit: int = 20,
+                 tag: str | None = None, q: str | None = None):
+    from app.services import catalog
+
+    response.headers["Cache-Control"] = CATALOG_CACHE
+    return catalog.list_datasets(cursor, limit, tag, q)
+
+
+@app.get("/v1/catalog/datasets/{slug}")
+def catalog_get(slug: str, response: Response):
+    from app.services import catalog
+
+    out = catalog.get_dataset(slug)
+    if out is None:
+        raise HTTPException(status_code=404, detail="dataset not found")
+    response.headers["Cache-Control"] = CATALOG_CACHE
+    return out
+
+
+@app.get("/v1/catalog/datasets/{slug}/sample")
+def catalog_sample(slug: str, response: Response):
+    from app.services import catalog
+
+    out = catalog.get_sample(slug)
+    if out is None:
+        raise HTTPException(status_code=404, detail="no sample for this dataset")
+    response.headers["Cache-Control"] = CATALOG_CACHE
+    return out
+
+
+class RefinerySubmitIn(BaseModel):
+    texts: list[str] = Field(min_length=1, max_length=64)
+    consent: bool = False
+    tags: list[str] = Field(default_factory=list, max_length=8)
+
+
+@app.post("/v1/datalab/submit", status_code=201)
+def refinery_submit(body: RefinerySubmitIn, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    from app.services import catalog
+
+    try:
+        return catalog.submit(tenant.workspace_id, body.texts, body.consent, body.tags)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.post("/v1/admin/catalog/sync")
+def catalog_sync(_: Annotated[None, Depends(require_admin)]):
+    from app.services import catalog
+
+    return catalog.sync_from_datalab()
 
 
 EMBED_MAX_INPUTS = 64

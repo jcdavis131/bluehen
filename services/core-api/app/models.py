@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, LargeBinary, String, Text, UniqueConstraint
+from sqlalchemy import BigInteger, Boolean, DateTime, Float, ForeignKey, Integer, LargeBinary, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -114,6 +114,55 @@ class ModelVersion(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     workspace: Mapped["Workspace"] = relationship(backref="models")
+
+
+class CatalogDataset(Base):
+    """Public dataset catalog (Spec 0018). workspace_id NULL = public."""
+
+    __tablename__ = "catalog_datasets"
+
+    id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    slug: Mapped[str] = mapped_column(String(256), nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    doc_count: Mapped[int] = mapped_column(Integer, default=0)
+    chunk_count: Mapped[int] = mapped_column(Integer, default=0)
+    token_estimate: Mapped[int] = mapped_column(BigInteger, default=0)
+    tags: Mapped[list] = mapped_column(JSONB, default=list)
+    card_md: Mapped[str | None] = mapped_column(Text)
+    provenance: Mapped[dict | None] = mapped_column(JSONB)
+    source_id: Mapped[str | None] = mapped_column(String(128))
+    workspace_id: Mapped[uuid.UUID | None] = mapped_column(PGUUID(as_uuid=True))
+    sample: Mapped[list | None] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class HarvestJob(Base):
+    __tablename__ = "harvest_jobs"
+
+    id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    source_id: Mapped[str] = mapped_column(String(128), nullable=False)
+    status: Mapped[str] = mapped_column(String(16), default="pending")
+    error: Mapped[str | None] = mapped_column(Text)
+    requested_by: Mapped[str | None] = mapped_column(String(64))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class RefinerySubmission(Base):
+    """Consented contribution (Spec 0018 §4). Consent is NOT NULL by design."""
+
+    __tablename__ = "refinery_submissions"
+
+    id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    workspace_id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False)
+    consent: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    receipt: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False, unique=True, default=uuid.uuid4)
+    text_count: Mapped[int] = mapped_column(Integer, default=0)
+    text_ref: Mapped[str | None] = mapped_column(Text)
+    tags: Mapped[list] = mapped_column(JSONB, default=list)
+    status: Mapped[str] = mapped_column(String(16), default="pending")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
 class Lead(Base):

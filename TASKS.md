@@ -45,9 +45,9 @@
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
+- [ ] **DR-102** — Refinery submit/harvest APIs + rate limits + inbox review endpoints (None)
 - [ ] **DR-103** — Refinery site app (apps/sites/refinery): full IA vs spec 0018 contract, copper accent, mobile-first (None)
 - [ ] **SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019) (None)
-- [ ] **SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019) (None)
 
 ## In progress
 
@@ -65,7 +65,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**REV-910** — work_queue commands + package.json scripts reconciliation~~
 - [x] ~~**SITE-013** — Remove retired SiteSubnav usages (header now carries site IA)~~
 - [x] ~~**SITE-014** — Tastemaker Phase 1 — ui-fleet tokens + 6 primitives (Spec 0017)~~
 - [x] ~~**SITE-015** — Tastemaker Phase 2 — pilot spine on storefront homepage (Spec 0017)~~
@@ -73,6 +72,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**SITE-017** — Tastemaker Phase 4 — per-site accent desaturation + contrast verification (Spec 0017)~~
 - [x] ~~**SITE-018** — Tastemaker Phase 5 — copy/marginalia pass aligned to VOICE_AND_PLATFORM (Spec 0017)~~
 - [x] ~~**SITE-019** — Tastemaker Phase 6 — validate: pnpm review + check-tastemaker.mjs CI + fleet-review sign-off (Spec 0017)~~
+- [x] ~~**DR-101** — Refinery data plane: migration 009 + catalog/stats APIs + tick->Postgres sync + backfill~~
 
 ## Specs & context
 

@@ -280,6 +280,13 @@ def run_forever(poll_seconds: float = 2.0) -> None:
     except Exception as exc:
         log.warning("prewarm failed (training will load on demand): %s", exc)
 
+    try:
+        from app.services.catalog import sync_from_datalab
+
+        log.info("catalog sync: %s", sync_from_datalab())
+    except Exception as exc:
+        log.warning("catalog sync failed (admin endpoint can retry): %s", exc)
+
     while True:
         try:
             job = jobs.claim_next_job()

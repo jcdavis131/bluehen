@@ -52,6 +52,9 @@ COPY content/corpora /app/corpora
 # Charters + BD queue: the deploy authorization layer must exist in-image
 COPY config/recipes /app/config/recipes
 COPY content/fleet /app/content/fleet
+# Refinery catalog seeds (Spec 0018): local datalab manifests + OKF cards
+COPY data/datalab /app/seed/datalab
+COPY knowledge/datasets /app/knowledge/datasets
 COPY infra/docker-entrypoint.sh infra/docker-entrypoint.sh
 
 # smoke: import the app AND the lazily-imported telemetry service

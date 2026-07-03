@@ -904,18 +904,20 @@
     {
       "id": "DR-101",
       "title": "Refinery data plane: migration 009 + catalog/stats APIs + tick->Postgres sync + backfill",
-      "status": "blocked",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+      "notes": "migration 009, catalog service (sync/list/get/sample/stats), /v1/catalog/* + /v1/datalab/submit + admin sync, boot sync, seeds baked (inbox excluded). Spec 0018 Active per Operator build-out directive.",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T05:05:33.777589+00:00"
     },
     {
       "id": "DR-102",
       "title": "Refinery submit/harvest APIs + rate limits + inbox review endpoints",
-      "status": "blocked",
+      "status": "ready",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+      "notes": "submit shipped in DR-101; remaining: rate limits on public catalog routes + harvest job runner + inbox review endpoints"
     },
     {
       "id": "DR-103",

@@ -413,3 +413,22 @@ Large commit (15 files, +1497): new spec 0018, scripts/fleet_loop.py (444 LOC), 
 ### Phase 9 — Close-out
 - One e2e path proven: AST + node --check + JSON validity → all green.
 - Per tick-8 rule: NOT re-arming heartbeat (680768 still pending). Watcher 844529 still running.
+## Run 2026-07-02T23:45:58 (loop tick 20 — fallback 680768 fired + new commit 0ec79af → 41d4ddf)
+
+### Trigger
+41d4ddf feat(org): Spec 0019 corporate topology — one company site, revenue-bearing business units.
+TS changes (fleet narrative.ts, types.ts, FleetShell.tsx, hq page.tsx) + scripts/_desat_helper.py DELETED.
+
+### Phase 4 — Gates
+- Python: _desat_helper.py deleted → no Python to gate
+- TS (fleet narrative/types, FleetShell, hq page): DEFERRED — needs pnpm typecheck (BLK-DISK)
+- No Python smoke-import applicable (fleet is a TS package, not Python — corrected my initial attempt)
+
+### Phase 6 — Metadata-align
+- New spec 0019 added (corporate topology). specs/README.md index update in-commit expected.
+
+### Phase 9 — Close-out
+- Limited gate this tick (TS-only, typecheck deferred). One e2e path: confirmed deletion is intentional (D status) + TS surface identified.
+- Heartbeat 680768 fired → re-arming one (earned). Watcher 844529 still running.
+## Run 2026-07-03T00:06:21 (loop tick 21 — fallback 664306 fired; no new commit past 41d4ddf. Repo quiet ~20m. Date rolled to 07-03. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

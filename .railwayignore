@@ -17,7 +17,9 @@ docs/raw/
 data/artifacts/
 data/workspaces/
 data/runs/
-data/datalab/
+# datalab manifests+chunks ship as catalog seeds; the inbox NEVER ships
+# (consented user submissions stay off images)
+data/datalab/inbox/
 data/agents/
 data/traces/
 data/leads/

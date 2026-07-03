@@ -29,7 +29,8 @@ const VERDICT_BADGE: Record<string, string> = {
  * Vercel). Returns null when the directory isn't bundled into this deploy. */
 function resolveScorecardsDir(): string | null {
   const candidates = [
-    path.resolve(process.cwd(), "..", "..", "content/fleet/bd/scorecards"), // cwd = apps/sites/validation -> repo root
+    path.resolve(process.cwd(), "..", "..", "..", "content/fleet/bd/scorecards"), // cwd = apps/sites/validation -> repo root
+    path.resolve(process.cwd(), "..", "..", "content/fleet/bd/scorecards"), // cwd = one level deeper (traced deploy)
     path.resolve(process.cwd(), "content/fleet/bd/scorecards"), // cwd = repo root
   ];
   for (const p of candidates) {
@@ -150,6 +151,12 @@ export default async function ScorecardsIndexPage() {
           ))}
         </div>
       )}
+
+      <div style={{ marginTop: "var(--bh-space-5)" }}>
+        <Link href="/queue" className="bh-card__subtitle">
+          validation pipeline →
+        </Link>
+      </div>
     </>
   );
 }

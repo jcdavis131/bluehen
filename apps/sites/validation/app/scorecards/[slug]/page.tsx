@@ -3,6 +3,7 @@ import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";
+import { Markdown } from "../../../components/Markdown";
 export const dynamic = "force-dynamic";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -11,8 +12,9 @@ type Params = { params: Promise<{ slug: string }> };
  * Vercel). Returns null when the directory isn't bundled into this deploy. */
 function resolveScorecardsDir(): string | null {
   const candidates = [
-    path.resolve(process.cwd(), "..", "..", "content/fleet/bd/scorecards"),
-    path.resolve(process.cwd(), "content/fleet/bd/scorecards"),
+    path.resolve(process.cwd(), "..", "..", "..", "content/fleet/bd/scorecards"), // cwd = apps/sites/validation -> repo root
+    path.resolve(process.cwd(), "..", "..", "content/fleet/bd/scorecards"), // cwd = one level deeper (traced deploy)
+    path.resolve(process.cwd(), "content/fleet/bd/scorecards"), // cwd = repo root
   ];
   for (const p of candidates) {
     try {
@@ -106,6 +108,12 @@ export default async function ScorecardDetailPage({ params }: Params) {
 
   const { body, fm } = parseDoc(file.raw);
   const title = fm.title ?? slug;
+  // The page header already shows the title — drop a duplicate leading H1.
+  const leadHeading = body.match(/^#\s+(.+)\r?\n?/);
+  const displayBody =
+    leadHeading && leadHeading[1].trim() === title
+      ? body.slice(leadHeading[0].length).trim()
+      : body;
 
   return (
     <>
@@ -136,12 +144,16 @@ export default async function ScorecardDetailPage({ params }: Params) {
 
       <div className="bh-card bh-card--flush">
         <div className="bh-card__body" style={{ padding: "var(--bh-space-4)" }}>
-          <pre
-            className="bh-mono"
-            style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}
-          >
-            {body}
-          </pre>
+          {file.ext === "md" ? (
+            <Markdown source={displayBody} />
+          ) : (
+            <pre
+              className="bh-mono"
+              style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", margin: 0 }}
+            >
+              {body}
+            </pre>
+          )}
         </div>
       </div>
 

@@ -178,7 +178,6 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/", label: "Overview" },
     { href: "/certify", label: "Get Certified" },
     { href: "/try", label: "Run Benchmark" },
-    { href: "/queue", label: "Validation Queue" },
     { href: "/scorecards", label: "Scorecards" },
     { href: "/feedback", label: "Feedback" },
   ],

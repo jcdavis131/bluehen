@@ -65,6 +65,7 @@ function ContactForm() {
         Topic
         <select name="topic" style={field} defaultValue={params.get("topic") ?? "general"}>
           <option value="general">General</option>
+          <option value="design-partner">Design-Partner Seat</option>
           <option value="evaluation-sprint">Evaluation Sprint</option>
           <option value="managed-embeddings">Managed Embeddings</option>
           <option value="enterprise">Enterprise Platform</option>

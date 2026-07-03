@@ -1,4 +1,5 @@
 import { siteModels } from "@synthaembed/ui-fleet/site-api";
+import { EngineersNote } from "./EngineersNote";
 
 /** Production case study (goal: close the prod retrieval loop).
  *
@@ -83,10 +84,15 @@ export async function ProductionCaseStudy() {
             <>Production API unreachable from this build — metrics render when{" "}
             <code>SYNTH_API_KEY</code> is configured.</>
           ) : (
-            <>No deployed model yet for this tenant. The lifecycle produces one
-            end-to-end: <code>POST /v1/admin/hill-climb {"{"}&quot;siteId&quot;:
-            &quot;research&quot;{"}"}</code> — metrics appear here the moment the
-            worker&apos;s eval gates pass and the charter deploys it.</>
+            <>
+              No deployed model yet for this tenant. The training lifecycle produces one end-to-end
+              — metrics appear here the moment the eval gates pass and the charter deploys it.
+              <EngineersNote summary="For engineers — kickoff command">
+                <code>
+                  POST /v1/admin/hill-climb {"{"}&quot;siteId&quot;: &quot;research&quot;{"}"}
+                </code>
+              </EngineersNote>
+            </>
           )}
         </div>
       )}

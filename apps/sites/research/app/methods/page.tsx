@@ -1,6 +1,7 @@
 import Link from "next/link";
 import data from "../../data/methods.json";
 import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";import { ProductionCaseStudy } from "../../components/ProductionCaseStudy";
+import { EngineersNote } from "../../components/EngineersNote";
 
 export const metadata = {
   title: "Method — Applied Research · arxiviq.com",
@@ -48,21 +49,48 @@ export default function MethodsPage() {
           </span>
         </div>
         <div className="fleet-grid">
-          <RecipeCell label="Base model" value={recipe.baseModel} mono />
-          <RecipeCell label="Epochs / batch" value={`${recipe.epochs} / ${recipe.batchSize}`} />
-          <RecipeCell label="Loss" value={`InfoNCE temp=${recipe.loss.infoNceTemp}, zELO w=${recipe.loss.zeloWeight}`} />
-          <RecipeCell label="PEFT" value={recipe.peft ? "on" : "off"} />
+          <RecipeCell
+            label="Base model"
+            value={recipe.baseModel}
+            mono
+            hint="The open-source encoder we start from before organization-specific training."
+          />
+          <RecipeCell
+            label="Epochs / batch"
+            value={`${recipe.epochs} / ${recipe.batchSize}`}
+            hint="How many passes over the training data, and how many examples per training step."
+          />
+          <RecipeCell
+            label="Loss"
+            value={`InfoNCE temp=${recipe.loss.infoNceTemp}, zELO w=${recipe.loss.zeloWeight}`}
+            hint="Temperature: how sharply the model separates similar from dissimilar passages. zELO weight: contribution of the ranking-based loss term (0 = off)."
+          />
+          <RecipeCell
+            label="PEFT"
+            value={recipe.peft ? "on" : "off"}
+            hint="Parameter-efficient fine-tuning — trains a small adapter rather than the full model."
+          />
           <RecipeCell
             label="ASN"
             value={`kStrong=${recipe.asn.kStrong}, kTail=${recipe.asn.kTail}, λ=${recipe.asn.lambda}`}
+            hint="Negative sampling: how many hard (kStrong) and easy (kTail) contrast examples each training pair sees; λ balances the two."
           />
-          <RecipeCell label="Newton-Schulz" value={`${recipe.asn.newtonSchulzSteps} steps`} />
+          <RecipeCell
+            label="Newton-Schulz"
+            value={`${recipe.asn.newtonSchulzSteps} steps`}
+            hint="Iterations of a numerical routine that keeps the embedding space well-conditioned during training."
+          />
           <RecipeCell
             label="Matryoshka dims"
             value={recipe.asn.matryoshkaDims.join(" · ")}
             mono
+            hint="Truncation lengths included in the training objective — the vector sizes the model is optimized to support."
           />
-          <RecipeCell label="Rollback" value={recipe.rollbackCriteria} />
+          <RecipeCell
+            label="Rollback"
+            value={recipe.rollbackCriteria}
+            hint="The measured condition under which a new model is automatically reverted."
+          />
         </div>
       </section>
 
@@ -171,15 +199,28 @@ export default function MethodsPage() {
       </section>
 
       <div className="fleet-card" style={{ fontSize: 13, opacity: 0.8 }}>
-        <strong>Corpus:</strong> 702 arXiv abstracts harvested across CS.CL / retrieval / embedding queries
-        into <code>data/corpora/research/corpus.jsonl</code>. Re-kickoff with{" "}
-        <code>pnpm harvest:arxiv &amp;&amp; pnpm kickoff:orgs</code> after the stack is up.
+        <strong>Corpus:</strong> 702 arXiv abstracts harvested across CS.CL / retrieval / embedding
+        queries.
+        <EngineersNote summary="For engineers — rebuild commands">
+          The corpus lives in <code>data/corpora/research/corpus.jsonl</code>. Re-kickoff with{" "}
+          <code>pnpm harvest:arxiv &amp;&amp; pnpm kickoff:orgs</code> after the stack is up.
+        </EngineersNote>
       </div>
     </>
   );
 }
 
-function RecipeCell({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+function RecipeCell({
+  label,
+  value,
+  mono,
+  hint,
+}: {
+  label: string;
+  value: string;
+  mono?: boolean;
+  hint?: string;
+}) {
   return (
     <div
       style={{
@@ -197,6 +238,9 @@ function RecipeCell({ label, value, mono }: { label: string; value: string; mono
       <span style={{ fontWeight: 600, fontFamily: mono ? "ui-monospace" : "inherit", wordBreak: "break-word" }}>
         {value}
       </span>
+      {hint && (
+        <span style={{ color: "var(--fleet-muted)", fontSize: 11, lineHeight: 1.45 }}>{hint}</span>
+      )}
     </div>
   );
 }

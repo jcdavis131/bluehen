@@ -165,6 +165,7 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/org", label: "Org" },
     { href: "/actions", label: "Lifecycle Controls" },
     { href: "/org", label: "Org Reports" },
+    { href: "/ops", label: "Division Ops" },
     { href: "/feedback", label: "Feedback" },
   ],
   dumbmodel: [

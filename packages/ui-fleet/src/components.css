@@ -43,16 +43,27 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 24px;
-  height: 24px;
-  padding: 0 5px;
-  border: 2px solid var(--bh-accent);
-  border-radius: 4px 10px 2px 8px;
-  font-size: 0.65rem;
-  font-weight: 700;
+  width: 26px;
+  height: 26px;
   color: var(--bh-accent);
   flex-shrink: 0;
   line-height: 1;
+}
+
+/* The corporate mark draws itself in on load: a quiet scale + fade,
+   motion-safe only. Applies to .bh-mark glyphs (HenMark / ConeMark). */
+@media (prefers-reduced-motion: no-preference) {
+  .fleet-brand__mark .bh-mark {
+    animation: bh-mark-in 520ms var(--bh-ease-out) both;
+  }
+  @keyframes bh-mark-in {
+    from { opacity: 0; transform: scale(0.86); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+}
+
+.fleet-brand:hover .fleet-brand__mark {
+  filter: drop-shadow(0 0 6px var(--bh-accent-muted));
 }
 
 .fleet-brand__domain {

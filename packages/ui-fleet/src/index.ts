@@ -9,7 +9,7 @@ export { MilestoneStrip } from "./MilestoneStrip";
 export { CommandPalette } from "./CommandPalette";
 export type { PaletteItem } from "./CommandPalette";
 export { CountUpStat } from "./CountUpStat";
-export { ConeMascot, HenMascot } from "./mascots";
+export { ConeMascot, HenMascot, ConeMark, HenMark } from "./mascots";
 export { MascotBeacon } from "./MascotBeacon";
 export { Reveal } from "./Reveal";
 export { ExplorationTracker } from "./ExplorationTracker";

@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { HenMascot } from "./mascots";
 
-/** The mascot watches the visitor's pointer — a small "you are seen"
- * beat. Falls back to a fixed gaze (e.g. toward the active division)
- * when the pointer is idle, on touch devices, or under reduced motion.
- * Max one per page. */
+/** The mascot watches the visitor's pointer, a small "you are seen" beat.
+ * Falls back to a fixed gaze (e.g. toward the active division) when the
+ * pointer is idle, on touch devices, or under reduced motion. Max one per
+ * page. The gaze shifts via a CSS transform on the eye group inside
+ * HenMascot, so it transitions consistently across browsers. */
 export function MascotBeacon({
   size = 36,
   restingGaze = 0,

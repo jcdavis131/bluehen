@@ -5,17 +5,13 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getSite, getSiteCircuit, getSiteNav, listSites, RE, BRAND } from "@synthaembed/fleet";
 import { fleetNavSites, siteHref } from "./urls";
+import { HenMark, ConeMark } from "./mascots";
 
-/** Per-site monogram — each surface signs its own mark; the accent hue
- * and this glyph together are the site's identity signature. */
-const SITE_MARK: Record<string, string> = {
-  storefront: "BH",
-  hq: "HQ",
-  dumbmodel: "DM",
-  validation: "VL",
-  research: "AR",
-  simulation: "SL",
-  observatory: "OB",
+/** Per-site logo glyph: every surface carries the Blue Hen corporate mark in
+ * its own accent, except dumbmodel whose identity is the cone. The mark
+ * inherits --bh-accent through currentColor so it re-tints per shell. */
+const SITE_MARK_GLYPH: Record<string, "hen" | "cone"> = {
+  dumbmodel: "cone",
 };
 
 /** Corporate topology (Spec 0019): ONE company site, revenue-bearing
@@ -73,8 +69,10 @@ export function FleetShell({
   return (
     <div className="fleet-shell" data-site={siteId}>
       <header className="fleet-header">
-        <Link href="/" className="fleet-brand" onClick={closeAll}>
-          <span className="fleet-brand__mark">{SITE_MARK[siteId] ?? "BH"}</span>
+        <Link href="/" className="fleet-brand" onClick={closeAll} aria-label={`${surface?.stop ?? site?.name ?? siteId} home`}>
+          <span className="fleet-brand__mark" aria-hidden="true">
+            {SITE_MARK_GLYPH[siteId] === "cone" ? <ConeMark size={22} /> : <HenMark size={22} />}
+          </span>
           <span>{surface?.stop ?? site?.name ?? siteId}</span>
           {site?.domain && <span className="fleet-brand__domain">{site.domain}</span>}
         </Link>

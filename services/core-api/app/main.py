@@ -340,6 +340,48 @@ def submission_review(sid: str, body: ReviewIn, _: Annotated[None, Depends(requi
         return {"id": sid, "status": row.status}
 
 
+@app.get("/v1/admin/datalab/sources")
+def datalab_sources(_: Annotated[None, Depends(require_admin)]):
+    import json as _json
+    import os as _os
+    from pathlib import Path as _P
+
+    from app.config import REPO_ROOT as _ROOT
+    from app.models import HarvestJob
+    from sqlalchemy import select as _select
+
+    registry_path = _ROOT / "config" / "datalab_sources.json"
+    try:
+        raw = _json.loads(registry_path.read_text(encoding="utf-8"))
+        sources = raw.get("sources", [])
+    except Exception:
+        sources = []
+    state = {}
+    state_path = _P(_os.getenv("DATALAB_DIR", str(_ROOT / "data" / "datalab"))) / "watch_state.json"
+    try:
+        state = _json.loads(state_path.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    src_state = state.get("sources", state) if isinstance(state, dict) else {}
+    with db_session() as session:
+        jobs = session.scalars(
+            _select(HarvestJob).order_by(HarvestJob.created_at.desc()).limit(10)
+        ).all()
+        recent = [{
+            "id": str(j.id), "sourceId": j.source_id, "status": j.status,
+            "error": j.error, "updatedAt": j.updated_at.isoformat(),
+        } for j in jobs]
+    return {
+        "sources": [{
+            "id": s.get("id"), "name": s.get("name"),
+            "intervalMinutes": s.get("intervalMinutes"),
+            "kind": "urls" if s.get("urls") else "glob",
+            "state": src_state.get(s.get("id"), {}),
+        } for s in sources],
+        "recentJobs": recent,
+    }
+
+
 @app.post("/v1/admin/catalog/sync")
 def catalog_sync(_: Annotated[None, Depends(require_admin)]):
     from app.services import catalog

@@ -45,7 +45,9 @@
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
-- [ ] **HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal (None)
+- [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0020 P1) (execution) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0020 P4) (comms) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0020 P5) (comms) · spec [0020](./specs/0020-*.md)
 
 ## In progress
 
@@ -60,10 +62,13 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
 - [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
+- [ ] **MON-002** — Storefront: API key management page (generate, view usage, set spend cap) (Spec 0020 P1) · blockedBy: ['MON-001']
+- [ ] **MON-003** — Hosted inference tier: Modal serverless GPU endpoint for domain models; Medusa recurring product (Spec 0020 P2) · blockedBy: ['MON-001']
+- [ ] **MON-004** — Storefront: hosted-model product page (per-domain model cards -> subscribe -> API key) (Spec 0020 P2) · blockedBy: ['MON-003']
+- [ ] **MON-010** — hq revenue dashboard: per-stream MRR, passive vs active split, BU attribution (Spec 0020) · blockedBy: ['MON-001', 'MON-006']
 
 ## Recently done
 
-- [x] ~~**DR-102** — Refinery submit/harvest APIs + rate limits + inbox review endpoints~~
 - [x] ~~**DR-103** — Refinery site app (apps/sites/refinery): full IA vs spec 0018 contract, copper accent, mobile-first~~
 - [x] ~~**DR-104** — Refinery fleet wiring: registry, nav, workspace bootstrap, Vercel project, domain (Operator G1)~~
 - [x] ~~**DR-105** — Refinery flywheel: dumbmodel inbox review queue -> catalog; RSS + scorecard cards visible~~
@@ -71,6 +76,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**DR-107** — Refinery launch review: 5-SME OKF living reviews + deploy checklist~~
 - [x] ~~**SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)~~
 - [x] ~~**SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)~~
+- [x] ~~**HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal~~
 
 ## Specs & context
 

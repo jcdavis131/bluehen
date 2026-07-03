@@ -50,6 +50,16 @@ truncation + int8/binary quantization). The bet: better-than-commercial RAG embe
 practically free to run (open models + scale-to-zero GPU), large return at scale. The
 **whitepaper is the center**; everything is built around it.
 
+**Monetization (Spec 0020):** the autonomous loop doesn't just produce models — it produces
+**sellable assets** (models, datasets, eval scorecards, API inference) that generate
+**diversified income** with low to zero overhead. **Passive streams** (metered API billing,
+hosted inference tier, dataset marketplace, automated certification, premium research notes,
+open-core model publishing) run unattended: the loop produces, the platform lists, the
+customer self-serves, billing is automated (Stripe metered / Medusa). **Active streams**
+(evaluation sprints, managed embeddings, enterprise platform, custom harvests, research
+engagements) are the high-margin funnel that terminates in a recurring passive path.
+Idle infrastructure scales to zero — revenue flows while the loop runs unattended.
+
 ## 1. Where everything is
 
 Repo root: `C:\Users\jcdav\bluehenre` (this is the connected folder; build here).

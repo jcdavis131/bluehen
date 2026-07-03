@@ -997,10 +997,117 @@
     {
       "id": "HQ-OPS-1",
       "title": "hq: refinery division console (sources health, tick-now, submission review) \u2014 admin-keyed, internal",
+      "status": "done",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "jcamd.com/ops: sources health table + harvest-now + catalog sync + submission review queue (approve/reject) + recent jobs. Admin key server-side via established admin-api pattern; GET /v1/admin/datalab/sources added.",
+      "claimedBy": "claude"
+    },
+    {
+      "id": "MON-001",
+      "title": "Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0020 P1)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "division": "execution",
+      "spec": "0020",
+      "notes": "Highest-leverage passive stream. core-api already serves embeddings + budget ceilings. Add billing_usage_events table + stripe_customer_id on workspaces. Behind BILLING_ENABLED flag. Depends on: Stripe account (Operator)."
+    },
+    {
+      "id": "MON-002",
+      "title": "Storefront: API key management page (generate, view usage, set spend cap) (Spec 0020 P1)",
+      "status": "blocked",
+      "lane": "cursor",
+      "priority": "P1",
+      "division": "comms",
+      "spec": "0020",
+      "dependsOn": [
+        "MON-001"
+      ],
+      "notes": "Customer self-service: create API key, see accumulated usage, set monthly spend cap. Links to /pricing metered tier."
+    },
+    {
+      "id": "MON-003",
+      "title": "Hosted inference tier: Modal serverless GPU endpoint for domain models; Medusa recurring product (Spec 0020 P2)",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "division": "execution",
+      "spec": "0020",
+      "dependsOn": [
+        "MON-001"
+      ],
+      "notes": "Modal GPU (Spec 0011 stub) needs provisioning first (Operator gate). Scale-to-zero. Customer subscribes -> gets API key routed to Modal endpoint."
+    },
+    {
+      "id": "MON-004",
+      "title": "Storefront: hosted-model product page (per-domain model cards -> subscribe -> API key) (Spec 0020 P2)",
+      "status": "blocked",
+      "lane": "cursor",
+      "priority": "P2",
+      "division": "comms",
+      "spec": "0020",
+      "dependsOn": [
+        "MON-003"
+      ],
+      "notes": "Model cards from /v1/models; subscribe via Medusa recurring; delivers API key pointing at Modal-hosted endpoint."
+    },
+    {
+      "id": "MON-005",
+      "title": "Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0020 P3)",
+      "status": "blocked",
+      "lane": "cursor",
+      "priority": "P2",
+      "division": "comms",
+      "spec": "0020",
+      "dependsOn": [
+        "DR-103"
+      ],
+      "notes": "Requires Refinery site (DR-103) to ship first. Free tier = preview rows; paid = full corpus via time-limited signed URL after Medusa checkout."
+    },
+    {
+      "id": "MON-006",
+      "title": "slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0020 P4)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "division": "comms",
+      "spec": "0020",
+      "notes": "Customer submits model endpoint after Medusa checkout -> worker runs eval-harness (Spec 0008) -> publishes scorecard at /scorecards/[id] -> emails badge. Zero human overhead. certifications table new."
+    },
+    {
+      "id": "MON-007",
+      "title": "Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0020 P5)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P3",
+      "division": "comms",
+      "spec": "0020",
+      "notes": "Simulation-only (Spec 0013 wall). Free preview = first report; paid = full feed. omni_loop.py already generates reports. Paywall copy: paper-trading simulation reports, not investment advice."
+    },
+    {
+      "id": "MON-008",
+      "title": "CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0020 P6)",
       "status": "ready",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Spec 0018 amendment: /ops moved off the public site for key hygiene"
+      "division": "execution",
+      "spec": "0020",
+      "notes": "After each deploy-gate pass, CI publishes model to HF Hub with model card (eval scores, training config, OKF provenance). Open models = SEO/trust/flywheel funnel -> drives P1/P2 hosted revenue. Needs HF_TOKEN (Operator)."
+    },
+    {
+      "id": "MON-010",
+      "title": "hq revenue dashboard: per-stream MRR, passive vs active split, BU attribution (Spec 0020)",
+      "status": "blocked",
+      "lane": "cursor",
+      "priority": "P2",
+      "division": "comms",
+      "spec": "0020",
+      "dependsOn": [
+        "MON-001",
+        "MON-006"
+      ],
+      "notes": "Admin-keyed dashboard on hq. Pulls from billing_usage_events + Medusa orders + certifications. Shows passive (P1-P6) vs active (A1-A5) MRR split with per-BU attribution. TOPO-002 (cross-BU checkout attribution) feeds the BU split."
     }
   ]
 }

@@ -1,44 +1,130 @@
-/** Fleet mascots (shared home: moved up from dumbmodel so sites reuse
- * rather than fork). Restrained personality — max one mascot per page. */
+/** Fleet marks (shared home: moved up from dumbmodel so sites reuse
+ * rather than fork). Two registers:
+ *   - Mascots (HenMascot / ConeMascot): the brand characters, in their
+ *     signature hues, with an optional pointer-tracking gaze. One per page.
+ *   - Logo marks (HenMark / ConeMark): currentColor corporate glyphs for
+ *     the header lockup and favicons. No gaze, no character; just the sign.
+ *
+ * Geometry is geometric/heraldic, not cartoon: a solid Blue Hen head in
+ * profile and a hazard-banded traffic cone. They read at 16px (favicon)
+ * and at 120px (title card) without losing the form. */
 
-export function ConeMascot({ size = 48 }: { size?: number }) {
+const HEN_BLUE = "var(--bh-hen-blue)";
+const CONE_RUST = "var(--bh-cone-rust)";
+
+/** Shared hen geometry, drawn in a 0..64 grid, profile facing right.
+ * `color` fills the silhouette; `knockout` punches the eye (use the page
+ * canvas so the eye reads on any backdrop the mark sits on). */
+function HenGlyph({
+  color,
+  knockout,
+  gazeDx = 0,
+}: {
+  color: string;
+  knockout: string;
+  gazeDx?: number;
+}) {
+  return (
+    <g>
+      {/* neck/base */}
+      <path d="M22 47 L36 47 L39 58 L19 58 Z" fill={color} />
+      {/* head body */}
+      <path
+        d="M18 33
+           C18 24 24 19 31 19
+           C39 19 47 25 47 33
+           C47 40 41 45 33 45
+           C24 45 18 41 18 33 Z"
+        fill={color}
+      />
+      {/* comb: three bumps, the classic hen abstraction */}
+      <path
+        d="M25 20 L26 14 L29 18 L31 12 L33 17 L35 13 L37 19 Z"
+        fill={color}
+      />
+      {/* beak, pointed right */}
+      <path d="M46 30 L55 32 L46 35 Z" fill={color} />
+      {/* eye, punched out and gaze-shifted via transform (not the cx
+          attribute, which transitions inconsistently across browsers) */}
+      <g style={{ transform: `translateX(${gazeDx}px)`, transition: "transform 320ms var(--bh-ease-out)" }}>
+        <circle cx="33" cy="31" r="2.6" fill={knockout} />
+      </g>
+    </g>
+  );
+}
+
+/** Shared cone geometry: a clean traffic cone with two hazard chevrons and
+ * a base plate. No face, industrial. `color` is the cone; bands are knockout
+ * so they read as cut stripes on any backdrop. */
+function ConeGlyph({ color, knockout }: { color: string; knockout: string }) {
+  return (
+    <g>
+      <path d="M32 9 L49 49 L15 49 Z" fill={color} />
+      {/* hazard chevron bands, cut out of the cone body */}
+      <path d="M23.5 33 L32 30 L40.5 33 L42 37 L32 33.5 L22 37 Z" fill={knockout} />
+      <path d="M19 43 L32 39.5 L45 43 L46.5 47 L32 43 L17.5 47 Z" fill={knockout} />
+      {/* base plate */}
+      <rect x="10" y="49" width="44" height="6" rx="2.5" fill={color} />
+    </g>
+  );
+}
+
+/** The Blue Hen, the company mascot. Signature hen-blue so she is the same
+ * bird on every surface (the dumbmodel "vs" reads blue hen against rust cone). */
+export function HenMascot({
+  size = 48,
+  gaze = 0,
+  color = HEN_BLUE,
+  knockout = "var(--bh-canvas)",
+}: {
+  size?: number;
+  /** Horizontal gaze, -1 (left) to 1 (right), toward the active division. */
+  gaze?: number;
+  /** Silhouette fill. Defaults to the brand hen-blue. */
+  color?: string;
+  /** Eye knockout fill. Defaults to the page canvas. */
+  knockout?: string;
+}) {
+  const dx = Math.max(-1, Math.min(1, gaze)) * 2;
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden>
-      <defs>
-        <linearGradient id="bhConeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#9a958c" />
-          <stop offset="100%" stopColor="#5c5852" />
-        </linearGradient>
-      </defs>
-      <ellipse cx="32" cy="54" rx="18" ry="5" fill="#3a3834" opacity="0.5" />
-      <path d="M32 8 L52 52 L12 52 Z" fill="url(#bhConeGrad)" stroke="#4a4640" strokeWidth="1.5" />
-      <circle cx="26" cy="38" r="3" fill="#2a2826" />
-      <circle cx="38" cy="38" r="3" fill="#2a2826" />
-      <path d="M24 46 Q32 50 40 46" stroke="#2a2826" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <HenGlyph color={color} knockout={knockout} gazeDx={dx} />
     </svg>
   );
 }
 
-export function HenMascot({
+/** The traffic cone, dumbmodel's anti-hype diagnostic mascot. */
+export function ConeMascot({
   size = 48,
-  gaze = 0,
+  color = CONE_RUST,
+  knockout = "var(--bh-canvas)",
 }: {
   size?: number;
-  /** Horizontal gaze, -1 (left) … 1 (right) — e.g. toward the active
-   * division's position in the operating loop. */
-  gaze?: number;
+  color?: string;
+  knockout?: string;
 }) {
-  const dx = Math.max(-1, Math.min(1, gaze)) * 2.5;
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden>
-      <ellipse cx="32" cy="52" rx="16" ry="4" fill="#1a3a5c" opacity="0.4" />
-      <ellipse cx="32" cy="36" rx="20" ry="18" fill="#3d8bfd" />
-      <circle cx="32" cy="28" r="14" fill="#5aa3ff" />
-      <path d="M44 22 L58 18 L44 28 Z" fill="#e8a030" />
-      <circle cx={28 + dx} cy="26" r="3" fill="#0f2744" style={{ transition: "cx 300ms" }} />
-      <circle cx={36 + dx} cy="26" r="3" fill="#0f2744" style={{ transition: "cx 300ms" }} />
-      <path d="M22 14 Q28 6 34 12" stroke="#e8a030" strokeWidth="3" fill="none" strokeLinecap="round" />
-      <path d="M18 40 L12 52 M46 40 L52 48" stroke="#2563a8" strokeWidth="3" strokeLinecap="round" />
+      <ConeGlyph color={color} knockout={knockout} />
+    </svg>
+  );
+}
+
+/** Corporate logo marks: currentColor so they inherit the site accent in the
+ *  header lockup and hardcode cleanly in static favicon SVGs. No gaze, no
+ *  character, just the sign. */
+export function HenMark({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden className="bh-mark">
+      <HenGlyph color="currentColor" knockout="var(--bh-canvas)" />
+    </svg>
+  );
+}
+
+export function ConeMark({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden className="bh-mark">
+      <ConeGlyph color="currentColor" knockout="var(--bh-canvas)" />
     </svg>
   );
 }

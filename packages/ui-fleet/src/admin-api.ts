@@ -76,3 +76,29 @@ export async function adminRecordScorecard(input: {
     body: JSON.stringify(input),
   });
 }
+
+export async function adminDatalabSources() {
+  return adminFetch("/v1/admin/datalab/sources");
+}
+
+export async function adminHarvest(sourceId: string) {
+  return adminFetch("/v1/admin/datalab/harvest", {
+    method: "POST",
+    body: JSON.stringify({ sourceId }),
+  });
+}
+
+export async function adminSubmissions(status = "pending") {
+  return adminFetch(`/v1/admin/refinery/submissions?status=${encodeURIComponent(status)}`);
+}
+
+export async function adminReviewSubmission(id: string, action: "approve" | "reject") {
+  return adminFetch(`/v1/admin/refinery/submissions/${id}/review`, {
+    method: "POST",
+    body: JSON.stringify({ action }),
+  });
+}
+
+export async function adminCatalogSync() {
+  return adminFetch("/v1/admin/catalog/sync", { method: "POST", body: "{}" });
+}

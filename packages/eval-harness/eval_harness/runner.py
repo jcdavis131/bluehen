@@ -17,19 +17,26 @@ def evaluate_checkpoint(
     *,
     eval_slice: str = "rotating",
     baseline_rank: float = 8.0,
+    preloaded: tuple | None = None,
 ) -> dict:
+    """``preloaded=(encoder, tokenizer, use_head)`` skips checkpoint loading —
+    1 GB containers cannot afford a second resident model, so the caller
+    shares its serving cache."""
     from asn_engine.model import load_checkpoint_encoder
     from transformers import AutoTokenizer
 
-    state = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
-    recipe = state.get("recipe", {})
-    backbone = state.get("backboneName") or recipe.get(
-        "baseModel", "sentence-transformers/all-MiniLM-L6-v2"
-    )
-    # Eval measures the SERVED representation: head output for head-only
-    # checkpoints, encoder Z1 otherwise — gates must grade what ships.
-    encoder, use_head = load_checkpoint_encoder(state)
-    tok = AutoTokenizer.from_pretrained(backbone)
+    if preloaded is not None:
+        encoder, tok, use_head = preloaded
+    else:
+        state = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
+        recipe = state.get("recipe", {})
+        backbone = state.get("backboneName") or recipe.get(
+            "baseModel", "sentence-transformers/all-MiniLM-L6-v2"
+        )
+        # Eval measures the SERVED representation: head output for head-only
+        # checkpoints, encoder Z1 otherwise — gates must grade what ships.
+        encoder, use_head = load_checkpoint_encoder(state)
+        tok = AutoTokenizer.from_pretrained(backbone)
 
     ndcg_scores: list[float] = []
     ndcg_trunc_scores: list[float] = []

@@ -52,6 +52,7 @@ def run_eval_for_workspace(
         collection_id = job.collection_id if job else None
         version = mv.version
         checkpoint_path = mv.checkpoint_path
+        artifact = getattr(mv, "artifact", None)
 
     real_pairs = get_collection_pairs(workspace_id, collection_id) if collection_id else []
 
@@ -100,8 +101,16 @@ def run_eval_for_workspace(
 
     from eval_harness.runner import evaluate_checkpoint
 
+    from app.services.models_svc import _load_encoder_cached
+
+    # Share the serving cache: loading a second encoder for eval is what
+    # OOM'd the 1 GB container after training.
+    try:
+        preloaded = _load_encoder_cached(checkpoint_path, artifact)
+    except Exception:
+        preloaded = None
     with open_checkpoint(checkpoint_path) as ckpt:
-        metrics = evaluate_checkpoint(ckpt, pairs, eval_slice=slice_name)
+        metrics = evaluate_checkpoint(ckpt, pairs, eval_slice=slice_name, preloaded=preloaded)
     gates = {**metrics["gates"], "sufficientEvalPairs": True}
 
     with db_session(workspace_id) as session:

@@ -347,7 +347,8 @@ def _train_head_only(
             for start in range(0, len(texts), extract_bs):
                 chunk = texts[start : start + extract_bs]
                 batch = tokenizer(chunk, padding=True, truncation=True,
-                                  max_length=256, return_tensors="pt")
+                                  max_length=int(recipe.get("extractMaxLength", 256)),
+                                  return_tensors="pt")
                 outs.append(encoder.encode(batch["input_ids"], batch["attention_mask"]))
                 if progress and start % (extract_bs * 10) == 0:
                     progress({"epoch": -1, "step": start, "loss": None,
@@ -360,6 +361,14 @@ def _train_head_only(
     # Free the backbone before training — this is the memory trick.
     del encoder, tokenizer
     gc.collect()
+    try:
+        # glibc keeps freed arenas; hand them back to the kernel or the
+        # next phase still counts against the cgroup ceiling.
+        import ctypes
+
+        ctypes.CDLL("libc.so.6").malloc_trim(0)
+    except Exception:
+        pass
 
     head, last_loss, last_er = train_head_on_features(
         feats_a, feats_p, recipe, progress=progress

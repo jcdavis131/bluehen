@@ -92,7 +92,7 @@ def patched_eval(monkeypatch):
         cm.__exit__.return_value = False
         return cm
 
-    def fake_evaluate_checkpoint(ckpt, pairs, *, eval_slice):
+    def fake_evaluate_checkpoint(ckpt, pairs, *, eval_slice, preloaded=None):
         harness_calls["evaluate"] += 1
         harness_calls["pairs_seen"].append(list(pairs))
         return {

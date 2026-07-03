@@ -247,3 +247,25 @@ Touched: services/core-api/app/main.py, scripts/pick_task.py, infra/docker-entry
 - One e2e path proven: barrel consistency check on all new primitives → ok.
 - No Cursor-lane action needed; all work was design (Tastemaker) + Eve (synthorg) lanes.
 - Heartbeat re-armed (20m, single). Watcher 844529 still running.
+## Run 2026-07-02T21:22:51 (loop tick 5 — stale watcher wakes for fab61ea/a524113, already reviewed in tick 4)
+
+### No-op tick
+- git log a524113..HEAD: empty (no new commit)
+- watcher occurrences 2+3 were stale wakes for commits already reviewed in tick 4 — ignored, no double-run
+- uncommitted drift: 7 site layout.tsx files (hq + 6 sites) — design-lane ambient-wash follow-up, not Cursor lane
+- no gates run (no new commit, no Cursor-lane change)
+- heartbeat re-armed (20m). watcher 844529 still running.
+## Run 2026-07-02T21:25:23 (loop tick 6 — watcher occurrence 4; HEAD a524113 → a75ae3c)
+
+### Trigger
+a75ae3c feat(seo): consistent identity metadata across all 7 sites — 7 site layout.tsx + run log. No Python.
+
+### Phase 4 — Gate
+- metadata export present in all 7 layouts (hq, storefront, dumbmodel, validation, research, simulation, observatory): CONFIRMED via grep. Consistent.
+- no Python changed → no smoke-import
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 9 — Close-out
+- One e2e path proven: metadata-export consistency across all 7 sites → ok.
+- No Cursor-lane action; SEO lane. Working tree: 3 changed (run log + 2 minor).
+- Heartbeat re-armed (20m). Watcher 844529 still running.

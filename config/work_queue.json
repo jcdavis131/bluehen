@@ -820,7 +820,7 @@
       "division": "comms",
       "priority": 68,
       "title": "Tastemaker Phase 2 \u2014 pilot spine on storefront homepage (Spec 0017)",
-      "status": "in_progress",
+      "status": "done",
       "spec": "0017",
       "lane": "cursor",
       "command": "apps/sites/storefront homepage \u2192 FleetShell + StatusLine + Axis + TitleCard + >=1 RuledSection. Operator screenshot review.",
@@ -829,7 +829,8 @@
         "SITE-014"
       ],
       "claimedBy": "cursor",
-      "claimedAt": "2026-07-03T02:17:04.381592+00:00"
+      "claimedAt": "2026-07-03T02:17:04.381592+00:00",
+      "completedAt": "2026-07-03T02:23:49.603530+00:00"
     },
     {
       "id": "SITE-016",

@@ -18,6 +18,7 @@ DEFAULT_RECIPE = {
     "projOutDim": 384,     # match pgvector chunks column vector(384)
     "projHiddenDim": 1024,
     "extractBatchSize": 2,
+    "extractMaxLength": 128,  # chunks are ~100 tokens; halves activation memory
     "loss": {"infoNceTemp": 0.07, "zeloWeight": 0},
     "asn": {
         "kStrong": 8,

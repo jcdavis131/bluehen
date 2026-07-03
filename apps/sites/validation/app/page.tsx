@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BENCHMARK_EXAMS, RAG_TIERS, hallOfCone } from "@synthaembed/eval-public";
 import { PageHeader, ProgressMeter, SiteSubnav } from "@synthaembed/ui-fleet";
+import { siteModels } from "@synthaembed/ui-fleet/site-api";
 import { getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
 
 export const metadata = {
@@ -8,8 +9,30 @@ export const metadata = {
   description: "Certified RAG benchmarks · Silver Lasso lineage",
 };
 
-export default function BenchmarkHome() {
-  const leaderboard = hallOfCone().slice(0, 5);
+type LiveModel = {
+  version: string;
+  effectiveRank: number | null;
+  ndcg10: number | null;
+  deployed: boolean;
+  truncateDims?: number | null;
+  quant?: string | null;
+};
+
+async function liveLeaderboard(): Promise<{ models: LiveModel[]; live: boolean }> {
+  try {
+    const data = (await siteModels()) as { models?: LiveModel[] };
+    const models = (data.models ?? []).filter(
+      (m) => m.effectiveRank != null || m.ndcg10 != null,
+    );
+    return { models, live: models.length > 0 };
+  } catch {
+    return { models: [], live: false };
+  }
+}
+
+export default async function BenchmarkHome() {
+  const fixtureBoard = hallOfCone().slice(0, 5);
+  const { models: liveModels, live } = await liveLeaderboard();
   const surface = getSiteCircuit("validation");
   const nav = getSiteNav("validation");
 
@@ -63,30 +86,82 @@ export default function BenchmarkHome() {
         </table>
       </div>
 
-      <h2 className="bh-section-title">Reference leaderboard</h2>
+      <h2 className="bh-section-title">
+        Reference leaderboard
+        {live ? (
+          <span className="bh-badge bh-badge--ok" style={{ marginLeft: "var(--bh-space-3)", verticalAlign: "middle" }}>
+            live
+          </span>
+        ) : (
+          <span className="bh-badge bh-badge--warn" style={{ marginLeft: "var(--bh-space-3)", verticalAlign: "middle" }}>
+            fixtures
+          </span>
+        )}
+      </h2>
+      <p className="bh-meta" style={{ marginBottom: "var(--bh-space-4)" }}>
+        {live
+          ? "Measured model versions from this workspace via /v1/models — the same rows the worker records during training."
+          : "Reference fixtures from the eval-public panel. Live per-workspace metrics appear here once a model is trained and the API is reachable (SYNTH_API_KEY set)."}
+      </p>
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
-        {leaderboard.map((m, i) => (
-          <div key={m.id} className="bh-card">
-            <div className="bh-card__title">
-              {i === 0 ? "Top · " : ""}
-              {m.name}
-            </div>
-            <div className="bh-meta" style={{ marginTop: "var(--bh-space-1)" }}>
-              erank {m.effectiveRank.toFixed(1)}
-            </div>
-            <div style={{ marginTop: "var(--bh-space-2)" }}>
-              <ProgressMeter
-                label="nDCG@10 (reference data)"
-                value={m.ndcg10}
-                max={1}
-                target={0.35}
-                targetLabel="deploy gate"
-                tone="clay"
-                digits={2}
-              />
-            </div>
-          </div>
-        ))}
+        {live
+          ? liveModels
+              .slice()
+              .sort((a, b) => (b.effectiveRank ?? 0) - (a.effectiveRank ?? 0))
+              .slice(0, 5)
+              .map((m, i) => (
+                <div key={m.version} className="bh-card">
+                  <div className="bh-card__title">
+                    {i === 0 ? "Top · " : ""}
+                    <code>{m.version}</code>
+                    {m.deployed && (
+                      <span className="bh-badge bh-badge--ok" style={{ marginLeft: 8 }}>
+                        deployed
+                      </span>
+                    )}
+                  </div>
+                  <div className="bh-meta" style={{ marginTop: "var(--bh-space-1)" }}>
+                    erank {(m.effectiveRank ?? 0).toFixed(1)}
+                    {m.truncateDims ? ` · trunc ${m.truncateDims}` : ""}
+                    {m.quant ? ` · ${m.quant}` : ""}
+                  </div>
+                  {m.ndcg10 != null && (
+                    <div style={{ marginTop: "var(--bh-space-2)" }}>
+                      <ProgressMeter
+                        label="nDCG@10 (live)"
+                        value={m.ndcg10}
+                        max={1}
+                        target={0.35}
+                        targetLabel="deploy gate"
+                        tone="moss"
+                        digits={2}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))
+          : fixtureBoard.map((m, i) => (
+              <div key={m.id} className="bh-card">
+                <div className="bh-card__title">
+                  {i === 0 ? "Top · " : ""}
+                  {m.name}
+                </div>
+                <div className="bh-meta" style={{ marginTop: "var(--bh-space-1)" }}>
+                  erank {m.effectiveRank.toFixed(1)}
+                </div>
+                <div style={{ marginTop: "var(--bh-space-2)" }}>
+                  <ProgressMeter
+                    label="nDCG@10 (reference data)"
+                    value={m.ndcg10}
+                    max={1}
+                    target={0.35}
+                    targetLabel="deploy gate"
+                    tone="clay"
+                    digits={2}
+                  />
+                </div>
+              </div>
+            ))}
       </div>
 
       <Link href="https://dumbmodel.com">Baseline comparison on dumbmodel.com →</Link>

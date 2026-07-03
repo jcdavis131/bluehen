@@ -116,6 +116,9 @@ importers:
 
   apps/sites/research:
     dependencies:
+      '@synthaembed/eval-public':
+        specifier: workspace:*
+        version: link:../../../packages/eval-public
       '@synthaembed/fleet':
         specifier: workspace:*
         version: link:../../../packages/fleet

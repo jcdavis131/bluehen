@@ -154,6 +154,14 @@ export function HealthCheckPanel() {
               <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">
                 Talk to the team
               </a>
+              <a
+                className="bh-btn bh-btn--ghost"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`/api/og?erank=${result.effectiveRank}&util=${result.utilization}&model=${encodeURIComponent(result.modelVersion)}&score=${Math.round((1 - result.utilization) * 100)}&samples=${result.samples}`}
+              >
+                Share card ↗
+              </a>
             </div>
           </Reveal>
         </div>

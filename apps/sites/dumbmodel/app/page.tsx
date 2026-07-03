@@ -2,12 +2,18 @@ import Link from "next/link";
 import { ConeMascot, HenMascot } from "@/components/site";
 import {
   Axis,
+  CrossSellStrip,
+  ExplorationTracker,
   Marginalia,
+  ReturnGreeting,
   RuledSection,
   StatusLine,
   TitleCard,
   TeamStrip,
+  type ExplorationSurface,
+  type LedgerEntry,
 } from "@synthaembed/ui-fleet";
+import { hasCoreApi, siteLedger } from "@synthaembed/ui-fleet/site-api";
 import { BRAND, getSiteCircuit, RE } from "@synthaembed/fleet";
 
 export const metadata = {
@@ -16,8 +22,36 @@ export const metadata = {
     "Paste your text, get measured diagnostics — effective rank, space utilization, redundancy. Free, no signup.",
 };
 
-export default function HomePage() {
+// ReturnGreeting compares the visitor's stored last-visit timestamp against
+// the live ledger — a build-time snapshot would greet with stale data.
+export const dynamic = "force-dynamic";
+
+// Exploration tracker scope: dumbmodel.com surfaces only (localStorage is
+// per-origin — claiming cross-site visits would be dishonest).
+const SITE_SURFACES: ExplorationSurface[] = [
+  { id: "home", label: "Home", href: "/" },
+  { id: "check", label: "Health check", href: "/check" },
+  { id: "compare", label: "Compare models", href: "/compare" },
+  { id: "hall", label: "Hall of Cone", href: "/hall" },
+  { id: "museum", label: "Museum of Collapse", href: "/museum" },
+];
+
+// Real ledger or nothing: ReturnGreeting renders only from actual entries
+// since the visitor's stored last-visit timestamp. Offline ⇒ no greeting,
+// never a manufactured one.
+async function fetchLedger(): Promise<LedgerEntry[]> {
+  if (!hasCoreApi()) return [];
+  try {
+    const data = (await siteLedger(30)) as { entries?: LedgerEntry[] } | null;
+    return Array.isArray(data?.entries) ? data.entries : [];
+  } catch {
+    return [];
+  }
+}
+
+export default async function HomePage() {
   const surface = getSiteCircuit("dumbmodel");
+  const ledger = await fetchLedger();
 
   return (
     <>
@@ -47,6 +81,8 @@ export default function HomePage() {
 
       <TeamStrip siteId="dumbmodel" />
 
+        <ReturnGreeting ledger={ledger} />
+
         <RuledSection label="Run the diagnostics">
           <div className="bh-stack" style={{ gap: 16 }}>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
@@ -74,6 +110,7 @@ export default function HomePage() {
             <Marginalia>
               Every score traces to a reproducible eval gate — nDCG, effective rank, rotating slice.
             </Marginalia>
+            <ExplorationTracker surfaces={SITE_SURFACES} currentId="home" />
           </div>
         </RuledSection>
 
@@ -117,6 +154,8 @@ export default function HomePage() {
             </div>
           </div>
         </RuledSection>
+
+        <CrossSellStrip siteId="dumbmodel" />
       </Axis>
     </>
   );

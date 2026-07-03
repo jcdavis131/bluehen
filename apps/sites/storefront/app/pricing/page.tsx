@@ -1,9 +1,12 @@
-import { PageHeader } from "@synthaembed/ui-fleet";
+import { PageHeader, RuledSection } from "@synthaembed/ui-fleet";
 import Link from "next/link";
+import { SmartLink } from "../../components/SmartLink";
+import { listBusinessUnitOffers } from "../../lib/offers";
 
 export const metadata = {
   title: "Pricing — Blue Hen RE",
-  description: "Engagement packages: evaluation sprint, managed embeddings, and enterprise platform.",
+  description:
+    "Platform engagements — evaluation sprint, managed embeddings, enterprise platform — plus the business-unit offers they build on.",
 };
 
 const TIERS = [
@@ -31,30 +34,72 @@ const TIERS = [
 ];
 
 export default function PricingPage() {
+  const offers = listBusinessUnitOffers();
+
   return (
     <>
       <PageHeader
         eyebrow="Commerce"
         title="Pricing"
-        lead="Three engagement shapes. Every claim in a proposal traces to a measured result — the same rule the platform holds itself to."
+        lead={
+          <>
+            Two ways to buy. Engage the <strong>platform</strong> directly —
+            three engagement shapes below — or start with one of the{" "}
+            <Link href="/offers">{offers.length} business-unit offers</Link>{" "}
+            the platform operates. Every claim in a proposal traces to a
+            measured result — the same rule the platform holds itself to.
+          </>
+        }
       />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
-        {TIERS.map((t) => (
-          <div key={t.name} className="bh-card">
-            <div className="bh-card__title">{t.name}</div>
-            <p className="bh-card__body" style={{ fontWeight: 600 }}>{t.price}</p>
-            <p className="bh-card__body">{t.body}</p>
-            <ul className="bh-card__body">
-              {t.items.map((i) => (
-                <li key={i}>{i}</li>
-              ))}
-            </ul>
-            <Link className="bh-btn" href={t.cta.href}>
-              {t.cta.label}
-            </Link>
-          </div>
-        ))}
-      </div>
+
+      <RuledSection label="Platform engagements">
+        <p className="bh-card__body" style={{ maxWidth: 640, marginBottom: 16 }}>
+          These three shapes engage the platform itself — the governed
+          lifecycle that every business unit runs on.
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
+          {TIERS.map((t) => (
+            <div key={t.name} className="bh-card">
+              <div className="bh-card__title">{t.name}</div>
+              <p className="bh-card__body" style={{ fontWeight: 600 }}>{t.price}</p>
+              <p className="bh-card__body">{t.body}</p>
+              <ul className="bh-card__body">
+                {t.items.map((i) => (
+                  <li key={i}>{i}</li>
+                ))}
+              </ul>
+              <Link className="bh-btn" href={t.cta.href}>
+                {t.cta.label}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </RuledSection>
+
+      <RuledSection label="Business-unit offers">
+        <p className="bh-card__body" style={{ maxWidth: 640, marginBottom: 16 }}>
+          Each business unit also sells on its own site. The full portfolio —
+          offer, ask, and direct conversion path per unit — is on{" "}
+          <Link href="/offers">What we sell</Link>. In brief:
+        </p>
+        <div className="bh-grid bh-grid--2">
+          {offers.map((o) => (
+            <SmartLink
+              key={o.id}
+              href={o.primary.href}
+              className="bh-card"
+              style={{ display: "block" }}
+            >
+              <p className="bh-card__title">{o.unit}</p>
+              <p className="bh-card__body">{o.offer}</p>
+              <p className="bh-meta" style={{ marginTop: 8 }}>
+                {o.ask} · {o.primary.label} · {o.domain}
+              </p>
+            </SmartLink>
+          ))}
+        </div>
+      </RuledSection>
+
       <div className="bh-card" style={{ marginTop: 16 }}>
         <div className="bh-card__title">Self-serve</div>
         <p className="bh-card__body">

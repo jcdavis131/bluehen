@@ -1,7 +1,7 @@
 import fleetJson from "../../../config/fleet.json" with { type: "json" };
-import type { FleetConfig, FleetSite, OrgDivisionId, SitePhase, SiteStatus } from "./types";
+import type { FleetConfig, FleetSite, OrgDivisionId, SitePhase, SiteStatus, SiteVenture } from "./types";
 
-export type { FleetConfig, FleetSite, OrgDivisionId, SitePhase, SiteStatus };
+export type { FleetConfig, FleetSite, OrgDivisionId, SitePhase, SiteStatus, SiteVenture };
 export type { BdQueue, BdQueueCandidate } from "./bd-queue";
 export type { OrgDivision, OrgDivisionsConfig } from "./org-divisions";
 export { getBdQueue, getBdQueueForSite } from "./bd-queue";

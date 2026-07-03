@@ -16,6 +16,7 @@ function paletteItems(): PaletteItem[] {
   const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
   const pages: PaletteItem[] = [
     { label: "Home — Operating Loop", href: "/", hint: "storefront" },
+    { label: "What we sell — the portfolio", href: "/offers", hint: "storefront" },
     { label: "Try live search", href: "/try", hint: "action" },
     { label: "Research — experiment museum", href: "/research", hint: "storefront" },
     { label: "Pricing", href: "/pricing", hint: "storefront" },

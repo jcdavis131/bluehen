@@ -7,6 +7,20 @@ export type OrgDivisionId =
   | "execution"
   | "orchestration";
 
+/** Venture/offer metadata for revenue-bearing units (Specs 0015, 0018, 0019).
+ *  Authored in config/fleet.json; shapes vary slightly per unit, so every
+ *  field is optional. */
+export interface SiteVenture {
+  valueProp?: string;
+  cta?: { label: string; href: string };
+  monetization?: string;
+  dataConsent?: string;
+  /** Refinery-style shape (Spec 0018) */
+  offer?: string;
+  revenue?: string;
+  spec?: string;
+}
+
 export interface FleetSite {
   id: string;
   name: string;
@@ -28,6 +42,8 @@ export interface FleetSite {
   status: SiteStatus;
   legacyRepo: string | null;
   description: string;
+  /** Present on revenue-bearing units — the authored offer/CTA metadata. */
+  venture?: SiteVenture;
 }
 
 export interface FleetPlatform {

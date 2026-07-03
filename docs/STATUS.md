@@ -35,6 +35,13 @@ Division Ops console at jcamd.com/ops, measured load posture (EVIDENCE
 same-hour). OPEN: G1 data.bhenre.com attach (Operator), erasure tooling,
 Redis-backed limiter on scale-out.
 
+## Wiki Refinery (Spec 0020 — LIVE)
+
+8 pages auto-built in prod from catalog rows (index, topics, dataset
+pages w/ computed cross-links, link map); rebuilds on boot + every
+harvest; GLM refinement pass wired behind GLM_API_KEY with honest
+deterministic-only footers until keyed. /wiki live on the refinery site.
+
 ## Corporate topology (Spec 0019 — closed both directions)
 
 Company site presents all BUs from the registry; every BU signs itself

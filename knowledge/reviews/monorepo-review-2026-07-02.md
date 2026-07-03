@@ -390,3 +390,7 @@ Two commits (Cursor lane):
 - One e2e path proven: smoke-import worker → ok; Dockerfile bake reviewed → additive + commented.
 - Per tick-8 rule: NOT re-arming heartbeat (99904 still pending). Watcher 844529 still running.
 - NOTE: watcher will emit 7a41f9c as occurrence 11 — stale wake, will ignore (already reviewed here).
+## Run 2026-07-02T23:19:04 (loop tick 17 — watcher occurrence 12; HEAD 7a41f9c → d7526eb. docs: EVIDENCE 3.9 first chartered prod deploy. Docs-only, no code. No gate needed. Not re-arming (99904 pending). Watcher 844529 running.)
+
+## Run 2026-07-02T23:24:49 (loop tick 18 — fallback 99904 fired; no new commit past d7526eb. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

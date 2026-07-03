@@ -838,28 +838,33 @@
       "division": "comms",
       "priority": 69,
       "title": "Tastemaker Phase 3 \u2014 roll spine to hq, dumbmodel, validation, research, observatory, simulation (Spec 0017)",
-      "status": "blocked",
+      "status": "done",
       "spec": "0017",
       "lane": "cursor",
       "command": "One PR per site \u2014 convert each homepage to the spine layout. Same hand on every surface.",
       "acceptance": "All 7 sites render homepages through the spine; pnpm review green; no pure black.",
       "dependsOn": [
         "SITE-015"
-      ]
+      ],
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-03T04:21:43.979147+00:00",
+      "completedAt": "2026-07-03T04:24:15.982859+00:00"
     },
     {
       "id": "SITE-017",
       "division": "comms",
       "priority": 70,
       "title": "Tastemaker Phase 4 \u2014 per-site accent desaturation + contrast verification (Spec 0017)",
-      "status": "blocked",
+      "status": "in_progress",
       "spec": "0017",
       "lane": "cursor",
       "command": "Tune tokens.css accent family (hen-blue, moss, clay, cone-rust, slate-blue) ~8-12% desat; re-derive -muted rgba tints; author scripts/check-tastemaker.mjs (pure-black, accent contrast 4.5:1, tap-target >=44px). No new accents.",
       "acceptance": "scripts/check-tastemaker.mjs green for all 7 accents on --bh-canvas; all accents pass WCAG AA 4.5:1.",
       "dependsOn": [
         "SITE-016"
-      ]
+      ],
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-03T04:24:59.069710+00:00"
     },
     {
       "id": "SITE-018",
@@ -888,6 +893,62 @@
       "dependsOn": [
         "SITE-018"
       ]
+    },
+    {
+      "id": "DR-101",
+      "title": "Refinery data plane: migration 009 + catalog/stats APIs + tick->Postgres sync + backfill",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+    },
+    {
+      "id": "DR-102",
+      "title": "Refinery submit/harvest APIs + rate limits + inbox review endpoints",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+    },
+    {
+      "id": "DR-103",
+      "title": "Refinery site app (apps/sites/refinery): full IA vs spec 0018 contract, copper accent, mobile-first",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+    },
+    {
+      "id": "DR-104",
+      "title": "Refinery fleet wiring: registry, nav, workspace bootstrap, Vercel project, domain (Operator G1)",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+    },
+    {
+      "id": "DR-105",
+      "title": "Refinery flywheel: dumbmodel inbox review queue -> catalog; RSS + scorecard cards visible",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+    },
+    {
+      "id": "DR-106",
+      "title": "Refinery scale hardening: k6 load test + cache verify + honest EVIDENCE row",
+      "status": "blocked",
+      "lane": "opencode",
+      "priority": "P2",
+      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+    },
+    {
+      "id": "DR-107",
+      "title": "Refinery launch review: 5-SME OKF living reviews + deploy checklist",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P3",
+      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
     }
   ]
 }

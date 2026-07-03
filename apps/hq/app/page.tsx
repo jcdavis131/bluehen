@@ -1,8 +1,13 @@
-import { listSites, devCommand, getSiteCircuit, BRAND, RE, GLOSSARY } from "@synthaembed/fleet";import {
+import { listSites, devCommand, getSiteCircuit, BRAND, RE, GLOSSARY } from "@synthaembed/fleet";
+import {
+  Axis,
   InteractiveCircuit,
+  Marginalia,
   MilestoneStrip,
-  PageHeader,
   RaceFeed,
+  RuledSection,
+  StatusLine,
+  TitleCard,
   siteHref,
   type LedgerEntry,
 } from "@synthaembed/ui-fleet";
@@ -65,108 +70,118 @@ export default async function HqPage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow={surface?.eyebrow}
-        title={surface?.stop ?? "Headquarters"}
-        lead={
-          <>
-            The org hub — every venture, one {BRAND.operatingLoop}.{" "}
-            <Link href="/actions">Lifecycle controls →</Link>
-          </>
-        }
-        badge={
-          <span className={`bh-badge ${online ? "bh-badge--ok" : "bh-badge--warn"}`}>
-            {online ? "API online" : "API offline"}
-          </span>
-        }
+      <StatusLine
+        site="jcamd.com"
+        section="Headquarters"
+        status={online ? "API online" : "API offline"}
       />
 
-      <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>
-        <div className="bh-card">
-          <div className="bh-label">core-api</div>
-          <div className={`bh-stat ${online ? "bh-stat--ok" : "bh-stat--danger"}`}>
-            {online ? "Online" : "Offline — run uvicorn"}
+      <Axis wide>
+        <TitleCard
+          eyebrow={surface?.eyebrow}
+          title={surface?.stop ?? "Headquarters"}
+          marginalia={`${BRAND.operatingLoop} · fleet control`}
+        >
+          <p className="bh-title-card__copy">
+            The org hub — every venture, one {BRAND.operatingLoop}.{" "}
+            <Link href="/actions">Lifecycle controls →</Link>
+          </p>
+        </TitleCard>
+
+        <RuledSection label="Operating state">
+          <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>
+            <div className="bh-card">
+              <div className="bh-label">core-api</div>
+              <div className={`bh-stat ${online ? "bh-stat--ok" : "bh-stat--danger"}`}>
+                {online ? "Online" : "Offline — run uvicorn"}
+              </div>
+            </div>
+            <div className="bh-card">
+              <div className="bh-label">Active tenants</div>
+              <div className="bh-stat">
+                {fleet ? `${fleet.count} workspaces` : ADMIN ? "—" : "Set API_SECRET_KEY"}
+              </div>
+            </div>
+            <div className="bh-card">
+              <div className="bh-label">Pair-program</div>
+              <code style={{ fontSize: "0.68rem" }}>synth fleet context</code>
+            </div>
           </div>
-        </div>
-        <div className="bh-card">
-          <div className="bh-label">Active tenants</div>
-          <div className="bh-stat">
-            {fleet ? `${fleet.count} workspaces` : ADMIN ? "—" : "Set API_SECRET_KEY"}
+          <MilestoneStrip ledger={loop.ledger} models={loop.models} />
+        </RuledSection>
+
+        <RuledSection label="Live circuit">
+          <div style={{ margin: "20px 0" }}>
+            <InteractiveCircuit initialLedger={loop.ledger} />
           </div>
-        </div>
-        <div className="bh-card">
-          <div className="bh-label">Pair-program</div>
-          <code style={{ fontSize: "0.68rem" }}>synth fleet context</code>
-        </div>
-      </div>
+        </RuledSection>
 
-      <MilestoneStrip ledger={loop.ledger} models={loop.models} />
+        <RuledSection label={GLOSSARY.raceLog}>
+          <div className="bh-card bh-card--flush" style={{ marginBottom: "var(--bh-space-8)", padding: 0, overflow: "hidden" }}>
+            <RaceFeed initial={loop.ledger} />
+          </div>
+        </RuledSection>
 
-      <div style={{ margin: "20px 0" }}>
-        <InteractiveCircuit initialLedger={loop.ledger} />
-      </div>
+        {fleet && (
+          <RuledSection label="Fleet status">
+            <div className="bh-card bh-card--flush" style={{ marginBottom: "var(--bh-space-8)" }}>
+              {(fleet.orgs as Record<string, unknown>[]).map((org) => {
+                const job = org.latestJob as Record<string, unknown> | undefined;
+                const model = org.latestModel as Record<string, unknown> | undefined;
+                return (
+                  <div key={String(org.siteId)} className="bh-row-list">
+                    <div className="bh-card__title">{String(org.name)}</div>
+                    <div className="bh-card__body" style={{ marginTop: "var(--bh-space-1)" }}>
+                      job: {String(job?.status ?? "—")} · model: {String(model?.version ?? "—")} · deployed:{" "}
+                      {String(org.deployedModel ?? "—")} · chunks: {String(org.indexedChunks ?? 0)}
+                    </div>
+                    <div className="bh-meta" style={{ marginTop: "var(--bh-space-1)" }}>
+                      rank {String(model?.effectiveRank ?? "—")} · nDCG {String(model?.ndcg10 ?? "—")} · budget $
+                      {Number(org.budgetRemaining ?? 0).toFixed(2)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </RuledSection>
+        )}
 
-      <h2 className="bh-section-title">{GLOSSARY.raceLog}</h2>
-      <div className="bh-card bh-card--flush" style={{ marginBottom: "var(--bh-space-8)", padding: 0, overflow: "hidden" }}>
-        <RaceFeed initial={loop.ledger} />
-      </div>
-
-      {fleet && (
-        <>
-          <h2 className="bh-section-title">Fleet status</h2>
-          <div className="bh-card bh-card--flush" style={{ marginBottom: "var(--bh-space-8)" }}>
-            {(fleet.orgs as Record<string, unknown>[]).map((org) => {
-              const job = org.latestJob as Record<string, unknown> | undefined;
-              const model = org.latestModel as Record<string, unknown> | undefined;
+        <RuledSection label="Product surfaces">
+          <div className="bh-grid">
+            {sites.map((site) => {
+              const live = orgBySite.get(site.id) as Record<string, unknown> | undefined;
+              const deployed = live?.deployedModel as string | undefined;
+              const stop = getSiteCircuit(site.id);
               return (
-                <div key={String(org.siteId)} className="bh-row-list">
-                  <div className="bh-card__title">{String(org.name)}</div>
-                  <div className="bh-card__body" style={{ marginTop: "var(--bh-space-1)" }}>
-                    job: {String(job?.status ?? "—")} · model: {String(model?.version ?? "—")} · deployed:{" "}
-                    {String(org.deployedModel ?? "—")} · chunks: {String(org.indexedChunks ?? 0)}
+                <article key={site.id} className="bh-card bh-card--column">
+                  <div className="bh-card__row">
+                    <h3 className="bh-card__title bh-card__title--lg">{stop?.stop ?? site.name}</h3>
+                    <span className={`bh-badge ${site.status === "active" ? "bh-badge--ok" : "bh-badge--warn"}`}>
+                      {site.status}
+                    </span>
                   </div>
-                  <div className="bh-meta" style={{ marginTop: "var(--bh-space-1)" }}>
-                    rank {String(model?.effectiveRank ?? "—")} · nDCG {String(model?.ndcg10 ?? "—")} · budget $
-                    {Number(org.budgetRemaining ?? 0).toFixed(2)}
-                  </div>
-                </div>
+                  <p className="bh-card__body">{site.description}</p>
+                  {deployed && (
+                    <div className="bh-card__subtitle">
+                      {GLOSSARY.deployedModel}: {deployed}
+                    </div>
+                  )}
+                  <div className="bh-meta">{site.appPath}</div>
+                  {site.domain && (
+                    <Link href={siteHref(site, local)} className="bh-card__subtitle">
+                      Open {site.domain} →
+                    </Link>
+                  )}
+                  {devCommand(site) && <code className="bh-meta">{devCommand(site)}</code>}
+                </article>
               );
             })}
           </div>
-        </>
-      )}
-
-      <h2 className="bh-section-title">Product surfaces</h2>
-      <div className="bh-grid">
-        {sites.map((site) => {
-          const live = orgBySite.get(site.id) as Record<string, unknown> | undefined;
-          const deployed = live?.deployedModel as string | undefined;
-          const stop = getSiteCircuit(site.id);
-          return (
-            <article key={site.id} className="bh-card bh-card--column">
-              <div className="bh-card__row">
-                <h3 className="bh-card__title bh-card__title--lg">{stop?.stop ?? site.name}</h3>
-                <span className={`bh-badge ${site.status === "active" ? "bh-badge--ok" : "bh-badge--warn"}`}>
-                  {site.status}
-                </span>
-              </div>
-              <p className="bh-card__body">{site.description}</p>
-              {deployed && (
-                <div className="bh-card__subtitle">
-                  {GLOSSARY.deployedModel}: {deployed}
-                </div>
-              )}
-              <div className="bh-meta">{site.appPath}</div>
-              {site.domain && (
-                <Link href={siteHref(site, local)} className="bh-card__subtitle">
-                  Open {site.domain} →
-                </Link>
-              )}
-              {devCommand(site) && <code className="bh-meta">{devCommand(site)}</code>}
-            </article>
-          );
-        })}
-      </div>
+          <Marginalia>
+            One organization, one {BRAND.operatingLoop.toLowerCase()} — every surface feeds the same lifecycle.
+          </Marginalia>
+        </RuledSection>
+      </Axis>
     </>
   );
 }

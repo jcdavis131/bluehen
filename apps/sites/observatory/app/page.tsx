@@ -2,6 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  Axis,
+  Marginalia,
+  RuledSection,
+  StatusLine,
+  TitleCard,
+} from "@synthaembed/ui-fleet";
 import { StatTile } from "../components/StatTile";
 import { StatusPill } from "../components/StatusPill";
 import { listRuns } from "../lib/api";
@@ -38,69 +45,88 @@ export default function RunListPage() {
 
   return (
     <>
-      <div className="console-eyebrow">Observatory · Blue Hen RE</div>
-      <h1 className="console-h1">Training Observatory</h1>
-      <p className="console-sub">
-        Live run telemetry across the autoresearch loop — loss, effective rank,
-        collapse alerts, and R2D curvature.
-      </p>
+      <StatusLine
+        site="training.jcamd.com"
+        section="Observatory"
+        status={runs === null ? "Connecting" : runs.length === 0 ? "No runs" : `${running} running`}
+      />
 
-      {error && runs !== null && (
-        <div className="stale-banner" role="status">
-          Telemetry source unreachable — run list may be stale.
-        </div>
-      )}
+      <Axis wide>
+        <TitleCard
+          eyebrow="Observatory · Blue Hen RE"
+          title="Training Observatory"
+          marginalia="Live run telemetry · autoresearch loop"
+        >
+          <p className="bh-title-card__copy">
+            Live run telemetry across the autoresearch loop — loss, effective rank,
+            collapse alerts, and R2D curvature.
+          </p>
+        </TitleCard>
 
-      {error && runs === null && (
-        <div className="empty-state">
-          <strong>Telemetry source unreachable.</strong>
-          <br />
-          Start the local reader and seed a demo run:
-          <br />
-          <code>uv run python -m runboard demo</code> then{" "}
-          <code>uv run python -m runboard serve</code>
-          <br />
-          Production deployments point <code>NEXT_PUBLIC_TELEMETRY_URL</code> at
-          core-api with a tenant key in <code>NEXT_PUBLIC_TELEMETRY_KEY</code>.
-        </div>
-      )}
+        <RuledSection label="Run summary">
+          {error && runs !== null && (
+            <div className="stale-banner" role="status">
+              Telemetry source unreachable — run list may be stale.
+            </div>
+          )}
 
-      {runs && runs.length === 0 && (
-        <div className="empty-state">
-          No runs recorded yet. Instrument a training script with{" "}
-          <code>runboard.init(...)</code> or seed a demo run with{" "}
-          <code>uv run python -m runboard demo</code>.
-        </div>
-      )}
+          {error && runs === null && (
+            <div className="empty-state">
+              <strong>Telemetry source unreachable.</strong>
+              <br />
+              Start the local reader and seed a demo run:
+              <br />
+              <code>uv run python -m runboard demo</code> then{" "}
+              <code>uv run python -m runboard serve</code>
+              <br />
+              Production deployments point <code>NEXT_PUBLIC_TELEMETRY_URL</code> at
+              core-api with a tenant key in <code>NEXT_PUBLIC_TELEMETRY_KEY</code>.
+            </div>
+          )}
 
-      {runs && runs.length > 0 && (
-        <>
-          <div className="run-card__stats" style={{ marginBottom: 20 }}>
-            <StatTile label="Total runs" value={String(runs.length)} hero />
-            <StatTile label="Running now" value={String(running)} hero />
-          </div>
-          <h2 className="console-section-title">Runs</h2>
-          <div className="run-grid">
-            {runs.map((run) => (
-              <Link key={run.id} href={`/runs/${encodeURIComponent(run.id)}`} className="run-card">
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                  <span className="run-card__name">{run.name}</span>
-                  <StatusPill status={run.status} />
-                </div>
-                <div className="run-card__meta">
-                  {run.project} · {new Date(run.createdAt).toLocaleString()}
-                  {run.tags.length > 0 && <> · {run.tags.join(", ")}</>}
-                </div>
-                <div className="run-card__stats">
-                  {summaryEntries(run).map(([k, v]) => (
-                    <StatTile key={k} label={k} value={v} />
-                  ))}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </>
-      )}
+          {runs && runs.length === 0 && (
+            <div className="empty-state">
+              No runs recorded yet. Instrument a training script with{" "}
+              <code>runboard.init(...)</code> or seed a demo run with{" "}
+              <code>uv run python -m runboard demo</code>.
+            </div>
+          )}
+
+          {runs && runs.length > 0 && (
+            <div className="run-card__stats" style={{ marginBottom: 20 }}>
+              <StatTile label="Total runs" value={String(runs.length)} hero />
+              <StatTile label="Running now" value={String(running)} hero />
+            </div>
+          )}
+        </RuledSection>
+
+        {runs && runs.length > 0 && (
+          <RuledSection label="Runs">
+            <div className="run-grid">
+              {runs.map((run) => (
+                <Link key={run.id} href={`/runs/${encodeURIComponent(run.id)}`} className="run-card">
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                    <span className="run-card__name">{run.name}</span>
+                    <StatusPill status={run.status} />
+                  </div>
+                  <div className="run-card__meta">
+                    {run.project} · {new Date(run.createdAt).toLocaleString()}
+                    {run.tags.length > 0 && <> · {run.tags.join(", ")}</>}
+                  </div>
+                  <div className="run-card__stats">
+                    {summaryEntries(run).map(([k, v]) => (
+                      <StatTile key={k} label={k} value={v} />
+                    ))}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <Marginalia>
+              Each run records loss, effective rank, and collapse alerts — the same signals that gate deploys.
+            </Marginalia>
+          </RuledSection>
+        )}
+      </Axis>
     </>
   );
 }

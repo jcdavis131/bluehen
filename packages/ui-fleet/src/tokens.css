@@ -24,27 +24,29 @@
   --bh-muted: #7a8278;
   --bh-faint: #525850;
 
-  /* Brand & semantic */
-  --bh-hen-blue: #4a7c9b;
-  --bh-hen-blue-dim: #2f5268;
-  --bh-heather: #8583b8;
-  --bh-heather-dim: #5a5987;
-  --bh-instrument: #63a3a0;
-  --bh-instrument-dim: #40706e;
-  --bh-moss: #6b8f71;
-  --bh-moss-dim: #3d5240;
-  --bh-clay: #c4a574;
-  --bh-clay-dim: #6b5a3a;
-  --bh-cone-rust: #b8734a;
-  --bh-cone-dim: #5c3a24;
-  --bh-slate-blue: #6b7f9a;
+  /* Brand & semantic — Spec 0017 desaturated ~10% so all 7 accents read as
+     one muted Wes-Anderson family. hen-blue lifted to L=0.48 to clear AA 4.5:1
+     on --bh-canvas. */
+  --bh-hen-blue: #5384a1;
+  --bh-hen-blue-dim: #345571;
+  --bh-heather: #8786b5;
+  --bh-heather-dim: #5c5b85;
+  --bh-instrument: #66a09d;
+  --bh-instrument-dim: #426e6c;
+  --bh-moss: #6d8d72;
+  --bh-moss-dim: #3e5141;
+  --bh-clay: #c0a478;
+  --bh-clay-dim: #69593c;
+  --bh-cone-rust: #b27450;
+  --bh-cone-dim: #593b27;
+  --bh-slate-blue: #6d7f98;
   --bh-danger: #c45c4a;
   --bh-danger-dim: #5c2a22;
 
   /* Site accent (override per shell via data-site) */
   --bh-accent: var(--bh-hen-blue);
   --bh-accent-dim: var(--bh-hen-blue-dim);
-  --bh-accent-muted: rgba(74, 124, 155, 0.14);
+  --bh-accent-muted: rgba(83, 132, 161, 0.14);
 
   /* Typography */
   --bh-font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
@@ -78,7 +80,7 @@
   --bh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --bh-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.35);
   --bh-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --bh-glow-accent: 0 0 20px rgba(74, 124, 155, 0.08);
+  --bh-glow-accent: 0 0 20px rgba(83, 132, 161, 0.08);
 
   /* Motion */
   --bh-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -118,45 +120,45 @@
 .fleet-shell[data-site="storefront"] {
   --bh-accent: var(--bh-hen-blue);
   --bh-accent-dim: var(--bh-hen-blue-dim);
-  --bh-accent-muted: rgba(74, 124, 155, 0.12);
+  --bh-accent-muted: rgba(83, 132, 161, 0.12);
 }
 
 .fleet-shell[data-site="hq"] {
   --bh-accent: var(--bh-slate-blue);
-  --bh-accent-dim: #455a6e;
-  --bh-accent-muted: rgba(107, 127, 154, 0.12);
+  --bh-accent-dim: #475a6c;
+  --bh-accent-muted: rgba(109, 127, 152, 0.12);
 }
 
 .fleet-shell[data-site="dumbmodel"] {
   --bh-accent: var(--bh-cone-rust);
   --bh-accent-dim: var(--bh-cone-dim);
-  --bh-accent-muted: rgba(184, 115, 74, 0.12);
+  --bh-accent-muted: rgba(178, 116, 80, 0.12);
 }
 
 .fleet-shell[data-site="validation"] {
   /* certification green — the referee's pass color */
   --bh-accent: var(--bh-moss);
   --bh-accent-dim: var(--bh-moss-dim);
-  --bh-accent-muted: rgba(107, 143, 113, 0.12);
+  --bh-accent-muted: rgba(109, 141, 114, 0.12);
 }
 
 .fleet-shell[data-site="research"] {
   /* scholarly heather — reads as ink-and-library, unlike anything else in the fleet */
   --bh-accent: var(--bh-heather);
   --bh-accent-dim: var(--bh-heather-dim);
-  --bh-accent-muted: rgba(133, 131, 184, 0.12);
+  --bh-accent-muted: rgba(135, 134, 181, 0.12);
 }
 
 .fleet-shell[data-site="simulation"] {
   /* market sand — the contained experiment */
   --bh-accent: var(--bh-clay);
   --bh-accent-dim: var(--bh-clay-dim);
-  --bh-accent-muted: rgba(196, 165, 116, 0.12);
+  --bh-accent-muted: rgba(192, 164, 120, 0.12);
 }
 
 .fleet-shell[data-site="observatory"] {
   /* instrument teal — telemetry glow, distinct from storefront steel */
   --bh-accent: var(--bh-instrument);
   --bh-accent-dim: var(--bh-instrument-dim);
-  --bh-accent-muted: rgba(99, 163, 160, 0.12);
+  --bh-accent-muted: rgba(102, 160, 157, 0.12);
 }

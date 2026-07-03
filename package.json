@@ -29,6 +29,8 @@
     "harvest:arxiv": "uv run python scripts/harvest_arxiv_corpus.py",
     "research:loop": "uv run python scripts/research_loop.py",
     "work:blockers": "uv run python scripts/pick_task.py blockers",
+    "fleet:loop": "uv run python scripts/fleet_loop.py --once",
+    "fleet:loop:status": "uv run python scripts/fleet_loop.py --status",
     "build:reflect": "uv run python scripts/build_sync.py reflect",
     "build:inflow-sessions": "uv run python scripts/build_sync.py inflow-sessions",
     "prod:deploy": "node scripts/prod-deploy.mjs",

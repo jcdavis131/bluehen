@@ -53,7 +53,8 @@
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Headquarters - the org hub: fleet directory, live operating loop, lifecycle controls, cross-tenant status."
+      "description": "Headquarters - the org hub: fleet directory, live operating loop, lifecycle controls, cross-tenant status.",
+      "orgRole": "internal"
     },
     {
       "id": "storefront",
@@ -93,7 +94,8 @@
         },
         "monetization": "Pricing tiers -> briefings; self-serve store (Medusa)",
         "dataConsent": "Leads via /contact (privacy at /legal/privacy); search relevance feedback"
-      }
+      },
+      "orgRole": "company"
     },
     {
       "id": "synthorg",
@@ -155,7 +157,8 @@
         },
         "monetization": "Evaluation Credits via bhenre.com/store; briefings via /contact",
         "dataConsent": "Opt-in checkbox on /check; consented samples \u2192 data/datalab/inbox (datalab source: dumbmodel-health-checks)"
-      }
+      },
+      "orgRole": "business-unit"
     },
     {
       "id": "validation",
@@ -192,7 +195,8 @@
         },
         "monetization": "RAG Certification Run product (store, USD placeholder pending Operator pricing)",
         "dataConsent": "Customer eval sets under NDA; published scorecards only with clearance"
-      }
+      },
+      "orgRole": "business-unit"
     },
     {
       "id": "research",
@@ -232,7 +236,8 @@
         },
         "monetization": "Design Partner Seat (store); usage-metered API later",
         "dataConsent": "Query logging deferred until consent UI ships (Spec 0015 gate)"
-      }
+      },
+      "orgRole": "business-unit"
     },
     {
       "id": "observatory",
@@ -259,7 +264,8 @@
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Observatory - run telemetry, effective-rank monitoring, collapse alerts (internal)."
+      "description": "Observatory - run telemetry, effective-rank monitoring, collapse alerts (internal).",
+      "orgRole": "internal"
     },
     {
       "id": "simulation",
@@ -295,7 +301,42 @@
         },
         "monetization": "Waitlist -> premium research notes (Phase B gate; no live trading)",
         "dataConsent": "Waitlist email stored for this list only (data/leads/waitlist.jsonl)"
-      }
+      },
+      "orgRole": "business-unit"
+    },
+    {
+      "id": "refinery",
+      "name": "Data Refinery",
+      "domain": "data.bhenre.com",
+      "phase": "B",
+      "role": "Data Operations business unit \u2014 provenance-carrying datasets, custom harvests, dataset prep (Spec 0018)",
+      "orgDivision": "data",
+      "secondaryDivisions": [
+        "data",
+        "research"
+      ],
+      "deliversTo": [
+        "execution",
+        "orchestration"
+      ],
+      "expectsFrom": [
+        "research",
+        "data"
+      ],
+      "appPath": "apps/sites/refinery",
+      "package": "@synthaembed/refinery",
+      "port": null,
+      "vercelPreview": null,
+      "status": "planned",
+      "legacyRepo": null,
+      "description": "Data Refinery \u2014 the Data Operations division as a business: browse OKF datasets, contribute consented data, request custom harvests.",
+      "venture": {
+        "offer": "Provenance-carrying datasets, custom harvests, dataset prep",
+        "revenue": "harvest/prep engagements + premium datasets",
+        "spec": "0018"
+      },
+      "orgRole": "business-unit",
+      "division": "data"
     }
   ]
 }

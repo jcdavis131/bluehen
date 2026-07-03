@@ -110,7 +110,7 @@ export default async function HqPage() {
           <MilestoneStrip ledger={loop.ledger} models={loop.models} />
         </RuledSection>
 
-        <RuledSection label="Live circuit">
+        <RuledSection label="Live operating loop">
           <div style={{ margin: "20px 0" }}>
             <InteractiveCircuit initialLedger={loop.ledger} />
           </div>

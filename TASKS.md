@@ -46,10 +46,12 @@
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
 - [ ] **DR-103** — Refinery site app (apps/sites/refinery): full IA vs spec 0018 contract, copper accent, mobile-first (None)
+- [ ] **SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019) (None)
+- [ ] **SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019) (None)
 
 ## In progress
 
-- [ ] **SITE-017** — Tastemaker Phase 4 — per-site accent desaturation + contrast verification (Spec 0017) (@cursor)
+_None claimed — run `pick_task.py claim <id>`_
 
 ## Blocked on infra (work elsewhere)
 
@@ -60,19 +62,17 @@
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
 - [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
-- [ ] **SITE-018** — Tastemaker Phase 5 — copy/marginalia pass aligned to VOICE_AND_PLATFORM (Spec 0017) · blockedBy: ['SITE-017']
-- [ ] **SITE-019** — Tastemaker Phase 6 — validate: pnpm review + check-tastemaker.mjs CI + fleet-review sign-off (Spec 0017) · blockedBy: ['SITE-018']
 
 ## Recently done
 
-- [x] ~~**REV-907** — torch.load weights_only + checkpoint integrity on request path~~
-- [x] ~~**REV-908** — agentkit add_watch_source: URL allowlist + glob deny data/workspaces~~
-- [x] ~~**REV-909** — datalab watch_state atomic write + lock~~
 - [x] ~~**REV-910** — work_queue commands + package.json scripts reconciliation~~
 - [x] ~~**SITE-013** — Remove retired SiteSubnav usages (header now carries site IA)~~
 - [x] ~~**SITE-014** — Tastemaker Phase 1 — ui-fleet tokens + 6 primitives (Spec 0017)~~
 - [x] ~~**SITE-015** — Tastemaker Phase 2 — pilot spine on storefront homepage (Spec 0017)~~
 - [x] ~~**SITE-016** — Tastemaker Phase 3 — roll spine to hq, dumbmodel, validation, research, observatory, simulation (Spec 0017)~~
+- [x] ~~**SITE-017** — Tastemaker Phase 4 — per-site accent desaturation + contrast verification (Spec 0017)~~
+- [x] ~~**SITE-018** — Tastemaker Phase 5 — copy/marginalia pass aligned to VOICE_AND_PLATFORM (Spec 0017)~~
+- [x] ~~**SITE-019** — Tastemaker Phase 6 — validate: pnpm review + check-tastemaker.mjs CI + fleet-review sign-off (Spec 0017)~~
 
 ## Specs & context
 

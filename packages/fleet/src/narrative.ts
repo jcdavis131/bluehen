@@ -74,37 +74,42 @@ export const SITE_CIRCUIT: Record<
 > = {
   storefront: {
     stop: "Storefront",
-    role: "Public brand + commerce — store, pricing, briefings, proof surfaces — bhenre.com",
+    role: "The company website — who Blue Hen RE is, the divisions, the operating loop, store & pricing — bhenre.com",
     eyebrow: "Storefront · bhenre.com",
   },
   hq: {
     stop: "Headquarters",
-    role: "The org hub — fleet directory, live operating loop, lifecycle controls — jcamd.com",
+    role: "Internal cockpit — fleet directory, live operating loop, lifecycle controls — jcamd.com",
     eyebrow: "Headquarters · jcamd.com",
   },
   dumbmodel: {
     stop: "Baseline Comparison",
-    role: "Free embedder health check & collapse diagnostics — dumbmodel.com",
+    role: "Diagnostics unit — free embedder health checks; funnel + consented data — dumbmodel.com",
     eyebrow: "Baseline Comparison · dumbmodel.com",
   },
   validation: {
     stop: "Validation Lab",
-    role: "Paid RAG certification, published scorecards, promotion queue — slasso.com",
+    role: "Certification unit — paid RAG certification & published scorecards — slasso.com",
     eyebrow: "Validation Lab · slasso.com",
   },
   research: {
     stop: "Applied Research",
-    role: "Live arXiv retrieval assistant and research method registry — arxiviq.com",
+    role: "Applied Research unit — live retrieval assistant, method registry, case studies — arxiviq.com",
     eyebrow: "Applied Research · arxiviq.com",
   },
   simulation: {
     stop: "Simulation Lab",
-    role: "Phase B paper-trading across prediction markets, DFS, equities — simulation only",
+    role: "Signals unit — paper-trading strategy reports (simulation only, Spec 0013)",
     eyebrow: "Simulation Lab · signals.bhenre.com",
+  },
+  refinery: {
+    stop: "Data Refinery",
+    role: "Data Operations unit — provenance-carrying datasets, custom harvests, dataset prep — data.bhenre.com (Spec 0018)",
+    eyebrow: "Data Refinery · data.bhenre.com",
   },
   observatory: {
     stop: "Observatory",
-    role: "Run telemetry, effective-rank monitoring, collapse alerts — internal",
+    role: "Internal telemetry — run monitoring, effective rank, collapse alerts",
     eyebrow: "Observatory · training.jcamd.com",
   },
 };

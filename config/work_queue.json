@@ -855,7 +855,7 @@
       "division": "comms",
       "priority": 70,
       "title": "Tastemaker Phase 4 \u2014 per-site accent desaturation + contrast verification (Spec 0017)",
-      "status": "in_progress",
+      "status": "done",
       "spec": "0017",
       "lane": "cursor",
       "command": "Tune tokens.css accent family (hen-blue, moss, clay, cone-rust, slate-blue) ~8-12% desat; re-derive -muted rgba tints; author scripts/check-tastemaker.mjs (pure-black, accent contrast 4.5:1, tap-target >=44px). No new accents.",
@@ -864,35 +864,42 @@
         "SITE-016"
       ],
       "claimedBy": "cursor",
-      "claimedAt": "2026-07-03T04:24:59.069710+00:00"
+      "claimedAt": "2026-07-03T04:24:59.069710+00:00",
+      "completedAt": "2026-07-03T04:31:36.732124+00:00"
     },
     {
       "id": "SITE-018",
       "division": "comms",
       "priority": 71,
       "title": "Tastemaker Phase 5 \u2014 copy/marginalia pass aligned to VOICE_AND_PLATFORM (Spec 0017)",
-      "status": "blocked",
+      "status": "done",
       "spec": "0017",
       "lane": "cursor",
       "command": "Title cards, section labels, marginalia across all sites \u2014 evidence-first enterprise B2B; mono eyebrows, Instrument Serif titles, short factual marginalia.",
       "acceptance": "Copy review against docs/VOICE_AND_PLATFORM.md; no sports metaphors; no emoji in product UI without Operator approval.",
       "dependsOn": [
         "SITE-017"
-      ]
+      ],
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-03T04:33:00.142147+00:00",
+      "completedAt": "2026-07-03T04:35:59.832809+00:00"
     },
     {
       "id": "SITE-019",
       "division": "comms",
       "priority": 72,
       "title": "Tastemaker Phase 6 \u2014 validate: pnpm review + check-tastemaker.mjs CI + fleet-review sign-off (Spec 0017)",
-      "status": "blocked",
+      "status": "done",
       "spec": "0017",
       "lane": "cursor",
       "command": "pnpm review green; scripts/check-tastemaker.mjs wired as CI gate; scripts/fleet-review.ps1 -Open before/after; Operator sign-off the look.",
       "acceptance": "Spec 0017 acceptance criteria 1-10 all met; Operator visual sign-off recorded.",
       "dependsOn": [
         "SITE-018"
-      ]
+      ],
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-03T04:36:21.002639+00:00",
+      "completedAt": "2026-07-03T04:37:47.310430+00:00"
     },
     {
       "id": "DR-101",
@@ -949,6 +956,30 @@
       "lane": "claude",
       "priority": "P3",
       "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+    },
+    {
+      "id": "SITE-014",
+      "title": "Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "notes": "Spec 0019 \u00a73; hero = the company; store/pricing follow"
+    },
+    {
+      "id": "SITE-015",
+      "title": "BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "measured metric or honest empty state; 'a Blue Hen RE company' byline"
+    },
+    {
+      "id": "TOPO-002",
+      "title": "Order attribution from BU CTAs (cart metadata carries originating siteId)",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P3",
+      "notes": "with Medusa cart handoff work; Spec 0019 \u00a72.3"
     }
   ]
 }

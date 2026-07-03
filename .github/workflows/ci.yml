@@ -28,6 +28,9 @@ jobs:
       - name: Review sites (build + typecheck)
         run: pnpm review
 
+      - name: Tastemaker a11y gate (Spec 0017)
+        run: node scripts/check-tastemaker.mjs
+
       - name: Install Python
         run: uv sync --all-packages --extra dev --extra model
 

@@ -18,12 +18,13 @@ const SITE_MARK: Record<string, string> = {
   observatory: "OB",
 };
 
-/** Fleet surfaces grouped by their job in the operating loop — the nav
- * tells the org story instead of listing links. */
-const SURFACE_GROUPS: { label: string; ids: string[] }[] = [
-  { label: "Prove & certify", ids: ["dumbmodel", "validation"] },
-  { label: "Products", ids: ["storefront", "research", "simulation"] },
-  { label: "Operations", ids: ["hq", "observatory"] },
+/** Corporate topology (Spec 0019): ONE company site, revenue-bearing
+ * business units, internal consoles — derived from fleet.json orgRole so
+ * the nav is always the org chart, never a hardcoded list. */
+const ROLE_GROUPS: { label: string; role: string }[] = [
+  { label: "The company", role: "company" },
+  { label: "Business units", role: "business-unit" },
+  { label: "Internal operations", role: "internal" },
 ];
 
 export function FleetShell({
@@ -116,10 +117,8 @@ export function FleetShell({
                   One organization — {BRAND.name}. Every surface feeds the same
                   operating loop: {BRAND.tagline.toLowerCase()}
                 </p>
-                {SURFACE_GROUPS.map((group) => {
-                  const members = group.ids
-                    .map((id) => allSites.find((s) => s.id === id))
-                    .filter((s): s is NonNullable<typeof s> => Boolean(s));
+                {ROLE_GROUPS.map((group) => {
+                  const members = allSites.filter((s) => (s.orgRole ?? "business-unit") === group.role);
                   if (members.length === 0) return null;
                   return (
                     <div key={group.label} className="fleet-switcher__group">
@@ -163,10 +162,8 @@ export function FleetShell({
               lifecycle — every deploy passes published evaluation gates.
             </p>
           </div>
-          {SURFACE_GROUPS.map((group) => {
-            const members = group.ids
-              .map((id) => allSites.find((s) => s.id === id))
-              .filter((s): s is NonNullable<typeof s> => Boolean(s));
+          {ROLE_GROUPS.map((group) => {
+            const members = allSites.filter((s) => (s.orgRole ?? "business-unit") === group.role);
             if (members.length === 0) return null;
             return (
               <div key={group.label}>

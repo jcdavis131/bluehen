@@ -3,6 +3,7 @@
  */
 
 /* ── Shell chrome ───────────────────────────────────────── */
+/* Mobile-first: small-screen defaults, desktop enhancements at min-width. */
 
 .fleet-header {
   /* per-site accent signature — instant "which surface am I on" */
@@ -11,7 +12,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--bh-space-4);
-  padding: var(--bh-space-4) var(--bh-space-6);
+  padding: var(--bh-space-3) var(--bh-space-4);
   border-bottom: 2px solid var(--bh-border-strong);
   background: var(--bh-glass);
   backdrop-filter: blur(12px);
@@ -63,18 +64,37 @@
 }
 
 .fleet-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--bh-space-1) var(--bh-space-4);
+  /* Mobile-first: hidden drawer, toggled by .is-open. Desktop inline at >=721px. */
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  background: var(--bh-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--bh-space-4);
+  border-bottom: 2px solid var(--bh-border-strong);
+  gap: var(--bh-space-2);
+  z-index: 19;
   font-size: 0.78rem;
   font-weight: 500;
+}
+
+.fleet-nav.is-open {
+  display: flex;
 }
 
 .fleet-nav a {
   color: var(--bh-muted);
   text-decoration: none;
-  padding: var(--bh-space-1) 0;
-  border-bottom: 2px solid transparent;
+  padding: var(--bh-space-2) var(--bh-space-3);
+  border-bottom: none;
+  border-left: 2px solid transparent;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
   transition: color var(--bh-duration) var(--bh-ease),
     border-color var(--bh-duration) var(--bh-ease);
 }
@@ -82,12 +102,13 @@
 .fleet-nav a:hover,
 .fleet-nav a.active {
   color: var(--bh-text);
-  border-bottom-color: var(--bh-accent);
+  border-left-color: var(--bh-accent);
+  border-bottom-color: transparent;
 }
 
-/* Mobile hamburger */
+/* Mobile hamburger — visible by default (mobile), hidden at >=721px */
 .fleet-nav-toggle {
-  display: none;
+  display: block;
   background: none;
   border: none;
   color: var(--bh-text);
@@ -100,16 +121,15 @@
 .fleet-main {
   max-width: var(--bh-max-width);
   margin: 0 auto;
-  padding: var(--bh-space-10) var(--bh-space-6) var(--bh-space-16);
+  padding: var(--bh-space-6) var(--bh-space-4) var(--bh-space-12);
 }
 
 .fleet-footer {
   border-top: 2px solid var(--bh-border);
-  padding: var(--bh-space-8) var(--bh-space-6);
+  padding: var(--bh-space-6) var(--bh-space-4);
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--bh-space-2) var(--bh-space-6);
+  flex-direction: column;
+  gap: var(--bh-space-1);
   font-family: var(--bh-font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
@@ -128,7 +148,9 @@
 /* ---- Fleet switcher (org-aware cross-site nav) ---- */
 
 .fleet-switcher {
+  /* Mobile-first: full-width in the nav drawer. Desktop: relative inline. */
   position: relative;
+  width: 100%;
 }
 
 .fleet-switcher__button {
@@ -141,6 +163,9 @@
   border-radius: var(--bh-radius);
   padding: 6px 12px;
   cursor: pointer;
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
   transition: border-color var(--bh-duration) var(--bh-ease), color var(--bh-duration) var(--bh-ease);
 }
 
@@ -151,18 +176,17 @@
 }
 
 .fleet-switcher__panel {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 60;
-  width: min(380px, 92vw);
-  max-height: min(70vh, 560px);
+  /* Mobile-first: static, full-width in drawer. Desktop: floating absolute. */
+  position: static;
+  width: 100%;
+  max-height: 50vh;
   overflow-y: auto;
   background: var(--bh-surface);
   border: 1px solid var(--bh-border);
   border-radius: var(--bh-radius-lg);
-  box-shadow: var(--bh-shadow-lg, 0 16px 48px rgba(0, 0, 0, 0.35));
+  box-shadow: none;
   padding: var(--bh-space-4);
+  margin-top: var(--bh-space-2);
 }
 
 .fleet-switcher__lede {
@@ -274,48 +298,71 @@
   border-top: 1px solid var(--bh-border);
 }
 
-@media (max-width: 720px) {
+/* Desktop enhancement: inline nav, wider padding, row footer. */
+@media (min-width: 721px) {
   .fleet-header {
-    padding: var(--bh-space-3) var(--bh-space-4);
+    padding: var(--bh-space-4) var(--bh-space-6);
   }
   .fleet-nav {
-    display: none;
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: var(--bh-glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: var(--bh-space-4);
-    border-bottom: 2px solid var(--bh-border-strong);
-    gap: var(--bh-space-2);
-    z-index: 19;
+    display: flex;
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    border-bottom: none;
+    gap: var(--bh-space-1) var(--bh-space-4);
   }
   .fleet-nav.is-open {
     display: flex;
   }
   .fleet-nav a {
-    padding: var(--bh-space-2) var(--bh-space-3);
-    border-bottom: none;
-    border-left: 2px solid transparent;
+    padding: var(--bh-space-1) 0;
+    border-bottom: 2px solid transparent;
+    border-left: none;
   }
   .fleet-nav a:hover,
   .fleet-nav a.active {
-    border-left-color: var(--bh-accent);
-    border-bottom-color: transparent;
+    border-bottom-color: var(--bh-accent);
+    border-left-color: transparent;
   }
   .fleet-nav-toggle {
-    display: block;
+    display: none;
   }
   .fleet-main {
-    padding: var(--bh-space-6) var(--bh-space-4) var(--bh-space-12);
+    padding: var(--bh-space-10) var(--bh-space-6) var(--bh-space-16);
   }
   .fleet-footer {
-    flex-direction: column;
-    gap: var(--bh-space-1);
-    padding: var(--bh-space-6) var(--bh-space-4);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--bh-space-2) var(--bh-space-6);
+    padding: var(--bh-space-8) var(--bh-space-6);
+  }
+  /* Desktop: nav links are inline, no touch-target min-height. */
+  .fleet-nav a {
+    min-height: auto;
+    display: inline;
+  }
+  /* Desktop: switcher is a floating panel, not full-width. */
+  .fleet-switcher {
+    width: auto;
+  }
+  .fleet-switcher__button {
+    width: auto;
+    min-height: auto;
+  }
+  .fleet-switcher__panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 60;
+    width: min(380px, 92vw);
+    max-height: min(70vh, 560px);
+    box-shadow: var(--bh-shadow-lg, 0 16px 48px rgba(0, 0, 0, 0.35));
+    margin-top: 0;
   }
 }
 
@@ -653,6 +700,14 @@
 
 .bh-page-header .bh-lead--top {
   margin-top: var(--bh-space-3);
+}
+
+/* Mobile-first fluid type for page headers — scales up at >=721px. */
+.bh-page-header h1,
+.bh-page-head h1 {
+  font-size: clamp(1.55rem, 6.5vw, 2.4rem);
+  line-height: 1.15;
+  overflow-wrap: break-word;
 }
 
 /* ── Card internals ──────────────────────────────────────── */
@@ -1390,9 +1445,10 @@
 /* TitleCard — Wes overture: hairline above/below, mono eyebrow, Instrument
    Serif title, optional marginalia. Centered on desktop. */
 .bh-title-card {
-  text-align: center;
-  margin-block: 0 var(--bh-space-16);
-  padding-block: var(--bh-space-6);
+  /* Mobile-first: left-aligned. Centering engages at >=768px. */
+  text-align: left;
+  margin-block: 0 var(--bh-space-8);
+  padding-block: var(--bh-space-5);
   border-top: var(--bh-rule);
   border-bottom: var(--bh-rule);
   background: var(--bh-card-title-bg);
@@ -1410,19 +1466,20 @@
 .bh-title-card__title {
   font-family: var(--bh-font-display);
   font-weight: 400;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.1;
+  font-size: clamp(1.55rem, 6.5vw, 2.4rem);
+  line-height: 1.15;
   letter-spacing: -0.02em;
-  margin: 0 auto;
+  margin: 0;
   max-width: var(--bh-axis);
   color: var(--bh-text);
+  overflow-wrap: break-word;
 }
 .bh-title-card__marginalia {
   margin-top: var(--bh-space-4);
   color: var(--bh-muted);
 }
 .bh-title-card__lead {
-  margin: var(--bh-space-5) auto 0;
+  margin: var(--bh-space-5) 0 0;
   max-width: var(--bh-axis);
   font-size: 0.95rem;
   line-height: 1.6;
@@ -1430,13 +1487,13 @@
 }
 .bh-title-card__mascot {
   display: block;
-  margin: 0 auto var(--bh-space-4);
+  margin: 0 0 var(--bh-space-4);
   width: fit-content;
 }
 .bh-title-card__copy {
   margin: 0;
   max-width: var(--bh-axis);
-  margin-inline: auto;
+  margin-inline: 0;
 }
 @media (prefers-reduced-motion: no-preference) {
   .bh-title-card {
@@ -1495,7 +1552,9 @@
   color: var(--bh-accent);
 }
 .bh-status-line__time {
-  margin-left: auto;
+  /* Mobile: full-width wrap. Desktop: right-aligned at >=768px. */
+  margin-left: 0;
+  width: 100%;
   color: var(--bh-faint);
 }
 
@@ -1531,24 +1590,24 @@
   max-width: var(--bh-axis);
 }
 
-@media (max-width: 767px) {
-  /* Symmetry is a desktop property — collapse to left alignment. */
+/* Desktop: Kubrick symmetry — center the title card, right-align the clock. */
+@media (min-width: 768px) {
   .bh-title-card {
-    text-align: left;
-    padding-block: var(--bh-space-5);
-    margin-block-end: var(--bh-space-8);
+    text-align: center;
+    padding-block: var(--bh-space-6);
+    margin-block-end: var(--bh-space-16);
   }
   .bh-title-card__title,
   .bh-title-card__lead,
   .bh-title-card__copy {
-    margin-inline: 0;
+    margin-inline: auto;
   }
   .bh-title-card__mascot {
-    margin-inline: 0;
+    margin-inline: auto;
   }
   .bh-status-line__time {
-    margin-left: 0;
-    width: 100%;
+    margin-left: auto;
+    width: auto;
   }
 }
 
@@ -1565,43 +1624,12 @@ select {
   font-size: 16px;
 }
 
-@media (max-width: 720px) {
-  /* comfortable thumb targets in the nav drawer */
-  .fleet-nav a {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-
-  /* the fleet switcher lives inline in the drawer, not floating */
-  .fleet-switcher {
-    width: 100%;
-  }
-  .fleet-switcher__button {
-    width: 100%;
-    min-height: 44px;
-    text-align: left;
-  }
-  .fleet-switcher__panel {
-    position: static;
-    width: 100%;
-    max-height: 50vh;
-    margin-top: var(--bh-space-2);
-    box-shadow: none;
-  }
-
-  /* fluid display type — headlines scale with the viewport */
+/* Desktop: larger fluid type for titles and page headers. */
+@media (min-width: 721px) {
   .bh-title-card__title,
   .bh-page-header h1,
   .bh-page-head h1 {
-    font-size: clamp(1.55rem, 6.5vw, 2.4rem);
-    line-height: 1.15;
-    overflow-wrap: break-word;
-  }
-
-  /* stat rows and CTA clusters wrap instead of squeezing */
-  .bh-page-header__row {
-    flex-wrap: wrap;
-    gap: var(--bh-space-3);
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.1;
   }
 }

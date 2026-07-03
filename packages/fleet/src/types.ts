@@ -13,6 +13,9 @@ export interface FleetSite {
   domain: string | null;
   phase: SitePhase;
   role: string;
+  /** Corporate topology (Spec 0019): one company site, revenue-bearing
+   *  business units, internal consoles. Chrome derives groups from this. */
+  orgRole?: "company" | "business-unit" | "internal";
   /** Primary functional division — Spec 0012 */
   orgDivision?: OrgDivisionId;
   secondaryDivisions?: OrgDivisionId[];

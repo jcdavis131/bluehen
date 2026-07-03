@@ -9,11 +9,11 @@
 ## Principles
 
 ### Mobile-first
-- **Single-column base:** every page is authored at 320px first — one column, left-aligned rhythm, touch targets — then *enhances upward* with `@media (min-width: …)`. Desktop-first layouts that "collapse" are rejected; the mobile layout is the source of truth, the desktop layout is a widening.
-- **Touch-first:** interactive elements ≥44×44px from the base up; no hover-only interactions — every hover has a tap equivalent.
-- **Breakpoints (mobile-first `min-width`):** `--bh-bp-sm: 480px`, `--bh-bp-md: 768px`, `--bh-bp-lg: 1024px`. Never use `max-width` queries.
-- **Readable measure:** body text capped at `--bh-axis-narrow: 640px` on every viewport.
-- **No horizontal scroll:** every page passes an `overflow-x` audit at 320px.
+- **Single-column base.** Every page is authored at 320px first: one column, left-aligned rhythm, touch targets, then it widens upward with `@media (min-width: …)`. Desktop-first layouts that "collapse" are rejected; the mobile layout is the source of truth, the desktop layout is a widening.
+- **Touch-first.** Interactive elements 44×44px or larger from the base up. No hover-only interactions; every hover has a tap equivalent.
+- **Breakpoints (mobile-first `min-width`).** `--bh-bp-sm: 480px`, `--bh-bp-md: 768px`, `--bh-bp-lg: 1024px`. Never use `max-width` queries.
+- **Readable measure.** Body text capped at `--bh-axis-narrow: 640px` on every viewport.
+- **No horizontal scroll.** Every page passes an `overflow-x` audit at 320px.
 
 ### Brutalist
 - **Honest structure:** 2px borders, 2–4px radii, no glass/blur chrome
@@ -66,7 +66,7 @@ Copy follows **enterprise B2B** language — see `docs/VOICE_AND_PLATFORM.md` an
 
 ## Proliferation checklist
 
-1. Author mobile-first: single-column base at 320px, enhance with `@media (min-width: 480px|768px|1024px)` — never `max-width`
+1. Author mobile-first: single-column base at 320px, enhance with `@media (min-width: 480px|768px|1024px)`. Never `max-width`.
 2. Replace inline styles with `bh-*` classes
 3. Use `<PageHeader />` (site IA is carried by the `FleetShell` header, not a per-page subnav)
 4. Site overrides only in `app/globals.css` scoped to `[data-site="…"]`

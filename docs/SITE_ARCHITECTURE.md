@@ -26,11 +26,27 @@ Seven surfaces, one spine, two loops:
  hq (the cockpit reads everything) ── observatory (watches training breathe)
 ```
 
-- **Money loop:** free proof → paid certification → storefront checkout.
+- **Money loop:** free proof → paid certification → company-site checkout.
 - **Data loop:** every consented interaction becomes an OKF dataset the
   worker trains on; better models make every surface's proof stronger.
 - **hq + observatory** are the org's eyes; they consume everything and
   sell nothing.
+
+## Corporate topology (Spec 0019 — normative)
+
+ONE company website; the rest are sub-team business units or internal
+consoles. `config/fleet.json#orgRole` is the source of truth; chrome
+(switcher, footer) derives its groups from it.
+
+| orgRole | Sites | Job |
+|---|---|---|
+| company | storefront (bhenre.com) | The company itself: brand, divisions overview, operating loop, all commerce |
+| business-unit | dumbmodel · validation · research · simulation · refinery (0018) | Sub-team sites that build, serve, and generate revenue (funnel, certification fees, engagements, premium reports, datasets) |
+| internal | hq · observatory | Cockpit + telemetry; visible in chrome, never sold |
+
+Cross-link contract: BUs route commerce/legal/contact up to the company
+site; the company site presents every BU as "our teams" with their
+offer; leads carry source=<siteId> for attribution.
 
 ## Per-site architecture
 

@@ -2,6 +2,7 @@ import { PageHeader } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { ContributeForm } from "../../components/ContributeForm";
 import { OrgByline } from "../../components/OrgByline";
+import { SurfaceVisit } from "../../components/SurfaceVisit";
 
 export const metadata = { title: "Contribute" };
 
@@ -9,6 +10,7 @@ export default function ContributePage() {
   const surface = getSiteCircuit("refinery");
   return (
     <>
+      <SurfaceVisit id="contribute" />
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Contribute data — on your terms"

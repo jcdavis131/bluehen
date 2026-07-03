@@ -2,6 +2,7 @@ import { PageHeader } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { OrgByline } from "../../components/OrgByline";
 import { RequestForm } from "../../components/RequestForm";
+import { SurfaceVisit } from "../../components/SurfaceVisit";
 
 export const metadata = { title: "Custom harvests" };
 
@@ -22,6 +23,7 @@ export default async function RequestsPage({
   const surface = getSiteCircuit("refinery");
   return (
     <>
+      <SurfaceVisit id="requests" />
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Custom harvests & dataset prep"

@@ -3,6 +3,7 @@ import { PageHeader } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { listDatasets } from "../../lib/catalog";
 import { OrgByline } from "../../components/OrgByline";
+import { SurfaceVisit } from "../../components/SurfaceVisit";
 
 export const revalidate = 60;
 export const metadata = { title: "Catalog" };
@@ -18,6 +19,7 @@ export default async function CatalogPage({
 
   return (
     <>
+      <SurfaceVisit id="catalog" />
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Dataset catalog"

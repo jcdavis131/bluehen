@@ -575,3 +575,23 @@ No Python. Deploy/live commit. No code gate needed. (Phase 7 deploy-smoke: live 
 
 ## Run 2026-07-03T04:06:13 (loop tick 40 — watcher occ 26; HEAD ac6dbe4 → 3adbf62. feat(org): SITE-015 registry-driven TeamStrip on all five business units. No Python (site/UI). No gate needed. Not re-arming (367898 pending). Watcher 844529 running.)
 
+## Run 2026-07-03T09:59:17 (loop tick 41 — watcher occ 27; HEAD 3adbf62 → 68d5330; ~6h gap from system sleep)
+
+### Trigger
+68d5330 feat(refinery): DR-106 — measured load posture (EVIDENCE 3.10).
+One Python script: scripts/load_probe_catalog.py. Rest is EVIDENCE/docs.
+
+### Phase 4 — Gates
+- AST parse scripts/load_probe_catalog.py: OK
+- no tests for the script (consistent with scripts gap)
+- TS typecheck: deferred (BLK-DISK)
+
+### Loop hygiene
+- Heartbeat 367898 (armed tick 39, 4:01 AM) got paused during system sleep (~6h). Killed stale PID 26848. Arming fresh heartbeat below.
+- Watcher 844529 survived the gap (it's a polling loop, not a one-shot sleep) — confirmed still running.
+
+### Phase 9 — Close-out
+- One e2e path proven: AST load_probe_catalog.py → OK.
+- Re-arming one fresh heartbeat. Watcher 844529 still running.
+## Run 2026-07-03T10:20:00 (loop tick 42 — fallback 446689 fired; no new commit past 68d5330. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

@@ -962,10 +962,11 @@
     {
       "id": "DR-107",
       "title": "Refinery launch review: 5-SME OKF living reviews + deploy checklist",
-      "status": "blocked",
+      "status": "done",
       "lane": "claude",
       "priority": "P3",
-      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+      "notes": "5-SME reviews appended (1 BLOCK + 4 SHIP-WITH-NOTES). BLOCK (undefined copper token = invisible CTAs) fixed same hour + 3 honesty violations corrected (robots claim, erasure promise, tag filter). Open notes queued: /ops page, shared-bucket limiter on scale-out, stats COUNT, erasure tooling.",
+      "claimedBy": "claude"
     },
     {
       "id": "SITE-014",

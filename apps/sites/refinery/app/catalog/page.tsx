@@ -20,7 +20,7 @@ export default async function CatalogPage({
       <PageHeader
         eyebrow={surface?.eyebrow}
         title="Dataset catalog"
-        lead="Every entry carries provenance and an OKF card. Filter by tag or search by name."
+        lead="Every entry carries provenance and an OKF card. Search by name."
       />
 
       <form method="get" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>

@@ -101,3 +101,5 @@
 | `background-failure-triage` (refined) | P-019, P-065, P-174, P-186 | `~/.cursor/skills/background-failure-triage/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |
 | `monorepo-review-loop` | synthesis of P-001..P-187 | `~/.cursor/skills/monorepo-review-loop/SKILL.md` — the workflow that incorporates all 39 skills into a 10-phase review arc; runner `scripts/monorepo_review_loop.py`; reference `~/.cursor/skills/monorepo-review-loop/reference.md` |
+| `session-orient` (refined) | P-001, P-188 | `~/.cursor/skills/session-orient/SKILL.md` — apply recon on loop resumption after a gap, not only at session start |
+| `progress-board` (refined) | P-006, P-015, P-078, P-189 | `~/.cursor/skills/progress-board/SKILL.md` — /loop continuation prompt restates the goal + cadence, not just "continue" |

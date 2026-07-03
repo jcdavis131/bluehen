@@ -1024,3 +1024,13 @@
 - **Observed:** "200 pairs from the real arXiv corpus".
 - **Why it works:** The corpus size (200 pairs) and source (real arXiv corpus) are stated — directly addressing the thin-corpus gate-limit concern from P-146 (200 pairs is not thin). The gate result is only interpretable with the corpus size known. Fable 5 applying its own P-146 lesson.
 - **Maps to:** refine `validate-gate` — state the corpus size/source with the gate result.
+
+### P-188 - Loop iteration after a gap opens with a quick state check, THEN proceeds
+- **Observed:** "Loop iteration after the overnight gap — quick state check, then DR-107: the 5-SME launch review via sub-agent." Fable 5 resumed a /loop after ~6h and the FIRST thing it did was a quick state check before moving to the task.
+- **Why it works:** Recon isn't only for session start — any loop iteration that resumes after a meaningful gap (overnight, long wait) re-orients first. The world changed while you were away; acting on a stale mental model wastes a turn. The state check is cheap and bounds the blast radius of a stale assumption.
+- **Maps to:** refine session-orient — apply the recon sequence on loop resumption after a gap, not only at session start.
+
+### P-189 - /loop continuation prompt restates the goal in natural language
+- **Observed:** "/loop continue the hill-climb toward the goal: build out the full org and all the associated sites, one task at a time." The continuation prompt isn't just "continue" — it carries the goal ("build out the full org...") and the cadence ("one task at a time").
+- **Why it works:** A bare "continue" leaves the agent to infer what to continue toward. Restating the goal each iteration keeps the agent aimed at the outcome, not just the motion. "One task at a time" encodes the cadence (no batching creep). The goal-in-prompt survives context pressure better than a goal-in-prior-turn.
+- **Maps to:** refine progress-board / hillclimb-loop — the continuation prompt restates the goal + cadence, not just "continue".

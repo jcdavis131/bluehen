@@ -39,8 +39,8 @@ export function ContributeForm() {
         <p className="bh-card__body">
           {result.stored} texts stored for review. Your provenance receipt:{" "}
           <code>{result.receipt}</code>. Approved contributions enter the
-          public catalog with this receipt in their lineage; keep it if you
-          ever want the contribution erased.
+          public catalog with this receipt in their lineage; keep it — erasure is
+          handled on request via <a href="https://bhenre.com/contact?topic=data-erasure">contact</a>, quoting this receipt.
         </p>
       </div>
     );

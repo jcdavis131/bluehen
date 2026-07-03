@@ -53,7 +53,7 @@ export default async function Home() {
         <section className="bh-card bh-card--organic" style={{ marginBottom: 24 }}>
           <h2 className="bh-card__title bh-card__title--lg">The pipeline</h2>
           <p className="bh-card__body">
-            source → fetch (SSRF-guarded, robots-respecting) → structure →
+            source → fetch (SSRF-guarded) → structure →
             chunk → OKF dataset card → catalog. Unchanged content is skipped by
             hash; every collection is logged; consented contributions enter the
             same pipeline with a provenance receipt.

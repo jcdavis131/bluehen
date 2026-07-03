@@ -121,3 +121,17 @@ Prioritized. Items 1–4 constitute the **minimum viable commercial path** — n
 - `packages/eval-public/src/baselines.ts`
 - `packages/eval-public/src/exams.ts`
 - `config/fleet.json`
+
+## 2026-07-03 — Data Refinery launch review (DR-107)
+
+**Verdict: SHIP-WITH-NOTES**
+
+Scope: /requests + /datasets/[slug] funnels, BFF lead route, Spec 0019 §1 revenue table, Spec 0018 §1 monetization thesis. Live pages 200; POST /api/lead is `siteLead(... source:"refinery")`.
+
+1. **High — there is no path to charge money yet, and the site does not say so.** Spec 0019 §1 assigns refinery "Harvest/prep engagements + premium datasets"; Spec 0018 §1 splits that into (a) custom-harvest leads (live) and (b) premium dataset access "later, via storefront commerce" — a non-goal for v1 (§7). Today only the lead funnel exists: /requests → `/api/lead` → durable lead (correct, `source:"refinery"` set, verified `route.ts:22`). The "Request full access" CTA on every dataset page (`datasets/[slug]/page.tsx:65`) routes to the same lead form — so "full access" is a sales conversation, not a purchase. That's a defensible v1, but nothing on the site sets that expectation, and there is no pricing anywhere. Next action: add one line on /requests and the dataset CTA clarifying access is quoted per-engagement (no self-serve checkout yet) so the funnel doesn't over-promise.
+2. **High — revenue attribution is half-wired.** Leads correctly carry `source=refinery` (Spec 0019 §3 shipped, verified in `api/lead/route.ts`). But §3's order-attribution half ("orders reference the originating BU in cart metadata") is explicitly queued (TOPO-002) and there is no Medusa/checkout handoff from refinery — consistent with Spec 0018 §7 (paid checkout goes through storefront later). So premium-dataset revenue has neither a checkout nor attribution. Next action: none for launch (correctly deferred); gate "premium datasets" language out of customer copy until TOPO-002 + storefront handoff land.
+3. **Medium — the dataset-page CTA converts on empty inventory.** The catalog holds 6 datasets, all auto-harvested arXiv/wiki RSS with `tags:[]` and `tokenEstimate:0` (live `/v1/catalog/stats` → `{"datasets":6,...}`). "Request full access" on a public arXiv RSS listing is a weak lead magnet — the funnel's proof points are thin because the inventory is machine-exhaust, not curated sellable corpora. Next action: seed 1-2 flagship curated datasets (or hide the access CTA on zero-value auto-cards) so the funnel demonstrates what's actually for sale.
+4. **Medium — /requests captures scope but no qualifying/budget signal.** `RequestForm.tsx` collects email (required), company, free-text scope — good minimum, but no budget band, timeline, or volume field, so every lead lands unqualified for the Data Operations team. For an engagement-priced offer this raises cost-per-lead-handled. Next action: add an optional budget/timeline select before scaling traffic to the page.
+5. **Low — funnel mechanics are sound:** email validated client + BFF (`route.ts:12`), success state promises a measured proposal with "price" named (`RequestForm.tsx:40`), no fake urgency, enterprise voice intact. No action.
+
+Citations: `apps/sites/refinery/app/requests/page.tsx`, `apps/sites/refinery/components/RequestForm.tsx`, `apps/sites/refinery/app/api/lead/route.ts`, `apps/sites/refinery/app/datasets/[slug]/page.tsx`, `specs/0018-data-refinery.md` §1/§7, `specs/0019-corporate-topology.md` §1/§3. Live: /v1/catalog/stats datasets=6, /requests + /datasets 200.

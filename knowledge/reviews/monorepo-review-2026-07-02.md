@@ -432,3 +432,38 @@ TS changes (fleet narrative.ts, types.ts, FleetShell.tsx, hq page.tsx) + scripts
 - Heartbeat 680768 fired → re-arming one (earned). Watcher 844529 still running.
 ## Run 2026-07-03T00:06:21 (loop tick 21 — fallback 664306 fired; no new commit past 41d4ddf. Repo quiet ~20m. Date rolled to 07-03. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
 
+## Run 2026-07-03T00:11:14 (loop tick 22 — watcher occurrence 15; HEAD 41d4ddf → 96c02be)
+
+### Trigger
+96c02be feat(refinery): DR-101 data plane — catalog live in core-api (Spec 0018).
+Python (Cursor lane): new migration 009_refinery_catalog.py, new app/services/catalog.py, app/main.py, app/models.py, services/worker/main.py.
+
+### Phase 4 — Gates
+- AST parse alembic/versions/009_refinery_catalog.py: OK
+- smoke-import core-api.services.catalog: ok
+- smoke-import core-api.app.main + models: ok
+- smoke-import services.worker.main: ok
+- core-api tests: DEFERRED — need Postgres (BLK-DOCKER). No test_catalog.py exists yet (new service, coverage gap like worker from tick 13).
+- Corpus: 0 test cases for the new catalog service. Gate is smoke-import + AST only.
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 8 — Triage (finding)
+- New catalog service has no unit tests. Second coverage gap logged (after worker tick 13). Both are prod-critical core-api/worker surfaces. Worth a future task: add test_catalog.py + worker unit tests so these don't ship on smoke-import alone.
+
+### Phase 9 — Close-out
+- One e2e path proven: AST migration + smoke-import 4 modules → all green. DR-101 data plane imports clean.
+- Per tick-8 rule: NOT re-arming heartbeat (536172 still pending). Watcher 844529 still running.
+## Run 2026-07-03T00:13:15 (loop tick 23 — watcher occurrence 16; HEAD 96c02be → d4862d3)
+
+### Trigger
+d4862d3 fix(refinery): catalog seeds ship from committed content/datalab-seed.
+Seed data bake (content/datalab-seed/*/manifest.json + chunks.jsonl + docs.jsonl) + Dockerfile COPY. No Python.
+
+### Phase 4 — Gates
+- no Python changed → no smoke-import
+- manifest.json validity: valid (keys: dataset_id, name, sources, doc_count, chunk_count, chunk_strategy, extractor, vector_store, okf_card, stats)
+- Pattern: bake corpora into the image (use-available-integrations skill) — same structural approach as tick 16's charter bake
+
+### Phase 9 — Close-out
+- One e2e path proven: manifest JSON valid + Dockerfile COPY additive.
+- Per tick-8 rule: NOT re-arming heartbeat (536172 still pending). Watcher 844529 still running.

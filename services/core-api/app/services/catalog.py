@@ -42,7 +42,7 @@ def sync_from_datalab() -> dict:
     or from the admin endpoint. Reads chunks.jsonl for a sanitized sample.
     """
     synced, skipped = 0, 0
-    seed = Path(os.getenv("DATALAB_SEED_DIR", "/nonexistent"))
+    seed = Path(os.getenv("DATALAB_SEED_DIR", "/app/seed/datalab"))
     manifests = sorted(DATALAB_DIR.glob("*/manifest.json")) + (
         sorted(seed.glob("*/manifest.json")) if seed.is_dir() else []
     )

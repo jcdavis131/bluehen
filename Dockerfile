@@ -32,7 +32,10 @@ ENV PYTHONUNBUFFERED=1 \
     SYNTH_ARTIFACTS_DIR=/data/artifacts \
     SYNTH_CORPORA_DIR=/app/corpora \
     RUNBOARD_DIR=/data/runs \
-    DATALAB_DIR=/data/datalab
+    DATALAB_DIR=/data/datalab \
+    HF_HOME=/app/hf-cache \
+    DATALAB_SEED_DIR=/app/seed/datalab \
+    OKF_DATASETS_DIR=/app/knowledge/datasets
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libgomp1 \

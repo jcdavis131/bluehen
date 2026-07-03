@@ -114,8 +114,8 @@ export default function RunListPage() {
                     {run.tags.length > 0 && <> · {run.tags.join(", ")}</>}
                   </div>
                   <div className="run-card__stats">
-                    {summaryEntries(run).map(([k, v]) => (
-                      <StatTile key={k} label={k} value={v} />
+                    {summaryEntries(run).map(([k, v], i) => (
+                      <StatTile key={`${i}-${k}`} label={k} value={v} />
                     ))}
                   </div>
                 </Link>
@@ -138,5 +138,11 @@ function summaryEntries(run: RunManifest): [string, number][] {
     const v = run.summary[key];
     if (typeof v === "number") out.push([key.split("/")[1] ?? key, v]);
   }
-  return out.slice(0, 3);
+  if (out.length > 0) return out.slice(0, 3);
+  // Fallback: runs that log other metric keys show their first few numeric
+  // summary values instead of an empty stats row.
+  return Object.entries(run.summary)
+    .filter((entry): entry is [string, number] => typeof entry[1] === "number")
+    .slice(0, 3)
+    .map(([key, v]): [string, number] => [key.split("/").pop() ?? key, v]);
 }

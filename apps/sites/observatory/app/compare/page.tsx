@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { getMetrics, getRun, listRuns } from "../../lib/api";
 import { groupMetricsForCompare, lastValue } from "../../lib/chart-grouping";
@@ -291,6 +292,14 @@ function RunHeader({ data, letter }: { data: RunData; letter: "A" | "B" }) {
           .map(([k, v]) => (
             <StatTile key={k} label={k} value={v as number} />
           ))}
+      </div>
+      <div style={{ marginTop: 10 }}>
+        <Link
+          href={`/runs/${encodeURIComponent(run.id)}`}
+          style={{ fontSize: "0.8rem" }}
+        >
+          open full run →
+        </Link>
       </div>
     </div>
   );

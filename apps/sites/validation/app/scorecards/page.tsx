@@ -1,9 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav } from "@synthaembed/fleet";
-
+import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
@@ -96,7 +94,6 @@ function listScorecards(dir: string): ScorecardMeta[] {
 
 export default async function ScorecardsIndexPage() {
   const surface = getSiteCircuit("validation");
-  const nav = getSiteNav("validation");
   const dir = resolveScorecardsDir();
   const cards = dir ? listScorecards(dir) : [];
 
@@ -108,7 +105,6 @@ export default async function ScorecardsIndexPage() {
         lead="Published validation rulings as first-class OKF documents. Docs are the data — no separate backend."
         badge={<span className="bh-badge bh-badge--accent">Docs as data</span>}
       />
-      <SiteSubnav items={nav} currentPath="/scorecards" />
 
       {cards.length === 0 ? (
         <div className="bh-card bh-note">

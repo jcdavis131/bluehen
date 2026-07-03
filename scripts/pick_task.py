@@ -37,6 +37,16 @@ TASKS_MD = REPO / "TASKS.md"
 AUTORESEARCH_QUEUE = REPO / "data" / "autoresearch" / "queue.json"
 
 
+def _priority_key(value) -> int:
+    """Coerce a task priority to an int for stable sorting. Tasks may store
+    priority as int, numeric str, or omit it (defaults to 99). Non-numeric
+    values sort last (99) so a malformed entry never breaks `pick_task list`."""
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 99
+
+
 def load() -> dict:
     return json.loads(QUEUE_PATH.read_text(encoding="utf-8"))
 
@@ -89,7 +99,7 @@ def cmd_blockers() -> int:
 def cmd_list(all_tasks: bool) -> int:
     data = load()
     bl = blocker_ids(data)
-    for t in sorted(data_tasks(data), key=lambda x: (x.get("priority", 99), x["id"])):
+    for t in sorted(data_tasks(data), key=lambda x: (_priority_key(x.get("priority")), str(x["id"]))):
         status = t.get("status", "ready")
         blocked = is_blocked(t, bl, data_tasks(data)) and status not in ("done", "automated")
         if not all_tasks and blocked and status == "ready":

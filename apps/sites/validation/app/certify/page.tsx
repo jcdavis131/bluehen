@@ -1,6 +1,4 @@
-import { PageHeader, Reveal, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav } from "@synthaembed/fleet";
-import Link from "next/link";
+import { PageHeader, Reveal } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import Link from "next/link";
 
 export const metadata = {
   title: "RAG Certification — slasso.com",
@@ -25,7 +23,6 @@ const STEPS = [
 
 export default function CertifyPage() {
   const surface = getSiteCircuit("validation");
-  const nav = getSiteNav("validation");
 
   return (
     <>
@@ -34,7 +31,6 @@ export default function CertifyPage() {
         title="Get your RAG certified"
         lead="A reproducible benchmark run of your retrieval stack, scored against published thresholds — with a scorecard you can link in sales conversations."
       />
-      <SiteSubnav items={nav} currentPath="/certify" />
 
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
         {STEPS.map((s, i) => (

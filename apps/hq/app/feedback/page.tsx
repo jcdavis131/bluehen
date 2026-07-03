@@ -1,12 +1,9 @@
-import { FeedbackForm, PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteNav, GLOSSARY } from "@synthaembed/fleet";
-
+import { FeedbackForm, PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@synthaembed/fleet";
 export const metadata = {
   title: `${GLOSSARY.feedback} — Operations Center`,
 };
 
 export default function ControlFeedbackPage() {
-  const nav = getSiteNav("hq");
 
   return (
     <>
@@ -15,7 +12,6 @@ export default function ControlFeedbackPage() {
         title={GLOSSARY.feedback}
         lead="Operator feedback routes to Platform Orchestration for prioritization and data requests."
       />
-      <SiteSubnav items={nav} currentPath="/feedback" />
       <FeedbackForm siteId="hq" division="orchestration" />
     </>
   );

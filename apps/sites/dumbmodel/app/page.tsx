@@ -1,11 +1,8 @@
 import Link from "next/link";
 import { ConeMascot, HenMascot } from "@/components/site";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { BRAND, getSiteCircuit, getSiteNav, RE } from "@synthaembed/fleet";
-
+import { PageHeader } from "@synthaembed/ui-fleet";import { BRAND, getSiteCircuit, RE } from "@synthaembed/fleet";
 export default function HomePage() {
   const surface = getSiteCircuit("dumbmodel");
-  const nav = getSiteNav("dumbmodel");
 
   return (
     <>
@@ -27,7 +24,6 @@ export default function HomePage() {
           </span>
         }
       />
-      <SiteSubnav items={nav} currentPath="/" />
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--bh-space-3)", marginBottom: "var(--bh-space-8)" }}>
         <Link href="/check" className="bh-btn bh-btn--primary bh-btn--hero">

@@ -47,7 +47,6 @@
   - `apps/synthorg — subagent descriptions + synth-core trace IDs`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
-- [ ] **SITE-013** — Remove retired SiteSubnav usages (header now carries site IA) (None)
 
 ## In progress
 
@@ -66,7 +65,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**REV-903** — Checkpoint LRU cache in models_svc + rate limit public diagnose BFF~~
 - [x] ~~**REV-904** — Durable lead storage (LEADS_DIR volume or core-api endpoint)~~
 - [x] ~~**REV-905** — Eval gate must fail below minimum real-pair count (no demo-pair fallback)~~
 - [x] ~~**REV-906** — org-divisions.json publicSites/owns → new site ids~~
@@ -74,6 +72,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**REV-908** — agentkit add_watch_source: URL allowlist + glob deny data/workspaces~~
 - [x] ~~**REV-909** — datalab watch_state atomic write + lock~~
 - [x] ~~**REV-910** — work_queue commands + package.json scripts reconciliation~~
+- [x] ~~**SITE-013** — Remove retired SiteSubnav usages (header now carries site IA)~~
 
 ## Specs & context
 

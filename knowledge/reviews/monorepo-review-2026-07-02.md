@@ -54,3 +54,130 @@ TypeError: '<' not supported between instances of 'str' and 'int'
 ### Phase 2-9 — Agent-driven
 Handed to the `monorepo-review-loop` skill arc: fan out reviewers (Phase 2), code review (3), gates (4), guards (5), metadata-align (6), deploy+smoke (7), triage as needed (8), close-out (9).
 
+## Run 2026-07-02T20:49:56
+
+### Phase 0 — Orient
+- disk free: 3.3 GB
+- git head: 3e7bff9 fix(prod): shave worker peak below the 1GB ceiling
+- git status: 2 changed
+- blockers:
+```
+ACTIVE BLOCKERS
+
+  BLK-DOCKER: Docker Desktop API error (consequence of BLK-DISK)
+    Why: Postgres :5433, Redis :6379 unavailable â€” local API/worker/kickoff/migrate blocked.
+    Unblock: Fix BLK-DISK first, then: pnpm dev:stack && pnpm db:migrate
+    Blocks: INF-001, INF-002, RAG-501, SRV-601
+
+  BLK-PROD: Prod stack not provisioned (Operator)
+    Why: No Neon DATABASE_URL, Railway core-api/worker, or Vercel fleet env. Sites still on localhost API.
+    Unblock: Operator: Neon via Vercel Marketplace, Railway deploy (ADR-002), pnpm vercel:link-fleet:exec
+    Blocks: INF-003, INF-004, INF-005
+
+READY NOW (19 tasks) â€” no infra blocker:
+  INF-000 [infra] Free disk space + restart Docker Desktop
+  AR-301 [research] Barlow Î»=0.022 near champion
+  AR-302 [research] Synthetic D_SERVE=32 edge stress
+  AR-303 [research] AUG=0.5 lower view noise
+  AR-304 [research] Batch=48 intermediate
+  AR-305 [research] Weight decay 5e-5
+  AR-306 [research] depth=2 GELU@256 encoder (code change)
+  AR-307 [research] InfoNCE + Barlow aux 0.1 hybrid loss
+  AR-308 [research] MRL prefix loss in autoresearch_train.py
+  AR-309 [research] Rank floor when served_rank < 12
+  RT-401 [research] Real-text bake-off: research-rag corpus
+  RT-402 [research] Real-text bake-off: AG News + both sites
+  RT-403 [research] Collapse-regime vs BGE/e5/Qwen3 panel
+  RAG-502 [research] Implement rag_chunk_ablation.py
+  RAG-503 [research] Hard negative mining in hill-climb pair builder
+```
+
+### Phase 1 — Lane & Plan
+Board snapshot:
+```
+INF-000    ready        [infra     ] Free disk space + restart Docker Desktop
+             -> docker system prune -a; remove apps/*/.next; restart Docker Desktop
+LOOP-001   blocked      [orchestration] Phase A+ hill-climb iteration â€” kickoff Phase A orgs, verify BD queue + ledger spec:0005
+             -> pnpm dev:stack && pnpm db:migrate && pnpm bootstrap:orgs && pnpm dev:api & pnpm dev:worker & pnpm kickoff:orgs
+INF-001    blocked      [infra     ] Local stack up (Postgres + Redis + migrate + bootstrap) spec:0009
+             -> pnpm dev:stack && pnpm db:migrate && pnpm bootstrap:orgs
+INF-002    blocked      [infra     ] Run API + worker + verify research-rag search spec:0004
+             -> pnpm dev:api & pnpm dev:worker; curl localhost:8000/healthz
+OMNI-004   blocked      [execution ] Wire /v1/omni/simulate integration test spec:0013
+             -> uv run pytest services/core-api/tests/test_omni.py -q
+AR-301     ready        [research  ] Barlow Î»=0.022 near champion spec:0003
+             -> daemon or: uv run python scripts/autoresearch_run.py cursor
+AR-302     ready        [research  ] Synthetic D_SERVE=32 edge stress spec:0003
+AR-303     ready        [research  ] AUG=0.5 lower view noise spec:0003
+AR-304     ready        [research  ] Batch=48 intermediate spec:0003
+AR-305     ready        [research  ] Weight decay 5e-5 spec:0003
+AR-306     ready        [research  ] depth=2 GELU@256 encoder (code change) spec:0003
+             -> .claude/autoresearch-delegate.md â†’ uv run python scripts/autoresearch_run.py claude
+AR-307     ready        [research  ] InfoNCE + Barlow aux 0.1 hybrid loss spec:0003
+             -> .claude/autoresearch-delegate.md claude-2
+AR-308     ready        [research  ] MRL prefix loss in autoresearch_train.py spec:0003
+             -> .claude/autoresearch-delegate.md claude-3-mrl
+AR-309     ready        [research  ] Rank floor when served_rank < 12 spec:0003
+             -> .claude/autoresearch-delegate.md claude-4-rankfloor
+RT-401     ready        [research  ] Real-text bake-off: research-rag corpus spec:0008
+             -> pnpm evidence:realtext:research-rag
+RT-402     ready        [research  ] Real-text bake-off: AG News + both sites spec:0008
+             -> uv run python scripts/realtext_methods.py --site both
+RT-403     ready        [research  ] Collapse-regime vs BGE/e5/Qwen3 panel spec:0008
+             -> uv run python scripts/collapse_regime.py
+RT-404     blocked      [research  ] Tenant Barlow recipe â€” all Phase A sites spec:0008
+             -> Extend tenant_baseline.py --recipe barlow; run --all-sites
+RAG-501    blocked      [execution ] Scale arXiv corpus to 200 papers + re-kickoff spec:0009
+             -> pnpm harvest:arxiv --max-papers 200 && pnpm kickoff:research-rag
+RAG-502    ready        [research  ] Implement rag_chunk_ablation.py spec:0008
+             -> Create scripts/rag_chunk_ablation.py â€” 256/512/1024 token chunks on research-rag holdout
+RAG-503    ready        [research  ] Hard negative mining in hill-climb pair builder spec:0009
+             -> Extend core-api lifecycle or worker pair generation with corpus-mined negatives
+RAG-504    blocked      [comms     ] arxiviq tier drop@8 benchmark (20 queries) spec:0007
+             -> Log TierComparePanel results â†’ data/evidence/tier_drop.json; surface on research-lab page
+SRV-601    blocked      [execution ] MRL-trained checkpoint deploy on research-rag spec:0004
+             -> Re-kickoff with loss.method=mrl recipe
+BD-702     ready        [bd        ] Commercial panel scorecard on dumbmodel spec:0008
+SPEC-006   ready        [agent     ] Eve subagents + trace wiring spec:0006
+             -> apps/synthorg â€” subagent descriptions + synth-core trace IDs
+DATA-802   ready        [research  ] Domain sweep Family C â€” Barlow arm spec:0003
+             -> Add --loss barlow to domain_sweep.py; run sweep
+SITE-013   ready        [?         ] Remove retired SiteSubnav usages (header now carries site IA)
+```
+
+### Phase 2-9 — Agent-driven
+Handed to the `monorepo-review-loop` skill arc: fan out reviewers (Phase 2), code review (3), gates (4), guards (5), metadata-align (6), deploy+smoke (7), triage as needed (8), close-out (9).
+
+## Run 2026-07-02T20:52:05 (loop tick 1)
+
+### Phase 4 — Gates
+- secrets scan (uncommitted diff): clean (only markdown mentions of SYNTH_API_KEY + a TODO)
+- smoke-import eval-harness: gates compute ok (rankAboveBaseline=True, ndcgNonRegression=True, mrlWithinTolerance=True)
+- smoke-import omni-sim: imports ok
+- TS build / typecheck: DEFERRED — BLK-DISK (3.3 GB free); avoid heavy installs this tick
+
+### Phase 5 — Guards
+- no bypass flags in planned commands
+- secrets scan clean
+- :exec dry-run-by-default script variant convention present (pnpm deploy:railway:exec et al.)
+
+### Phase 6 — Metadata-align (FIXED THIS TICK)
+Fleet rebrand drift: config/fleet.json renamed sites (hq/storefront/validation/research/simulation/observatory) but docs still used old names. Fixed:
+- README.md layout tree: control/→hq/, hub/→storefront/, benchmark-lab/→validation/, research-rag/→research/, finance-lab/→simulation/, + added observatory
+- README.md inline: sites list, Phase A orgs row, Sites status row (6→7 apps + hq control)
+- AGENTS.md: dev:fleet comment (hub,control→storefront,hq)
+- CLAUDE.md: site table (hub/control/slasso/arxiviq→storefront/hq/validation/research; +simulation domain; +observatory row)
+- specs/README.md: spec 0010 + 0013 path refs (finance-lab→simulation)
+
+### Phase 7 — Deploy & smoke
+- BLOCKED by BLK-PROD (no Neon/Railway/Vercel fleet env). Documented as non-action: prod cutover is Operator-gated (INF-003..005).
+
+### Phase 8 — Triage
+- pick_task.py list intermittent TypeError ('<' between str and int) on priority sort — data has mixed-type priorities. Not fixed this tick (separate task; second invocation succeeded).
+- TS gates deferred to avoid ENOSPC under BLK-DISK.
+
+### Phase 9 — Close-out
+- git head: 3e7bff9 fix(prod): shave worker peak below the 1GB ceiling
+- One e2e path proven this tick: smoke-import → eval-harness compute_gates → True/True/True (gate logic intact, fails-closed on thin data verified prior).
+- Findings: 1 metadata-align drift (FIXED, 6 files), 1 runner bug (logged), 2 blockers documented as non-action.
+- No commit made this tick (docs-only edits; will commit on next Operator-approved batch).

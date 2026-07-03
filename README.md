@@ -13,7 +13,7 @@ config/fleet.json          ← single source of truth: all sites, domains, paths
 packages/fleet             ← fleet SDK (agent, CLI, control UI)
 apps/hq               ← jcamd.com operator control plane
 apps/synthorg              ← Eve fleet agent (operates across all sites)
-apps/sites/*               ← tenant fronts (hub, dumbmodel, slasso, arxiviq, finance-lab, …)
+apps/sites/*               ← tenant fronts (storefront, dumbmodel, validation, research, simulation, observatory)
 services/core-api          ← uniform API chokepoint
 services/worker            ← ASN train → eval → deploy pipeline
 services/commerce          ← Medusa v2 store backend (open source; own lockfile)
@@ -68,14 +68,15 @@ Each tenant is a **mini-organization** sharing **AwakenedSleepNet (ASN)** and **
 ```
 config/fleet.json
 apps/
-  control/              Fleet control plane → jcamd.com
-  synthorg/               Eve fleet agent
+  hq/                    Fleet control plane → jcamd.com
+  synthorg/              Eve fleet agent
   sites/
-    hub/                  Blue Hen RE hub → bhenre.com
-    dumbmodel/            Public proof → dumbmodel.com
-    benchmark-lab/        RAG benchmarks → slasso.com
-    research-rag/         arXiv RAG → arxiviq.com
-    finance-lab/          Simulation Lab (simulation only)
+    storefront/          Blue Hen RE hub → bhenre.com
+    dumbmodel/           Public proof → dumbmodel.com
+    validation/          RAG benchmarks → slasso.com
+    research/            arXiv RAG → arxiviq.com
+    simulation/          Simulation Lab → signals.bhenre.com (simulation only)
+    observatory/         Internal training view → training.jcamd.com
 services/
   core-api/               FastAPI chokepoint
   worker/                 Postgres job consumer (production training path)
@@ -152,9 +153,9 @@ Details: [`infra/railway.md`](./infra/railway.md) · ADR-003 CLI: [`docs/adr/003
 
 | Area | State |
 |---|---|
-| Phase A orgs | Trained, deployed, pgvector-indexed (hub, benchmark-lab, research-rag, dumbmodel) |
+| Phase A orgs | Trained, deployed, pgvector-indexed (storefront, validation, research, dumbmodel) |
 | core-api | v0.3 Postgres + RLS + pgvector search + fleet admin |
-| Sites | 6 Next.js apps + control; `pnpm review` passes (includes finance-lab stub) |
+| Sites | 7 Next.js apps + hq control; `pnpm review` passes (includes simulation stub) |
 | CI | Site build, ASN math (17 tests), core-api (21 tests: RLS, workspaces, handoffs, serving tiers) |
 | Prod hosting | ADR-002 accepted — Railway + Neon runbook + deploy scripts; live cutover pending (`INF-003`) |
 | Evidence | `pnpm evidence:collect` · `engine_proof.py` fixed collapse trigger → no-harm parity; benefit claim still **Hypothesis** (`EVIDENCE.md` §3.1) |

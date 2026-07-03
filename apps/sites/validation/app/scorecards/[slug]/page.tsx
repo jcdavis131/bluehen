@@ -2,9 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav } from "@synthaembed/fleet";
-
+import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";
 export const dynamic = "force-dynamic";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -96,7 +94,6 @@ export async function generateMetadata({ params }: Params) {
 export default async function ScorecardDetailPage({ params }: Params) {
   const { slug } = await params;
   const surface = getSiteCircuit("validation");
-  const nav = getSiteNav("validation");
   const dir = resolveScorecardsDir();
 
   if (!dir) {
@@ -128,7 +125,6 @@ export default async function ScorecardDetailPage({ params }: Params) {
           ) : undefined
         }
       />
-      <SiteSubnav items={nav} currentPath="/scorecards" />
 
       {(fm.method || fm.tenant || fm.date) && (
         <div className="bh-meta" style={{ marginBottom: "var(--bh-space-4)" }}>

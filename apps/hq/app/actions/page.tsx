@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { SiteSubnav, PageHeader } from "@synthaembed/ui-fleet";
-import { getSiteNav, GLOSSARY } from "@synthaembed/fleet";
-import { HillClimbActions } from "../../components/HillClimbActions";
+import { PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@synthaembed/fleet";import { HillClimbActions } from "../../components/HillClimbActions";
 import { BdPromotionPanel } from "../../components/BdPromotionPanel";
 
 export const metadata = {
@@ -9,7 +7,6 @@ export const metadata = {
 };
 
 export default function ActionsPage() {
-  const nav = getSiteNav("hq");
 
   return (
     <>
@@ -24,7 +21,6 @@ export default function ActionsPage() {
         }
         badge={<span className="bh-badge bh-badge--ok">Platform Orchestration</span>}
       />
-      <SiteSubnav items={nav} currentPath="/actions" />
       <h2 className="bh-section-title">{GLOSSARY.hillClimb} (intake → deployment)</h2>
       <HillClimbActions />
       <h2 className="bh-section-title" style={{ marginTop: "var(--bh-space-6)" }}>

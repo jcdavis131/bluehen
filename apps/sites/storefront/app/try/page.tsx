@@ -1,6 +1,4 @@
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav, GLOSSARY } from "@synthaembed/fleet";
-import Link from "next/link";
+import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit, GLOSSARY } from "@synthaembed/fleet";import Link from "next/link";
 import { GuidedTry } from "../../components/GuidedTry";
 
 export const metadata = {
@@ -26,7 +24,6 @@ async function deployedModel() {
 
 export default async function HubTryPage() {
   const surface = getSiteCircuit("storefront");
-  const nav = getSiteNav("storefront");
   const deployed = await deployedModel();
 
   return (
@@ -36,7 +33,6 @@ export default async function HubTryPage() {
         title={GLOSSARY.liveSearch}
         lead="Tenant workspace retrieval — same production path used across all product surfaces."
       />
-      <SiteSubnav items={nav} currentPath="/try" />
       <GuidedTry />
 
       <div className="bh-card" style={{ marginTop: 20 }}>

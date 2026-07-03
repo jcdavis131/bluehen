@@ -98,7 +98,7 @@ pnpm dev:worker                      # ASN jobs
 pnpm bootstrap:orgs                  # data/workspaces/*.env
 pnpm kickoff:orgs                     # hill-climb Phase A orgs
 
-pnpm dev:fleet                       # hub, control, dumbmodel, labs
+pnpm dev:fleet                       # storefront, hq, dumbmodel, labs
 .\scripts\fleet-review.ps1 -Open     # Windows: review all site UIs
 pnpm --filter @synthaembed/synthorg dev
 

@@ -38,12 +38,13 @@
 | Name | What |
 |------|------|
 | **bluehenre** | Monorepo codename |
-| **Storefront** | hub · bhenre.com |
-| **Headquarters** | control · jcamd.com |
-| **Validation Lab** | slasso · slasso.com |
-| **Applied Research** | arxiviq · arxiviq.com |
-| **Baseline Comparison** | dumbmodel.com |
-| **Simulation Lab** | simulation · Phase B |
+| **Storefront** | storefront · bhenre.com |
+| **Headquarters** | hq · jcamd.com |
+| **Validation Lab** | validation · slasso.com |
+| **Applied Research** | research · arxiviq.com |
+| **Baseline Comparison** | dumbmodel · dumbmodel.com |
+| **Simulation Lab** | simulation · signals.bhenre.com |
+| **Observatory** | observatory · training.jcamd.com |
 
 → Details: `memory/projects/` · Registry: `config/fleet.json`
 

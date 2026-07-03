@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { BENCHMARK_EXAMS, RAG_TIERS, hallOfCone } from "@synthaembed/eval-public";
-import { PageHeader, ProgressMeter, SiteSubnav } from "@synthaembed/ui-fleet";
-import { siteModels } from "@synthaembed/ui-fleet/site-api";
-import { getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
-
+import { PageHeader, ProgressMeter } from "@synthaembed/ui-fleet";import { siteModels } from "@synthaembed/ui-fleet/site-api";
+import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
 export const metadata = {
   title: "Validation Lab — slasso.com",
   description: "Certified RAG benchmarks · Silver Lasso lineage",
@@ -34,7 +32,6 @@ export default async function BenchmarkHome() {
   const fixtureBoard = hallOfCone().slice(0, 5);
   const { models: liveModels, live } = await liveLeaderboard();
   const surface = getSiteCircuit("validation");
-  const nav = getSiteNav("validation");
 
   return (
     <>
@@ -50,7 +47,6 @@ export default async function BenchmarkHome() {
         }
         badge={<span className="bh-badge bh-badge--accent">Validation · {RE.tech}</span>}
       />
-      <SiteSubnav items={nav} currentPath="/" />
 
       <h2 className="bh-section-title">Evaluation tiers</h2>
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>

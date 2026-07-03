@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { ArxivExamDemo } from "../components/ArxivExamDemo";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
-
+import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
 export const metadata = {
   title: "Applied Research — arxiviq.com",
   description: "Live search + Research Registry · arxiviq.com",
@@ -10,7 +8,6 @@ export const metadata = {
 
 export default function ResearchRagPage() {
   const surface = getSiteCircuit("research");
-  const nav = getSiteNav("research");
 
   return (
     <>
@@ -26,7 +23,6 @@ export default function ResearchRagPage() {
         }
         badge={<span className="bh-badge bh-badge--ok">R&D + Data Operations</span>}
       />
-      <SiteSubnav items={nav} currentPath="/" />
       <ArxivExamDemo />
 
       <div className="bh-card bh-card--organic" style={{ marginTop: "var(--bh-space-6)" }}>

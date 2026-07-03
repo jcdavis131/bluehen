@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteNav, GLOSSARY } from "@synthaembed/fleet";
-
+import { PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@synthaembed/fleet";
 type Candidate = {
   id: string;
   siteId: string;
@@ -30,7 +28,6 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export default function QueuePage() {
-  const nav = getSiteNav("validation");
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [updated, setUpdated] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +56,6 @@ export default function QueuePage() {
         }`}
         badge={<span className="bh-badge bh-badge--accent">Handoff: production charter</span>}
       />
-      <SiteSubnav items={nav} currentPath="/queue" />
 
       {error && (
         <div className="bh-card bh-note">

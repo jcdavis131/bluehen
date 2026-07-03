@@ -128,13 +128,6 @@
   position: relative;
 }
 
-/* The header now carries the site IA (with active states); the per-page
-   subnav is retired to avoid duplicate navigation. Component usages are
-   being removed site-by-site (queue: SITE-013). */
-.bh-subnav {
-  display: none;
-}
-
 .fleet-switcher__button {
   font-family: var(--bh-font-mono);
   font-size: 0.78rem;
@@ -538,50 +531,6 @@
   resize: vertical;
   min-height: 88px;
   line-height: 1.5;
-}
-
-/* ── Subnav ─────────────────────────────────────────────── */
-
-.bh-subnav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--bh-space-2);
-  margin-bottom: var(--bh-space-6);
-  padding-bottom: var(--bh-space-4);
-  border-bottom: 1px solid var(--bh-border);
-}
-
-.bh-subnav__link {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: var(--bh-radius-sm);
-  text-decoration: none;
-  color: var(--bh-muted);
-  border: 1px solid transparent;
-  transition: all var(--bh-duration) var(--bh-ease-out);
-}
-
-.bh-subnav__link:hover {
-  color: var(--bh-text);
-  border-color: var(--bh-border);
-}
-
-.bh-subnav__link.is-active {
-  color: var(--bh-text);
-  font-weight: 600;
-  border-color: var(--bh-accent);
-  background: var(--bh-accent-muted);
-}
-
-.bh-subnav__link.is-active:focus-visible {
-  outline: 2px solid var(--bh-accent);
-  outline-offset: 1px;
-}
-
-/* Dim inactive siblings on hover */
-.bh-subnav:hover .bh-subnav__link:not(:hover):not(.is-active) {
-  opacity: 0.6;
 }
 
 /* ── Search hits ────────────────────────────────────────── */

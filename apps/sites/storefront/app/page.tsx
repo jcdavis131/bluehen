@@ -8,14 +8,12 @@ import {
   ReturnGreeting,
   Reveal,
   siteHref,
-  SiteSubnav,
   type ExplorationSurface,
   type LedgerEntry,
 } from "@synthaembed/ui-fleet";
 import {
   BRAND,
   getSiteCircuit,
-  getSiteNav,
   GLOSSARY,
   RE,
   ledgerStageToDivision,
@@ -68,7 +66,6 @@ export default async function HubPage() {
   const deployed = models.find((m: { deployed?: boolean }) => m.deployed);
   const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
   const circuit = getSiteCircuit("storefront");
-  const nav = getSiteNav("storefront");
 
   // Mascot looks toward the active division's position in the loop.
   const activeDivision = latestStage ? ledgerStageToDivision(latestStage) : null;
@@ -103,8 +100,6 @@ export default async function HubPage() {
           </span>
         }
       />
-
-      <SiteSubnav items={nav} currentPath="/" />
 
       <ReturnGreeting ledger={ledger} />
 

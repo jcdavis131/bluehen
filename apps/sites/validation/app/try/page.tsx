@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { LiveSearchPanel, PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { BENCHMARK_EXAMS } from "@synthaembed/eval-public";
-import { getSiteCircuit, getSiteNav, GLOSSARY } from "@synthaembed/fleet";
-
+import { LiveSearchPanel, PageHeader } from "@synthaembed/ui-fleet";import { BENCHMARK_EXAMS } from "@synthaembed/eval-public";
+import { getSiteCircuit, GLOSSARY } from "@synthaembed/fleet";
 export const metadata = {
   title: `Run Benchmark — Validation Lab`,
   description: "Live benchmark on slasso.com",
@@ -10,7 +8,6 @@ export const metadata = {
 
 export default function TryPage() {
   const surface = getSiteCircuit("validation");
-  const nav = getSiteNav("validation");
 
   return (
     <>
@@ -25,7 +22,6 @@ export default function TryPage() {
         }
         badge={<span className="bh-badge bh-badge--ok">Validation & Charter</span>}
       />
-      <SiteSubnav items={nav} currentPath="/try" />
 
       <div className="bh-card" style={{ marginBottom: "var(--bh-space-5)" }}>
         <strong className="bh-card__title">Benchmark catalog (static)</strong>

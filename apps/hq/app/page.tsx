@@ -1,11 +1,9 @@
-import { listSites, devCommand, getSiteCircuit, getSiteNav, BRAND, RE, GLOSSARY } from "@synthaembed/fleet";
-import {
+import { listSites, devCommand, getSiteCircuit, BRAND, RE, GLOSSARY } from "@synthaembed/fleet";import {
   InteractiveCircuit,
   MilestoneStrip,
   PageHeader,
   RaceFeed,
   siteHref,
-  SiteSubnav,
   type LedgerEntry,
 } from "@synthaembed/ui-fleet";
 import Link from "next/link";
@@ -60,7 +58,6 @@ export const metadata = {
 
 export default async function HqPage() {
   const surface = getSiteCircuit("hq");
-  const nav = getSiteNav("hq");
   const sites = listSites().filter((s) => s.role !== "fleet-agent");
   const [online, fleet, loop] = await Promise.all([getHealth(), getFleetStatus(), getLoopData()]);
   const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
@@ -83,8 +80,6 @@ export default async function HqPage() {
           </span>
         }
       />
-
-      <SiteSubnav items={nav} currentPath="/" />
 
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>
         <div className="bh-card">

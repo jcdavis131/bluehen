@@ -18,7 +18,6 @@ export { ReturnGreeting } from "./ReturnGreeting";
 export { LiveSearchPanel } from "./LiveSearchPanel";
 export { FeedbackForm } from "./FeedbackForm";
 export { SearchHitList } from "./SearchHitList";
-export { SiteSubnav, ApiStatusBanner } from "./SiteSubnav";
+export { ApiStatusBanner } from "./ApiStatusBanner";
 export { PageHeader } from "./PageHeader";
-export type { SiteNavItem } from "./SiteSubnav";
 export type { SearchHit, SearchResult, FeedbackInput, DiagnoseResult } from "./site-api";

@@ -43,7 +43,6 @@
 import {
   FleetShell,
   PageHeader,
-  SiteSubnav,
   LiveSearchPanel,
   FeedbackForm,
   ClosedLoopDiagram,
@@ -61,7 +60,7 @@ Copy follows **enterprise B2B** language — see `docs/VOICE_AND_PLATFORM.md` an
 ## Proliferation checklist
 
 1. Replace inline styles with `bh-*` classes
-2. Use `<PageHeader />` and `<SiteSubnav />`
+2. Use `<PageHeader />` (site IA is carried by the `FleetShell` header, not a per-page subnav)
 3. Site overrides only in `app/globals.css` scoped to `[data-site="…"]`
 
 **Done (v0.2):** shell, shared components, hub, benchmark-lab, research-rag, dumbmodel (home/compare/hall), control, research-lab registry, finance-lab stub.

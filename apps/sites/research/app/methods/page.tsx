@@ -1,8 +1,6 @@
 import Link from "next/link";
 import data from "../../data/methods.json";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
-import { ProductionCaseStudy } from "../../components/ProductionCaseStudy";
+import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";import { ProductionCaseStudy } from "../../components/ProductionCaseStudy";
 
 export const metadata = {
   title: "Method — Applied Research · arxiviq.com",
@@ -22,7 +20,6 @@ const VERDICT_GROUPS: { key: "shipped" | "promoted" | "rejected"; label: string;
 
 export default function MethodsPage() {
   const surface = getSiteCircuit("research");
-  const nav = getSiteNav("research");
   const { recipe, evidenceProgram, timeline, verdicts, deployGates } = data;
 
   return (
@@ -39,7 +36,6 @@ export default function MethodsPage() {
         }
         badge={<span className="fleet-badge ok">R&amp;D · Evidence-backed</span>}
       />
-      <SiteSubnav items={nav} currentPath="/methods" />
 
       <ProductionCaseStudy />
 

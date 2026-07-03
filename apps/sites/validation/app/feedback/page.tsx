@@ -1,12 +1,9 @@
-import { FeedbackForm, PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteNav, GLOSSARY } from "@synthaembed/fleet";
-
+import { FeedbackForm, PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@synthaembed/fleet";
 export const metadata = {
   title: `${GLOSSARY.feedback} — Validation Lab`,
 };
 
 export default function FeedbackPage() {
-  const nav = getSiteNav("validation");
 
   return (
     <>
@@ -15,7 +12,6 @@ export default function FeedbackPage() {
         title={GLOSSARY.feedback}
         lead={`Pilot feedback is recorded in the ${GLOSSARY.raceLog} for Validation → R&D review.`}
       />
-      <SiteSubnav items={nav} currentPath="/feedback" />
       <FeedbackForm siteId="validation" division="bd" />
     </>
   );

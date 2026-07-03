@@ -20,10 +20,10 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 | [0007](./0007-fleet-registry-and-sites.md) | Fleet registry & sites | **Implemented** | `config/fleet.json`, 7 sites (+ finance stub), control UI |
 | [0008](./0008-eval-harness-and-gates.md) | Eval harness & deploy gates | **Implemented** | `packages/eval-harness`, worker eval stage |
 | [0009](./0009-training-worker-lifecycle.md) | Training worker & lifecycle | **Implemented** | `services/worker`, Phase A orgs trained |
-| [0010](./0010-finance-applied-test.md) | Finance applied-test (Phase B) | **Draft** | `apps/sites/finance-lab` stub; from Google Doc 3 |
+| [0010](./0010-finance-applied-test.md) | Finance applied-test (Phase B) | **Draft** | `apps/sites/simulation` stub; from Google Doc 3 |
 | [0011](./0011-modal-trainer-production.md) | Modal GPU trainer (production) | **Draft** | `services/trainer` stub |
 | [0012](./0012-synthetic-org-divisions-and-handoffs.md) | Org divisions & closed loop | **Implemented** | registry + Phase A+ handoffs (`handoffs.py`, charters, control UI) |
-| [0013](./0013-omni-market-alpha-engine.md) | Omni-market alpha engine (Phase B) | **Ready** | `packages/omni-sim`, `/v1/omni/*`, finance-lab, `scripts/omni_*` |
+| [0013](./0013-omni-market-alpha-engine.md) | Omni-market alpha engine (Phase B) | **Ready** | `packages/omni-sim`, `/v1/omni/*`, simulation, `scripts/omni_*` |
 | [0014](./0014-agentic-org-teams.md) | Agentic org teams (GLM) + commerce boot | **Implemented** | `packages/agentkit`, `config/agent_teams.json`, `services/commerce` boot |
 | [0015](./0015-venture-fleet.md) | Venture fleet — one business per public site | **Ready** | Approved; dumbmodel venture v1 in progress (SITE-008) |
 | [0016](./0016-dumbmodel-game-layer.md) | dumbmodel game layer — play → labeled training data | **Draft** | Awaiting Operator sign-off (game set + consent copy); phase 3 gated on REV-903 |

@@ -33,6 +33,31 @@ def on_startup() -> None:
         ensure_schema()
     except Exception:
         pass  # Postgres may be offline during import-only contexts
+    _maybe_start_inproc_worker()
+
+
+def _maybe_start_inproc_worker() -> None:
+    """SYNTH_INPROC_WORKER=1: run the training worker as a daemon thread in
+    THIS process. One Python + one torch stack is what fits a 1 GB plan
+    container — two full runtimes duplicated ~500 MB and OOM'd on every
+    training attempt (see docs/STATUS.md 2026-07-03). Torch kernels release
+    the GIL, so serving stays responsive during training."""
+    import os
+
+    if os.environ.get("SYNTH_INPROC_WORKER") != "1":
+        return
+    import importlib.util
+    import threading
+    from pathlib import Path as _P
+
+    worker_path = os.environ.get(
+        "SYNTH_WORKER_MAIN",
+        str(_P(__file__).resolve().parents[2] / "worker" / "main.py"),
+    )
+    spec = importlib.util.spec_from_file_location("synth_worker_main", worker_path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    threading.Thread(target=mod.run_forever, name="inproc-worker", daemon=True).start()
 
 
 @app.get("/healthz")

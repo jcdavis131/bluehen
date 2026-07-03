@@ -791,10 +791,13 @@
     {
       "id": "SITE-013",
       "title": "Remove retired SiteSubnav usages (header now carries site IA)",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P3",
-      "notes": "FleetShell header renders SITE_NAV with active states; .bh-subnav is display:none. Delete <SiteSubnav> usages + imports across apps, then drop the component + CSS."
+      "notes": "FleetShell header renders SITE_NAV with active states; .bh-subnav is display:none. Delete <SiteSubnav> usages + imports across apps, then drop the component + CSS.",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-03T01:50:42.220395+00:00",
+      "completedAt": "2026-07-03T01:55:11.503239+00:00"
     }
   ]
 }

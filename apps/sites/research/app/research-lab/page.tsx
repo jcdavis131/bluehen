@@ -1,6 +1,5 @@
 import data from "../../data/research_lab.json";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteNav } from "@synthaembed/fleet";
+import { PageHeader } from "@synthaembed/ui-fleet";import { siteModels } from "@synthaembed/ui-fleet/site-api";
 
 export const metadata = {
   title: "Research Lab — Blue Hen RE",
@@ -51,10 +50,31 @@ function statusColor(status: string): { color: string; border: string } {
   return { color: "var(--bh-muted)", border: "var(--bh-border)" };
 }
 
-export default function ResearchLabPage() {
+type LiveModel = {
+  version?: string;
+  effectiveRank: number | null;
+  ndcg10: number | null;
+  deployed: boolean;
+  truncateDims?: number | null;
+};
+
+export default async function ResearchLabPage() {
   const { title, subtitle, updated, evidenceProgram, stages, methods } = data;
   const byStage = (stage: string) => (methods as Method[]).filter((m) => m.stage === stage);
-  const nav = getSiteNav("research");
+
+  // Live model versions from core-api /v1/models. Honest provenance: the
+  // curated registry below is the editorial record; this strip shows what's
+  // actually trained/deployed right now. Absent API → honest empty state.
+  let liveModels: LiveModel[] = [];
+  try {
+    const res = (await siteModels()) as { models?: LiveModel[] };
+    liveModels = (res.models ?? []).filter(
+      (m) => m.effectiveRank != null || m.ndcg10 != null,
+    );
+  } catch {
+    liveModels = [];
+  }
+  const hasLive = liveModels.length > 0;
 
   return (
     <>
@@ -63,7 +83,68 @@ export default function ResearchLabPage() {
         title={title}
         lead={subtitle}
       />
-      <SiteSubnav items={nav} currentPath="/research-lab" />
+
+      {/* Live model versions from core-api /v1 models */}
+      <section style={{ marginBottom: 24 }}>
+        <div className="fleet-card" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            <strong style={{ fontSize: 14 }}>Live model versions</strong>
+            <span className={`fleet-badge ${hasLive ? "ok" : ""}`} style={{ fontSize: 11 }}>
+              {hasLive ? "live" : "fixtures"}
+            </span>
+          </div>
+          {hasLive ? (
+            <>
+              <p style={{ fontSize: 12.5, color: "var(--fleet-muted)", margin: 0, lineHeight: 1.5 }}>
+                Measured model versions from this workspace&apos;s core-api{" "}
+                <code>/v1/models</code> — ranked by effective rank.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {[...liveModels]
+                  .sort((a, b) => (b.effectiveRank ?? 0) - (a.effectiveRank ?? 0))
+                  .map((m, i) => (
+                    <div
+                      key={m.version ?? i}
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 10,
+                        alignItems: "baseline",
+                        fontSize: 13,
+                        padding: "6px 10px",
+                        borderRadius: 8,
+                        background: "var(--fleet-bg)",
+                        border: "1px solid var(--fleet-border)",
+                      }}
+                    >
+                      <span style={{ fontWeight: 600 }}>{m.version ?? "—"}</span>
+                      {m.deployed && (
+                        <span className="fleet-badge ok" style={{ fontSize: 11 }}>
+                          deployed
+                        </span>
+                      )}
+                      <span style={{ fontFamily: "ui-monospace", opacity: 0.85 }}>
+                        erank {(m.effectiveRank ?? 0).toFixed(1)}
+                        {m.truncateDims ? ` · trunc ${m.truncateDims}` : ""}
+                      </span>
+                      {m.ndcg10 != null && (
+                        <span style={{ fontFamily: "ui-monospace", opacity: 0.85 }}>
+                          nDCG@10 {m.ndcg10.toFixed(3)}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+              </div>
+            </>
+          ) : (
+            <p style={{ fontSize: 12.5, color: "var(--fleet-muted)", margin: 0, lineHeight: 1.5 }}>
+              Live model versions appear here once a model is trained and the API is reachable
+              (set <code>SYNTH_API_KEY</code> on the research site). The curated registry below is
+              the editorial record of every method the research org has tried.
+            </p>
+          )}
+        </div>
+      </section>
 
       <p style={{ fontSize: 13, color: "var(--bh-muted)", marginBottom: 24 }}>
         Based on{" "}

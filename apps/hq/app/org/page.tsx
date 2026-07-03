@@ -1,8 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteCircuit, getSiteNav } from "@synthaembed/fleet";
-import { Markdown } from "../../components/Markdown";
+import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import { Markdown } from "../../components/Markdown";
 
 export const dynamic = "force-dynamic";
 
@@ -59,7 +57,6 @@ const TEAM_FILES = [
 
 export default async function OrgPage() {
   const surface = getSiteCircuit("hq");
-  const nav = getSiteNav("hq");
   const statusRaw = readDoc("docs/STATUS.md");
   const status = statusRaw ? parseDoc(statusRaw) : null;
   const teams = TEAM_FILES.map((t) => {
@@ -75,7 +72,6 @@ export default async function OrgPage() {
         title="Org"
         lead="The org's living status board and per-division team digests. Docs are the data — no separate backend."
       />
-      <SiteSubnav items={nav} currentPath="/org" />
 
       {anyMissing && (
         <div className="bh-alert bh-alert--warn" style={{ marginBottom: "var(--bh-space-5)" }}>

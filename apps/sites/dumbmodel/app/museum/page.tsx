@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { ConeMascot } from "@/components/site";
-import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
-import { getSiteNav } from "@synthaembed/fleet";
-
+import { PageHeader } from "@synthaembed/ui-fleet";
 export const metadata = {
   title: "Museum of Collapse — Baseline Comparison",
   description:
@@ -105,7 +103,6 @@ const EXHIBITS: Exhibit[] = [
 ];
 
 export default function MuseumPage() {
-  const nav = getSiteNav("dumbmodel");
 
   return (
     <>
@@ -115,7 +112,6 @@ export default function MuseumPage() {
         lead="The failure modes we measure against. Every exhibit is a real way embeddings go wrong — and the diagnostic or gate that catches it before a model ships."
         badge={<ConeMascot size={48} />}
       />
-      <SiteSubnav items={nav} currentPath="/museum" />
 
       <div className="bh-grid bh-grid--2">
         {EXHIBITS.map((ex) => (

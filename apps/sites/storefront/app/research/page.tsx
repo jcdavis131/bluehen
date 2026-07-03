@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { PageHeader, SiteSubnav, siteHref } from "@synthaembed/ui-fleet";
-import { getSite, getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
-import experiments from "../../data/experiments.json";
+import { PageHeader, siteHref } from "@synthaembed/ui-fleet";import { getSite, getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";import experiments from "../../data/experiments.json";
 
 export const metadata = {
   title: `${GLOSSARY.experimentMuseum} — Platform Console`,
@@ -9,7 +7,6 @@ export const metadata = {
 
 export default function ResearchPage() {
   const surface = getSiteCircuit("storefront");
-  const nav = getSiteNav("storefront");
   const researchRag = getSite("research");
   const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
   const registryHref = researchRag ? `${siteHref(researchRag, local)}/research-lab` : null;
@@ -29,7 +26,6 @@ export default function ResearchPage() {
         }
         badge={<span className="bh-badge bh-badge--ok">{RE.relay}</span>}
       />
-      <SiteSubnav items={nav} currentPath="/research" />
 
       <div className="bh-grid">
         {experiments.experiments.map((e) => (

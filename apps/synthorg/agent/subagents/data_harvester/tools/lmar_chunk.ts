@@ -8,7 +8,7 @@ export default defineTool({
     docId: z.string().min(1),
     simThreshold: z.number().min(0).max(1).default(0.7),
   }),
-  async execute({ docId, simThreshold }) {
-    return synthFor("data_harvester").data.chunk(docId, { simThreshold });
+  async execute({ docId, simThreshold }, ctx) {
+    return synthFor("data_harvester", ctx.session).data.chunk(docId, { simThreshold });
   },
 });

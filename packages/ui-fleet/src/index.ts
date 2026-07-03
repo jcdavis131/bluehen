@@ -21,3 +21,12 @@ export { SearchHitList } from "./SearchHitList";
 export { ApiStatusBanner } from "./ApiStatusBanner";
 export { PageHeader } from "./PageHeader";
 export type { SearchHit, SearchResult, FeedbackInput, DiagnoseResult } from "./site-api";
+
+/* Tastemaker primitives (Spec 0017) — Kubrick axis × Wes title cards ×
+   modernized TUI hairline, inside FleetShell <main>. */
+export { Axis } from "./Axis";
+export { TitleCard } from "./TitleCard";
+export { RuledSection } from "./RuledSection";
+export { StatusLine } from "./StatusLine";
+export { TTYFrame } from "./TTYFrame";
+export { Marginalia } from "./Marginalia";

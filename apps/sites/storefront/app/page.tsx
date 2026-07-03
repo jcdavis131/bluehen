@@ -1,13 +1,17 @@
 import {
+  Axis,
   CountUpStat,
   ExplorationTracker,
+  Marginalia,
   MascotBeacon,
   MilestoneStrip,
-  PageHeader,
   ProgressMeter,
   ReturnGreeting,
   Reveal,
+  RuledSection,
   siteHref,
+  StatusLine,
+  TitleCard,
   type ExplorationSurface,
   type LedgerEntry,
 } from "@synthaembed/ui-fleet";
@@ -80,143 +84,163 @@ export default async function HubPage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow={circuit?.eyebrow}
-        title={BRAND.name}
-        lead={
-          <>
-            {RE.relay} coordinates your organization · {RE.tech} in production. {BRAND.tagline}{" "}
-            <Link href="/try">Try live search</Link>,{" "}
-            <Link href="/pricing">see pricing</Link>, or{" "}
-            <Link href="/contact">start a briefing</Link>.
-          </>
-        }
-        badge={
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-            <MascotBeacon size={36} restingGaze={gaze} />
-            <span className={`bh-badge ${health ? "bh-badge--ok" : "bh-badge--warn"}`}>
-              {health ? "API online" : "API offline"}
-            </span>
-          </span>
-        }
+      <StatusLine
+        site="bhenre.com"
+        section="Operating Loop"
+        status={health ? "API online" : "API offline"}
       />
 
-      <ReturnGreeting ledger={ledger} />
+      <Axis>
+        <TitleCard
+          eyebrow={circuit?.eyebrow}
+          title={BRAND.name}
+          marginalia={`${RE.relay} · ${RE.tech}`}
+        >
+          <span className="bh-title-card__mascot">
+            <MascotBeacon size={40} restingGaze={gaze} />
+          </span>
+          <p className="bh-title-card__copy">
+            {RE.relay} coordinates your organization · {RE.tech} in production.{" "}
+            {BRAND.tagline} <Link href="/try">Try live search</Link>,{" "}
+            <Link href="/pricing">see pricing</Link>, or{" "}
+            <Link href="/contact">start a briefing</Link>.
+          </p>
+        </TitleCard>
 
-      <div
-        style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginBottom: 24 }}
-      >
-        <Link href="/try" className="bh-btn bh-btn--primary bh-btn--hero">
-          Try live search
-        </Link>
-        <Link href="/pricing" className="bh-btn bh-btn--ghost">
-          Pricing
-        </Link>
-        <Link href="/contact" className="bh-btn bh-btn--ghost">
-          Start a briefing
-        </Link>
-        <span className="bh-live" style={{ marginLeft: "auto" }}>
-          <span className="bh-kbd">⌘K</span> jump anywhere
-        </span>
-      </div>
+        <ReturnGreeting ledger={ledger} />
 
-      <ExplorationTracker surfaces={HUB_SURFACES} currentId="home" />
-
-      <div className="fleet-grid" style={{ margin: "20px 0" }}>
-        <Reveal index={0}>
-          <StatCard label="core-api" value={health ? "Online" : "Offline"} meta={API} />
-        </Reveal>
-        <Reveal index={1}>
-        <StatCard
-          label={GLOSSARY.budget}
-          value={
-            remaining !== null ? (
-              <>
-                <CountUpStat value={remaining} digits={2} prefix="$" /> left
-              </>
-            ) : (
-              "—"
-            )
-          }
-          meta={
-            spent !== null && ceiling !== null ? (
-              <ProgressMeter
-                label="burn-down"
-                value={spent}
-                max={ceiling}
-                target={ceiling}
-                targetLabel="ceiling"
-                direction="lower-better"
-                tone="clay"
-                digits={2}
-                prefix="$"
-              />
-            ) : (
-              `ceiling $${ceiling ?? "—"}`
-            )
-          }
-        />
-        </Reveal>
-        <Reveal index={2}>
-        <StatCard
-          label={GLOSSARY.deployedModel}
-          value={deployed?.version ?? "—"}
-          meta={
-            rank !== null || ndcg !== null ? (
-              <span className="bh-stack" style={{ gap: 8 }}>
-                {rank !== null && (
-                  <ProgressMeter
-                    label="effective rank"
-                    value={rank}
-                    max={Math.max(rank, GATE_BASELINE_RANK) * 1.5}
-                    target={GATE_BASELINE_RANK}
-                    targetLabel="gate"
-                    tone="accent"
-                    digits={1}
-                  />
-                )}
-                {ndcg !== null && (
-                  <ProgressMeter
-                    label="nDCG@10"
-                    value={ndcg}
-                    max={1}
-                    target={GATE_MIN_NDCG10}
-                    targetLabel="gate"
-                    tone="moss"
-                    digits={3}
-                  />
-                )}
+        <RuledSection label="Quick paths">
+          <div className="bh-stack" style={{ gap: 16 }}>
+            <div
+              style={{
+                display: "flex",
+                gap: 12,
+                flexWrap: "wrap",
+                alignItems: "center",
+              }}
+            >
+              <Link href="/try" className="bh-btn bh-btn--primary bh-btn--hero">
+                Try live search
+              </Link>
+              <Link href="/pricing" className="bh-btn bh-btn--ghost">
+                Pricing
+              </Link>
+              <Link href="/contact" className="bh-btn bh-btn--ghost">
+                Start a briefing
+              </Link>
+              <span className="bh-live" style={{ marginLeft: "auto" }}>
+                <span className="bh-kbd">⌘K</span> jump anywhere
               </span>
-            ) : (
-              "no deployed model yet"
-            )
-          }
-        />
-        </Reveal>
-        <Reveal index={3}>
-        <StatCard
-          label={GLOSSARY.fleet}
-          value={
-            <>
-              <CountUpStat value={listSites({ status: "active" }).length} /> active
-            </>
-          }
-          meta={<a href={siteHref(getSite("hq")!, local)}>Open Headquarters →</a>}
-        />
-        </Reveal>
-      </div>
+            </div>
+            <ExplorationTracker surfaces={HUB_SURFACES} currentId="home" />
+          </div>
+        </RuledSection>
 
-      <MilestoneStrip ledger={ledger} models={models} />
+        <RuledSection label="Operating state">
+          <div className="fleet-grid" style={{ margin: 0 }}>
+            <Reveal index={0}>
+              <StatCard label="core-api" value={health ? "Online" : "Offline"} meta={API} />
+            </Reveal>
+            <Reveal index={1}>
+              <StatCard
+                label={GLOSSARY.budget}
+                value={
+                  remaining !== null ? (
+                    <>
+                      <CountUpStat value={remaining} digits={2} prefix="$" /> left
+                    </>
+                  ) : (
+                    "—"
+                  )
+                }
+                meta={
+                  spent !== null && ceiling !== null ? (
+                    <ProgressMeter
+                      label="burn-down"
+                      value={spent}
+                      max={ceiling}
+                      target={ceiling}
+                      targetLabel="ceiling"
+                      direction="lower-better"
+                      tone="clay"
+                      digits={2}
+                      prefix="$"
+                    />
+                  ) : (
+                    `ceiling $${ceiling ?? "—"}`
+                  )
+                }
+              />
+            </Reveal>
+            <Reveal index={2}>
+              <StatCard
+                label={GLOSSARY.deployedModel}
+                value={deployed?.version ?? "—"}
+                meta={
+                  rank !== null || ndcg !== null ? (
+                    <span className="bh-stack" style={{ gap: 8 }}>
+                      {rank !== null && (
+                        <ProgressMeter
+                          label="effective rank"
+                          value={rank}
+                          max={Math.max(rank, GATE_BASELINE_RANK) * 1.5}
+                          target={GATE_BASELINE_RANK}
+                          targetLabel="gate"
+                          tone="accent"
+                          digits={1}
+                        />
+                      )}
+                      {ndcg !== null && (
+                        <ProgressMeter
+                          label="nDCG@10"
+                          value={ndcg}
+                          max={1}
+                          target={GATE_MIN_NDCG10}
+                          targetLabel="gate"
+                          tone="moss"
+                          digits={3}
+                        />
+                      )}
+                    </span>
+                  ) : (
+                    "no deployed model yet"
+                  )
+                }
+              />
+            </Reveal>
+            <Reveal index={3}>
+              <StatCard
+                label={GLOSSARY.fleet}
+                value={
+                  <>
+                    <CountUpStat value={listSites({ status: "active" }).length} /> active
+                  </>
+                }
+                meta={<a href={siteHref(getSite("hq")!, local)}>Open Headquarters →</a>}
+              />
+            </Reveal>
+          </div>
+        </RuledSection>
 
-      <div className="bh-card" style={{ marginTop: 20 }}>
-        <div className="bh-card__title">The full operating loop lives at Headquarters</div>
-        <p className="bh-card__body">
-          Live circuit, {GLOSSARY.raceLog.toLowerCase()}, and lifecycle controls moved to the org
-          hub — <a href={siteHref(getSite("hq")!, local)}>jcamd.com</a>. This storefront keeps the
-          proof surfaces: <Link href="/try">live search</Link> and the{" "}
-          <Link href="/research">research registry</Link>.
-        </p>
-      </div>
+        <RuledSection label="Lifecycle milestones">
+          <MilestoneStrip ledger={ledger} models={models} />
+        </RuledSection>
+
+        <RuledSection label="Headquarters">
+          <div className="bh-card">
+            <div className="bh-card__title">The full operating loop lives at Headquarters</div>
+            <p className="bh-card__body">
+              Live circuit, {GLOSSARY.raceLog.toLowerCase()}, and lifecycle controls moved to the
+              org hub — <a href={siteHref(getSite("hq")!, local)}>jcamd.com</a>. This storefront
+              keeps the proof surfaces: <Link href="/try">live search</Link> and the{" "}
+              <Link href="/research">research registry</Link>.
+            </p>
+          </div>
+          <Marginalia>
+            Every deploy passes published evaluation gates. {GLOSSARY.deployGate}.
+          </Marginalia>
+        </RuledSection>
+      </Axis>
     </>
   );
 }

@@ -37,8 +37,13 @@ and no bypass paths exist.
 
 - All tools import `synthFor()` from `agent/lib/synth.ts`.
 - Model config in `agent/agent.ts` (AI SDK v4 via Eve 0.16.2).
-- **Gap:** Eve session id → `SYNTH_TRACE_ID` not wired (`agent/instrumentation.ts` TBD).
-- **Gap:** declared subagents need `agent/subagents/*/agent.ts` with `description` (Eve requirement).
+- **Wired:** Eve session id → trace context. Every tool's `execute(input, ctx)` receives
+  `ctx.session.id` (Eve `SessionContext`); `synthFor(actor, ctx.session)` roots a synth-core
+  `TraceContext` on it (`agent/lib/trace.ts`). Delegated subagent sessions carry
+  `parent.rootSessionId` + `parent.callId`, so the whole chief → subagent chain shares one
+  objective trace id and each delegation is a child span. `agent/instrumentation.ts` stamps
+  the same trace id onto AI SDK model-call telemetry (`step.started`).
+- **Done:** declared subagents have `agent/subagents/*/agent.ts` with `description` (all four).
 
 ### Agent runtimes (multi-agent)
 
@@ -75,9 +80,9 @@ see `docs/wiki/BUILD.md`).
 | # | Criterion | Status |
 |---|---|---|
 | 1 | No agent tool calls services except via synth-core | ✅ tools use `synthFor` |
-| 2 | Every call produces a span at `/v1/trace` | ⚠️ sink wired; not all paths emit |
+| 2 | Every call produces a span at `/v1/trace` | ✅ tool calls emit session-rooted spans via `synthFor(actor, ctx.session)`; model calls stamped via `instrumentation.ts` (non-`synthFor` paths like the `ui-fleet/site-api.ts` bypass still don't — see debt) |
 | 3 | `synth trace view` reconstructs objective | ✅ API exists |
-| 4 | Trace id flows TS → core-api → worker | ⚠️ partial via headers on API calls |
+| 4 | Trace id flows TS → core-api → worker | ✅ TS tools root on Eve session id → `synth-core` → `x-synth-trace-id` header → core-api (objective-scoped); core-api → Modal worker propagation still partial |
 | 5 | Lint forbids direct fetch/db in `agent/**` outside synth-core | ⏳ not in CI |
 | 6 | `--org` resolves workspace creds from `data/workspaces/{siteId}.env` | ✅ ADR-003 |
 | 7 | `synth org handoff` records division handoffs to ledger | ✅ Spec 0012 |

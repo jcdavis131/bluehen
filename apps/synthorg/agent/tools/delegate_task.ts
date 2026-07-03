@@ -15,8 +15,8 @@ export default defineTool({
     objective: z.string().min(1),
     inputs: z.record(z.unknown()).optional(),
   }),
-  async execute({ subagent, objective, inputs }) {
-    await synthFor("chief_of_staff").ledger.record({
+  async execute({ subagent, objective, inputs }, ctx) {
+    await synthFor("chief_of_staff", ctx.session).ledger.record({
       stage: "delegation",
       notes: `-> ${subagent}: ${objective}`,
       inputs,

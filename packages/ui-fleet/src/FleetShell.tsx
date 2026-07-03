@@ -6,6 +6,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getSite, getSiteCircuit, getSiteNav, listSites, RE, BRAND } from "@synthaembed/fleet";
 import { fleetNavSites, siteHref } from "./urls";
 
+/** Per-site monogram — each surface signs its own mark; the accent hue
+ * and this glyph together are the site's identity signature. */
+const SITE_MARK: Record<string, string> = {
+  storefront: "BH",
+  hq: "HQ",
+  dumbmodel: "DM",
+  validation: "VL",
+  research: "AR",
+  simulation: "SL",
+  observatory: "OB",
+};
+
 /** Fleet surfaces grouped by their job in the operating loop — the nav
  * tells the org story instead of listing links. */
 const SURFACE_GROUPS: { label: string; ids: string[] }[] = [
@@ -61,7 +73,7 @@ export function FleetShell({
     <div className="fleet-shell" data-site={siteId}>
       <header className="fleet-header">
         <Link href="/" className="fleet-brand" onClick={closeAll}>
-          <span className="fleet-brand__mark">B</span>
+          <span className="fleet-brand__mark">{SITE_MARK[siteId] ?? "BH"}</span>
           <span>{surface?.stop ?? site?.name ?? siteId}</span>
           {site?.domain && <span className="fleet-brand__domain">{site.domain}</span>}
         </Link>

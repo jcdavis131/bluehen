@@ -21,7 +21,7 @@ const Recipe = z.object({
 export default defineTool({
   description: "Launch an ASN contrastive fine-tuning run on Modal GPUs (Stage 2). Returns a jobId.",
   inputSchema: z.object({ recipe: Recipe }),
-  async execute({ recipe }) {
-    return synthFor("training_orchestrator").train.launch(recipe);
+  async execute({ recipe }, ctx) {
+    return synthFor("training_orchestrator", ctx.session).train.launch(recipe);
   },
 });

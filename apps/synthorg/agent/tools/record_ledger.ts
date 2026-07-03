@@ -13,7 +13,7 @@ export default defineTool({
     costUsd: z.number().nonnegative().optional(),
     notes: z.string().optional(),
   }),
-  async execute(entry) {
-    return synthFor("chief_of_staff").ledger.record(entry);
+  async execute(entry, ctx) {
+    return synthFor("chief_of_staff", ctx.session).ledger.record(entry);
   },
 });

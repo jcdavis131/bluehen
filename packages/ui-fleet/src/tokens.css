@@ -27,6 +27,10 @@
   /* Brand & semantic */
   --bh-hen-blue: #4a7c9b;
   --bh-hen-blue-dim: #2f5268;
+  --bh-heather: #8583b8;
+  --bh-heather-dim: #5a5987;
+  --bh-instrument: #63a3a0;
+  --bh-instrument-dim: #40706e;
   --bh-moss: #6b8f71;
   --bh-moss-dim: #3d5240;
   --bh-clay: #c4a574;
@@ -82,6 +86,15 @@
   --bh-duration: 120ms;
   --bh-duration-slow: 250ms;
 
+  /* Tastemaker (Spec 0017) — additive; Kubrick axis, TUI hairline, slow push */
+  --bh-axis: 720px;
+  --bh-axis-wide: 1080px;
+  --bh-rule: 1px solid var(--bh-border);
+  --bh-rule-strong: 1px solid var(--bh-border-strong);
+  --bh-card-title-bg: var(--bh-surface-raised);
+  --bh-status-bar-bg: var(--bh-canvas-elevated);
+  --bh-duration-axis: 400ms;
+
   /* Research registry lifecycle stages */
   --bh-stage-rd: #3d8bfd;
   --bh-stage-rd-tint: rgba(61, 139, 253, 0.1);
@@ -121,24 +134,29 @@
 }
 
 .fleet-shell[data-site="validation"] {
-  --bh-accent: var(--bh-clay);
-  --bh-accent-dim: var(--bh-clay-dim);
-  --bh-accent-muted: rgba(196, 165, 116, 0.12);
-}
-
-.fleet-shell[data-site="research"] {
+  /* certification green — the referee's pass color */
   --bh-accent: var(--bh-moss);
   --bh-accent-dim: var(--bh-moss-dim);
   --bh-accent-muted: rgba(107, 143, 113, 0.12);
 }
 
+.fleet-shell[data-site="research"] {
+  /* scholarly heather — reads as ink-and-library, unlike anything else in the fleet */
+  --bh-accent: var(--bh-heather);
+  --bh-accent-dim: var(--bh-heather-dim);
+  --bh-accent-muted: rgba(133, 131, 184, 0.12);
+}
+
 .fleet-shell[data-site="simulation"] {
+  /* market sand — the contained experiment */
   --bh-accent: var(--bh-clay);
   --bh-accent-dim: var(--bh-clay-dim);
+  --bh-accent-muted: rgba(196, 165, 116, 0.12);
 }
 
 .fleet-shell[data-site="observatory"] {
-  --bh-accent: var(--bh-hen-blue);
-  --bh-accent-dim: var(--bh-hen-blue-dim);
-  --bh-accent-muted: rgba(74, 124, 155, 0.12);
+  /* instrument teal — telemetry glow, distinct from storefront steel */
+  --bh-accent: var(--bh-instrument);
+  --bh-accent-dim: var(--bh-instrument-dim);
+  --bh-accent-muted: rgba(99, 163, 160, 0.12);
 }

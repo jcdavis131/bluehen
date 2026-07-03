@@ -11,10 +11,10 @@ export default defineTool({
     quant: z.enum(["int8", "binary", "none"]).default("int8"),
     operatorApproved: z.boolean(),
   }),
-  async execute({ modelVersion, truncateDims, quant, operatorApproved }) {
+  async execute({ modelVersion, truncateDims, quant, operatorApproved }, ctx) {
     if (!operatorApproved) {
       return { deployed: false, reason: "Operator approval required before production deploy." };
     }
-    return synthFor("field_operator").model.deploy(modelVersion, { truncateDims, quant });
+    return synthFor("field_operator", ctx.session).model.deploy(modelVersion, { truncateDims, quant });
   },
 });

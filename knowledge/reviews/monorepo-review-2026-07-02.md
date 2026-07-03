@@ -181,3 +181,46 @@ Fleet rebrand drift: config/fleet.json renamed sites (hq/storefront/validation/r
 - One e2e path proven this tick: smoke-import → eval-harness compute_gates → True/True/True (gate logic intact, fails-closed on thin data verified prior).
 - Findings: 1 metadata-align drift (FIXED, 6 files), 1 runner bug (logged), 2 blockers documented as non-action.
 - No commit made this tick (docs-only edits; will commit on next Operator-approved batch).
+## Run 2026-07-02T20:59:58 (loop tick 2 — wake: git HEAD advanced to 803e2b9)
+
+### Trigger
+Fable 5 commit 803e2b9 feat(prod): in-process worker — one python+torch stack, fits 1GB.
+Touched: services/core-api/app/main.py, scripts/pick_task.py, infra/docker-entrypoint.sh, packages/ui-fleet (SiteSubnav removed, ApiStatusBanner added), ~20 site page.tsx.
+
+### Phase 4 — Gates (affected only)
+- smoke-import core-api.main: imports ok
+- pick_task.py list: FIXED (no TypeError — priority sort resolved; Phase 8 item from tick 1 closed by 803e2b9)
+- ui-fleet barrel (index.ts): consistent — SiteSubnav not exported, ApiStatusBanner exported
+- stale-ref scan (SiteSubnav in apps/sites + packages/ui-fleet): 0 hits — clean removal (SITE-013 effectively done)
+- TS build: deferred (BLK-DISK, 3.3 GB)
+
+### Phase 6 — Metadata-align
+- Verified tick-1 rebrand fixes survived into commit 803e2b9 (README/AGENTS/CLAUDE now committed with storefront/hq/validation/research/simulation/observatory).
+- specs/README.md edit (spec 0010/0013 finance-lab→simulation) still uncommitted in working tree — batch with next docs commit.
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import core-api.main → ok; pick_task list → ok; barrel consistency → ok.
+- No new drift detected this tick. No commit made (only pre-existing uncommitted specs/README.md edit remains).
+- Heartbeat re-armed (20m fallback). Watcher 844529 still running.
+## Run 2026-07-02T21:13:20 (loop tick 3 — fallback heartbeat; HEAD unchanged at 803e2b9)
+
+### Phase 0 — Orient
+- disk: 3.3 GB (unchanged, BLK-DISK holds)
+- HEAD: 803e2b9 (no new commit)
+- working tree: 21 modified + 4 untracked — uncommitted drift from in-flight agent work
+
+### Drift identified (other agents' lanes, not blocked)
+- Eve (synthorg): SPEC-006 subagent tools + new instrumentation.ts / lib/trace.ts (trace wiring)
+- Tastemaker UI: Spec 0017 / SITE-014 — ui-fleet tokens.css tuning + new Axis.tsx, Marginalia.tsx primitives
+- specs/0006 + specs/README + TASKS + work_queue updated by those efforts
+
+### Phase 4/5/6 — Cheap checks (no install, no commit)
+- secrets scan (uncommitted diff): clean (only CSS-token + task-desc word "token", no real secrets)
+- ui-fleet barrel (index.ts): consistent — Axis + Marginalia exported, SiteSubnav still absent
+- TS syntax/typecheck: DEFERRED (BLK-DISK; node --check is wrong tool for TS, needs pnpm typecheck)
+- metadata-align: no new drift in my surfaces; prior tick-1 fixes still committed
+
+### Phase 9 — Close-out
+- No action taken — uncommitted work belongs to Eve (research/synthorg lane) + Tastemaker (SITE-014). Cursor lane = sites/core-api/scripts; no Cursor-lane drift this tick.
+- Documented as non-action: monitored two in-flight efforts, did not block, will re-check on next wake.
+- Heartbeat re-armed (20m). Watcher 844529 still running.

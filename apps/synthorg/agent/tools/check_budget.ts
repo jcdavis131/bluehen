@@ -9,8 +9,8 @@ export default defineTool({
   inputSchema: z.object({
     estimatedCostUsd: z.number().nonnegative().optional(),
   }),
-  async execute({ estimatedCostUsd }) {
-    const budget = await synthFor("chief_of_staff").ledger.budget();
+  async execute({ estimatedCostUsd }, ctx) {
+    const budget = await synthFor("chief_of_staff", ctx.session).ledger.budget();
     const remaining = (budget as any)?.remainingUsd ?? null;
     const wouldExceed =
       estimatedCostUsd != null && remaining != null ? estimatedCostUsd > remaining : false;

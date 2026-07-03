@@ -5,6 +5,8 @@
 /* ── Shell chrome ───────────────────────────────────────── */
 
 .fleet-header {
+  /* per-site accent signature — instant "which surface am I on" */
+  border-top: 3px solid var(--bh-accent);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -40,8 +42,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
+  min-width: 24px;
   height: 24px;
+  padding: 0 5px;
   border: 2px solid var(--bh-accent);
   border-radius: 4px 10px 2px 8px;
   font-size: 0.65rem;
@@ -1354,4 +1357,194 @@
   border-radius: var(--bh-radius-sm);
   padding: 2px 7px;
   background: var(--bh-inset);
+}
+
+/* ---------------------------------------------------------------------
+   Tastemaker primitives (SITE-014 / Spec 0017) — Kubrick one-point axis,
+   Wes Anderson title cards, modernized TUI hairline + mono status. All
+   motion is gated behind prefers-reduced-motion. Additive — no existing
+   token or class is altered. */
+
+/* Axis — centered one-point column. Fills viewport below 768px so content
+   collapses to left-aligned (symmetry is a desktop property). */
+.bh-axis {
+  max-width: var(--bh-axis);
+  margin-inline: auto;
+}
+.bh-axis--wide {
+  max-width: var(--bh-axis-wide);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bh-axis {
+    animation: bh-axis-in var(--bh-duration-axis) var(--bh-ease-out) both;
+  }
+  @keyframes bh-axis-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* TitleCard — Wes overture: hairline above/below, mono eyebrow, Instrument
+   Serif title, optional marginalia. Centered on desktop. */
+.bh-title-card {
+  text-align: center;
+  margin-block: 0 var(--bh-space-16);
+  padding-block: var(--bh-space-6);
+  border-top: var(--bh-rule);
+  border-bottom: var(--bh-rule);
+  background: var(--bh-card-title-bg);
+}
+.bh-title-card__eyebrow {
+  display: block;
+  font-family: var(--bh-font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--bh-muted);
+  margin-bottom: var(--bh-space-3);
+}
+.bh-title-card__title {
+  font-family: var(--bh-font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 auto;
+  max-width: var(--bh-axis);
+  color: var(--bh-text);
+}
+.bh-title-card__marginalia {
+  margin-top: var(--bh-space-4);
+  color: var(--bh-muted);
+}
+.bh-title-card__lead {
+  margin: var(--bh-space-5) auto 0;
+  max-width: var(--bh-axis);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--bh-text-secondary);
+}
+.bh-title-card__mascot {
+  display: block;
+  margin: 0 auto var(--bh-space-4);
+  width: fit-content;
+}
+.bh-title-card__copy {
+  margin: 0;
+  max-width: var(--bh-axis);
+  margin-inline: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bh-title-card {
+    animation: bh-title-in var(--bh-duration-axis) var(--bh-ease-out) both;
+  }
+  @keyframes bh-title-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* RuledSection — a chapter. Hairline top rule + mono label, then body. */
+.bh-ruled-section {
+  border-top: var(--bh-rule);
+  padding-block: var(--bh-space-6) var(--bh-space-16);
+}
+.bh-ruled-section__label {
+  display: block;
+  font-family: var(--bh-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bh-muted);
+  margin-bottom: var(--bh-space-5);
+}
+.bh-ruled-section__body {
+  width: 100%;
+}
+.bh-ruled-section--wide .bh-ruled-section__body {
+  max-width: var(--bh-axis-wide);
+}
+
+/* StatusLine — TUI top bar: site · section · status · time, hairline. */
+.bh-status-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--bh-space-2);
+  font-family: var(--bh-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--bh-muted);
+  background: var(--bh-status-bar-bg);
+  border: var(--bh-rule);
+  padding: var(--bh-space-2) var(--bh-space-4);
+  margin-bottom: var(--bh-space-8);
+}
+.bh-status-line__seg {
+  color: var(--bh-text-secondary);
+}
+.bh-status-line__sep {
+  color: var(--bh-faint);
+}
+.bh-status-line__status {
+  color: var(--bh-accent);
+}
+.bh-status-line__time {
+  margin-left: auto;
+  color: var(--bh-faint);
+}
+
+/* TTYFrame — line-drawn hairline data panel (1px, not ASCII). */
+.bh-tty-frame {
+  position: relative;
+  border: var(--bh-rule);
+  background: var(--bh-surface);
+  padding: var(--bh-space-5);
+}
+.bh-tty-frame__label {
+  position: absolute;
+  top: -0.55em;
+  left: var(--bh-space-4);
+  background: var(--bh-canvas);
+  padding: 0 var(--bh-space-2);
+  font-family: var(--bh-font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bh-muted);
+}
+.bh-tty-frame__body {
+  min-height: 44px;
+}
+
+/* Marginalia — small mono side-caption. */
+.bh-marginalia {
+  font-family: var(--bh-font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--bh-muted);
+  max-width: var(--bh-axis);
+}
+
+@media (max-width: 767px) {
+  /* Symmetry is a desktop property — collapse to left alignment. */
+  .bh-title-card {
+    text-align: left;
+    padding-block: var(--bh-space-5);
+    margin-block-end: var(--bh-space-8);
+  }
+  .bh-title-card__title,
+  .bh-title-card__lead,
+  .bh-title-card__copy {
+    margin-inline: 0;
+  }
+  .bh-title-card__mascot {
+    margin-inline: 0;
+  }
+  .bh-status-line__time {
+    margin-left: 0;
+    width: 100%;
+  }
 }

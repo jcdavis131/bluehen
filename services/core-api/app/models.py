@@ -180,6 +180,18 @@ class WikiPage(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
+class UsageEvent(Base):
+    """Billable usage event (Spec 0021 P1). Stripe reconciles from these."""
+
+    __tablename__ = "usage_events"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    workspace_id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False)
+    kind: Mapped[str] = mapped_column(String(24), nullable=False)
+    units: Mapped[int] = mapped_column(Integer, default=1)
+    ts: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
 class Lead(Base):
     __tablename__ = "leads"
 

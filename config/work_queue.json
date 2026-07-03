@@ -1018,12 +1018,13 @@
     {
       "id": "MON-001",
       "title": "Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0021 P1)",
-      "status": "ready",
+      "status": "in_progress",
       "lane": "claude",
       "priority": "P1",
       "division": "execution",
       "spec": "0020",
-      "notes": "Highest-leverage passive stream. core-api already serves embeddings + budget ceilings. Add billing_usage_events table + stripe_customer_id on workspaces. Behind BILLING_ENABLED flag. Depends on: Stripe account (Operator). | GATE: needs STRIPE_SECRET_KEY from Operator before build completes end-to-end."
+      "notes": "METERING HALF SHIPPED: usage_events (mig 011), best-effort recording on search/embed/diagnose (never fails requests, under-bills on error by design), GET /v1/usage tenant view + /v1/admin/usage rollup. REMAINING: Stripe metered subscription + webhook reconciliation \u2014 needs STRIPE_SECRET_KEY (Operator gate).",
+      "claimedBy": "claude"
     },
     {
       "id": "MON-002",

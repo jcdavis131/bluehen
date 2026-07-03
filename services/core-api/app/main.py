@@ -218,9 +218,13 @@ def diagnose(body: DiagnoseIn, tenant: Annotated[TenantCtx, Depends(require_tena
     from app.services.diagnose import diagnose_corpus
 
     try:
-        return diagnose_corpus(
+        out = diagnose_corpus(
             tenant.workspace_id, body.texts, consent=body.consent, site_id=tenant.site_id
         )
+        from app.services.usage import record as _record_usage
+
+        _record_usage(tenant.workspace_id, "diagnose", units=len(body.texts))
+        return out
     except (ValueError, FileNotFoundError) as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
 
@@ -401,6 +405,20 @@ def wiki_page(slug: str, response: Response, _rl: Annotated[None, Depends(rate_l
     return out
 
 
+@app.get("/v1/usage")
+def usage_view(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    from app.services.usage import workspace_usage
+
+    return workspace_usage(tenant.workspace_id)
+
+
+@app.get("/v1/admin/usage")
+def usage_admin(_: Annotated[None, Depends(require_admin)], days: int = 31):
+    from app.services.usage import admin_rollup
+
+    return admin_rollup(days)
+
+
 @app.post("/v1/admin/wiki/rebuild")
 def wiki_rebuild(_: Annotated[None, Depends(require_admin)]):
     from app.services.wiki import rebuild_wiki
@@ -429,6 +447,9 @@ def embed(body: dict, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
                 detail=f"inputs must be a list of at most {EMBED_MAX_INPUTS} texts",
             )
         body["inputs"] = [str(t)[:EMBED_MAX_CHARS] for t in inputs]
+        from app.services.usage import record as _record_usage
+
+        _record_usage(tenant.workspace_id, "embed", units=len(body["inputs"]))
         truncate = body.get("truncate")
         if truncate is not None and not isinstance(truncate, bool):
             truncate = bool(truncate)
@@ -654,7 +675,7 @@ def admin_deploy(body: dict, _: Annotated[None, Depends(require_admin)]):
 def search(body: dict, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
     try:
         td = body.get("truncateDims")
-        return search_chunks(
+        out = search_chunks(
             tenant.workspace_id,
             body.get("query", ""),
             k=int(body.get("k", 10)),
@@ -662,6 +683,10 @@ def search(body: dict, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
             truncate_dims=int(td) if td is not None else None,
             quant=body.get("quant"),
         )
+        from app.services.usage import record as _record_usage
+
+        _record_usage(tenant.workspace_id, "search")
+        return out
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
     except FileNotFoundError as e:

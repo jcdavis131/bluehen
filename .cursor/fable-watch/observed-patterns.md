@@ -1129,3 +1129,13 @@
 - **Observed:** Before push: "Auto-generation → structured wiki → labeled self-refinement (key-gated) is the full loop you asked for. Recording the milestone: Pushed to main."
 - **Why it works:** The arrow-chain restates the deliverable as an end-to-end loop (not a file list), confirms it matches operator intent ("you asked for"), then records the milestone with a single push line. Close-out is narrative + artifact, not just git output.
 - **Maps to:** refine close-the-loop + progress-board — milestone push preceded by one-sentence pipeline summary tied to original goal.
+
+### P-209 - Platform wakeup banner timestamps loop resume after a gap
+- **Observed:** Claude resuming /loop wakeup (Jul 3 3:08pm) before the operator's /loop continue… and the agent's gate check.
+- **Why it works:** The banner gives a wall-clock anchor for "how long since last tick" without parsing git or queue state. Pairs with P-188 (recon after gap): the timestamp signals that recon is warranted even when the user immediately sends continue.
+- **Maps to:** refine session-orient + progress-board — treat platform wakeup timestamps as loop-gap markers.
+
+### P-210 - Self-update failure when binary in use is reported with fix, loop continues
+- **Observed:** After productive work (Pushed to main, ran 2 shell commands): Auto-update failed: claude.exe in use (close other Claude Code sessions, including VS…). Update did not abort the hill-climb loop.
+- **Why it works:** Environmental failures (IDE holding the binary) differ from task failures. Surfacing the error + exact remediation (close other Claude sessions) lets the operator fix it later without losing loop momentum. Work shipped; update is deferred, not silent.
+- **Maps to:** refine silent-op-recovery + agent-guardrails — report self-update/env blockers with actionable fix; don't treat as task failure.

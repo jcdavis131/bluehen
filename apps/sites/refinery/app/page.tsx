@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CountUpStat, PageHeader, Reveal } from "@synthaembed/ui-fleet";
+import { CountUpStat, PageHeader, Reveal, TeamStrip } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { getStats, listDatasets } from "../lib/catalog";
 
@@ -16,6 +16,8 @@ export default async function Home() {
         title="Datasets with receipts"
         lead="The Data Operations division of Blue Hen RE, as a product: every dataset here carries its provenance — source, extractor, chunking strategy, and an OKF card — because training data you can't audit is training data you can't trust."
       />
+
+      <TeamStrip siteId="refinery" />
 
       {stats ? (
         <Reveal index={0}>

@@ -6,6 +6,7 @@ import {
   RuledSection,
   StatusLine,
   TitleCard,
+  TeamStrip,
 } from "@synthaembed/ui-fleet";
 import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
 
@@ -39,6 +40,8 @@ export default function ResearchRagPage() {
             </Link>
           </p>
         </TitleCard>
+
+      <TeamStrip siteId="research" />
 
         <RuledSection label="Live arXiv search">
           <ArxivExamDemo />

@@ -830,9 +830,10 @@
       "dependsOn": [
         "SITE-014"
       ],
-      "claimedBy": "cursor",
+      "claimedBy": "claude",
       "claimedAt": "2026-07-03T02:17:04.381592+00:00",
-      "completedAt": "2026-07-03T02:23:49.603530+00:00"
+      "completedAt": "2026-07-03T02:23:49.603530+00:00",
+      "notes": "TeamStrip (registry-driven: division + offer + company byline) on all 5 BU homepages; accent-keyed left border per site. Live proof metrics remain on each page separately."
     },
     {
       "id": "SITE-016",
@@ -977,10 +978,11 @@
     {
       "id": "SITE-015",
       "title": "BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
-      "notes": "measured metric or honest empty state; 'a Blue Hen RE company' byline"
+      "notes": "TeamStrip (registry-driven: division + offer + company byline) on all 5 BU homepages; accent-keyed left border per site. Live proof metrics remain on each page separately.",
+      "claimedBy": "claude"
     },
     {
       "id": "TOPO-002",

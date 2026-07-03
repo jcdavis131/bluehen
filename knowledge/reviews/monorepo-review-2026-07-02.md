@@ -567,3 +567,9 @@ No Python. Deploy/live commit. No code gate needed. (Phase 7 deploy-smoke: live 
 - Heartbeat 826435 fired → re-arming one (earned). Watcher 844529 still running.
 ## Run 2026-07-03T03:21:11 (loop tick 36 — fallback 920234 fired; no new commit past a9137fa. Repo quiet ~22m. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
 
+## Run 2026-07-03T03:32:01 (loop tick 37 — watcher occ 25; HEAD a9137fa → ac6dbe4. feat(company-site): SITE-014 organization section on bhenre.com. No Python (site/UI). No gate needed. Not re-arming (223881 pending). Watcher 844529 running.)
+
+## Run 2026-07-03T03:41:45 (loop tick 38 — fallback 223881 fired; no new commit past ac6dbe4. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+
+## Run 2026-07-03T04:02:19 (loop tick 39 — fallback 623559 fired; no new commit past ac6dbe4. Repo quiet ~30m. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

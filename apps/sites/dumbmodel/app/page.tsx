@@ -6,6 +6,7 @@ import {
   RuledSection,
   StatusLine,
   TitleCard,
+  TeamStrip,
 } from "@synthaembed/ui-fleet";
 import { BRAND, getSiteCircuit, RE } from "@synthaembed/fleet";
 
@@ -43,6 +44,8 @@ export default function HomePage() {
             Benchmarks measured on {BRAND.name} eval gates, not marketing claims.
           </p>
         </TitleCard>
+
+      <TeamStrip siteId="dumbmodel" />
 
         <RuledSection label="Run the diagnostics">
           <div className="bh-stack" style={{ gap: 16 }}>

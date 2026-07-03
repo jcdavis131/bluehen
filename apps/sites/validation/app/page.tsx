@@ -7,6 +7,7 @@ import {
   RuledSection,
   StatusLine,
   TitleCard,
+  TeamStrip,
 } from "@synthaembed/ui-fleet";
 import { siteModels } from "@synthaembed/ui-fleet/site-api";
 import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
@@ -62,6 +63,8 @@ export default async function BenchmarkHome() {
             <Link href="/certify">How certification works →</Link>
           </p>
         </TitleCard>
+
+      <TeamStrip siteId="validation" />
 
         <RuledSection label="Evaluation tiers">
           <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>

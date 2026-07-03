@@ -30,3 +30,4 @@ export { RuledSection } from "./RuledSection";
 export { StatusLine } from "./StatusLine";
 export { TTYFrame } from "./TTYFrame";
 export { Marginalia } from "./Marginalia";
+export { TeamStrip } from "./TeamStrip";

@@ -1633,3 +1633,38 @@ select {
     line-height: 1.1;
   }
 }
+
+
+/* ── Business-unit team strip (Spec 0019) ── */
+
+.bh-team-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  padding: 10px 14px;
+  margin-bottom: var(--bh-space-6);
+  border: 1px solid var(--bh-border);
+  border-left: 3px solid var(--bh-accent);
+  border-radius: var(--bh-radius);
+  background: var(--bh-inset);
+  font-size: 0.78rem;
+}
+
+.bh-team-strip__division {
+  font-family: var(--bh-font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.66rem;
+  color: var(--bh-accent);
+}
+
+.bh-team-strip__offer {
+  color: var(--bh-muted);
+  flex: 1 1 260px;
+}
+
+.bh-team-strip__byline {
+  color: var(--bh-accent);
+  white-space: nowrap;
+}

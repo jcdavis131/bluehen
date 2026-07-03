@@ -4,6 +4,7 @@ import {
   RuledSection,
   StatusLine,
   TitleCard,
+  TeamStrip,
 } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import Link from "next/link";
@@ -44,6 +45,8 @@ export default function FinanceLabPage() {
             sports DFS, and retail equities. Simulation only — no live capital, no trading advice.
           </p>
         </TitleCard>
+
+      <TeamStrip siteId="simulation" />
 
         <RuledSection label="Get the strategy reports">
           <div className="bh-card bh-card--organic">

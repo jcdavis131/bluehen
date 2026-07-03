@@ -209,37 +209,49 @@
       "division": "research",
       "priority": 15,
       "title": "depth=2 GELU@256 encoder (code change)",
-      "status": "ready",
+      "status": "done",
       "spec": "0003",
       "command": ".claude/autoresearch-delegate.md \u2192 uv run python scripts/autoresearch_run.py claude",
-      "acceptance": "KEEP or DISCARD logged to progress.jsonl"
+      "acceptance": "KEEP or DISCARD logged to progress.jsonl",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T18:39:24.810498+00:00",
+      "completedAt": "2026-07-03T18:40:55.282443+00:00"
     },
     {
       "id": "AR-307",
       "division": "research",
       "priority": 16,
       "title": "InfoNCE + Barlow aux 0.1 hybrid loss",
-      "status": "ready",
+      "status": "done",
       "spec": "0003",
-      "command": ".claude/autoresearch-delegate.md claude-2"
+      "command": ".claude/autoresearch-delegate.md claude-2",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T18:40:55.393691+00:00",
+      "completedAt": "2026-07-03T18:41:34.216631+00:00"
     },
     {
       "id": "AR-308",
       "division": "research",
       "priority": 17,
       "title": "MRL prefix loss in autoresearch_train.py",
-      "status": "ready",
+      "status": "done",
       "spec": "0003",
-      "command": ".claude/autoresearch-delegate.md claude-3-mrl"
+      "command": ".claude/autoresearch-delegate.md claude-3-mrl",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T18:41:34.326237+00:00",
+      "completedAt": "2026-07-03T18:41:57.716953+00:00"
     },
     {
       "id": "AR-309",
       "division": "research",
       "priority": 18,
       "title": "Rank floor when served_rank < 12",
-      "status": "ready",
+      "status": "done",
       "spec": "0003",
-      "command": ".claude/autoresearch-delegate.md claude-4-rankfloor"
+      "command": ".claude/autoresearch-delegate.md claude-4-rankfloor",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T18:41:57.835594+00:00",
+      "completedAt": "2026-07-03T18:42:32.299896+00:00"
     },
     {
       "id": "RT-401",
@@ -1108,6 +1120,14 @@
         "MON-006"
       ],
       "notes": "Admin-keyed dashboard on hq. Pulls from billing_usage_events + Medusa orders + certifications. Shows passive (P1-P6) vs active (A1-A5) MRR split with per-BU attribution. TOPO-002 (cross-BU checkout attribution) feeds the BU split."
+    },
+    {
+      "id": "AR-310",
+      "title": "Re-measure champion under fixed-seed repeats (5x) \u2014 is baseline 1.465 reproducible?",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "9 consecutive candidates (cursor 5 + claude AR-306..309) all plateau at robust 1.39-1.41 incl. a no-op-on-healthy-runs guard; champion 1.465 likely seed artifact. If confirmed, re-baseline and re-run the round-3 queue."
     }
   ]
 }

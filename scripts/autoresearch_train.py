@@ -25,7 +25,7 @@ BATCH = 64
 LR = 2.0e-3
 WEIGHT_DECAY = 1e-4
 AUG = 1.0
-BARLOW_LAMBDA = 0.022
+BARLOW_LAMBDA = 0.0215
 
 
 class Net(nn.Module):

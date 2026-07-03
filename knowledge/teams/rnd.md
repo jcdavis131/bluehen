@@ -76,3 +76,15 @@ Datalab manifests (`python -m datalab datasets`): 3 datasets, all below the >50-
 
 **LLM loop:** skipped (GLM_API_KEY not set)
 
+
+
+## 2026-07-03 — Delegate round 3 complete (claude): 4x DISCARD + a baseline-variance finding
+
+AR-306 (depth-2 GELU@256): DISCARD, robust 1.289. AR-307 (InfoNCE+Barlow
+0.1): DISCARD, 1.398. AR-308 (MRL prefix): DISCARD, 1.392. AR-309
+(conditional rank floor, never armed — served_rank ~28 > 12): DISCARD,
+1.411. **Finding:** all nine round-3 candidates across both lanes land at
+1.39-1.41 while the champion baseline claims 1.465 — including a
+hypothesis that should be a training no-op. The baseline is likely a
+seed artifact. Proposed AR-310: 5x fixed-seed champion re-measurement
+before any further round-3 spending.

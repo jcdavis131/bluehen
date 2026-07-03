@@ -24,14 +24,6 @@
 - [ ] **AR-303** — AUG=0.5 lower view noise (research) · spec [0003](./specs/0003-*.md)
 - [ ] **AR-304** — Batch=48 intermediate (research) · spec [0003](./specs/0003-*.md)
 - [ ] **AR-305** — Weight decay 5e-5 (research) · spec [0003](./specs/0003-*.md)
-- [ ] **AR-306** — depth=2 GELU@256 encoder (code change) (research) · spec [0003](./specs/0003-*.md)
-  - `.claude/autoresearch-delegate.md → uv run python scripts/autoresearch_run.py claude`
-- [ ] **AR-307** — InfoNCE + Barlow aux 0.1 hybrid loss (research) · spec [0003](./specs/0003-*.md)
-  - `.claude/autoresearch-delegate.md claude-2`
-- [ ] **AR-308** — MRL prefix loss in autoresearch_train.py (research) · spec [0003](./specs/0003-*.md)
-  - `.claude/autoresearch-delegate.md claude-3-mrl`
-- [ ] **AR-309** — Rank floor when served_rank < 12 (research) · spec [0003](./specs/0003-*.md)
-  - `.claude/autoresearch-delegate.md claude-4-rankfloor`
 - [ ] **RT-401** — Real-text bake-off: research-rag corpus (research) · spec [0008](./specs/0008-*.md)
   - `pnpm evidence:realtext:research-rag`
 - [ ] **RT-402** — Real-text bake-off: AG News + both sites (research) · spec [0008](./specs/0008-*.md)
@@ -48,6 +40,8 @@
 - [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0020 P1) (execution) · spec [0020](./specs/0020-*.md)
 - [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0020 P4) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0020 P5) (comms) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-008** — CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0020 P6) (execution) · spec [0020](./specs/0020-*.md)
+- [ ] **AR-310** — Re-measure champion under fixed-seed repeats (5x) — is baseline 1.465 reproducible? (None)
 
 ## In progress
 

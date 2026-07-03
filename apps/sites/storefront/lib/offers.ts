@@ -87,7 +87,7 @@ const UNIT_ASKS: Record<string, (site: FleetSite) => UnitAsk> = {
     primary: { label: "Try the live research assistant", href: unitUrl(s) },
     secondary: {
       label: "Discuss a design-partner seat",
-      href: "/contact?topic=design-partner-seat",
+      href: "/contact?topic=design-partner",
     },
   }),
   refinery: (s) => ({

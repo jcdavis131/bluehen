@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-02",
+  "updated": "2026-07-03",
   "protocol": "Any agent: read blockers \u2192 pick_task.py list \u2192 claim \u2192 work \u2192 done \u2192 render. Specs in specs/; fleet in config/fleet.json.",
   "blockers": [
     {
@@ -368,12 +368,15 @@
       "division": "bd",
       "priority": 50,
       "title": "slasso YAML exam runner",
-      "status": "ready",
+      "status": "done",
       "spec": "0008",
       "command": "Implement scripts/slasso_exam_runner.py",
       "dependsOn": [
         "RAG-505"
-      ]
+      ],
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-03T01:04:42.519561+00:00",
+      "completedAt": "2026-07-03T01:04:42.663917+00:00"
     },
     {
       "id": "BD-702",
@@ -784,6 +787,14 @@
       "spec": "review-2026-07-02",
       "notes": "old ids + ~25 missing pnpm scripts (US-001)",
       "claimedBy": "claude"
+    },
+    {
+      "id": "SITE-013",
+      "title": "Remove retired SiteSubnav usages (header now carries site IA)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P3",
+      "notes": "FleetShell header renders SITE_NAV with active states; .bh-subnav is display:none. Delete <SiteSubnav> usages + imports across apps, then drop the component + CSS."
     }
   ]
 }

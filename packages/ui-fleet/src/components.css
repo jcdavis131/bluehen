@@ -122,6 +122,162 @@
   color: var(--bh-text);
 }
 
+/* ---- Fleet switcher (org-aware cross-site nav) ---- */
+
+.fleet-switcher {
+  position: relative;
+}
+
+/* The header now carries the site IA (with active states); the per-page
+   subnav is retired to avoid duplicate navigation. Component usages are
+   being removed site-by-site (queue: SITE-013). */
+.bh-subnav {
+  display: none;
+}
+
+.fleet-switcher__button {
+  font-family: var(--bh-font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--bh-accent);
+  background: transparent;
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: border-color var(--bh-duration) var(--bh-ease), color var(--bh-duration) var(--bh-ease);
+}
+
+.fleet-switcher__button:hover,
+.fleet-switcher__button[aria-expanded="true"] {
+  border-color: var(--bh-accent);
+  color: var(--bh-text);
+}
+
+.fleet-switcher__panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  width: min(380px, 92vw);
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  background: var(--bh-surface);
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius-lg);
+  box-shadow: var(--bh-shadow-lg, 0 16px 48px rgba(0, 0, 0, 0.35));
+  padding: var(--bh-space-4);
+}
+
+.fleet-switcher__lede {
+  font-size: 0.78rem;
+  color: var(--bh-muted);
+  margin: 0 0 var(--bh-space-3);
+  line-height: 1.5;
+}
+
+.fleet-switcher__group + .fleet-switcher__group {
+  margin-top: var(--bh-space-3);
+}
+
+.fleet-switcher__group-label {
+  display: block;
+  font-family: var(--bh-font-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bh-muted);
+  margin-bottom: 6px;
+}
+
+.fleet-switcher__item {
+  display: block;
+  padding: 8px 10px;
+  border-radius: var(--bh-radius);
+  transition: background var(--bh-duration) var(--bh-ease);
+}
+
+.fleet-switcher__item:hover {
+  background: var(--bh-surface-2, rgba(255, 255, 255, 0.04));
+}
+
+.fleet-switcher__item.is-current {
+  outline: 1px solid var(--bh-border);
+}
+
+.fleet-switcher__item-name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--bh-text);
+}
+
+.fleet-switcher__here {
+  font-weight: 400;
+  font-size: 0.72rem;
+  color: var(--bh-accent);
+}
+
+.fleet-switcher__item-role {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--bh-muted);
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
+/* ---- Org footer ---- */
+
+.fleet-footer--org {
+  display: block;
+  text-align: left;
+}
+
+.fleet-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--bh-space-6);
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.fleet-footer__title {
+  display: block;
+  font-family: var(--bh-font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bh-text);
+  margin-bottom: var(--bh-space-2);
+}
+
+.fleet-footer__note {
+  font-family: var(--bh-font-body, inherit);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.fleet-footer__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fleet-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-2) var(--bh-space-5);
+  justify-content: center;
+  margin-top: var(--bh-space-7);
+  padding-top: var(--bh-space-4);
+  border-top: 1px solid var(--bh-border);
+}
+
 @media (max-width: 720px) {
   .fleet-header {
     padding: var(--bh-space-3) var(--bh-space-4);

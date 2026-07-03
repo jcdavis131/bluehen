@@ -1,6 +1,6 @@
 # Tasks
 
-> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-07-02
+> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-07-03
 
 **Any agent:** `uv run python scripts/pick_task.py list` → `claim` → work → `done`
 
@@ -42,12 +42,12 @@
   - `Create scripts/rag_chunk_ablation.py — 256/512/1024 token chunks on research-rag holdout`
 - [ ] **RAG-503** — Hard negative mining in hill-climb pair builder (research) · spec [0009](./specs/0009-*.md)
   - `Extend core-api lifecycle or worker pair generation with corpus-mined negatives`
-- [ ] **BD-701** — slasso YAML exam runner (bd) · spec [0008](./specs/0008-*.md)
-  - `Implement scripts/slasso_exam_runner.py`
+- [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **SPEC-006** — Eve subagents + trace wiring (agent) · spec [0006](./specs/0006-*.md)
   - `apps/synthorg — subagent descriptions + synth-core trace IDs`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
+- [ ] **SITE-013** — Remove retired SiteSubnav usages (header now carries site IA) (None)
 
 ## In progress
 
@@ -61,7 +61,6 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **RAG-501** — Scale arXiv corpus to 200 papers + re-kickoff · blockedBy: ['BLK-DOCKER']
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
-- [ ] **BD-702** — Commercial panel scorecard on dumbmodel · blockedBy: ['BD-701']
 - [ ] **LOOP-001** — Phase A+ hill-climb iteration — kickoff Phase A orgs, verify BD queue + ledger · blockedBy: ['BLK-DISK', 'BLK-DOCKER']
 - [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
 

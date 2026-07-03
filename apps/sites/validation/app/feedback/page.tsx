@@ -1,4 +1,5 @@
 import { FeedbackForm, PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@synthaembed/fleet";
+import { LabExploration } from "../../components/LabExploration";
 export const metadata = {
   title: `${GLOSSARY.feedback} — Validation Lab`,
 };
@@ -13,6 +14,10 @@ export default function FeedbackPage() {
         lead={`Pilot feedback is recorded in the ${GLOSSARY.raceLog} for Validation → R&D review.`}
       />
       <FeedbackForm siteId="validation" division="bd" />
+
+      <div style={{ marginTop: "var(--bh-space-6)" }}>
+        <LabExploration currentId="feedback" />
+      </div>
     </>
   );
 }

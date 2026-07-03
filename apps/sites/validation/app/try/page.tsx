@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LiveSearchPanel, PageHeader } from "@synthaembed/ui-fleet";import { BENCHMARK_EXAMS } from "@synthaembed/eval-public";
 import { getSiteCircuit, GLOSSARY } from "@synthaembed/fleet";
+import { LabExploration } from "../../components/LabExploration";
 export const metadata = {
   title: `Run Benchmark — Validation Lab`,
   description: "Live benchmark on slasso.com",
@@ -48,6 +49,10 @@ export default function TryPage() {
           "Hallucination-resistant RAG grounding",
         ]}
       />
+
+      <div style={{ marginTop: "var(--bh-space-6)" }}>
+        <LabExploration currentId="try" />
+      </div>
     </>
   );
 }

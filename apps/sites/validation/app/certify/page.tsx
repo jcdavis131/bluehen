@@ -1,4 +1,5 @@
 import { PageHeader, Reveal } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import Link from "next/link";
+import { LabExploration } from "../../components/LabExploration";
 
 export const metadata = {
   title: "RAG Certification — slasso.com",
@@ -64,6 +65,10 @@ export default function CertifyPage() {
         <Link className="bh-btn bh-btn--ghost" href="/try">
           Preview the harness
         </Link>
+      </div>
+
+      <div style={{ marginTop: "var(--bh-space-6)" }}>
+        <LabExploration currentId="certify" />
       </div>
     </>
   );

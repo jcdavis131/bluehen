@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
 import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";
+import { LabExploration } from "../../components/LabExploration";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
@@ -156,6 +157,10 @@ export default async function ScorecardsIndexPage() {
         <Link href="/queue" className="bh-card__subtitle">
           validation pipeline →
         </Link>
+      </div>
+
+      <div style={{ marginTop: "var(--bh-space-6)" }}>
+        <LabExploration currentId="scorecards" />
       </div>
     </>
   );

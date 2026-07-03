@@ -2,15 +2,19 @@ import Link from "next/link";
 import { BENCHMARK_EXAMS, RAG_TIERS, hallOfCone } from "@synthaembed/eval-public";
 import {
   Axis,
+  CrossSellStrip,
   Marginalia,
   ProgressMeter,
+  ReturnGreeting,
   RuledSection,
   StatusLine,
   TitleCard,
   TeamStrip,
+  type LedgerEntry,
 } from "@synthaembed/ui-fleet";
-import { siteModels } from "@synthaembed/ui-fleet/site-api";
+import { siteLedger, siteModels } from "@synthaembed/ui-fleet/site-api";
 import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
+import { LabExploration } from "../components/LabExploration";
 
 export const metadata = {
   title: "Validation Lab — slasso.com",
@@ -26,6 +30,17 @@ type LiveModel = {
   quant?: string | null;
 };
 
+/** Real lifecycle ledger for the return greeting — empty (and therefore
+ * silent) when core-api is unreachable or no advances happened. */
+async function liveLedger(): Promise<LedgerEntry[]> {
+  try {
+    const data = (await siteLedger(30)) as { entries?: LedgerEntry[] };
+    return data.entries ?? [];
+  } catch {
+    return [];
+  }
+}
+
 async function liveLeaderboard(): Promise<{ models: LiveModel[]; live: boolean }> {
   try {
     const data = (await siteModels()) as { models?: LiveModel[] };
@@ -40,7 +55,10 @@ async function liveLeaderboard(): Promise<{ models: LiveModel[]; live: boolean }
 
 export default async function BenchmarkHome() {
   const fixtureBoard = hallOfCone().slice(0, 5);
-  const { models: liveModels, live } = await liveLeaderboard();
+  const [{ models: liveModels, live }, ledger] = await Promise.all([
+    liveLeaderboard(),
+    liveLedger(),
+  ]);
   const surface = getSiteCircuit("validation");
 
   return (
@@ -64,7 +82,36 @@ export default async function BenchmarkHome() {
           </p>
         </TitleCard>
 
-      <TeamStrip siteId="validation" />
+        <ReturnGreeting ledger={ledger} />
+
+        <TeamStrip siteId="validation" />
+
+        <RuledSection label="Explore the lab">
+          <div className="bh-stack" style={{ gap: 12 }}>
+            <div
+              style={{
+                display: "flex",
+                gap: 12,
+                flexWrap: "wrap",
+                alignItems: "center",
+              }}
+            >
+              <Link href="/certify" className="bh-btn bh-btn--primary">
+                Get certified
+              </Link>
+              <Link href="/try" className="bh-btn bh-btn--ghost">
+                Run a benchmark
+              </Link>
+              <Link href="/scorecards" className="bh-btn bh-btn--ghost">
+                Scorecards
+              </Link>
+              <span className="bh-live" style={{ marginLeft: "auto" }}>
+                <span className="bh-kbd">⌘K</span> jump anywhere
+              </span>
+            </div>
+            <LabExploration currentId="home" />
+          </div>
+        </RuledSection>
 
         <RuledSection label="Evaluation tiers">
           <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>
@@ -179,6 +226,8 @@ export default async function BenchmarkHome() {
           </Marginalia>
           <Link href="https://dumbmodel.com">Baseline comparison on dumbmodel.com →</Link>
         </RuledSection>
+
+        <CrossSellStrip siteId="validation" />
       </Axis>
     </>
   );

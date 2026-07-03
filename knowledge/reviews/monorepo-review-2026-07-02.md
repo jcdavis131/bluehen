@@ -506,3 +506,17 @@ Python (Cursor lane): new app/ratelimit.py, new app/services/harvest.py, app/mai
 - Per tick-8 rule: NOT re-arming heartbeat (382995 still pending). Watcher 844529 still running.
 ## Run 2026-07-03T01:07:54 (loop tick 28 — fallback 382995 fired; no new commit past dbcb4d0. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
 
+## Run 2026-07-03T01:13:24 (loop tick 29 — watcher occurrence 20; HEAD dbcb4d0 → 5e5af0d)
+
+### Trigger
+5e5af0d fix(refinery): explicit registry/repo paths for harvest — containers have no .git for datalab autodetection.
+harvest.py changed (Cursor lane). Structural root-cause fix: containers lack .git, so autodetection fails → explicit paths.
+
+### Phase 4 — Gates
+- smoke-import core-api.services.harvest: ok
+- no harvest tests (gap, tick 27)
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import harvest → ok. diagnose-before-retry pattern (explicit paths, not autodetection retry).
+- Per tick-8 rule: NOT re-arming heartbeat (562061 still pending). Watcher 844529 still running.

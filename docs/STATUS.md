@@ -4,7 +4,7 @@
 > Queue detail: [TASKS.md](../TASKS.md) · Session context: [HANDOFF.md](../HANDOFF.md) ·
 > Deep review: [docs/reviews/deep-review-2026-07-02.md](./reviews/deep-review-2026-07-02.md)
 
-**Last updated: 2026-07-03 ~04:45 UTC**
+**Last updated: 2026-07-03 ~06:20 UTC**
 
 ## Production surfaces
 
@@ -24,6 +24,14 @@
 | REV-904 durable leads (`Lead` model + migration 007 landed; endpoint WIP) | cursor | In progress in working tree; tests green with it |
 | REV-907/911 hardening (weights_only, embed caps) | claude | Committed; **deploys on next Railway restart window** (not worth killing training) |
 | Spec 0016 dumbmodel game layer | operator gate | Draft — awaiting game-set + consent sign-off; phase 3 blocked on rate limiting |
+
+## Data Refinery (Spec 0018 — building)
+
+Data plane LIVE in prod: /v1/catalog/* (6 datasets · 10 docs · 103
+chunks, measured), consent-gated submit, per-IP rate limits, on-demand
+harvest queue — verified with a live arXiv RSS collection (job
+a125b5ee: collected, +27 chunks). DR-101/102 done; DR-103 site (cursor)
++ DR-104 wiring next. Corporate topology (Spec 0019) live in chrome.
 
 ## Shipped today (highlights)
 

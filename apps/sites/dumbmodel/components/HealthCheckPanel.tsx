@@ -21,6 +21,12 @@ export function HealthCheckPanel() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  // Hall of Cone opt-in (Spec 0020, UX-121) — per-result consent, always
+  // starting unchecked: a new measurement never inherits an old opt-in.
+  const [hallConsent, setHallConsent] = useState(false);
+  const [hallName, setHallName] = useState("");
+  const [hallState, setHallState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [hallError, setHallError] = useState<string | null>(null);
 
   const texts = raw
     .split(/\n+/)
@@ -51,10 +57,50 @@ export function HealthCheckPanel() {
     }
   }
 
+  async function submitToHall() {
+    if (!result || hallState === "sending") return;
+    setHallState("sending");
+    setHallError(null);
+    try {
+      const res = await fetch("/api/hall", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          consent: true,
+          name: hallName,
+          effectiveRank: result.effectiveRank,
+          maxPossibleRank: result.maxPossibleRank,
+          utilization: result.utilization,
+          samples: result.samples,
+          dims: result.dims,
+          modelVersion: result.modelVersion,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(
+          typeof data.error === "string" && data.error !== "rate_limited"
+            ? data.error
+            : data.error === "rate_limited"
+              ? "easy there — try again in a minute"
+              : `submission failed (${res.status})`,
+        );
+      }
+      setHallState("done");
+    } catch (e) {
+      setHallState("error");
+      setHallError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
   async function run() {
     setLoading(true);
     setError(null);
     setCopyState("idle");
+    // A fresh measurement is a fresh decision — clear any prior hall opt-in.
+    setHallConsent(false);
+    setHallState("idle");
+    setHallError(null);
     try {
       const res = await fetch("/api/diagnose", {
         method: "POST",
@@ -199,6 +245,59 @@ export function HealthCheckPanel() {
                 <a href={shareUrl}>{shareUrl}</a>
               </p>
             )}
+
+            <div style={{ marginTop: 16 }} aria-live="polite">
+              {hallState === "done" ? (
+                <p className="bh-meta" role="status" style={{ margin: 0 }}>
+                  On the board. See it in the{" "}
+                  <a href="/hall">Hall of Cone → community submissions</a>.
+                </p>
+              ) : (
+                <>
+                  <label style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: "0.8125rem" }}>
+                    <input
+                      type="checkbox"
+                      checked={hallConsent}
+                      onChange={(e) => setHallConsent(e.target.checked)}
+                      style={{ marginTop: 3 }}
+                    />
+                    <span className="bh-muted">
+                      Add this score to the public Hall of Cone — publishes a display
+                      name you choose plus the measured numbers above; never your text
+                      samples or any account identity. See the{" "}
+                      <a href="https://bhenre.com/legal/privacy">privacy note</a>.
+                    </span>
+                  </label>
+                  {hallConsent && (
+                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", marginTop: 10 }}>
+                      <input
+                        className="bh-input"
+                        type="text"
+                        maxLength={48}
+                        placeholder='Display name, e.g. "acme support docs"'
+                        value={hallName}
+                        onChange={(e) => setHallName(e.target.value)}
+                        style={{ maxWidth: 320 }}
+                        aria-label="Hall of Cone display name"
+                      />
+                      <button
+                        type="button"
+                        className="bh-btn bh-btn--ghost"
+                        onClick={submitToHall}
+                        disabled={hallState === "sending" || !hallName.trim()}
+                      >
+                        {hallState === "sending" ? "Submitting…" : "Add my score"}
+                      </button>
+                    </div>
+                  )}
+                  {hallState === "error" && hallError && (
+                    <div className="bh-alert bh-alert--error" style={{ marginTop: 10 }}>
+                      {hallError}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </Reveal>
         </div>
       )}

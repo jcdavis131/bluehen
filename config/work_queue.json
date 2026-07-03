@@ -398,11 +398,14 @@
       "division": "bd",
       "priority": 51,
       "title": "Commercial panel scorecard on dumbmodel",
-      "status": "ready",
+      "status": "done",
       "spec": "0008",
       "dependsOn": [
         "BD-701"
-      ]
+      ],
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T22:51:14.728237+00:00",
+      "completedAt": "2026-07-03T22:53:56.617333+00:00"
     },
     {
       "id": "SITE-001",

@@ -1194,3 +1194,13 @@
 - **Observed:** python -X utf8 - <<'EOF' reads services/core-api/app/services/data.py, sets old = ''' pairs = [] … random.randint …''', replaces in file — same technique used earlier on main.py search metering.
 - **Why it works:** Targets an exact logical block (pair-generation loop) without rewriting the whole module or relying on line-number edits. -X utf8 + encoding='utf-8' avoids Windows cp1252 corruption. Safer than sed for indented Python when the hunk spans many lines.
 - **Maps to:** refine match-conventions — multi-line service edits via heredoc string-replace, not whole-file regenerate.
+
+### P-222 - Replace random negatives with hard negatives when eval gates are trivially easy
+- **Observed:** RAG-503 / Spec 0009: synth_pairs now mines negatives via token-Jaccard — "random negatives made the eval's ndcg gate trivially easy." Pairs carry "negativeMining": "hard-jaccard-v1". Commit: eat(pairs): RAG-503 — hard negative mining in the hill-climb pair builder.
+- **Why it works:** Easy negatives inflate retrieval metrics without teaching discrimination. Hard negatives (most lexically similar non-positive chunk) stress the metric honestly. Deterministic token-Jaccard keeps runs reproducible without new dependencies. The mining version in pair metadata makes ablations traceable.
+- **Maps to:** refine validate-gate + follow-procedure — when gates pass for the wrong reason, fix the data generator and label the mining strategy in artifacts.
+
+### P-223 - Operator can force an immediate loop iteration; agent runs deploy check first
+- **Observed:** User: un a loop now → Fable 5: "Running an iteration now — deploy check, then the next actionable item:" → shell command (in progress).
+- **Why it works:** On-demand loop bypasses the sleep/wakeup cadence without re-arming /loop config. The agent still follows the standard tick sequence (deploy/gate check before queue pick) — forced iteration is faster scheduling, not a shortcut around recon.
+- **Maps to:** refine progress-board + session-orient — honor "run loop now" with deploy check → next actionable item.

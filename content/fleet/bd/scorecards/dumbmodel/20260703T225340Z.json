@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "siteId": "dumbmodel",
+  "candidateId": "commercial-panel-2026-07-03",
+  "passed": true,
+  "recordedAt": "2026-07-03T22:53:40Z",
+  "recordedBy": "claude",
+  "exams": [
+    {
+      "model": "BAAI/bge-small-en-v1.5",
+      "ndcg10": 0.9193,
+      "effectiveRank": 22.83,
+      "provenance": "local, prod pair slice"
+    },
+    {
+      "model": "asn-head-8282654 (ours, deployed)",
+      "ndcg10": 0.9077,
+      "effectiveRank": 26.03,
+      "provenance": "prod eval, same slice"
+    },
+    {
+      "model": "intfloat/e5-small-v2",
+      "ndcg10": 0.9077,
+      "effectiveRank": 18.85,
+      "provenance": "local, prod pair slice"
+    },
+    {
+      "model": "thenlper/gte-small",
+      "ndcg10": 0.9077,
+      "effectiveRank": 19.63,
+      "provenance": "local, prod pair slice"
+    },
+    {
+      "model": "all-MiniLM-L6-v2 (raw backbone)",
+      "ndcg10": 0.8847,
+      "effectiveRank": 25.97,
+      "provenance": "local, prod pair slice"
+    }
+  ],
+  "notes": "BD-702: commercial reference panel, identical 32-pair slice + metric code (scripts/baseline_retrieval_eval.py). Ours ties e5/gte on ndcg with the highest effective rank of the ndcg-tied group; bge-small leads ndcg by +0.0116."
+}

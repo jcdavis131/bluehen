@@ -12,5 +12,19 @@
     "ndcg10": 0.8847,
     "effectiveRank": 25.97,
     "dims": 384
+  },
+  {
+    "model": "intfloat/e5-small-v2",
+    "pairsEvaluated": 32,
+    "ndcg10": 0.9077,
+    "effectiveRank": 18.85,
+    "dims": 384
+  },
+  {
+    "model": "thenlper/gte-small",
+    "pairsEvaluated": 32,
+    "ndcg10": 0.9077,
+    "effectiveRank": 19.63,
+    "dims": 384
   }
 ]

@@ -31,3 +31,4 @@ export { StatusLine } from "./StatusLine";
 export { TTYFrame } from "./TTYFrame";
 export { Marginalia } from "./Marginalia";
 export { TeamStrip } from "./TeamStrip";
+export { CrossSellStrip } from "./CrossSellStrip";

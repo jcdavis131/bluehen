@@ -35,6 +35,7 @@ export default function ResearchRagPage() {
           <p className="bh-title-card__copy">
             A research retrieval assistant, live below — the same production stack we run for
             customers, pointed at arXiv. {RE.tech} in production ·{" "}
+            <Link href="/methods">how the method works and what we measured →</Link> ·{" "}
             <Link href="/research-lab">
               browse the {GLOSSARY.experimentMuseum.toLowerCase()} →
             </Link>
@@ -49,14 +50,25 @@ export default function ResearchRagPage() {
 
         <RuledSection label="Use this on your own papers">
           <div className="bh-card bh-card--organic">
-            <div className="bh-card__title">Design-partner seats</div>
+            <div className="bh-card__title">Design-partner seat — what&apos;s included</div>
             <p className="bh-card__body">
-              Design-partner seats get a dedicated workspace: your corpus, monthly
-              retraining behind deploy gates, and direct roadmap input. First cohort,
-              quarterly terms.
+              A design-partner seat is a dedicated workspace on the same production stack running
+              above, pointed at your corpus instead of arXiv. First cohort, quarterly terms. Each
+              seat includes:
             </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
+            <ul className="bh-card__body" style={{ margin: "0 0 12px", paddingLeft: 18 }}>
+              <li>
+                Early access to retrieval trained on your organization&apos;s documents, with
+                monthly retraining behind the same deploy gates that gate our own releases
+              </li>
+              <li>Direct input on the method-registry roadmap</li>
+              <li>A direct line to the research team</li>
+            </ul>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+              <a
+                className="bh-btn bh-btn--primary bh-btn--hero"
+                href="https://bhenre.com/contact?topic=design-partner"
+              >
                 Reserve a design-partner seat
               </a>
               <a
@@ -65,6 +77,7 @@ export default function ResearchRagPage() {
               >
                 Ask about a custom corpus
               </a>
+              <a href="https://bhenre.com/store">or see the store →</a>
             </div>
             <Marginalia>
               Each partner workspace trains behind the same evaluation gates that gate our own deploys.

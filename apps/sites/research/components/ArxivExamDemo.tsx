@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { TierComparePanel } from "../components/TierComparePanel";
 import { ExamScorecard } from "../components/ExamScorecard";
+import { EngineersNote } from "../components/EngineersNote";
 
 const STEPS = [
   { id: "indexed", label: "Corpus indexed", hint: "arXiv abstracts → chunks in pgvector" },
@@ -58,9 +59,12 @@ export function ArxivExamDemo() {
       <ExamScorecard />
 
       <div className="fleet-card" style={{ fontSize: 13, opacity: 0.75 }}>
-        <strong>Corpus:</strong> harvested from arXiv (CS.CL / retrieval / embedding queries). Re-kickoff
-        with <code>pnpm harvest:arxiv</code> then <code>pnpm kickoff:orgs</code> after the stack is up.
+        <strong>Corpus:</strong> harvested from arXiv (CS.CL / retrieval / embedding queries).
         Feedback routes misses to Data / Research via Orchestration.
+        <EngineersNote summary="For engineers — setup and rebuild commands" open={online === false}>
+          Re-kickoff with <code>pnpm harvest:arxiv</code> then <code>pnpm kickoff:orgs</code> after
+          the stack is up.
+        </EngineersNote>
       </div>
     </div>
   );

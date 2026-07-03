@@ -1124,10 +1124,13 @@
     {
       "id": "AR-310",
       "title": "Re-measure champion under fixed-seed repeats (5x) \u2014 is baseline 1.465 reproducible?",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "9 consecutive candidates (cursor 5 + claude AR-306..309) all plateau at robust 1.39-1.41 incl. a no-op-on-healthy-runs guard; champion 1.465 likely seed artifact. If confirmed, re-baseline and re-run the round-3 queue."
+      "notes": "CONFIRMED: unchanged champion scores 1.411 (deterministic \u2014 identical to AR-309 no-op run), not the recorded 1.465. Round-3 verdicts hold qualitatively (306-308 genuinely < 1.411; 309 exact no-op). Action: baseline number in progress.jsonl is stale; next champion promotion should re-record under current harness. Do NOT blind-rerun round 3.",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T18:42:50.134806+00:00",
+      "completedAt": "2026-07-03T18:43:23.130351+00:00"
     }
   ]
 }

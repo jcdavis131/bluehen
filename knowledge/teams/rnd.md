@@ -88,3 +88,10 @@ AR-306 (depth-2 GELU@256): DISCARD, robust 1.289. AR-307 (InfoNCE+Barlow
 hypothesis that should be a training no-op. The baseline is likely a
 seed artifact. Proposed AR-310: 5x fixed-seed champion re-measurement
 before any further round-3 spending.
+
+**AR-310 resolution (same day):** null run of the unchanged champion
+scores exactly 1.411 — identical to the AR-309 no-op run (harness is
+deterministic). Baseline 1.465 is stale (recorded under different
+conditions). Round-3 verdicts hold qualitatively: 306-308 truly regress
+vs 1.411; 309 is a true no-op. Correct baseline going forward: 1.411
+under the current harness. No re-runs warranted.

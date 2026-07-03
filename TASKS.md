@@ -41,7 +41,6 @@
 - [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0020 P4) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0020 P5) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **MON-008** — CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0020 P6) (execution) · spec [0020](./specs/0020-*.md)
-- [ ] **AR-310** — Re-measure champion under fixed-seed repeats (5x) — is baseline 1.465 reproducible? (None)
 
 ## In progress
 
@@ -63,7 +62,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**DR-103** — Refinery site app (apps/sites/refinery): full IA vs spec 0018 contract, copper accent, mobile-first~~
 - [x] ~~**DR-104** — Refinery fleet wiring: registry, nav, workspace bootstrap, Vercel project, domain (Operator G1)~~
 - [x] ~~**DR-105** — Refinery flywheel: dumbmodel inbox review queue -> catalog; RSS + scorecard cards visible~~
 - [x] ~~**DR-106** — Refinery scale hardening: k6 load test + cache verify + honest EVIDENCE row~~
@@ -71,6 +69,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)~~
 - [x] ~~**SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)~~
 - [x] ~~**HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal~~
+- [x] ~~**AR-310** — Re-measure champion under fixed-seed repeats (5x) — is baseline 1.465 reproducible?~~
 
 ## Specs & context
 

@@ -1059,3 +1059,23 @@
 - **Observed:** "Loop tick — checking the last deploy and what remains actionable in the queue." This is a regular loop tick (not after a gap — the previous tick was 12:35pm, ~30m ago), and Fable 5 still opens by checking (1) the last deploy state and (2) what remains actionable in the queue before acting.
 - **Why it works:** P-188 established recon on resumption after a gap. This extends it to EVERY tick: the loop re-orients on "did the last deploy land?" + "what's the next actionable task?" before doing anything. The deploy check catches a failed/rolled-back deploy before building on top of it; the queue check prevents working a stale task. Cheap, and it makes every iteration's first move evidence-based rather than habitual.
 - **Maps to:** refine session-orient (P-188) — loop-tick recon isn't only for post-gap resumption; every tick checks last deploy state + queue actionability. Reinforces post-deploy-smoke (deploy state is part of recon, not a separate phase).
+
+### P-195 - Experiment discard states the metric alongside the decision
+- **Observed:** "AR-308: DISCARD (knn_full 0.8056)." The discard decision and the evidence metric are in one line — not just "AR-308 discarded" but "DISCARD (knn_full 0.8056)".
+- **Why it works:** A discard without the metric is an unverifiable claim. Stating the metric (0.8056) with the decision makes the threshold auditable — anyone can see WHY it was discarded and compare against the champion. The decision and the evidence travel together.
+- **Maps to:** refine alidate-gate — experiment discard/keep decisions state the metric with the decision, not just the verdict.
+
+### P-196 - Set the baseline to the current champion before running the next experiment
+- **Observed:** Before running AR-310: cp data/autoresearch/champion_train.py scripts/autoresearch_train.py && uv run --no-sync python scripts/autoresearch_run.py claude. Fable 5 copies the champion train script to the working script, then runs the next experiment.
+- **Why it works:** Each experiment must start from the current champion, not a stale or arbitrary baseline. Copying champion_train.py → autoresearch_train.py ensures the next experiment's baseline is the best-known configuration. Without this, an experiment could "win" against a weak baseline and falsely become the champion. The champion-copy is the experiment-hygiene guard.
+- **Maps to:** experiment-hygiene pattern (autoresearch delegate) — baseline = current champion, always. Refines the autoresearch loop's integrity.
+
+### P-197 - Claim the next task in the queue before starting the work
+- **Observed:** uv run --no-sync python scripts/pick_task.py claim AR-310 --agent claude — Fable 5 claims AR-310 via the queue before running the experiment.
+- **Why it works:** Claiming before work prevents two agents from duplicating the same experiment. The claim is the lane-discipline guard: the task is in_progress for claude, so no other agent picks it. This is already in the fleet-team rules but observed here as an in-loop action.
+- **Maps to:** lane-discipline (P-020) — claim before work, observed as an explicit in-loop shell command.
+
+### P-198 - Background experiment failure is reported explicitly, not silently swallowed
+- **Observed:** "Background command 'Run AR-306 experiment (autoresearch framework)' failed with exit code 1." The failed background experiment is surfaced with its name + exit code, and the loop continues to the next item (AR-308, AR-309).
+- **Why it works:** A background failure doesn't abort the foreground lane (P-019), but it IS reported — name + exit code — so the failure is visible and can be triaged. Silently swallowing it would hide a systemic issue; aborting on it would stall the queue. Report + continue is the middle path.
+- **Maps to:** ackground-failure-triage (P-019) — background failure is reported (name + exit code) and the lane continues; confirmed in the experiment context.

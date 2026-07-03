@@ -388,6 +388,22 @@ limiter and the limiter itself — not absolute origin throughput. Public
 fan-out is absorbed by CDN caching by design (s-maxage 60); multi-origin
 scale claims require a distributed test and are NOT made here.
 
+### 3.11 Chunk-size ablation (research corpus, fixed encoder) — 2026-07-03
+
+`scripts/rag_chunk_ablation.py`: 40 arXiv docs, raw MiniLM held constant,
+adjacent-chunk positives + hard-jaccard cross-doc negatives, prod metric
+code. sentence-128: **nDCG 1.000 / ER 26.05** (32 pairs) · sentence-256:
+0.954 / 27.25 (32) · sentence-512: 0.870 / **ER 15.63** (17 pairs — long
+chunks also yield fewer usable pairs).
+
+**Verdict (scoped).** On this corpus and protocol, smaller chunks
+separate confusable negatives better and 512-token chunks lose rank.
+Protocol caveat, stated plainly: adjacent-chunk positives become easier
+as chunks shrink (more lexical continuity), so part of the 128-token
+advantage is construction; the 512 rank collapse (15.6) is protocol-
+independent and actionable. Current prod default (256) sits in the sane
+middle. No default change without a query-grounded re-test.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

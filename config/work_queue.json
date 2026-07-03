@@ -319,11 +319,14 @@
       "division": "research",
       "priority": 31,
       "title": "Implement rag_chunk_ablation.py",
-      "status": "ready",
+      "status": "done",
       "spec": "0008",
       "command": "Create scripts/rag_chunk_ablation.py \u2014 256/512/1024 token chunks on research-rag holdout",
       "acceptance": "Script runs; best chunk size logged",
-      "lane": "opencode"
+      "lane": "opencode",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T23:25:17.357039+00:00",
+      "completedAt": "2026-07-03T23:26:46.437698+00:00"
     },
     {
       "id": "RAG-503",

@@ -1204,3 +1204,8 @@
 - **Observed:** User: un a loop now → Fable 5: "Running an iteration now — deploy check, then the next actionable item:" → shell command (in progress).
 - **Why it works:** On-demand loop bypasses the sleep/wakeup cadence without re-arming /loop config. The agent still follows the standard tick sequence (deploy/gate check before queue pick) — forced iteration is faster scheduling, not a shortcut around recon.
 - **Maps to:** refine progress-board + session-orient — honor "run loop now" with deploy check → next actionable item.
+
+### P-224 - Commercial panel scorecard: N models, one slice, one metric code, provenance per row
+- **Observed:** BD-702 shipped: eat(bd): BD-702 — commercial panel scorecard (5 models, one slice, one metric code). Scorecard at content/fleet/bd/scorecards/dumbmodel/ — five models, identical 32-pair slice, same script (aseline_retrieval_eval.py). Each exam row: model name, ndcg10, effectiveRank, provenance. Notes state comparative outcome honestly (bge leads ndcg; ours ties e5/gte with highest ER in that group).
+- **Why it works:** Public baseline proof requires **comparability** — same slice, same metric code, provenance labeled per model (prod vs local). The narrative in notes interprets ties and tradeoffs without cherry-picking one number. Extends P-218 from single cert to multi-model commercial panel on dumbmodel.
+- **Maps to:** refine validate-gate + close-the-loop — BD scorecards bundle panel results, provenance, and honest comparative notes in one artifact.

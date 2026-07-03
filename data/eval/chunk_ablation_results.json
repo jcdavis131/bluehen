@@ -1,0 +1,24 @@
+{
+  "corpus": "data/corpora/research/corpus.jsonl",
+  "encoder": "sentence-transformers/all-MiniLM-L6-v2",
+  "arms": [
+    {
+      "arm": "sentence-128",
+      "pairs": 32,
+      "ndcg10": 1.0,
+      "effectiveRank": 26.05
+    },
+    {
+      "arm": "sentence-256",
+      "pairs": 32,
+      "ndcg10": 0.9539,
+      "effectiveRank": 27.25
+    },
+    {
+      "arm": "sentence-512",
+      "pairs": 17,
+      "ndcg10": 0.8697,
+      "effectiveRank": 15.63
+    }
+  ]
+}

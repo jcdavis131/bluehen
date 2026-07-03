@@ -23,6 +23,8 @@ __pycache__/
 *.safetensors
 /data/
 runs/
+# App-router route directory, not a training-run output dir
+!apps/sites/observatory/app/runs/
 wandb/
 mlruns/
 

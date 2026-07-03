@@ -45,12 +45,8 @@
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
-- [ ] **UX-113** — Registry-driven 'Also from Blue Hen RE' cross-sell strip on every BU homepage (comms) · spec [0020](./specs/0020-*.md)
-  - `packages/ui-fleet/src/ (new primitive) + all 5 BU homepages`
-- [ ] **UX-120** — Wire ReturnGreeting/ExplorationTracker/MilestoneStrip/CountUpStat/CommandPalette into dumbmodel, validation, simulation, refinery (comms) · spec [0020](./specs/0020-*.md)
-  - `four sites' app/layout.tsx or homepage — primitives already exist in @synthaembed/ui-fleet`
-- [ ] **UX-121** — Hall of Cone accepts consented user-submitted scores (live leaderboard, not static fixture) (bd) · spec [0020](./specs/0020-*.md)
-  - `apps/sites/dumbmodel/app/hall/, /api/diagnose — ties into spec 0016 consent flywheel`
+- [ ] **UX-140** — core-api: stage= filter on GET /v1/ledger (hall submissions scroll out of the 200-row window) (execution) · spec [0020](./specs/0020-*.md)
+  - `services/core-api — add stage query param to get_ledger (or dedicated /v1/hall table)`
 
 ## In progress
 
@@ -68,8 +64,8 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**UX-111** — Rework /pricing to reference the per-division offer matrix instead of 3 disconnected tiers~~
-- [x] ~~**UX-112** — Dedicated offer anchors for arxiviq design-partner seat + dumbmodel credits (not generic /store)~~
+- [x] ~~**UX-120** — Wire ReturnGreeting/ExplorationTracker/MilestoneStrip/CountUpStat/CommandPalette into dumbmodel, validation, simulation, refinery~~
+- [x] ~~**UX-121** — Hall of Cone accepts consented user-submitted scores (live leaderboard, not static fixture)~~
 - [x] ~~**UX-122** — Permalinked /check/[id] results page instead of raw share-card PNG~~
 - [x] ~~**UX-123** — TeamStrip (or byline) on interior pages, not just BU homepages~~
 - [x] ~~**UX-124** — Add a real live proof metric to simulation homepage (spec 0019 §2.4 requires one; currently none)~~

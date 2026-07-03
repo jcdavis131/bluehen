@@ -1143,30 +1143,39 @@
       "division": "comms",
       "priority": "P1",
       "title": "Registry-driven 'Also from Blue Hen RE' cross-sell strip on every BU homepage",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "packages/ui-fleet/src/ (new primitive) + all 5 BU homepages",
-      "acceptance": "Every BU homepage ends with a visible (not dropdown-only) link set to the other 4 BUs + company site"
+      "acceptance": "Every BU homepage ends with a visible (not dropdown-only) link set to the other 4 BUs + company site",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T19:07:11.630558+00:00",
+      "notes": "CrossSellStrip primitive in ui-fleet (registry-driven, 'Also from Blue Hen RE'); wired on all 5 BU homepages"
     },
     {
       "id": "UX-120",
       "division": "comms",
       "priority": "P2",
       "title": "Wire ReturnGreeting/ExplorationTracker/MilestoneStrip/CountUpStat/CommandPalette into dumbmodel, validation, simulation, refinery",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "four sites' app/layout.tsx or homepage \u2014 primitives already exist in @synthaembed/ui-fleet",
-      "acceptance": "A second visit to any of the 4 sites visibly differs from the first (return greeting, tracked exploration, or milestone state)"
+      "acceptance": "A second visit to any of the 4 sites visibly differs from the first (return greeting, tracked exploration, or milestone state)",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T19:07:11.630558+00:00",
+      "notes": "CommandPalette + ReturnGreeting + ExplorationTracker wired on dumbmodel/validation/simulation/refinery with REAL state only \u2014 cross-page visit recording so trackers can actually fill; ledger-fed greetings render nothing when API offline; MilestoneStrip deliberately skipped where it would be platform-story noise"
     },
     {
       "id": "UX-121",
       "division": "bd",
       "priority": "P2",
       "title": "Hall of Cone accepts consented user-submitted scores (live leaderboard, not static fixture)",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/dumbmodel/app/hall/, /api/diagnose \u2014 ties into spec 0016 consent flywheel",
-      "acceptance": "A visitor's own /check score can (with consent) appear on /hall"
+      "acceptance": "A visitor's own /check score can (with consent) appear on /hall",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T19:07:11.630558+00:00",
+      "notes": "Hall of Cone community submissions: consented opt-in on /check result -> /api/hall BFF (envelope-validated, rate-limited) -> Operations Ledger stage 'hall-submission'; /hall renders community table + honest offline/empty states"
     },
     {
       "id": "UX-122",
@@ -1245,6 +1254,17 @@
       "claimedBy": "claude",
       "completedAt": "2026-07-03T14:25:27.591487+00:00",
       "notes": "cockpit context line linking bhenre.com"
+    },
+    {
+      "id": "UX-140",
+      "division": "execution",
+      "priority": "P3",
+      "title": "core-api: stage= filter on GET /v1/ledger (hall submissions scroll out of the 200-row window)",
+      "status": "ready",
+      "spec": "0020",
+      "command": "services/core-api \u2014 add stage query param to get_ledger (or dedicated /v1/hall table)",
+      "acceptance": "dumbmodel /api/hall reads hall-submission entries without over-fetching; entries don't vanish when the ledger is busy",
+      "notes": "Flagged by UX-121: tenant key can read/write ledger but only filter client-side over limit=200"
     }
   ]
 }

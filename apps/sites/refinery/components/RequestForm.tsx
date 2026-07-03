@@ -35,6 +35,9 @@ export function RequestForm({ presetTopic }: { presetTopic?: string }) {
       <div className="bh-card bh-card--organic" aria-live="polite">
         <h2 className="bh-card__title">Request received</h2>
         <p className="bh-card__body">
+          {presetTopic && (
+            <>Your request references <code>{presetTopic}</code>. </>
+          )}
           The Data Operations team reviews scope and responds by email with a
           measured proposal — corpus size, cadence, provenance guarantees, and
           price.
@@ -45,6 +48,12 @@ export function RequestForm({ presetTopic }: { presetTopic?: string }) {
 
   return (
     <form className="bh-card bh-card--organic" onSubmit={submit}>
+      {presetTopic && (
+        <p className="bh-meta" style={{ margin: "0 0 14px" }}>
+          Requesting: <code>{presetTopic}</code> — this request stays tied to
+          the dataset you were viewing.
+        </p>
+      )}
       <label className="bh-label" htmlFor="req-email">Work email</label>
       <input id="req-email" className="bh-input" type="email" required value={email}
              onChange={(e) => setEmail(e.target.value)} style={{ marginBottom: 12, width: "100%" }} />

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { getDataset, getSample } from "../../../lib/catalog";
+import { OrgByline } from "../../../components/OrgByline";
 
 export const revalidate = 60;
 
@@ -19,7 +20,9 @@ export default async function DatasetPage({
 
   return (
     <>
-      <PageHeader eyebrow={surface?.eyebrow} title={ds.name} lead={`${ds.docCount} docs · ${ds.chunkCount} chunks · created ${new Date(ds.createdAt).toUTCString()}`} />
+      <PageHeader eyebrow={surface?.eyebrow} title={ds.name} lead={`${ds.docCount} docs · ${ds.chunkCount} chunks · created ${new Date(ds.createdAt).toUTCString()}`}>
+        <OrgByline />
+      </PageHeader>
 
       <section className="bh-card" style={{ marginBottom: 20 }}>
         <h2 className="bh-card__title">Provenance</h2>

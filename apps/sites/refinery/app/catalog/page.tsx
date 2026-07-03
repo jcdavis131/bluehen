@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PageHeader } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { listDatasets } from "../../lib/catalog";
+import { OrgByline } from "../../components/OrgByline";
 
 export const revalidate = 60;
 export const metadata = { title: "Catalog" };
@@ -21,7 +22,9 @@ export default async function CatalogPage({
         eyebrow={surface?.eyebrow}
         title="Dataset catalog"
         lead="Every entry carries provenance and an OKF card. Filter by tag or search by name."
-      />
+      >
+        <OrgByline />
+      </PageHeader>
 
       <form method="get" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
         <input

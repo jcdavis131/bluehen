@@ -269,3 +269,36 @@ a75ae3c feat(seo): consistent identity metadata across all 7 sites — 7 site la
 - One e2e path proven: metadata-export consistency across all 7 sites → ok.
 - No Cursor-lane action; SEO lane. Working tree: 3 changed (run log + 2 minor).
 - Heartbeat re-armed (20m). Watcher 844529 still running.
+## Run 2026-07-02T21:36:44 (loop tick 7 — watcher occurrence 5; HEAD a75ae3c → 76a0d09)
+
+### Trigger
+76a0d09 fix(prod): one resident model across train->eval->serve; malloc_trim; short extraction.
+Python changed (Cursor lane): asn-engine/train_loop.py, eval-harness/runner.py, core-api/services/eval.py + lifecycle.py, core-api/tests/test_eval.py.
+
+### Phase 4 — Gates (affected, exact counts)
+- smoke-import asn-engine.train_loop: ok
+- smoke-import eval-harness.runner: ok
+- smoke-import core-api.services.eval + lifecycle: ok
+- pytest services/core-api/tests/test_eval.py: 6 passed, 0 skipped, 0 failed (3.78s)
+- Corpus: 6 cases (core-api eval service tests). Gate meaningful at this corpus size.
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 5 — Guards
+- no bypass flags; no secrets in diff; commit is a structural fix (one resident model = root-cause fix for the dual-runtime OOM, not a retry)
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import → affected pytest 6/6 green. Prod-critical Python change gated.
+- Working tree: run log + TASKS + work_queue (expected).
+- Heartbeat re-armed (20m). Watcher 844529 still running.
+## Run 2026-07-02T21:42:26 (loop tick 8 — stale heartbeat 87382; no new commit beyond 76a0d09)
+
+### No-op tick
+- git log 76a0d09..HEAD: empty
+- 1 changed line (run log only)
+
+### Loop hygiene — heartbeat sprawl fixed (AGAIN)
+- Detected 3 stacked pending heartbeats (473016, 729911, 436854) from re-arming a new one-shot sleeper each tick without killing the prior.
+- Root cause: one-shot sleep; echo can't be "replaced" — each re-arm is additive. The skill says "re-arm the next heartbeat" but for one-shot sleepers that means: only arm when the prior has fired, NOT every tick.
+- Killed all 3 pending (PIDs 43844, 58752, 44404). Re-arming exactly ONE below.
+- NEW RULE for this loop: on a no-op tick (no new commit), do NOT re-arm a new heartbeat if one is already pending. Only re-arm after a heartbeat actually fires.
+- Watcher 844529 still running (the primary signal; unaffected).

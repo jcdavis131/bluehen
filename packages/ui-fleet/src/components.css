@@ -423,6 +423,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1;
+  min-height: 44px; /* touch floor */
   padding: 11px 20px;
   border-radius: var(--bh-radius-sm);
   border: 2px solid transparent;
@@ -598,7 +599,9 @@
 .bh-table-wrap {
   border: 2px solid var(--bh-border);
   border-radius: var(--bh-radius-md);
-  overflow: hidden;
+  /* wide tables scroll inside their frame — never clip, never overflow the page */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   background: var(--bh-surface);
 }
 
@@ -1546,5 +1549,59 @@
   .bh-status-line__time {
     margin-left: 0;
     width: 100%;
+  }
+}
+
+
+/* ── Mobile-first & touch (small screens are the default audience) ── */
+
+/* iOS zooms any focused control under 16px — inputs never shrink below it */
+.bh-textarea,
+.bh-input,
+input[type="text"],
+input[type="email"],
+input[type="search"],
+select {
+  font-size: 16px;
+}
+
+@media (max-width: 720px) {
+  /* comfortable thumb targets in the nav drawer */
+  .fleet-nav a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* the fleet switcher lives inline in the drawer, not floating */
+  .fleet-switcher {
+    width: 100%;
+  }
+  .fleet-switcher__button {
+    width: 100%;
+    min-height: 44px;
+    text-align: left;
+  }
+  .fleet-switcher__panel {
+    position: static;
+    width: 100%;
+    max-height: 50vh;
+    margin-top: var(--bh-space-2);
+    box-shadow: none;
+  }
+
+  /* fluid display type — headlines scale with the viewport */
+  .bh-title-card__title,
+  .bh-page-header h1,
+  .bh-page-head h1 {
+    font-size: clamp(1.55rem, 6.5vw, 2.4rem);
+    line-height: 1.15;
+    overflow-wrap: break-word;
+  }
+
+  /* stat rows and CTA clusters wrap instead of squeezing */
+  .bh-page-header__row {
+    flex-wrap: wrap;
+    gap: var(--bh-space-3);
   }
 }

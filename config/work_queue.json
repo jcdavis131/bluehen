@@ -923,10 +923,12 @@
     {
       "id": "DR-103",
       "title": "Refinery site app (apps/sites/refinery): full IA vs spec 0018 contract, copper accent, mobile-first",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
-      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+      "notes": "Site built vs live API (home/catalog/detail/contribute/requests + BFF submit/lead), copper accent AA 5.95:1, sitemap/robots, mobile-first via shared system. /ops console deferred to DR-104 wiring. Cursor lane was idle; lead pulled it in.",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T07:20:32.233709+00:00"
     },
     {
       "id": "DR-104",

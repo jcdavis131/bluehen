@@ -30,7 +30,7 @@ function apiConfig() {
   return { baseUrl, apiKey };
 }
 
-async function apiFetch(path: string, init?: RequestInit) {
+export async function apiFetch(path: string, init?: RequestInit) {
   const { baseUrl, apiKey } = apiConfig();
   if (!apiKey) {
     throw new Error("SYNTH_API_KEY not set — run pnpm bootstrap:orgs then pnpm dev:site <siteId>");

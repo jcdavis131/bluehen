@@ -156,6 +156,13 @@
   --bh-accent-muted: rgba(192, 164, 120, 0.12);
 }
 
+.fleet-shell[data-site="refinery"] {
+  /* refinery copper — raw material, worked */
+  --bh-accent: var(--bh-copper);
+  --bh-accent-dim: var(--bh-copper-dim);
+  --bh-accent-muted: rgba(192, 137, 96, 0.12);
+}
+
 .fleet-shell[data-site="observatory"] {
   /* instrument teal — telemetry glow, distinct from storefront steel */
   --bh-accent: var(--bh-instrument);

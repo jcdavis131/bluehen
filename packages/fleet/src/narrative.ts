@@ -189,6 +189,12 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/feedback", label: "Feedback" },
   ],
   simulation: [{ href: "/", label: "Overview" }],
+  refinery: [
+    { href: "/", label: "Overview" },
+    { href: "/catalog", label: "Catalog" },
+    { href: "/contribute", label: "Contribute" },
+    { href: "/requests", label: "Custom Harvests" },
+  ],
   observatory: [
     { href: "/", label: "Runs" },
     { href: "/compare", label: "Compare" },

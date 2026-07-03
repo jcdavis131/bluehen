@@ -526,3 +526,23 @@ harvest.py changed (Cursor lane). Structural root-cause fix: containers lack .gi
 
 ## Run 2026-07-03T01:49:28 (loop tick 32 — fallback 568418 fired; no new commit past 4d08b45. Repo quiet ~30m. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
 
+## Run 2026-07-03T01:52:31 (loop tick 33 — watcher occurrence 22; HEAD 4d08b45 → 676ed6f)
+
+### Trigger
+676ed6f feat(refinery): DR-105 flywheel — consented inbox sources resolve DATALAB_DIR in prod.
+packages/datalab/datalab/watch.py changed (Cursor lane, new-ish package).
+
+### Phase 4 — Gates (affected, exact counts)
+- smoke-import datalab.watch: ok
+- pytest packages/datalab/tests/test_watch.py: 5 passed, 0 skipped, 0 failed (1.28s)
+- Corpus: 5 cases (datalab watch tests). Gate meaningful at this corpus size.
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 5 — Guards
+- datalab is the FIRST new package this window with real unit tests (contrast: worker tick 13, catalog tick 22, ratelimit/harvest tick 27 — all untested). Good precedent.
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import → pytest 5/5 green. DR-105 flywheel gated with real tests.
+- Per tick-8 rule: NOT re-arming heartbeat (802040 still pending). Watcher 844529 still running.
+## Run 2026-07-03T02:10:59 (loop tick 34 — fallback 802040 fired; no new commit past 676ed6f. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

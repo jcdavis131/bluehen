@@ -18,15 +18,17 @@ def evaluate_checkpoint(
     eval_slice: str = "rotating",
     baseline_rank: float = 8.0,
 ) -> dict:
-    from asn_engine.model import ASNEncoder
+    from asn_engine.model import load_checkpoint_encoder
     from transformers import AutoTokenizer
 
     state = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     recipe = state.get("recipe", {})
-    backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
-    encoder = ASNEncoder(backbone_name=backbone)
-    encoder.load_state_dict(state["model"])
-    encoder.eval()
+    backbone = state.get("backboneName") or recipe.get(
+        "baseModel", "sentence-transformers/all-MiniLM-L6-v2"
+    )
+    # Eval measures the SERVED representation: head output for head-only
+    # checkpoints, encoder Z1 otherwise — gates must grade what ships.
+    encoder, use_head = load_checkpoint_encoder(state)
     tok = AutoTokenizer.from_pretrained(backbone)
 
     ndcg_scores: list[float] = []
@@ -36,7 +38,7 @@ def evaluate_checkpoint(
     with torch.no_grad():
         def encode(text: str) -> list[float]:
             batch = tok(text, return_tensors="pt", truncation=True, max_length=256, padding=True)
-            vec = encoder.encode(batch["input_ids"], batch["attention_mask"])[0]
+            vec = encoder.encode(batch["input_ids"], batch["attention_mask"], use_head=use_head)[0]
             return vec.cpu().tolist()
 
         for i, pair in enumerate(pairs[: min(32, len(pairs))]):
@@ -68,7 +70,7 @@ def evaluate_checkpoint(
             ndcg_trunc_scores.append(ndcg_at_k(rel_t, k=2))
 
             batch = tok(anchor, return_tensors="pt", truncation=True, max_length=256)
-            anchor_vecs.append(encoder.encode(batch["input_ids"], batch["attention_mask"])[0])
+            anchor_vecs.append(encoder.encode(batch["input_ids"], batch["attention_mask"], use_head=use_head)[0])
 
         if anchor_vecs:
             z = torch.stack(anchor_vecs)

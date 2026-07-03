@@ -105,6 +105,7 @@ def complete_job(
     effective_rank: float,
     checkpoint_path: str,
     cost_usd: float = 0.0,
+    artifact_bytes: bytes | None = None,
 ) -> None:
     with db_session(workspace_id) as session:
         job = session.get(TrainingJob, job_id)
@@ -122,6 +123,7 @@ def complete_job(
             checkpoint_path=checkpoint_path,
             effective_rank=effective_rank,
             meta={"jobId": str(job_id)},
+            artifact=artifact_bytes,
         )
         session.add(mv)
 

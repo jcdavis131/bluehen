@@ -100,3 +100,4 @@
 | `validate-gate` (refined) | P-018, P-042, P-092, P-146, P-164, P-184 | `~/.cursor/skills/validate-gate/SKILL.md` |
 | `background-failure-triage` (refined) | P-019, P-065, P-174, P-186 | `~/.cursor/skills/background-failure-triage/SKILL.md` |
 | `progress-board` (refined) | P-015 | `~/.cursor/skills/progress-board/SKILL.md` |
+| `monorepo-review-loop` | synthesis of P-001..P-187 | `~/.cursor/skills/monorepo-review-loop/SKILL.md` — the workflow that incorporates all 39 skills into a 10-phase review arc; runner `scripts/monorepo_review_loop.py`; reference `~/.cursor/skills/monorepo-review-loop/reference.md` |

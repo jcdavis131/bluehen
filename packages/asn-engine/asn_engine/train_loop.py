@@ -98,6 +98,11 @@ def train_asn(
     from transformers import AutoTokenizer
 
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    if bool(recipe.get("freezeBackbone", False)):
+        # Head-only path (1 GB prod containers): the frozen backbone's
+        # features are constant, so we extract them once and train only the
+        # head — peak memory is backbone INFERENCE, not training.
+        return _train_head_only(pairs, recipe, checkpoint_dir, progress=progress)
     backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
     epochs = int(recipe.get("epochs", 3))
     batch_size = min(int(recipe.get("batchSize", 16)), max(2, len(pairs)))
@@ -125,16 +130,7 @@ def train_asn(
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     encoder = ASNEncoder(backbone_name=backbone).to(device)
     tokenizer = AutoTokenizer.from_pretrained(backbone)
-    # Opt-in head-only training (default OFF - autoresearch behavior is
-    # unchanged). Freezing the backbone drops grads + optimizer states +
-    # backbone activation storage: peak memory falls ~4x, which is what
-    # lets prod train inside a 1 GB container (Spec 0009 recipe choice).
-    if bool(recipe.get("freezeBackbone", False)):
-        for p in encoder.backbone.parameters():
-            p.requires_grad = False
-        encoder.backbone.eval()
-    trainable = [p for p in encoder.parameters() if p.requires_grad]
-    opt = torch.optim.AdamW(trainable, lr=lr)
+    opt = torch.optim.AdamW(encoder.parameters(), lr=lr)
     loader = DataLoader(PairDataset(pairs), batch_size=batch_size, shuffle=True, collate_fn=lambda items: items)
 
     global_step = 0
@@ -259,6 +255,136 @@ def train_asn(
         final_loss=last_loss,
         checkpoint_path=str(ckpt_path),
         surgeries=surgeries,
+    )
+
+
+def train_head_on_features(
+    feats_a: Tensor,
+    feats_p: Tensor,
+    recipe: dict,
+    *,
+    progress: Callable[[dict], None] | None = None,
+) -> tuple["ProjectionHead", float, float]:
+    """Train a projection head on cached (frozen-backbone) features.
+
+    Pure small-tensor training — unit-testable without transformers.
+    No ASN weight surgery here (fleet-rejected 0/4; head-only prod path
+    keeps interventions off by design). Returns (head, final_loss,
+    effective_rank measured on the SERVED representation).
+    """
+    from asn_engine.projection_head import ProjectionHead
+
+    epochs = int(recipe.get("epochs", 3))
+    batch_size = min(int(recipe.get("batchSize", 8)), max(2, feats_a.shape[0]))
+    lr = float(recipe.get("lr", 2e-5))
+    loss_cfg = recipe.get("loss", {})
+    temp = float(loss_cfg.get("infoNceTemp", 0.07))
+    out_dim = int(recipe.get("projOutDim", 384))
+    hidden_dim = int(recipe.get("projHiddenDim", 1024))
+
+    head = ProjectionHead(feats_a.shape[-1], hidden_dim=hidden_dim, out_dim=out_dim)
+    opt = torch.optim.AdamW(head.parameters(), lr=lr)
+    n = feats_a.shape[0]
+    global_step = 0
+    last_loss = 0.0
+    head.train()
+    for epoch in range(epochs):
+        perm = torch.randperm(n)
+        for start in range(0, n, batch_size):
+            idx = perm[start : start + batch_size]
+            if idx.shape[0] < 2:
+                continue  # InfoNCE needs in-batch negatives
+            z_a = head(feats_a[idx])
+            z_p = head(feats_p[idx])
+            loss = info_nce(z_a, z_p, temperature=temp)
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
+            last_loss = float(loss.item())
+            global_step += 1
+            if progress:
+                progress({"epoch": epoch, "step": global_step, "loss": last_loss,
+                          "effectiveRank": 0.0, "surgeries": 0})
+
+    head.eval()
+    with torch.no_grad():
+        served = head(feats_a[: min(64, n)])
+        er = effective_rank(served)
+    return head, last_loss, er
+
+
+def _train_head_only(
+    pairs: list[dict],
+    recipe: dict,
+    checkpoint_dir: Path,
+    *,
+    progress: Callable[[dict], None] | None = None,
+) -> TrainResult:
+    """Frozen-backbone training that fits a 1 GB container.
+
+    Phase 1: batch-embed all pair texts with the backbone under no_grad,
+    then free it. Phase 2: train the head on the cached features.
+    Checkpoint stores ONLY the head (+ backbone name) — a few MB, small
+    enough for Postgres, reassembled at serve time with the HF backbone.
+    """
+    import gc
+
+    from transformers import AutoTokenizer
+
+    from asn_engine.model import ASNEncoder
+
+    backbone_name = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
+    device = "cpu"
+    encoder = ASNEncoder(backbone_name=backbone_name).to(device)
+    encoder.eval()
+    tokenizer = AutoTokenizer.from_pretrained(backbone_name)
+
+    extract_bs = int(recipe.get("extractBatchSize", 4))
+
+    def _embed_all(texts: list[str]) -> Tensor:
+        outs = []
+        with torch.no_grad():
+            for start in range(0, len(texts), extract_bs):
+                chunk = texts[start : start + extract_bs]
+                batch = tokenizer(chunk, padding=True, truncation=True,
+                                  max_length=256, return_tensors="pt")
+                outs.append(encoder.encode(batch["input_ids"], batch["attention_mask"]))
+                if progress and start % (extract_bs * 10) == 0:
+                    progress({"epoch": -1, "step": start, "loss": None,
+                              "effectiveRank": None, "surgeries": 0})
+        return torch.cat(outs, dim=0)
+
+    feats_a = _embed_all([p["anchor"] for p in pairs])
+    feats_p = _embed_all([p["positive"] for p in pairs])
+
+    # Free the backbone before training — this is the memory trick.
+    del encoder
+    gc.collect()
+
+    head, last_loss, last_er = train_head_on_features(
+        feats_a, feats_p, recipe, progress=progress
+    )
+
+    version = f"asn-head-{int(torch.randint(1_000_000, 9_999_999, (1,)).item())}"
+    ckpt_path = checkpoint_dir / f"{version}.pt"
+    torch.save(
+        {
+            "headOnly": True,
+            "head": head.state_dict(),
+            "backboneName": backbone_name,
+            "recipe": recipe,
+            "effectiveRank": last_er,
+            "finalLoss": last_loss,
+            "surgeries": 0,
+        },
+        ckpt_path,
+    )
+    return TrainResult(
+        model_version=version,
+        effective_rank=last_er,
+        final_loss=last_loss,
+        checkpoint_path=str(ckpt_path),
+        surgeries=0,
     )
 
 

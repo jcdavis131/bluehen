@@ -141,31 +141,41 @@ _ENCODER_CACHE_MAX = 2
 _ENCODER_LOCK = __import__("threading").Lock()
 
 
-def _load_encoder_cached(ckpt_path: str):
+def _load_encoder_cached(ckpt_path: str, artifact: bytes | None = None):
+    """Assemble a serving encoder. Preference order:
+    1. DB artifact bytes (head-only split — no shared filesystem needed)
+    2. checkpoint file on the artifacts volume
+    Returns (encoder, tokenizer, use_head)."""
+    import io as _io
+
     import torch
 
-    from asn_engine.model import ASNEncoder
+    from asn_engine.model import load_checkpoint_encoder
     from transformers import AutoTokenizer
 
+    cache_key = ckpt_path
     with _ENCODER_LOCK:
-        cached = _ENCODER_CACHE.get(ckpt_path)
+        cached = _ENCODER_CACHE.get(cache_key)
         if cached is not None:
             return cached
 
-    with open_checkpoint(ckpt_path) as ckpt:
-        state = torch.load(ckpt, map_location="cpu", weights_only=True)
+    if artifact:
+        state = torch.load(_io.BytesIO(artifact), map_location="cpu", weights_only=True)
+    else:
+        with open_checkpoint(ckpt_path) as ckpt:
+            state = torch.load(ckpt, map_location="cpu", weights_only=True)
+    encoder, use_head = load_checkpoint_encoder(state)
     recipe = state.get("recipe", {})
-    backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
-    encoder = ASNEncoder(backbone_name=backbone)
-    encoder.load_state_dict(state["model"])
-    encoder.eval()
+    backbone = state.get("backboneName") or recipe.get(
+        "baseModel", "sentence-transformers/all-MiniLM-L6-v2"
+    )
     tok = AutoTokenizer.from_pretrained(backbone)
 
     with _ENCODER_LOCK:
-        if len(_ENCODER_CACHE) >= _ENCODER_CACHE_MAX and ckpt_path not in _ENCODER_CACHE:
+        if len(_ENCODER_CACHE) >= _ENCODER_CACHE_MAX and cache_key not in _ENCODER_CACHE:
             _ENCODER_CACHE.pop(next(iter(_ENCODER_CACHE)))
-        _ENCODER_CACHE[ckpt_path] = (encoder, tok)
-    return encoder, tok
+        _ENCODER_CACHE[cache_key] = (encoder, tok, use_head)
+    return encoder, tok, use_head
 
 
 def embed_texts(
@@ -194,16 +204,17 @@ def embed_texts(
             raise ValueError("no trained model; run training first")
 
         ckpt_path = mv.checkpoint_path
-        if not checkpoint_exists(ckpt_path):
+        artifact = mv.artifact
+        if not artifact and not checkpoint_exists(ckpt_path):
             raise FileNotFoundError(f"checkpoint missing: {ckpt_path}")
 
-        encoder, tok = _load_encoder_cached(ckpt_path)
+        encoder, tok, use_head = _load_encoder_cached(ckpt_path, artifact)
 
         vectors = []
         with torch.no_grad():
             for text in inputs:
                 batch = tok(text, return_tensors="pt", truncation=True, max_length=256, padding=True)
-                vec = encoder.encode(batch["input_ids"], batch["attention_mask"])[0]
+                vec = encoder.encode(batch["input_ids"], batch["attention_mask"], use_head=use_head)[0]
                 # Full tier (truncate=False): no truncation, no quant. Otherwise serve
                 # the deployed model's tier (Matryoshka truncate_dims + quant).
                 if truncate is False and truncate_dims is None and quant is None:

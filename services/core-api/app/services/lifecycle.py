@@ -15,6 +15,9 @@ DEFAULT_RECIPE = {
     # OOMs (4 observed kills). Head-only training fits; lift when the
     # Operator upgrades the plan or Modal training (Spec 0011) lands.
     "freezeBackbone": True,
+    "projOutDim": 384,     # match pgvector chunks column vector(384)
+    "projHiddenDim": 1024,
+    "extractBatchSize": 4,
     "loss": {"infoNceTemp": 0.07, "zeloWeight": 0},
     "asn": {
         "kStrong": 8,

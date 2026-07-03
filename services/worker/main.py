@@ -98,6 +98,13 @@ def process_job(payload: dict) -> None:
         canonical_path = publish_checkpoint(
             Path(result.checkpoint_path), workspace_id, result.model_version
         )
+        # Head-only checkpoints are a few MB — store them in Postgres so the
+        # API can serve them with no shared filesystem (1 GB plan topology).
+        artifact_bytes: bytes | None = None
+        ckpt_file = Path(result.checkpoint_path)
+        if ckpt_file.exists() and ckpt_file.stat().st_size <= 32 * 1024 * 1024:
+            if result.model_version.startswith("asn-head-"):
+                artifact_bytes = ckpt_file.read_bytes()
         cost = float(recipe.get("estimatedCostUsd", 0.5))
         jobs.complete_job(
             job_id,
@@ -106,6 +113,7 @@ def process_job(payload: dict) -> None:
             effective_rank=result.effective_rank,
             checkpoint_path=canonical_path,
             cost_usd=cost,
+            artifact_bytes=artifact_bytes,
         )
         governance.record_ledger(
             workspace_id,

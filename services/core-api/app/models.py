@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, LargeBinary, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -108,6 +108,9 @@ class ModelVersion(Base):
     truncate_dims: Mapped[int | None] = mapped_column(Integer)
     quant: Mapped[str | None] = mapped_column(String(16))
     meta: Mapped[dict | None] = mapped_column(JSONB)
+    # Head-only checkpoints (a few MB) live in the DB so serving needs no
+    # shared filesystem with the trainer.
+    artifact: Mapped[bytes | None] = mapped_column(LargeBinary)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     workspace: Mapped["Workspace"] = relationship(backref="models")

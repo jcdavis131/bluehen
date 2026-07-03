@@ -520,3 +520,9 @@ harvest.py changed (Cursor lane). Structural root-cause fix: containers lack .gi
 ### Phase 9 — Close-out
 - One e2e path proven: smoke-import harvest → ok. diagnose-before-retry pattern (explicit paths, not autodetection retry).
 - Per tick-8 rule: NOT re-arming heartbeat (562061 still pending). Watcher 844529 still running.
+## Run 2026-07-03T01:18:56 (loop tick 30 — watcher occurrence 21; HEAD 5e5af0d → 4d08b45. docs: refinery data plane verified live (6 datasets, 103 chunks, on-demand harvest proven). Docs-only, no code. No gate needed. Not re-arming (562061 pending). Watcher 844529 running.)
+
+## Run 2026-07-03T01:28:48 (loop tick 31 — fallback 562061 fired; no new commit past 4d08b45. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+
+## Run 2026-07-03T01:49:28 (loop tick 32 — fallback 568418 fired; no new commit past 4d08b45. Repo quiet ~30m. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

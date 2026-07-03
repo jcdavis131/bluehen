@@ -43,10 +43,23 @@ class Source:
     strategy: str = "auto"
 
     def expand(self, root: Path) -> list[str]:
-        """Resolve the concrete source list (urls + glob matches)."""
+        """Resolve the concrete source list (urls + glob matches).
+
+        Globs under ``data/datalab/`` follow the DATALAB_DIR env when set —
+        in containers the store lives on a volume (/data/datalab), not in
+        the repo tree, and inbox flywheel sources must find it there.
+        """
+        import os
+
         out = list(self.urls)
         if self.glob:
-            out.extend(sorted(str(p) for p in root.glob(self.glob)))
+            pattern = self.glob
+            store = os.getenv("DATALAB_DIR")
+            if store and pattern.replace("\\", "/").startswith("data/datalab/"):
+                rel = pattern.replace("\\", "/")[len("data/datalab/"):]
+                out.extend(sorted(str(p) for p in Path(store).glob(rel)))
+            else:
+                out.extend(sorted(str(p) for p in root.glob(pattern)))
         return out
 
 

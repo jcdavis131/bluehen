@@ -9,46 +9,89 @@
   "sources": [
     {
       "id": "wiki-goals",
-      "name": "Wiki — goals and build docs",
-      "urls": ["docs/wiki/GOALS.md", "docs/wiki/BUILD.md", "docs/wiki/IMPROVEMENT_LOOP.md"],
-      "tags": ["internal", "wiki"],
+      "name": "Wiki \u2014 goals and build docs",
+      "urls": [
+        "docs/wiki/GOALS.md",
+        "docs/wiki/BUILD.md",
+        "docs/wiki/IMPROVEMENT_LOOP.md"
+      ],
+      "tags": [
+        "internal",
+        "wiki"
+      ],
       "intervalMinutes": 1440
     },
     {
       "id": "evidence-ledger",
       "name": "Evidence and science review ledgers",
-      "urls": ["EVIDENCE.md", "SCIENCE_REVIEW.md"],
-      "tags": ["internal", "evidence"],
+      "urls": [
+        "EVIDENCE.md",
+        "SCIENCE_REVIEW.md"
+      ],
+      "tags": [
+        "internal",
+        "evidence"
+      ],
       "intervalMinutes": 720
     },
     {
       "id": "dumbmodel-health-checks",
-      "name": "dumbmodel — consented health-check submissions",
+      "name": "dumbmodel \u2014 consented health-check submissions",
       "glob": "data/datalab/inbox/health-check-submissions.jsonl",
-      "tags": ["venture", "dumbmodel", "consented"],
+      "tags": [
+        "venture",
+        "dumbmodel",
+        "consented"
+      ],
       "intervalMinutes": 720
     },
     {
       "id": "arxiv-raw",
       "name": "arXiv radar harvest directory",
       "glob": "docs/raw/arxiv/*.md",
-      "tags": ["research", "arxiv"],
+      "tags": [
+        "research",
+        "arxiv"
+      ],
       "intervalMinutes": 720
     },
     {
       "id": "validation-promotion-scorecards",
-      "name": "Validation Lab — promotion queue and certification scorecards",
-      "urls": ["content/fleet/bd/queue.json"],
+      "name": "Validation Lab \u2014 promotion queue and certification scorecards",
+      "urls": [
+        "content/fleet/bd/queue.json"
+      ],
       "glob": "content/fleet/bd/scorecards/*.json",
-      "tags": ["venture", "validation", "bd"],
+      "tags": [
+        "venture",
+        "validation",
+        "bd"
+      ],
       "intervalMinutes": 1440
     },
     {
       "id": "arxiv-rss-cs-ir",
       "name": "arXiv cs.IR daily listing (RSS)",
-      "urls": ["https://rss.arxiv.org/rss/cs.IR"],
-      "tags": ["research", "arxiv", "external"],
+      "urls": [
+        "https://rss.arxiv.org/rss/cs.IR"
+      ],
+      "tags": [
+        "research",
+        "arxiv",
+        "external"
+      ],
       "intervalMinutes": 1440
+    },
+    {
+      "id": "refinery-submissions",
+      "name": "Data Refinery \u2014 consented contributions (approved flywheel)",
+      "glob": "data/datalab/inbox/refinery-submissions.jsonl",
+      "tags": [
+        "venture",
+        "refinery",
+        "consented"
+      ],
+      "intervalMinutes": 720
     }
   ]
 }

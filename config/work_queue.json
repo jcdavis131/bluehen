@@ -939,10 +939,11 @@
     {
       "id": "DR-105",
       "title": "Refinery flywheel: dumbmodel inbox review queue -> catalog; RSS + scorecard cards visible",
-      "status": "blocked",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+      "notes": "inbox flywheel fixed for prod (env-aware DATALAB_DIR glob expansion); refinery-submissions source registered; RSS + scorecards already cataloged. Remaining nicety: auto-harvest on approve.",
+      "claimedBy": "claude"
     },
     {
       "id": "DR-106",

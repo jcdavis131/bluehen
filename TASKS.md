@@ -65,7 +65,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**SITE-014** — Tastemaker Phase 1 — ui-fleet tokens + 6 primitives (Spec 0017)~~
 - [x] ~~**SITE-015** — Tastemaker Phase 2 — pilot spine on storefront homepage (Spec 0017)~~
 - [x] ~~**SITE-016** — Tastemaker Phase 3 — roll spine to hq, dumbmodel, validation, research, observatory, simulation (Spec 0017)~~
 - [x] ~~**SITE-017** — Tastemaker Phase 4 — per-site accent desaturation + contrast verification (Spec 0017)~~
@@ -73,6 +72,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**SITE-019** — Tastemaker Phase 6 — validate: pnpm review + check-tastemaker.mjs CI + fleet-review sign-off (Spec 0017)~~
 - [x] ~~**DR-101** — Refinery data plane: migration 009 + catalog/stats APIs + tick->Postgres sync + backfill~~
 - [x] ~~**DR-102** — Refinery submit/harvest APIs + rate limits + inbox review endpoints~~
+- [x] ~~**DR-105** — Refinery flywheel: dumbmodel inbox review queue -> catalog; RSS + scorecard cards visible~~
 
 ## Specs & context
 

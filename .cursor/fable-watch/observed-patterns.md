@@ -1139,3 +1139,23 @@
 - **Observed:** After productive work (Pushed to main, ran 2 shell commands): Auto-update failed: claude.exe in use (close other Claude Code sessions, including VS…). Update did not abort the hill-climb loop.
 - **Why it works:** Environmental failures (IDE holding the binary) differ from task failures. Surfacing the error + exact remediation (close other Claude sessions) lets the operator fix it later without losing loop momentum. Work shipped; update is deferred, not silent.
 - **Maps to:** refine silent-op-recovery + agent-guardrails — report self-update/env blockers with actionable fix; don't treat as task failure.
+
+### P-211 - Partial-delivery task notes use HALF SHIPPED / REMAINING / Operator gate
+- **Observed:** MON-001 claim update via inline Python: notes = METERING HALF SHIPPED: usage_events (mig 011), best-effort recording on search/embed/diagnose… REMAINING: Stripe metered subscription + webhook reconciliation — needs STRIPE_SECRET_KEY (Operator gate).
+- **Why it works:** Extends P-169 (fix + remaining gap): a structured template for monetization work — what landed (migration + API hooks + read endpoints), what's deferred (Stripe), and who unblocks it (Operator gate). The next agent doesn't re-implement shipped pieces or miss the external dependency.
+- **Maps to:** refine document-non-action + close-the-loop — in_progress notes with HALF SHIPPED / REMAINING / gate owner.
+
+### P-212 - Usage metering is best-effort on success only; never fails the API request
+- **Observed:** _record_usage called after successful search/embed/diagnose paths in core-api; task notes explicitly: "never fails requests, under-bills on error by design."
+- **Why it works:** Billing instrumentation must not become an availability risk. Recording only after success + swallowing metering errors trades perfect billing accuracy for request reliability — under-billing on failure is the accepted bias. Matches enterprise API expectations: revenue tracking is secondary to serving the call.
+- **Maps to:** refine respect-the-guard + policy-as-config — meter on success; metering errors must not surface as 5xx to tenants.
+
+### P-213 - Loop status page: redeploy same URL each check-in; favicon as operator heartbeat
+- **Observed:** "The deal going forward: at each loop check-in I redeploy this page with fresh state — same URL, same robot, new report. Keep the tab pinned; the 🤖 favicon is your loop's heartbeat."
+- **Why it works:** A stable URL + redeploy-on-tick gives operators a zero-navigation pulse check. The favicon change signals fresh laps without opening devtools or reading terminal scrollback. Same artifact, new content — fits unattended /rc loops where the operator glances from a pinned tab.
+- **Maps to:** refine progress-board + post-deploy-smoke — loop check-in includes redeploy of a human-facing status page at a fixed URL.
+
+### P-214 - Loop feed baked at deploy time because static artifacts can't call the API
+- **Observed:** "the feed is baked at deploy time since artifacts can't call the API — which conveniently means the robot only ever reports what actually happened."
+- **Why it works:** Static deploy constraints (no client-side API on Vercel artifact) force honesty: the report reflects committed/deployed facts, not live polling or speculative state. The limitation becomes integrity — LOOPBOT can't hallucinate in-flight work. Pairs with P-207 (content assertions on live pages).
+- **Maps to:** refine close-the-loop + validate-gate — status UI generated from build/deploy artifacts, not live API calls.

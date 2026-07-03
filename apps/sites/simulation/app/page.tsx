@@ -1,15 +1,20 @@
 import {
   Axis,
+  CrossSellStrip,
+  ExplorationTracker,
   Marginalia,
+  ReturnGreeting,
   RuledSection,
   StatusLine,
   TitleCard,
   TeamStrip,
+  type LedgerEntry,
 } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import Link from "next/link";
 import marketPlatforms from "../../../../config/market-platforms.json";
 import { WaitlistForm } from "../components/WaitlistForm";
+import { SIM_SURFACES } from "../components/surfaces";
 
 export const metadata = {
   title: "Simulation Lab — paper-trading strategy reports",
@@ -41,6 +46,10 @@ type LiveProof = {
   platformCount: number;
   /** omni_sim entries in the last LEDGER_WINDOW Operations Ledger rows. */
   simRuns: number;
+  /** The fetched ledger rows themselves — reused by ReturnGreeting (UX-120)
+   * so the "since your last visit" line is computed from the same real data,
+   * not a second fetch. Empty when the API is unreachable. */
+  ledger: LedgerEntry[];
 };
 
 /** Live proof metric (Spec 0019 §2.4, UX-124): measured from the core API or
@@ -67,19 +76,21 @@ async function liveProof(): Promise<LiveProof> {
   try {
     const [registry, ledger] = await Promise.all([
       cachedApi<{ platforms?: unknown[] }>("/v1/omni/platforms"),
-      cachedApi<{ entries?: { stage?: string }[] }>(`/v1/ledger?limit=${LEDGER_WINDOW}`),
+      cachedApi<{ entries?: LedgerEntry[] }>(`/v1/ledger?limit=${LEDGER_WINDOW}`),
     ]);
     const platformCount = (registry.platforms ?? []).length;
+    const entries = ledger.entries ?? [];
     return {
       // An empty registry is not a live proof — fall back to the honest
       // empty state rather than rendering "0 rulebooks enforced".
       live: platformCount > 0,
       platformCount,
-      simRuns: (ledger.entries ?? []).filter((e) => e.stage === "omni_sim").length,
+      simRuns: entries.filter((e) => e.stage === "omni_sim").length,
+      ledger: entries,
     };
   } catch (err) {
     console.warn("simulation liveProof unavailable:", err instanceof Error ? err.message : err);
-    return { live: false, platformCount: 0, simRuns: 0 };
+    return { live: false, platformCount: 0, simRuns: 0, ledger: [] };
   }
 }
 
@@ -106,6 +117,8 @@ export default async function FinanceLabPage() {
             sports DFS, and retail equities. Simulation only — no live capital, no trading advice.
           </p>
         </TitleCard>
+
+        <ReturnGreeting ledger={proof.ledger} />
 
       <TeamStrip siteId="simulation" />
 
@@ -203,7 +216,12 @@ export default async function FinanceLabPage() {
               </div>
             ))}
           </div>
+          <div style={{ marginTop: "var(--bh-space-3)" }}>
+            <ExplorationTracker surfaces={SIM_SURFACES} currentId="home" />
+          </div>
         </RuledSection>
+
+        <CrossSellStrip siteId="simulation" />
 
         <RuledSection label="Internal operations">
           <details className="bh-card">

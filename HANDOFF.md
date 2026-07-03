@@ -8,6 +8,36 @@ Platform architecture internally called **SynthaEmbed OS**.
 
 ---
 
+## ⚡ Session continuation — 2026-07-03 (evening)
+
+**State: org build-out COMPLETE to the gated frontier.** One company site
+(bhenre.com w/ registry-driven BU grid) + five live business units (all
+with TeamStrips) + hq (/org reports, /ops division console) + observatory.
+Corporate topology = Spec 0019 (orgRole in fleet.json drives all chrome).
+
+**Landmarks today:** first chartered prod model deployed & serving
+(asn-head-8282654, EVIDENCE 3.9, arxiviq /methods case study live);
+Data Refinery launched spec→review in one day (Spec 0018, all phases;
+EVIDENCE 3.10; 5-SME reviews in knowledge/reviews — BLOCK fixed same
+hour); consent flywheel operational (contribute → jcamd.com/ops review →
+harvest → catalog).
+
+**Operator gates (the only blockers):** G1 data.bhenre.com attach (one
+click, Vercel dashboard → refinery project); Spec 0016 sign-off; GLM_API_KEY
+(agent teams full-mode); Railway plan upgrade (full fine-tunes; head-only
+works today). Also: local Docker Desktop restart unblocks RT-401 + 6 tasks.
+
+**Next in-repo work:** autoresearch delegate queue AR-306→309 (claude
+lane, .claude/autoresearch-delegate.md protocol); RT-401 once Docker up;
+TOPO-002 with Medusa cart work; erasure tooling (consent promise);
+Redis-backed rate limiter before scale-out.
+
+**Prod topology reminders:** api = single Railway container, in-proc
+worker thread, ONE resident backbone (prewarmed) shared by train/eval/
+serve; artifacts in Postgres (mig 008/009); corpora+seeds baked from
+content/ (railway up unions .gitignore!); charters at config/recipes
+baked in-image.
+
 ## ⚡ Session continuation note — 2026-07-02 (Claude, read this first)
 
 **State:** The platform went from local-only to live today. All 7 sites deployed on

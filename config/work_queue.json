@@ -953,10 +953,11 @@
     {
       "id": "DR-106",
       "title": "Refinery scale hardening: k6 load test + cache verify + honest EVIDENCE row",
-      "status": "blocked",
+      "status": "done",
       "lane": "opencode",
       "priority": "P2",
-      "notes": "Spec 0018 (Draft \u2014 awaiting Operator sign-off). DR-103 may start against the API contract with mocks."
+      "notes": "httpx probe (k6 unavailable on host): p50 121.5 / p95 312.1ms, limiter exact at 120/min, cache headers verified. EVIDENCE 3.10. Distributed test = future.",
+      "claimedBy": "claude"
     },
     {
       "id": "DR-107",

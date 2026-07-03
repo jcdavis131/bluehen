@@ -371,6 +371,23 @@ HF cache at serve time). Baseline provenance differs by host (1 GB prod
 box cannot hold a second model) — identical pair set and metric code.
 No ASN weight surgery on this path (rejected 0/4, §5).
 
+### 3.10 Refinery catalog load posture — measured — 2026-07-03
+
+Probe: `scripts/load_probe_catalog.py` (httpx, single client IP) against
+prod `/v1/catalog/*` on the 1 GB Railway container.
+
+| Measurement | Value |
+|---|---|
+| /v1/catalog/stats p50 / p95 / max (140 req, conc 8) | **121.5 / 312.1 / 369.6 ms** |
+| Rate limiter engagement | exactly at 120/min/IP: 120×200 then 20×429 (Retry-After set) |
+| Cache posture | `public, s-maxage=60, stale-while-revalidate=300` on all catalog reads |
+| Bucket scope (design fact) | one `catalog` bucket per IP across stats+list+detail |
+
+**Honest scope.** A single-IP probe measures origin latency under the
+limiter and the limiter itself — not absolute origin throughput. Public
+fan-out is absorbed by CDN caching by design (s-maxage 60); multi-origin
+scale claims require a distributed test and are NOT made here.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

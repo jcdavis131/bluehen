@@ -573,3 +573,5 @@ No Python. Deploy/live commit. No code gate needed. (Phase 7 deploy-smoke: live 
 
 ## Run 2026-07-03T04:02:19 (loop tick 39 — fallback 623559 fired; no new commit past ac6dbe4. Repo quiet ~30m. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
 
+## Run 2026-07-03T04:06:13 (loop tick 40 — watcher occ 26; HEAD ac6dbe4 → 3adbf62. feat(org): SITE-015 registry-driven TeamStrip on all five business units. No Python (site/UI). No gate needed. Not re-arming (367898 pending). Watcher 844529 running.)
+

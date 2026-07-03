@@ -38,13 +38,13 @@
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
 - [ ] **MON-005** — Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0021 P3) (comms) · spec [0020](./specs/0020-*.md)
-- [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **MON-008** — CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0021 P6) (execution) · spec [0020](./specs/0020-*.md)
 
 ## In progress
 
 - [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0021 P1) (@claude)
+- [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4) (@claude)
 
 ## Blocked on infra (work elsewhere)
 

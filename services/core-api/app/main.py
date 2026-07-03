@@ -405,6 +405,31 @@ def wiki_page(slug: str, response: Response, _rl: Annotated[None, Depends(rate_l
     return out
 
 
+class CertifyIn(BaseModel):
+    endpointUrl: str
+
+
+@app.post("/v1/certify", status_code=201)
+def certify_submit(body: CertifyIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                   _rl: Annotated[None, Depends(rate_limit("certify", 6))] = None):
+    from app.services import certify
+
+    try:
+        return certify.submit(tenant.workspace_id, body.endpointUrl)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.get("/v1/certify/{sid}")
+def certify_status(sid: str, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    from app.services import certify
+
+    out = certify.get_submission(tenant.workspace_id, sid)
+    if out is None:
+        raise HTTPException(status_code=404, detail="submission not found")
+    return out
+
+
 @app.get("/v1/usage")
 def usage_view(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
     from app.services.usage import workspace_usage

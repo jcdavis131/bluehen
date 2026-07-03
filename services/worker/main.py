@@ -305,6 +305,12 @@ def run_forever(poll_seconds: float = 2.0) -> None:
                 if hjob is not None:
                     run_harvest_job(hjob)
                     continue
+                from app.services.certify import claim_next_cert, run_cert_job
+
+                cjob = claim_next_cert()
+                if cjob is not None:
+                    run_cert_job(cjob)
+                    continue
             except Exception as exc:
                 log.warning("harvest poll failed: %s", exc)
             time.sleep(poll_seconds)

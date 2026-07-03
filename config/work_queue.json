@@ -1081,12 +1081,13 @@
     {
       "id": "MON-006",
       "title": "slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4)",
-      "status": "ready",
+      "status": "in_progress",
       "lane": "cursor",
       "priority": "P1",
       "division": "comms",
       "spec": "0020",
-      "notes": "Customer submits model endpoint after Medusa checkout -> worker runs eval-harness (Spec 0008) -> publishes scorecard at /scorecards/[id] -> emails badge. Zero human overhead. certifications table new."
+      "notes": "AUTOMATION SHIPPED: POST /v1/certify (SSRF-guarded https-only, rate limit 6/min) -> worker embeds fixed catalog slice via customer endpoint -> same metric code as our own gates -> scorecard published to validation BD records + tenant-visible via GET /v1/certify/{id}. payment_status=pending-gate until Medusa checkout attaches (Operator gate). Cursor lane: slasso /certify submission UI.",
+      "claimedBy": "claude"
     },
     {
       "id": "MON-007",

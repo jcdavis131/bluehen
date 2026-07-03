@@ -1159,3 +1159,23 @@
 - **Observed:** "the feed is baked at deploy time since artifacts can't call the API — which conveniently means the robot only ever reports what actually happened."
 - **Why it works:** Static deploy constraints (no client-side API on Vercel artifact) force honesty: the report reflects committed/deployed facts, not live polling or speculative state. The limitation becomes integrity — LOOPBOT can't hallucinate in-flight work. Pairs with P-207 (content assertions on live pages).
 - **Maps to:** refine close-the-loop + validate-gate — status UI generated from build/deploy artifacts, not live API calls.
+
+### P-215 - Deploy monitor named for the specific API surface under verification
+- **Observed:** After MON-001 metering work: Monitor "Usage view live after grants" stream ended → then artifact publish. Monitor event names the endpoint family (usage view) and precondition (grants/migration landed).
+- **Why it works:** Extends P-147/P-170: monitor labels tie wait events to a **feature gate** (usage readable after DB grants), not generic "deploy done." When the stream ends, the agent knows which verification succeeded before closing out.
+- **Maps to:** refine event-driven-wait + post-deploy-smoke — name monitors after the API/view being proven live.
+
+### P-216 - Loop status UI shipped first as Claude artifact, fleet link deferred
+- **Observed:** Artifact(.../loopbot.html) published · https://claude.ai/code/artifact/df585a3c-… after usage monitor ended. Operator's hq cockpit link request still pending in the prompt.
+- **Why it works:** Delivers LOOPBOT immediately on a shareable artifact URL while fleet integration (hq cockpit nav) waits for the next turn. Prototype-on-artifact → integrate-in-monorepo is a two-step ship: operator gets the heartbeat page now, wiring comes after.
+- **Maps to:** refine close-the-loop + progress-board — ship loop status as artifact first; cockpit/deep-link integration as follow-up task.
+
+### P-217 - Certification scorecard is honest eval; payment stays pending-gate until Stripe
+- **Observed:** certify.py (Spec 0021 P4): "Payment is recorded as pending-gate until Stripe/Medusa attach (Operator gate) — the scorecard itself is honest and free of payment state." Submit returns "paymentStatus": "pending-gate" while worker grades the endpoint.
+- **Why it works:** Separates **measurement** (did the customer's endpoint pass gates?) from **monetization** (did they pay?). The cert pipeline can ship and run without Stripe keys; payment state is explicit and deferred, not faked or omitted. Operators know what's blocked vs what's proven.
+- **Maps to:** refine validate-gate + document-non-action — eval artifacts never conflate with payment state; label pending-gate until Operator attaches billing.
+
+### P-218 - Customer endpoint cert uses the same metric code that grades internal models
+- **Observed:** un_cert_job embeds via customer's POST {"texts": [...]} -> {"vectors": ...}, then etrieval_scores + ndcg_at_k + compute_gates — scorecard includes "metricParity": "same retrieval_scores + ndcg_at_k that grade our own models".
+- **Why it works:** External cert is comparable to internal eval because it's the **same harness**, not a simplified proxy. Contract violations fail loudly (ectors missing or wrong length). Fixed catalog slice (MAX_PAIRS from largest public dataset) keeps runs reproducible. No-human-in-the-loop half of Spec 0021 is credible only with metric parity stated in the artifact.
+- **Maps to:** refine validate-gate + follow-procedure — external certification reuses eval-harness gates; document parity in the scorecard.

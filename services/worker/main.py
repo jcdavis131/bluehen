@@ -47,7 +47,16 @@ def process_job(payload: dict) -> None:
     job_id = payload["id"]
     workspace_id = payload["workspace_id"]
     collection_id = payload.get("collection_id")
-    recipe = payload["recipe"]
+    # Memory/topology constraints (freezeBackbone, extraction sizes, proj
+    # dims) are DEPLOYMENT concerns, not experiment parameters: stored job
+    # recipes predate them and would take the full-fine-tune path that
+    # cannot fit this container. Server defaults fill anything unset.
+    from app.services.lifecycle import DEFAULT_RECIPE
+
+    recipe = {**DEFAULT_RECIPE, **(payload["recipe"] or {})}
+    if "freezeBackbone" not in (payload["recipe"] or {}):
+        recipe["freezeBackbone"] = DEFAULT_RECIPE.get("freezeBackbone", False)
+        log.info("stage: recipe upgraded with server defaults (freezeBackbone=%s)", recipe["freezeBackbone"])
     trace_id = payload.get("trace_id")
     site_id = governance.site_id_for_workspace(workspace_id)
 

@@ -45,6 +45,12 @@
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
+- [ ] **UX-101** — Wire RunDetail.tsx into a real run route (observatory homepage's only click-through 404s) (execution) · spec [0020](./specs/0020-*.md)
+  - `apps/sites/observatory/app/runs/[id]/page.tsx renders components/RunDetail.tsx`
+- [ ] **UX-102** — Refinery /requests drops dataset context from query param (execution) · spec [0020](./specs/0020-*.md)
+  - `apps/sites/refinery/app/requests/page.tsx reads searchParams.dataset, passes presetTopic to RequestForm`
+- [ ] **UX-103** — Simulation /simulate/[platform] pages are CLI dumps with no back-link (comms) · spec [0020](./specs/0020-*.md)
+  - `apps/sites/simulation/app/simulate/[platform]/page.tsx — render a real result or remove the CTA`
 
 ## In progress
 
@@ -59,6 +65,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
 - [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
+- [ ] **UX-111** — Rework /pricing to reference the per-division offer matrix instead of 3 disconnected tiers · blockedBy: ['UX-110']
 
 ## Recently done
 

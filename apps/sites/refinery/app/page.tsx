@@ -1,9 +1,29 @@
 import Link from "next/link";
-import { CountUpStat, PageHeader, Reveal, TeamStrip } from "@synthaembed/ui-fleet";
+import {
+  CountUpStat,
+  CrossSellStrip,
+  ExplorationTracker,
+  PageHeader,
+  Reveal,
+  TeamStrip,
+  type ExplorationSurface,
+} from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { getStats, listDatasets } from "../lib/catalog";
+import { CatalogReturnGreeting } from "../components/CatalogReturnGreeting";
 
 export const revalidate = 60;
+
+// Exploration tracker scope: data.bhenre.com surfaces only (localStorage is
+// per-origin — claiming cross-site visits would be dishonest). Interior
+// pages record themselves via <SurfaceVisit /> so the pips reflect real
+// visits.
+const REFINERY_SURFACES: ExplorationSurface[] = [
+  { id: "home", label: "The pipeline", href: "/" },
+  { id: "catalog", label: "Dataset catalog", href: "/catalog" },
+  { id: "contribute", label: "Contribute data", href: "/contribute" },
+  { id: "requests", label: "Custom harvests", href: "/requests" },
+];
 
 export default async function Home() {
   const surface = getSiteCircuit("refinery");
@@ -18,6 +38,8 @@ export default async function Home() {
       />
 
       <TeamStrip siteId="refinery" />
+
+      <CatalogReturnGreeting datasets={latest?.items ?? []} />
 
       {stats ? (
         <Reveal index={0}>
@@ -81,18 +103,33 @@ export default async function Home() {
       )}
 
       <Reveal index={3}>
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <Link href="/catalog" className="bh-btn bh-btn--primary bh-btn--hero">
-            Browse the catalog
-          </Link>
-          <Link href="/contribute" className="bh-btn bh-btn--ghost">
-            Contribute data
-          </Link>
-          <Link href="/requests" className="bh-btn bh-btn--ghost">
-            Request a custom harvest
-          </Link>
+        <div className="bh-stack" style={{ gap: 16, marginBottom: 24 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
+            <Link href="/catalog" className="bh-btn bh-btn--primary bh-btn--hero">
+              Browse the catalog
+            </Link>
+            <Link href="/contribute" className="bh-btn bh-btn--ghost">
+              Contribute data
+            </Link>
+            <Link href="/requests" className="bh-btn bh-btn--ghost">
+              Request a custom harvest
+            </Link>
+            <span className="bh-live" style={{ marginLeft: "auto" }}>
+              <span className="bh-kbd">⌘K</span> jump anywhere
+            </span>
+          </div>
+          <ExplorationTracker surfaces={REFINERY_SURFACES} currentId="home" />
         </div>
       </Reveal>
+
+      <CrossSellStrip siteId="refinery" />
     </>
   );
 }

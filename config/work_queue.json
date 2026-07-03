@@ -571,8 +571,8 @@
       "division": "orchestration",
       "priority": 0,
       "title": "Phase A+ hill-climb iteration \u2014 kickoff Phase A orgs, verify BD queue + ledger",
-      "status": "ready",
-      "claimedBy": null,
+      "status": "done",
+      "claimedBy": "claude",
       "claimedAt": null,
       "blockedBy": [
         "BLK-DISK",
@@ -585,7 +585,8 @@
       ],
       "acceptance": "All Phase A jobs complete; BD queue has gate-pass entries; ledger shows eval/deploy/index",
       "note": "Attempted 2026-06-29: docker compose Internal Server Error (C: ~0.4GB free). Unblock INF-000 first.",
-      "lane": "claude"
+      "lane": "claude",
+      "notes": "Closed in prod 2026-07-03: full lifecycle research corpus->pairs->head-only train->gates PASS->charter deploy->index->live /v1/search. EVIDENCE 3.9."
     },
     {
       "id": "OMNI-001",

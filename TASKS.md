@@ -58,7 +58,6 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **RAG-501** — Scale arXiv corpus to 200 papers + re-kickoff · blockedBy: ['BLK-DOCKER']
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
-- [ ] **LOOP-001** — Phase A+ hill-climb iteration — kickoff Phase A orgs, verify BD queue + ledger · blockedBy: ['BLK-DISK', 'BLK-DOCKER']
 - [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
 - [ ] **SITE-017** — Tastemaker Phase 4 — per-site accent desaturation + contrast verification (Spec 0017) · blockedBy: ['SITE-016']
 - [ ] **SITE-018** — Tastemaker Phase 5 — copy/marginalia pass aligned to VOICE_AND_PLATFORM (Spec 0017) · blockedBy: ['SITE-017']

@@ -370,3 +370,23 @@ Both touch services/worker/main.py.
 
 ## Run 2026-07-02T23:04:30 (loop tick 15 — fallback 556922 fired; no new commit past f65b8d7. Repo quiet ~26m. No-op. Re-arming one heartbeat (earned). Watcher 844529 still running.)
 
+## Run 2026-07-02T23:13:39 (loop tick 16 — watcher occurrence 10; HEAD f65b8d7 → bdbea24 → 7a41f9c)
+
+### Trigger
+Two commits (Cursor lane):
+- bdbea24 fix(worker): run_forever must outlive any job — guard claim and process (services/worker/main.py + docs)
+- 7a41f9c fix(prod): bake charters (config/recipes) + content/fleet into the image (Dockerfile)
+
+### Phase 4 — Gates
+- smoke-import services.worker.main: ok
+- worker unit tests: none exist (gap logged tick 13)
+- Dockerfile diff (7a41f9c): additive — 2 COPY lines (config/recipes + content/fleet) with rationale comment. Structural root-cause fix: research model trained + passed gates but auto-deploy hit 'no charter' because authorization files weren't in the container.
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 5 — Guards
+- Both commits are structural root-cause fixes (run_forever survival + baked authorization), not retries. Aligns with diagnose-before-retry skill.
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import worker → ok; Dockerfile bake reviewed → additive + commented.
+- Per tick-8 rule: NOT re-arming heartbeat (99904 still pending). Watcher 844529 still running.
+- NOTE: watcher will emit 7a41f9c as occurrence 11 — stale wake, will ignore (already reviewed here).

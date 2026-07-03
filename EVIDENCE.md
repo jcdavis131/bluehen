@@ -345,6 +345,32 @@ synthetic; confirms §3.4 at scale:
 Strongest arms: default + strong (≈ +10 erank). Var-only weakly helps; confirms variance term drives
 most of the anti-collapse benefit.
 
+### 3.9 Production head-only split — first chartered prod deploy — 2026-07-03
+
+**Setup.** Railway 1 GB plan container (api + in-proc worker thread, one
+resident MiniLM backbone). Recipe: `freezeBackbone` head-only (frozen
+all-MiniLM-L6-v2, ProjectionHead 384→1024→384, InfoNCE τ=0.07, 3 epochs,
+feature-cached extraction batch 2 / max_len 128). Corpus: research tenant,
+200 synth pairs from the 1.1 MB arXiv corpus (collection `8cf3b985`).
+Eval: prod worker gate slice (first-32 pairs, `retrieval_scores` +
+`ndcg_at_k` k=2), measured on the SERVED representation (head output).
+
+| Model | nDCG@10 | Effective rank | Provenance |
+|---|---|---|---|
+| **asn-head-8282654 (deployed)** | **0.9077** | **26.03** | prod eval, gate slice |
+| BAAI/bge-small-en-v1.5 | 0.9193 | 22.83 | local, same pairs + metric code |
+| all-MiniLM-L6-v2 (raw backbone) | 0.8847 | 25.97 | local, same pairs + metric code |
+
+**Verdict (no claim above gates).** Head-tune improves its own frozen
+backbone by **+0.023 nDCG@10** on the tenant slice and passes all deploy
+gates (rank > 8 baseline, nDCG ≥ 0.35). It does **not** beat bge-small
+(−0.012). Gates authorized deploy via the active research charter;
+`/v1/search` serves it live (702 chunks re-indexed through the head;
+model artifact = 3.2 MB head stored in Postgres, backbone from the baked
+HF cache at serve time). Baseline provenance differs by host (1 GB prod
+box cannot hold a second model) — identical pair set and metric code.
+No ASN weight surgery on this path (rejected 0/4, §5).
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

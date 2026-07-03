@@ -4,7 +4,7 @@
 > Queue detail: [TASKS.md](../TASKS.md) · Session context: [HANDOFF.md](../HANDOFF.md) ·
 > Deep review: [docs/reviews/deep-review-2026-07-02.md](./reviews/deep-review-2026-07-02.md)
 
-**Last updated: 2026-07-03 ~00:15 UTC**
+**Last updated: 2026-07-03 ~04:45 UTC**
 
 ## Production surfaces
 
@@ -19,7 +19,7 @@
 
 | Work | Owner | State |
 |---|---|---|
-| Prod training — research (200 pairs) | worker | **BLOCKED ON PLAN LIMIT**: even head-only, two torch runtimes (api + worker) exceed the 1GB container at import time — worker OOMs at model load; supervisor keeps retrying. **THE UNBLOCK: $5 Railway plan upgrade (8GB)** or head-only artifact split (backbone from HF at serve, head in DB). Operator decision |
+| Prod training — research | worker | **CLOSED: asn-head-8282654 DEPLOYED under charter** — gates passed (nDCG@10 0.9077, ER 26.03), 702 chunks indexed, /v1/search serving it live; EVIDENCE §3.9; arxiviq /methods case study shows live numbers. dumbmodel/storefront/validation trained + honestly gate-blocked (tiny corpora) |
 | 3 queued training jobs (dumbmodel, storefront, validation) | worker | Pending behind research; tiny corpora — expect `insufficient pairs` fails or fail-closed gates (honest outcomes) |
 | REV-904 durable leads (`Lead` model + migration 007 landed; endpoint WIP) | cursor | In progress in working tree; tests green with it |
 | REV-907/911 hardening (weights_only, embed caps) | claude | Committed; **deploys on next Railway restart window** (not worth killing training) |

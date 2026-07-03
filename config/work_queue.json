@@ -330,10 +330,13 @@
       "division": "research",
       "priority": 32,
       "title": "Hard negative mining in hill-climb pair builder",
-      "status": "ready",
+      "status": "done",
       "spec": "0009",
       "command": "Extend core-api lifecycle or worker pair generation with corpus-mined negatives",
-      "acceptance": "\u0394nDCG measurable on holdout"
+      "acceptance": "\u0394nDCG measurable on holdout",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-03T22:34:03.423763+00:00",
+      "completedAt": "2026-07-03T22:35:19.316611+00:00"
     },
     {
       "id": "RAG-504",

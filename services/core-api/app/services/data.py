@@ -113,18 +113,37 @@ def synth_pairs(workspace_id: uuid.UUID, collection_id: str, n: int = 1000) -> d
         if len(chunks) < 2:
             raise ValueError("need at least 2 chunks to synthesize pairs")
 
+        # Hard negative mining (RAG-503, Spec 0009): the negative is the most
+        # lexically similar chunk that is NOT the anchor/positive — random
+        # negatives made the eval's ndcg gate trivially easy. Deterministic
+        # token-Jaccard keeps this reproducible and dependency-free.
+        token_sets = [frozenset(c["text"].lower().split()) for c in chunks]
+
+        def _hard_negative(i: int, j: int) -> int:
+            anchor_toks = token_sets[i]
+            best, best_score = -1, -1.0
+            for k, toks in enumerate(token_sets):
+                if k in (i, j):
+                    continue
+                union = len(anchor_toks | toks)
+                score = (len(anchor_toks & toks) / union) if union else 0.0
+                if score > best_score:
+                    best, best_score = k, score
+            if best < 0:
+                best = (i + 1) % len(chunks)
+            return best
+
         pairs = []
         for _ in range(min(n, len(chunks) * 4)):
             i = random.randint(0, len(chunks) - 1)
             j = i if random.random() < 0.5 else min(i + 1, len(chunks) - 1)
-            neg = random.randint(0, len(chunks) - 1)
-            while neg == i:
-                neg = random.randint(0, len(chunks) - 1)
+            neg = _hard_negative(i, j)
             pairs.append(
                 {
                     "anchor": chunks[i]["text"],
                     "positive": chunks[j]["text"],
                     "negative": chunks[neg]["text"],
+                    "negativeMining": "hard-jaccard-v1",
                 }
             )
         col.meta = {**(col.meta or {}), "pairs": pairs}

@@ -1179,3 +1179,18 @@
 - **Observed:** un_cert_job embeds via customer's POST {"texts": [...]} -> {"vectors": ...}, then etrieval_scores + ndcg_at_k + compute_gates — scorecard includes "metricParity": "same retrieval_scores + ndcg_at_k that grade our own models".
 - **Why it works:** External cert is comparable to internal eval because it's the **same harness**, not a simplified proxy. Contract violations fail loudly (ectors missing or wrong length). Fixed catalog slice (MAX_PAIRS from largest public dataset) keeps runs reproducible. No-human-in-the-loop half of Spec 0021 is credible only with metric parity stated in the artifact.
 - **Maps to:** refine validate-gate + follow-procedure — external certification reuses eval-harness gates; document parity in the scorecard.
+
+### P-219 - Lap close-out separates shipped pipeline from external prerequisites
+- **Observed:** After cert P4 work: "untouched at pending-gate. The pipeline is real; it just needs a real embedding endpoint on the other side and, eventually, your Stripe key."
+- **Why it works:** Close-out doesn't oversell or undersell — code path exists (pipeline is real), payment stays pending-gate (P-217), and two explicit externals are named (customer endpoint to grade, Operator Stripe key). Operator knows exactly what's left without re-reading the diff.
+- **Maps to:** refine close-the-loop + document-non-action — lap summary lists what's shipped vs what's gated/external.
+
+### P-220 - LOOPBOT refresh is the lap close-out ritual
+- **Observed:** "Refreshing LOOPBOT and closing the lap:" → shell command → Artifact(.../loopbot.html) published (same artifact URL, fresh content).
+- **Why it works:** Extends P-213: each hill-climb lap ends with a LOOPBOT redeploy so the pinned-tab heartbeat reflects the lap just completed. Close-out = narrative + artifact refresh, not narrative alone.
+- **Maps to:** refine progress-board + close-the-loop — end every autonomous lap with LOOPBOT refresh before sleeping.
+
+### P-221 - Surgical multi-line Python patch via utf8 heredoc old-block replace
+- **Observed:** python -X utf8 - <<'EOF' reads services/core-api/app/services/data.py, sets old = ''' pairs = [] … random.randint …''', replaces in file — same technique used earlier on main.py search metering.
+- **Why it works:** Targets an exact logical block (pair-generation loop) without rewriting the whole module or relying on line-number edits. -X utf8 + encoding='utf-8' avoids Windows cp1252 corruption. Safer than sed for indented Python when the hunk spans many lines.
+- **Maps to:** refine match-conventions — multi-line service edits via heredoc string-replace, not whole-file regenerate.

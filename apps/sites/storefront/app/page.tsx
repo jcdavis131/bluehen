@@ -237,7 +237,7 @@ export default async function HubPage() {
             </p>
           </div>
           <Marginalia>
-            Every deploy passes published evaluation gates. {GLOSSARY.deployGate}.
+            Every deploy passes published evaluation gates before it ships.
           </Marginalia>
         </RuledSection>
       </Axis>

@@ -44,6 +44,9 @@ body {
 
 .fleet-shell {
   min-height: 100vh;
+  /* site-tinted ambient wash over the canvas: each surface glows faintly
+     in its own accent at the top of the page */
+  background-image: linear-gradient(180deg, var(--bh-accent-muted, transparent), transparent 340px);
   background-color: var(--bh-canvas);
   color: var(--bh-text);
   font-family: var(--bh-font-body);

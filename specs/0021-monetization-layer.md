@@ -1,4 +1,4 @@
-# Spec 0020 — Monetization layer: diversified passive + active income, low overhead
+# Spec 0021 — Monetization layer: diversified passive + active income, low overhead
 
 - **Status:** Draft (Operator-directed 2026-07-03)
 - **Owner:** Cursor (commerce wiring, site CTAs) · Claude (billing backend, core-api metering)

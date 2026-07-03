@@ -1119,3 +1119,13 @@
 - **Observed:** After Spec 0021 + BD-703 committed and pushed: ※ recap: Spec 0021 (cert-driven research loop, 90-day customer-driven policy) plus BD-703 task are committed and pushed. To open the draft PR, either click the GitHub link I posted or run gh auth login…
 - **Why it works:** Push succeeded but PR automation failed — recap bridges the gap: names spec + policy headline, queue task ID, confirms push, states the one blocked next step with both unblock paths. Operator can act without re-reading the whole session.
 - **Maps to:** refine recap-on-long-session + close-the-loop — success close-out recap when the final gate (PR) needs human or auth.
+
+### P-207 - Live verification asserts build stamp and data cardinality, not just reachability
+- **Observed:** After deploy monitor ended: live index reads "Built 2026-07-03 19:36 UTC from 6 catalog rows" with the measured dataset table beneath it — not merely "site returns 200."
+- **Why it works:** Extends P-192 (verify on real domain): the proof includes **what** was built (UTC stamp), **how much** data (6 catalog rows), and **structure** (table present). A stale deploy or empty catalog can still return 200; content assertions catch that.
+- **Maps to:** refine post-deploy-smoke — after push, read page text for build stamp + row count + expected UI structure.
+
+### P-208 - Milestone close-out names the full pipeline loop in one sentence, then pushes
+- **Observed:** Before push: "Auto-generation → structured wiki → labeled self-refinement (key-gated) is the full loop you asked for. Recording the milestone: Pushed to main."
+- **Why it works:** The arrow-chain restates the deliverable as an end-to-end loop (not a file list), confirms it matches operator intent ("you asked for"), then records the milestone with a single push line. Close-out is narrative + artifact, not just git output.
+- **Maps to:** refine close-the-loop + progress-board — milestone push preceded by one-sentence pipeline summary tied to original goal.

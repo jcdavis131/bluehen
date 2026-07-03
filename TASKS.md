@@ -37,10 +37,11 @@
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
-- [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0020 P1) (execution) · spec [0020](./specs/0020-*.md)
-- [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0020 P4) (comms) · spec [0020](./specs/0020-*.md)
-- [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0020 P5) (comms) · spec [0020](./specs/0020-*.md)
-- [ ] **MON-008** — CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0020 P6) (execution) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0021 P1) (execution) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-005** — Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0021 P3) (comms) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4) (comms) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5) (comms) · spec [0020](./specs/0020-*.md)
+- [ ] **MON-008** — CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0021 P6) (execution) · spec [0020](./specs/0020-*.md)
 
 ## In progress
 
@@ -55,10 +56,10 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
 - [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
-- [ ] **MON-002** — Storefront: API key management page (generate, view usage, set spend cap) (Spec 0020 P1) · blockedBy: ['MON-001']
-- [ ] **MON-003** — Hosted inference tier: Modal serverless GPU endpoint for domain models; Medusa recurring product (Spec 0020 P2) · blockedBy: ['MON-001']
-- [ ] **MON-004** — Storefront: hosted-model product page (per-domain model cards -> subscribe -> API key) (Spec 0020 P2) · blockedBy: ['MON-003']
-- [ ] **MON-010** — hq revenue dashboard: per-stream MRR, passive vs active split, BU attribution (Spec 0020) · blockedBy: ['MON-001', 'MON-006']
+- [ ] **MON-002** — Storefront: API key management page (generate, view usage, set spend cap) (Spec 0021 P1) · blockedBy: ['MON-001']
+- [ ] **MON-003** — Hosted inference tier: Modal serverless GPU endpoint for domain models; Medusa recurring product (Spec 0021 P2) · blockedBy: ['MON-001']
+- [ ] **MON-004** — Storefront: hosted-model product page (per-domain model cards -> subscribe -> API key) (Spec 0021 P2) · blockedBy: ['MON-003']
+- [ ] **MON-010** — hq revenue dashboard: per-stream MRR, passive vs active split, BU attribution (Spec 0021) · blockedBy: ['MON-001', 'MON-006']
 
 ## Recently done
 

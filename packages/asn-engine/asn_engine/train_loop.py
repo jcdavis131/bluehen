@@ -358,7 +358,7 @@ def _train_head_only(
     feats_p = _embed_all([p["positive"] for p in pairs])
 
     # Free the backbone before training — this is the memory trick.
-    del encoder
+    del encoder, tokenizer
     gc.collect()
 
     head, last_loss, last_er = train_head_on_features(

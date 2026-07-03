@@ -17,7 +17,7 @@ DEFAULT_RECIPE = {
     "freezeBackbone": True,
     "projOutDim": 384,     # match pgvector chunks column vector(384)
     "projHiddenDim": 1024,
-    "extractBatchSize": 4,
+    "extractBatchSize": 2,
     "loss": {"infoNceTemp": 0.07, "zeloWeight": 0},
     "asn": {
         "kStrong": 8,

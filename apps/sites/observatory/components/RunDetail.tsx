@@ -3,16 +3,13 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getEvents, getMetrics, getRun } from "../lib/api";
-import type { ChartEvent, EventRow, MetricRow, RunManifest, Series } from "../lib/types";
+import { groupMetrics, lastValue } from "../lib/chart-grouping";
+import type { ChartEvent, EventRow, MetricRow, RunManifest } from "../lib/types";
 import { LineChart } from "./LineChart";
 import { StatTile } from "./StatTile";
 import { StatusPill } from "./StatusPill";
 
 const POLL_MS = 3000;
-
-/* Fixed categorical slot order — colors follow the metric key, never its
- * position in a filtered list. */
-const SLOT_ORDER = ["--s1", "--s2", "--s3", "--s4", "--s5"] as const;
 
 export function RunDetail({ runId }: { runId: string }) {
   const [run, setRun] = useState<RunManifest | null>(null);
@@ -174,74 +171,4 @@ export function RunDetail({ runId }: { runId: string }) {
       </section>
     </>
   );
-}
-
-interface ChartSpec {
-  title: string;
-  series: Series[];
-}
-
-interface Group {
-  name: string;
-  charts: ChartSpec[];
-}
-
-/** One chart per metric key, grouped by prefix — except multi-series
- * families (e.g. asn/r2d_curvature_b1..bN) which share one chart. */
-function groupMetrics(rows: MetricRow[]): Group[] {
-  const byKey = new Map<string, { x: number; y: number }[]>();
-  for (const row of rows) {
-    for (const [k, v] of Object.entries(row.metrics)) {
-      if (typeof v !== "number") continue;
-      let arr = byKey.get(k);
-      if (!arr) {
-        arr = [];
-        byKey.set(k, arr);
-      }
-      arr.push({ x: row.step, y: v });
-    }
-  }
-
-  const families = new Map<string, string[]>();
-  for (const key of byKey.keys()) {
-    const fam = key.replace(/_b\d+$/, "");
-    const list = families.get(fam) ?? [];
-    list.push(key);
-    families.set(fam, list);
-  }
-
-  const groups = new Map<string, ChartSpec[]>();
-  const famNames = [...families.keys()].sort();
-  for (const fam of famNames) {
-    const keys = families.get(fam)!;
-    keys.sort();
-    const skip = fam === "asn/rank_floor" && families.has("asn/effective_rank");
-    if (skip) continue; // rendered as the reference line on the rank chart
-    const series: Series[] = keys.map((k, i) => ({
-      label: keys.length > 1 ? k.slice(fam.length + 1) || k : k,
-      color: SLOT_ORDER[i % SLOT_ORDER.length],
-      points: byKey.get(k)!,
-    }));
-    const prefix = fam.includes("/") ? fam.split("/")[0] : "other";
-    const list = groups.get(prefix) ?? [];
-    list.push({ title: fam, series });
-    groups.set(prefix, list);
-  }
-
-  const order = ["train", "eval", "asn"];
-  return [...groups.entries()]
-    .sort(([a], [b]) => {
-      const ia = order.indexOf(a);
-      const ib = order.indexOf(b);
-      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-    })
-    .map(([name, charts]) => ({ name, charts }));
-}
-
-function lastValue(rows: MetricRow[], key: string): number | null {
-  for (let i = rows.length - 1; i >= 0; i--) {
-    const v = rows[i].metrics[key];
-    if (typeof v === "number") return v;
-  }
-  return null;
 }

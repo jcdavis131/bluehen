@@ -31,7 +31,12 @@ class ASNEncoder(nn.Module):
         super().__init__()
         from transformers import AutoModel  # lazy
 
-        self.backbone = AutoModel.from_pretrained(backbone_name)
+        try:
+            # Single materialization (meta-device init): ~90 MB less peak on
+            # load — the margin that keeps the 1 GB prod container alive.
+            self.backbone = AutoModel.from_pretrained(backbone_name, low_cpu_mem_usage=True)
+        except TypeError:
+            self.backbone = AutoModel.from_pretrained(backbone_name)
         hidden = self.backbone.config.hidden_size
         self.head = ProjectionHead(hidden, out_dim=proj_out_dim, discretize=discretize)
 

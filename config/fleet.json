@@ -273,7 +273,7 @@
       "domain": "signals.bhenre.com",
       "phase": "B",
       "role": "omni-market-simulation",
-      "orgDivision": "bd",
+      "orgDivision": "execution",
       "secondaryDivisions": [
         "data",
         "research"

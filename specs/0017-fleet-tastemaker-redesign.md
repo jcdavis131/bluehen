@@ -29,25 +29,38 @@ Why now: the rebrand is complete (Phase 1–8 done), ventures are shipping, and 
 
 ## Design — the synthesis
 
-Four layers, blended. Each layer names its job; together they form the voice.
+**Mobile-first is the foundation**, not a responsive afterthought. Every layer below is authored at the smallest screen first (single column, touch targets, left-aligned rhythm) and *enhances upward* — symmetry and the centered axis arrive at ≥768px, wider axes at ≥1024px. Designing desktop-first then "collapsing" it is explicitly rejected; the mobile layout is the source of truth, the desktop layout is a widening.
+
+Five layers, blended. Mobile-first is the floor; the other four are the voice.
 
 ```mermaid
 flowchart LR
-  subgraph layers [The voice — four layers]
+  subgraph layers [The voice — five layers]
+    Mobile["Mobile-first\nsingle-column base\ntouch targets ≥44px\nleft rhythm → centered axis\nenhance upward"]
     Kubrick["Kubrick\none-point perspective\nsymmetry · negative space\ntitle cards · cold precision"]
     Wes["Wes Anderson\ncentered compositions\nhand-set type\nmuted-pastel accents\nmarginalia"]
     TUI["Modernized TUI\nmono status lines\nhairline rules\ncommand palette\nkeyboard-first"]
     Dark["Warm-ink dark mode\n#0b0d0a canvas\nnever pure black\nrestrained glow\nsubtle grain"]
   end
-  Kubrick --> Voice["Familiar yet distinct"]
+  Mobile --> Voice["Familiar yet distinct"]
+  Kubrick --> Voice
   Wes --> Voice
   TUI --> Voice
   Dark --> Voice
 ```
 
+### Mobile-first layer (the floor)
+- **Single-column base:** every page begins as one column at `100%` width minus `--bh-space-4` gutters. Multi-column grids are an enhancement at breakpoints, never the default.
+- **Touch-first:** all interactive elements ≥44×44px from the base layout up. No hover-only interactions — every hover state has a tap equivalent.
+- **Left rhythm → centered axis:** at <768px content uses a left-aligned rhythm (eyebrows, titles, body all left-anchored). The Kubrick centered `<Axis>` engages at ≥768px; below that, `<Axis>` is a full-width left-aligned column. Symmetry is a *widening*, not a starting state.
+- **Readable measure:** body text measure capped at `--bh-axis-narrow: 640px` on every screen so lines never stretch past comfortable reading on wide viewports.
+- **No horizontal scroll:** every page passes `overflow-x: hidden` audit at 320px width.
+- **Status line reflows:** `<StatusLine>` stacks to two rows <480px (`site · section` over `status · time`) rather than truncating.
+- **Breakpoints (mobile-first `min-width`):** `480px`, `768px`, `1024px` — applied with `@media (min-width: …)`, never `max-width`.
+
 ### Kubrick layer (structure)
-- **One-point perspective:** a centered reading axis on every page (`--bh-axis`); content vanishes toward a single implied point.
-- **Symmetry:** hero/title content centered on desktop ≥768px; nothing drifts off-axis without reason.
+- **One-point perspective:** a centered reading axis on every page (`--bh-axis`); content vanishes toward a single implied point. Engages at ≥768px; below that the axis is a full-width left-aligned column (see Mobile-first layer).
+- **Symmetry:** hero/title content centered on desktop ≥768px; nothing drifts off-axis without reason. On mobile, the same content is left-anchored — symmetry is earned at the widening, not assumed.
 - **Negative space:** monolithic breathing room — sections separated by `--bh-space-16`, not crowded.
 - **Cold precision:** the 4px spacing scale is law; no ad-hoc padding; every gap is a token multiple.
 - **Title cards:** every homepage opens with a TitleCard (Kubrick overture frame).
@@ -78,9 +91,16 @@ flowchart LR
 
 ```css
 :root {
-  /* Axis — Kubrick one-point column */
+  /* Axis — Kubrick one-point column. Mobile-first: the axis is full-width
+     left-aligned by default; centering engages at ≥768px (see Axis.tsx). */
   --bh-axis: 720px;
-  --bh-axis-wide: 1080px;          /* data pages that need more room */
+  --bh-axis-narrow: 640px;        /* body text measure cap on every screen */
+  --bh-axis-wide: 1080px;         /* data pages that need more room */
+
+  /* Mobile-first breakpoints — used with @media (min-width: …) only */
+  --bh-bp-sm: 480px;
+  --bh-bp-md: 768px;
+  --bh-bp-lg: 1024px;
 
   /* Hairline rule — TUI texture, distinct from 2px structural border */
   --bh-rule: 1px solid var(--bh-border);
@@ -102,7 +122,7 @@ Per-site accent **desaturation pass** (no new accents — tune existing family s
 | Component | Job | Source |
 |---|---|---|
 | `<TitleCard>` | Wes chapter card: centered Instrument Serif title, hairline rule above/below, mono eyebrow, optional `<Marginalia>` | `TitleCard.tsx` |
-| `<Axis>` | Kubrick centered one-point column; `max-width: var(--bh-axis)`, `margin-inline: auto`; collapses left <768px | `Axis.tsx` |
+| `<Axis>` | Kubrick one-point column. **Mobile-first:** full-width left-aligned <768px; `max-width: var(--bh-axis)`, `margin-inline: auto`, centered ≥768px | `Axis.tsx` |
 | `<RuledSection>` | Hairline top rule + mono section label; wraps a chapter of content | `RuledSection.tsx` |
 | `<StatusLine>` | TUI top status bar: `site · section · status · time`, mono, hairline border | `StatusLine.tsx` |
 | `<TTYFrame>` | Line-drawn hairline frame for data panels (1px, not ASCII) | `TTYFrame.tsx` |
@@ -125,6 +145,8 @@ All exported from the `@synthaembed/ui-fleet` barrel. All client-safe (no new se
 
 Existing `FleetShell` header/footer stay (they carry the org story per 0007). New primitives live inside `<main>`. Non-homepage pages adopt `<Axis>` + `<RuledSection>` incrementally; `<StatusLine>` and `<TitleCard>` are homepage-mandatory, page-optional.
 
+**Mobile-first authoring rule:** write every page's base CSS at 320–479px (single column, left rhythm, touch targets), then add `@media (min-width: 480px)`, `(min-width: 768px)`, `(min-width: 1024px)` enhancements. Never use `max-width` queries. The `<Axis>` component encodes this — it is full-width left-aligned by default and centers itself only at ≥768px.
+
 ### Per-site accent
 Retain the `data-site` accent system in `tokens.css`. Harmonize saturation (above) so all 7 sit in the same Wes-Anderson-muted family. **No new accents.** Site overrides only in per-site `app/globals.css` scoped to `[data-site="…"]`.
 
@@ -140,18 +162,21 @@ None. CSS + React only; no migrations, no API changes.
 2. No pure black anywhere — `rg -i "#000(000)?\b" apps/sites packages/ui-fleet` returns zero matches in CSS values.
 3. Every per-site accent (`--bh-accent`) passes WCAG AA 4.5:1 against `--bh-canvas` text usage — verified by an automated contrast check script in `scripts/` (new).
 4. `pnpm review` passes — all sites build + typecheck.
-5. Centered-axis symmetry on desktop ≥768px; collapses to left-aligned <768px (mobile-first).
-6. All tappable elements ≥44px (audited via the same `scripts/` tool).
-7. `<StatusLine>` renders `site · section · status · time`; `<TitleCard>` present on every homepage.
-8. No new design tokens introduced outside `tokens.css`; site overrides only in per-site `app/globals.css` scoped to `[data-site]`.
-9. `prefers-reduced-motion` disables axis/title reveals (instant render).
-10. New primitives exported from `@synthaembed/ui-fleet` barrel import in at least one site without type errors.
+5. **Mobile-first axis:** `<Axis>` is full-width left-aligned at <768px and centered with `max-width: var(--bh-axis)` at ≥768px. All breakpoints use `@media (min-width: …)`; no `max-width` queries in new CSS — `rg "@media \(max-width" packages/ui-fleet apps/sites` returns zero in files touched by this spec.
+6. No horizontal scroll at 320px viewport width — verified by the visual/screenshots pass and an `overflow-x` audit in `scripts/check-tastemaker.mjs`.
+7. All tappable elements ≥44×44px at every breakpoint (audited via the same `scripts/` tool).
+8. `<StatusLine>` renders `site · section · status · time`; at <480px it reflows to two rows (`site · section` over `status · time`) without truncation. `<TitleCard>` present on every homepage.
+9. No new design tokens introduced outside `tokens.css`; site overrides only in per-site `app/globals.css` scoped to `[data-site]`.
+10. `prefers-reduced-motion` disables axis/title reveals (instant render).
+11. New primitives exported from `@synthaembed/ui-fleet` barrel import in at least one site without type errors.
+12. Body text measure ≤ `--bh-axis-narrow` (640px) on every viewport — no line stretches past readable measure on wide screens.
 
 ## Test plan
 
 - **Unit/type:** `pnpm review` (build + typecheck all sites) — covers primitive exports + usage.
 - **A11y:** new `scripts/check-tastemaker.mjs` (or `.py`) — parses computed CSS values for (a) pure-black, (b) accent-on-canvas contrast ratios, (c) tap-target min sizes from rendered HTML. Runs in CI gate.
-- **Visual:** `scripts/fleet-review.ps1 -Open` screenshots all 7 sites before/after each phase; human (Operator) signs off the look.
+- **Mobile-first audits (in same script):** (d) no `@media (max-width …)` in files touched by this spec, (e) no horizontal overflow at 320px viewport, (f) `<Axis>` computed `text-align` is left at 360px and centered at 800px, (g) `<StatusLine>` stacks at 360px.
+- **Visual:** `scripts/fleet-review.ps1 -Open` screenshots all 7 sites at 320px, 768px, and 1280px before/after each phase; human (Operator) signs off the look at every width.
 - **Symmetry lint:** a grep/AST check that homepage `<main>` contains an `<Axis>` wrapper.
 
 ## Evaluation gate

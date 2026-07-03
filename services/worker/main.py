@@ -90,8 +90,19 @@ def process_job(payload: dict) -> None:
             if metrics:
                 run.log(metrics, step=step)
 
+    feature_encoder = None
+    if bool(recipe.get("freezeBackbone", False)):
+        try:
+            from app.services.models_svc import get_base_encoder
+
+            feature_encoder = get_base_encoder(
+                recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
+            )
+        except Exception as exc:
+            log.warning("resident encoder unavailable, training loads its own: %s", exc)
+
     try:
-        result = train_asn(pairs, recipe, out_dir, progress=_progress)
+        result = train_asn(pairs, recipe, out_dir, progress=_progress, feature_encoder=feature_encoder)
         if run is not None:
             run.set_summary(model_version=result.model_version, effective_rank=result.effective_rank)
             run.finish()
@@ -246,6 +257,17 @@ def run_forever(poll_seconds: float = 2.0) -> None:
         ARTIFACTS_DIR,
         MODEL_REGISTRY_URI or "local",
     )
+    # Pre-warm the resident backbone while the container is otherwise empty:
+    # the ~500 MB torch+model allocation happens ONCE at boot instead of as a
+    # mid-life spike beside live traffic (the OOM signature we kept hitting).
+    try:
+        from app.services.models_svc import get_base_encoder
+
+        get_base_encoder()
+        log.info("resident backbone pre-warmed")
+    except Exception as exc:
+        log.warning("prewarm failed (training will load on demand): %s", exc)
+
     while True:
         job = jobs.claim_next_job()
         if job is None:

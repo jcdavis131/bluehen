@@ -141,6 +141,29 @@ _ENCODER_CACHE_MAX = 2
 _ENCODER_LOCK = __import__("threading").Lock()
 
 
+_BASE_ENCODER: "dict[str, tuple[object, object]]" = {}
+
+
+def get_base_encoder(backbone_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    """Resident plain-backbone encoder (no trained head). Loaded once per
+    process and shared by serving fallbacks, eval, and head-only training
+    feature extraction — a 1 GB container can afford exactly one backbone."""
+    from asn_engine.model import ASNEncoder
+    from transformers import AutoTokenizer
+
+    with _ENCODER_LOCK:
+        cached = _BASE_ENCODER.get(backbone_name)
+        if cached is not None:
+            return cached
+
+    encoder = ASNEncoder(backbone_name=backbone_name)
+    encoder.eval()
+    tok = AutoTokenizer.from_pretrained(backbone_name)
+    with _ENCODER_LOCK:
+        _BASE_ENCODER[backbone_name] = (encoder, tok)
+    return encoder, tok
+
+
 def _load_encoder_cached(ckpt_path: str, artifact: bytes | None = None):
     """Assemble a serving encoder. Preference order:
     1. DB artifact bytes (head-only split — no shared filesystem needed)
@@ -164,6 +187,12 @@ def _load_encoder_cached(ckpt_path: str, artifact: bytes | None = None):
     else:
         with open_checkpoint(ckpt_path) as ckpt:
             state = torch.load(ckpt, map_location="cpu", weights_only=True)
+    if state.get("headOnly"):
+        recipe0 = state.get("recipe", {})
+        bb = state.get("backboneName") or recipe0.get(
+            "baseModel", "sentence-transformers/all-MiniLM-L6-v2"
+        )
+        state["_shared_backbone"] = get_base_encoder(bb)[0]
     encoder, use_head = load_checkpoint_encoder(state)
     recipe = state.get("recipe", {})
     backbone = state.get("backboneName") or recipe.get(

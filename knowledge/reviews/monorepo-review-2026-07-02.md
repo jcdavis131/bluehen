@@ -302,3 +302,24 @@ Python changed (Cursor lane): asn-engine/train_loop.py, eval-harness/runner.py, 
 - Killed all 3 pending (PIDs 43844, 58752, 44404). Re-arming exactly ONE below.
 - NEW RULE for this loop: on a no-op tick (no new commit), do NOT re-arm a new heartbeat if one is already pending. Only re-arm after a heartbeat actually fires.
 - Watcher 844529 still running (the primary signal; unaffected).
+## Run 2026-07-02T21:56:18 (loop tick 9 — watcher occurrence 6; HEAD 76a0d09 → 1486ecc)
+
+### Trigger
+1486ecc feat(design): mobile-first pass on the shared system. CSS-only (ui-fleet base.css + components.css) + run log. No Python, no TS logic.
+
+### Phase 4 — Gates
+- no Python changed → no smoke-import
+- no TS logic changed (CSS only) → typecheck not required
+- commit is additive CSS (mobile-first) — low risk
+
+### Phase 9 — Close-out
+- One e2e path proven: confirmed CSS-only via stat. No gate failure possible.
+- No Cursor-lane action (design lane).
+- Per tick-8 rule: NOT re-arming a new heartbeat (643780 still pending). Watcher 844529 still running.
+## Run 2026-07-02T22:02:46 (loop tick 10 — fallback heartbeat 643780 fired; no new commit)
+
+### No-op tick
+- HEAD: 1486ecc (unchanged since tick 9)
+- 2 changed lines (run log only)
+- heartbeat 643780 fired → earned a single re-arm (tick-8 rule satisfied)
+- watcher 844529 still running

@@ -94,6 +94,7 @@ def train_asn(
     checkpoint_dir: Path,
     *,
     progress: Callable[[dict], None] | None = None,
+    feature_encoder: tuple | None = None,
 ) -> TrainResult:
     from transformers import AutoTokenizer
 
@@ -102,7 +103,7 @@ def train_asn(
         # Head-only path (1 GB prod containers): the frozen backbone's
         # features are constant, so we extract them once and train only the
         # head — peak memory is backbone INFERENCE, not training.
-        return _train_head_only(pairs, recipe, checkpoint_dir, progress=progress)
+        return _train_head_only(pairs, recipe, checkpoint_dir, progress=progress, feature_encoder=feature_encoder)
     backbone = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
     epochs = int(recipe.get("epochs", 3))
     batch_size = min(int(recipe.get("batchSize", 16)), max(2, len(pairs)))
@@ -319,6 +320,7 @@ def _train_head_only(
     checkpoint_dir: Path,
     *,
     progress: Callable[[dict], None] | None = None,
+    feature_encoder: tuple | None = None,
 ) -> TrainResult:
     """Frozen-backbone training that fits a 1 GB container.
 
@@ -335,9 +337,15 @@ def _train_head_only(
 
     backbone_name = recipe.get("baseModel", "sentence-transformers/all-MiniLM-L6-v2")
     device = "cpu"
-    encoder = ASNEncoder(backbone_name=backbone_name).to(device)
-    encoder.eval()
-    tokenizer = AutoTokenizer.from_pretrained(backbone_name)
+    borrowed = feature_encoder is not None
+    if borrowed:
+        # Borrow the process's resident serving backbone: extraction adds
+        # only activations, never a second model (1 GB container survival).
+        encoder, tokenizer = feature_encoder
+    else:
+        encoder = ASNEncoder(backbone_name=backbone_name).to(device)
+        encoder.eval()
+        tokenizer = AutoTokenizer.from_pretrained(backbone_name)
 
     extract_bs = int(recipe.get("extractBatchSize", 4))
 
@@ -359,8 +367,10 @@ def _train_head_only(
     feats_p = _embed_all([p["positive"] for p in pairs])
 
     # Free the backbone before training — this is the memory trick.
-    del encoder, tokenizer
-    gc.collect()
+    # (Borrowed encoders belong to the serving cache; only drop our own.)
+    if not borrowed:
+        del encoder, tokenizer
+        gc.collect()
     try:
         # glibc keeps freed arenas; hand them back to the kernel or the
         # next phase still counts against the cgroup ceiling.

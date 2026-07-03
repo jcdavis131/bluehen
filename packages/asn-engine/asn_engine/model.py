@@ -63,6 +63,26 @@ class ASNEncoder(nn.Module):
         return self.head(z1)
 
 
+class HeadServingEncoder(nn.Module):
+    """Serving wrapper for head-only checkpoints: shares a resident backbone
+    module (inference-only) while owning its OWN head — multiple tenants'
+    models can share one backbone without clobbering each other's heads."""
+
+    def __init__(self, backbone: nn.Module, head: nn.Module) -> None:
+        super().__init__()
+        self.backbone = backbone
+        self.head = head
+
+    @torch.no_grad()
+    def encode(self, input_ids: Tensor, attention_mask: Tensor, *, use_head: bool = True) -> Tensor:
+        out = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
+        z1 = mean_pool(out.last_hidden_state, attention_mask)
+        if not use_head:
+            return z1
+        self.head.eval()
+        return self.head(z1)
+
+
 def load_checkpoint_encoder(state: dict) -> tuple["ASNEncoder", bool]:
     """Build a serving encoder from a checkpoint state dict.
 
@@ -79,12 +99,13 @@ def load_checkpoint_encoder(state: dict) -> tuple["ASNEncoder", bool]:
         head_sd = state["head"]
         hidden_dim = head_sd["net.0.weight"].shape[0]
         out_dim = head_sd["net.3.weight"].shape[0]
-        encoder = ASNEncoder(backbone_name=backbone)
-        in_dim = encoder.backbone.config.hidden_size
-        encoder.head = ProjectionHead(in_dim, hidden_dim=hidden_dim, out_dim=out_dim)
-        encoder.head.load_state_dict(head_sd)
-        encoder.eval()
-        return encoder, True
+        base = state.get("_shared_backbone")  # optional resident encoder
+        backbone_module = base.backbone if base is not None else ASNEncoder(backbone_name=backbone).backbone
+        in_dim = backbone_module.config.hidden_size
+        head = ProjectionHead(in_dim, hidden_dim=hidden_dim, out_dim=out_dim)
+        head.load_state_dict(head_sd)
+        head.eval()
+        return HeadServingEncoder(backbone_module, head), True
     encoder = ASNEncoder(backbone_name=backbone)
     encoder.load_state_dict(state["model"])
     encoder.eval()

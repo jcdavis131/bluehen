@@ -281,11 +281,25 @@ def run_forever(poll_seconds: float = 2.0) -> None:
         log.warning("prewarm failed (training will load on demand): %s", exc)
 
     while True:
-        job = jobs.claim_next_job()
+        try:
+            job = jobs.claim_next_job()
+        except Exception as exc:
+            log.warning("claim_next_job failed (retrying): %s", exc)
+            time.sleep(poll_seconds * 5)
+            continue
         if job is None:
             time.sleep(poll_seconds)
             continue
-        process_job(job)
+        try:
+            process_job(job)
+        except Exception as exc:
+            # The loop must outlive any job: an uncaught error here used to
+            # kill the (unsupervised) thread silently and strand the queue.
+            log.exception("process_job crashed job=%s: %s", job.get("id"), exc)
+            try:
+                jobs.fail_job(job["id"], job["workspace_id"], f"worker crash: {exc}")
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":

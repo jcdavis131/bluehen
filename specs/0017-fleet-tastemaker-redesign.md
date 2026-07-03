@@ -199,6 +199,7 @@ Phases are sequenced as SITE-* tasks in `config/work_queue.json` (queued separat
 
 - **Kubrick coldness vs Wes warmth** — risk of reading sterile. Mitigation: warm-ink canvas (not pure black) + muted-pastel accents + Instrument Serif humanism on titles.
 - **TUI borders overwhelming** — risk of visual noise. Mitigation: hairline `--bh-rule` (1px) is distinct from structural 2px borders; never mix the two within one panel; TUI texture only on `<StatusLine>` and `<TTYFrame>`.
-- **Symmetry breaks on mobile** — centered axis can feel cramped <768px. Mitigation: `<Axis>` collapses to left-aligned below 768px (Acceptance #5); symmetry is a desktop property.
+- **Symmetry arrives late, not never** — mobile-first means the centered axis engages at ≥768px; below that the page is left-aligned. Risk: the desktop "Kubrick" feel reads as absent on mobile. Mitigation: title cards and hairline rules still carry the voice at 320px; symmetry is one register of the voice, not the whole of it.
 - **Desaturation drift** — tuning accents could push a site below AA. Mitigation: automated contrast check (Acceptance #3) gates the change.
+- **Mobile-first discipline slips** — risk of authors reaching for `max-width` queries or desktop-first layouts. Mitigation: Acceptance #5 forbids `max-width` queries in spec-touched files; the `check-tastemaker.mjs` script enforces it.
 - **Scope creep into IA** — tempting to restructure pages. Mitigation: Non-goal #1; this spec is visual voice only.

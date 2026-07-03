@@ -346,3 +346,27 @@ Python changed (Cursor lane): asn-engine/model.py + train_loop.py, core-api/serv
 - Per tick-8 rule: NOT re-arming heartbeat (806745 still pending). Watcher 844529 still running.
 ## Run 2026-07-02T22:23:42 (loop tick 12 — fallback 806745 fired; no new commit past 376ff58; 1 changed line. No-op. Re-arming one heartbeat (earned). Watcher 844529 still running.)
 
+## Run 2026-07-02T22:39:44 (loop tick 13 — watcher occurrences 7+8; HEAD 376ff58 → d0545c8 → f65b8d7)
+
+### Trigger
+Two commits, both worker (Cursor lane):
+- d0545c8 debug(worker): stage instrumentation on the claim path + GIL-yielding extraction
+- f65b8d7 fix(worker): overlay server DEFAULT_RECIPE onto stored job recipes
+Both touch services/worker/main.py.
+
+### Phase 4 — Gates
+- smoke-import services.worker.main: ok
+- worker tests: NONE EXIST (services/worker has no test_*.py) — smoke-import is the only cheap gate available
+- Corpus: 0 test cases — note this gap. Worker logic is untested at the unit level; covered only by core-api integration tests (deferred, BLK-DOCKER).
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 8 — Triage (finding)
+- Worker has no unit tests. This is a coverage gap worth a future task (worker is prod-critical: training jobs, GIL-yielding extraction, recipe overlay). Logged, not fixed this tick.
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import worker.main → ok. Both commits import clean.
+- Per tick-8 rule: NOT re-arming heartbeat (648265 still pending). Watcher 844529 still running.
+## Run 2026-07-02T22:44:02 (loop tick 14 — fallback 648265 fired; no new commit past f65b8d7. No-op. Re-arming one heartbeat (earned). Watcher 844529 still running.)
+
+## Run 2026-07-02T23:04:30 (loop tick 15 — fallback 556922 fired; no new commit past f65b8d7. Repo quiet ~26m. No-op. Re-arming one heartbeat (earned). Watcher 844529 still running.)
+

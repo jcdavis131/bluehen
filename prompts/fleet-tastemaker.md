@@ -46,8 +46,9 @@ axis, you give it one.
 - **Never introduce design tokens outside `tokens.css`.** Site overrides only in per-site `app/globals.css` scoped to `[data-site]`.
 - **One accent per site.** Use the existing `data-site` accent system. Do not invent new accents. The desaturation pass tunes the existing family, it does not add to it.
 - **WCAG AA or don't ship.** Every accent on `--bh-canvas` must clear 4.5:1 for text. The `scripts/check-tastemaker.mjs` gate enforces this.
-- **Symmetry is a desktop property.** Centered axis ≥768px; collapse to left-aligned <768px. Mobile-first.
-- **Tap targets ≥44px.** No exceptions for interactive elements.
+- **Symmetry is a desktop property — mobile-first is the floor.** Author every page at 320px first (single column, left rhythm, ≥44px touch targets), then enhance upward with `@media (min-width: …)`. The centered `<Axis>` engages at ≥768px; below that it is full-width left-aligned. **Never use `max-width` media queries** in spec-touched files.
+- **Tap targets ≥44px.** No exceptions for interactive elements, at any breakpoint.
+- **No horizontal scroll at 320px.** Every page passes an `overflow-x` audit at the smallest viewport.
 - **`pnpm review` must pass** before any task is marked done.
 - **Minimize diff scope; match surrounding conventions.** Additive tokens, new primitive files, converted homepages. No rewrites.
 - **No inline imports.** Per workspace rule — imports at top of file.
@@ -57,14 +58,16 @@ axis, you give it one.
 
 Run these against every change before you call it done:
 
-1. **Axis:** does the page have a centered `<Axis>`? If not, give it one.
-2. **Overture:** does the homepage open with a `<TitleCard>`? Every homepage does.
-3. **Spacing:** is every gap a multiple of the `--bh-space-*` scale? No ad-hoc padding.
-4. **Borders:** within a single panel, borders are *either* 2px structural *or* 1px hairline (`--bh-rule`), never mixed.
-5. **Motion:** slow, Kubrick pushes (`--bh-duration-axis`, `--bh-ease-out`). No bouncy easings. `prefers-reduced-motion` → instant.
-6. **Copy:** evidence-first, enterprise B2B per `VOICE_AND_PLATFORM.md`. Title-card eyebrows are mono; titles are Instrument Serif; marginalia is short and factual.
-7. **Negative space:** sections separated by `--bh-space-16` where the content warrants a breath. Crowding is a bug.
-8. **Accent restraint:** glow only on focus/active. Accents color state, not decoration.
+1. **Axis:** does the page have a centered `<Axis>` (≥768px) / full-width left-aligned `<Axis>` (<768px)? If not, give it one.
+2. **Mobile-first authoring:** is the base CSS written at 320px, then enhanced with `min-width` breakpoints? If you see a `max-width` query, remove it.
+3. **Overture:** does the homepage open with a `<TitleCard>`? Every homepage does.
+4. **Spacing:** is every gap a multiple of the `--bh-space-*` scale? No ad-hoc padding.
+5. **Borders:** within a single panel, borders are *either* 2px structural *or* 1px hairline (`--bh-rule`), never mixed.
+6. **Motion:** slow, Kubrick pushes (`--bh-duration-axis`, `--bh-ease-out`). No bouncy easings. `prefers-reduced-motion` → instant.
+7. **Copy:** evidence-first, enterprise B2B per `VOICE_AND_PLATFORM.md`. Title-card eyebrows are mono; titles are Instrument Serif; marginalia is short and factual.
+8. **Negative space:** sections separated by `--bh-space-16` where the content warrants a breath. Crowding is a bug.
+9. **Accent restraint:** glow only on focus/active. Accents color state, not decoration.
+10. **Touch + measure:** ≥44px tap targets everywhere; body measure ≤ `--bh-axis-narrow` (640px) on every viewport.
 
 ## The spine — every homepage
 
@@ -81,13 +84,15 @@ Run these against every change before you call it done:
 
 Non-homepage pages adopt `<Axis>` + `<RuledSection>` incrementally; `<StatusLine>` and `<TitleCard>` are homepage-mandatory, page-optional.
 
+**Mobile-first authoring:** write the base CSS at 320–479px (single column, left rhythm, touch targets), then add `@media (min-width: 480px)`, `(min-width: 768px)`, `(min-width: 1024px)` enhancements. Never use `max-width` queries. `<Axis>` is full-width left-aligned by default and centers itself only at ≥768px. `<StatusLine>` stacks to two rows <480px.
+
 ## Operating loop
 
 1. **Claim** a SITE-* task from the queue: `uv run python scripts/pick_task.py list` → `claim <ID> --agent cursor`.
 2. **Read** spec 0017 §Rollout to find your phase. Implement in `ui-fleet` first (tokens + primitives), then in the pilot site.
 3. **Build:** `pnpm review` (all sites build + typecheck). Fix until green.
 4. **A11y gate:** run `scripts/check-tastemaker.mjs` (create if missing — see spec §Test plan): pure-black, accent contrast, tap-target sizes.
-5. **Screenshots:** `.\scripts\fleet-review.ps1 -Open` on Windows. Compare before/after.
+5. **Screenshots:** `.\scripts\fleet-review.ps1 -Open` on Windows — capture 320px, 768px, and 1280px widths. Compare before/after at every width.
 6. **Done:** `uv run python scripts/pick_task.py done <ID>` then `pick_task.py render`.
 7. **End-of-session:** post a before/after screenshot and a one-paragraph taste self-review against the Kubrick/Wes/TUI criteria above.
 

@@ -19,7 +19,7 @@
 
 | Work | Owner | State |
 |---|---|---|
-| Prod training — research (200 pairs) | worker | **Attempt #5 (root cause SOLVED)**: cgroup memory.max=1GB (Railway plan limit, not 8GB) OOM-killed the worker each run, leaving a silent zombie. Fix: freezeBackbone head-only recipe (fits 1GB) + supervised worker restart loop. ESCALATION: plan upgrade needed for full fine-tune |
+| Prod training — research (200 pairs) | worker | **BLOCKED ON PLAN LIMIT**: even head-only, two torch runtimes (api + worker) exceed the 1GB container at import time — worker OOMs at model load; supervisor keeps retrying. **THE UNBLOCK: $5 Railway plan upgrade (8GB)** or head-only artifact split (backbone from HF at serve, head in DB). Operator decision |
 | 3 queued training jobs (dumbmodel, storefront, validation) | worker | Pending behind research; tiny corpora — expect `insufficient pairs` fails or fail-closed gates (honest outcomes) |
 | REV-904 durable leads (`Lead` model + migration 007 landed; endpoint WIP) | cursor | In progress in working tree; tests green with it |
 | REV-907/911 hardening (weights_only, embed caps) | claude | Committed; **deploys on next Railway restart window** (not worth killing training) |

@@ -1,4 +1,6 @@
 import data from "../../data/research_lab.json";
+import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
+import { getSiteNav } from "@synthaembed/fleet";
 
 export const metadata = {
   title: "Research Lab — Blue Hen RE",
@@ -16,25 +18,26 @@ type Method = {
 };
 
 // Visual treatment per pipeline stage (keyed to data.stages, in order).
+// Accent + tint use the shared design-system stage tokens (tokens.css).
 const STAGE_STYLE: Record<string, { accent: string; tint: string; blurb: string }> = {
   "In Research": {
-    accent: "#3d8bfd",
-    tint: "rgba(61, 139, 253, 0.10)",
+    accent: "var(--bh-stage-rd)",
+    tint: "var(--bh-stage-rd-tint)",
     blurb: "Under active investigation in the research org — measured, but not yet promoted.",
   },
   "Promoted to Business Development": {
-    accent: "#e8c547",
-    tint: "rgba(232, 197, 71, 0.10)",
+    accent: "var(--bh-stage-validate)",
+    tint: "var(--bh-stage-validate-tint)",
     blurb: "Earned its keep in research. Handed to Business Development for real-world tenant pilots.",
   },
   "In Execution": {
-    accent: "#5cb87a",
-    tint: "rgba(92, 184, 122, 0.10)",
+    accent: "var(--bh-stage-prod)",
+    tint: "var(--bh-stage-prod-tint)",
     blurb: "Validated and shipped — part of the production serving / training path today.",
   },
   "Archived (rejected)": {
-    accent: "#d96565",
-    tint: "rgba(217, 101, 101, 0.08)",
+    accent: "var(--bh-stage-retired)",
+    tint: "var(--bh-stage-retired-tint)",
     blurb: "Tested honestly and rejected. Kept here so we don't re-litigate dead ends.",
   },
 };
@@ -42,25 +45,29 @@ const STAGE_STYLE: Record<string, { accent: string; tint: string; blurb: string 
 // Status badge colour, derived from the measured verdict.
 function statusColor(status: string): { color: string; border: string } {
   const s = status.toLowerCase();
-  if (s.startsWith("rejected")) return { color: "#d96565", border: "#4a2a2a" };
-  if (s.startsWith("validating")) return { color: "#e8c547", border: "#4a4020" };
-  if (s.startsWith("measured")) return { color: "#5cb87a", border: "#2a4a32" };
-  return { color: "var(--fleet-muted)", border: "var(--fleet-border)" };
+  if (s.startsWith("rejected")) return { color: "var(--bh-stage-retired)", border: "var(--bh-danger-dim)" };
+  if (s.startsWith("validating")) return { color: "var(--bh-stage-validate)", border: "var(--bh-clay-dim)" };
+  if (s.startsWith("measured")) return { color: "var(--bh-stage-prod)", border: "var(--bh-moss-dim)" };
+  return { color: "var(--bh-muted)", border: "var(--bh-border)" };
 }
 
 export default function ResearchLabPage() {
   const { title, subtitle, updated, evidenceProgram, stages, methods } = data;
   const byStage = (stage: string) => (methods as Method[]).filter((m) => m.stage === stage);
+  const nav = getSiteNav("research");
 
   return (
     <>
-      <p className="fleet-badge ok">Research Lab · Blue Hen RE</p>
-      <h1 style={{ fontSize: 28, margin: "12px 0 8px" }}>{title}</h1>
-      <p style={{ opacity: 0.78, marginBottom: 16, maxWidth: 760, lineHeight: 1.5 }}>{subtitle}</p>
+      <PageHeader
+        eyebrow="Research Registry · arxiviq.com"
+        title={title}
+        lead={subtitle}
+      />
+      <SiteSubnav items={nav} currentPath="/research-lab" />
 
-      <p style={{ fontSize: 13, color: "var(--fleet-muted)", marginBottom: 24 }}>
+      <p style={{ fontSize: 13, color: "var(--bh-muted)", marginBottom: 24 }}>
         Based on{" "}
-        <strong style={{ color: "var(--fleet-text)" }}>
+        <strong style={{ color: "var(--bh-text)" }}>
           {evidenceProgram.totalRuns.toLocaleString()} runs
         </strong>{" "}
         and {evidenceProgram.trainings.toLocaleString()} trainings · evidence:{" "}

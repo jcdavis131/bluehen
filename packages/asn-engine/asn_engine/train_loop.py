@@ -303,6 +303,7 @@ def train_head_on_features(
             opt.step()
             last_loss = float(loss.item())
             global_step += 1
+            __import__("time").sleep(0.02)  # co-tenant server keeps breathing
             if progress:
                 progress({"epoch": epoch, "step": global_step, "loss": last_loss,
                           "effectiveRank": 0.0, "surgeries": 0})
@@ -349,6 +350,15 @@ def _train_head_only(
 
     extract_bs = int(recipe.get("extractBatchSize", 4))
 
+    # In-process training shares the container with a live server: leave a
+    # core for request handling and yield the GIL between batches so
+    # healthchecks keep answering (Railway restarts "unhealthy" containers —
+    # a saturated GIL reads as dead).
+    import time as _time
+
+    torch.set_num_threads(1)
+    yield_s = float(recipe.get("extractYieldMs", 50)) / 1000.0
+
     def _embed_all(texts: list[str]) -> Tensor:
         outs = []
         with torch.no_grad():
@@ -358,12 +368,18 @@ def _train_head_only(
                                   max_length=int(recipe.get("extractMaxLength", 256)),
                                   return_tensors="pt")
                 outs.append(encoder.encode(batch["input_ids"], batch["attention_mask"]))
+                if yield_s > 0:
+                    _time.sleep(yield_s)
                 if progress and start % (extract_bs * 10) == 0:
                     progress({"epoch": -1, "step": start, "loss": None,
                               "effectiveRank": None, "surgeries": 0})
         return torch.cat(outs, dim=0)
 
+    if progress:
+        progress({"epoch": -1, "step": -1, "loss": None, "effectiveRank": None, "surgeries": 0})
     feats_a = _embed_all([p["anchor"] for p in pairs])
+    if progress:
+        progress({"epoch": -1, "step": -2, "loss": None, "effectiveRank": None, "surgeries": 0})
     feats_p = _embed_all([p["positive"] for p in pairs])
 
     # Free the backbone before training — this is the memory trick.

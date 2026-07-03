@@ -323,3 +323,26 @@ Python changed (Cursor lane): asn-engine/train_loop.py, eval-harness/runner.py, 
 - 2 changed lines (run log only)
 - heartbeat 643780 fired → earned a single re-arm (tick-8 rule satisfied)
 - watcher 844529 still running
+## Run 2026-07-02T22:22:29 (loop tick 11 — watcher occurrence 7; HEAD 1486ecc → 376ff58)
+
+### Trigger
+376ff58 feat(prod): resident-backbone architecture — one backbone per process, ever.
+Python changed (Cursor lane): asn-engine/model.py + train_loop.py, core-api/services/models_svc.py, services/worker/main.py.
+
+### Phase 4 — Gates (affected, exact counts)
+- smoke-import asn-engine.model + train_loop: ok
+- smoke-import core-api.services.models_svc: ok
+- smoke-import services.worker.main: ok
+- pytest packages/asn-engine/tests (test_head_only, test_spectral, test_sleep): 19 passed, 0 skipped, 0 failed (2.45s)
+- Corpus: 19 cases (asn-engine head-only/spectral/sleep). Gate meaningful at this corpus size.
+- core-api tests: DEFERRED — need Postgres (BLK-DOCKER); smoke-import is the available cheap gate.
+- TS typecheck: deferred (BLK-DISK)
+
+### Phase 5 — Guards
+- no bypass flags; structural root-cause fix (one backbone per process = kills the dual-runtime OOM class permanently)
+
+### Phase 9 — Close-out
+- One e2e path proven: smoke-import 4 modules → asn-engine pytest 19/19 green. Prod-critical Python change gated.
+- Per tick-8 rule: NOT re-arming heartbeat (806745 still pending). Watcher 844529 still running.
+## Run 2026-07-02T22:23:42 (loop tick 12 — fallback 806745 fired; no new commit past 376ff58; 1 changed line. No-op. Re-arming one heartbeat (earned). Watcher 844529 still running.)
+

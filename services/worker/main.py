@@ -55,6 +55,7 @@ def process_job(payload: dict) -> None:
     if len(pairs) < 10:
         jobs.fail_job(job_id, workspace_id, "insufficient pairs")
         return
+    log.info("stage: pairs fetched (%d)", len(pairs))
 
     out_dir = workspace_dir(workspace_id)
     log.info("training job %s workspace %s site=%s pairs=%d", job_id, workspace_id, site_id, len(pairs))
@@ -73,10 +74,11 @@ def process_job(payload: dict) -> None:
         )
     except Exception as exc:  # telemetry must never block training
         log.warning("runboard unavailable: %s", exc)
+    log.info("stage: runboard ready")
 
     def _progress(m: dict) -> None:
         step = int(m.get("step", 0))
-        if step % 20 == 0:
+        if step < 0 or step % 20 == 0:
             log.info(
                 "train progress site=%s epoch=%s step=%s loss=%s er=%s surgeries=%s",
                 site_id, m.get("epoch"), step, m.get("loss"), m.get("effectiveRank"), m.get("surgeries"),
@@ -100,6 +102,7 @@ def process_job(payload: dict) -> None:
             )
         except Exception as exc:
             log.warning("resident encoder unavailable, training loads its own: %s", exc)
+    log.info("stage: encoder borrowed=%s", feature_encoder is not None)
 
     try:
         result = train_asn(pairs, recipe, out_dir, progress=_progress, feature_encoder=feature_encoder)

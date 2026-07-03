@@ -109,6 +109,43 @@ export default async function HubPage() {
 
         <ReturnGreeting ledger={ledger} />
 
+        <RuledSection label="The organization">
+          <p className="bh-card__body" style={{ maxWidth: 640, marginBottom: 18 }}>
+            {BRAND.name} is one company operating {""}
+            {listSites({ status: "active" }).filter((s) => s.orgRole === "business-unit").length}{" "}
+            business units on a single governed lifecycle — each one a
+            user-facing product that builds, serves, and earns. This site is
+            the company itself: the story, the store, and the gates everything
+            ships through.
+          </p>
+          <div className="bh-grid bh-grid--2">
+            {listSites({ status: "active" })
+              .filter((s) => s.orgRole === "business-unit" && s.domain)
+              .map((s, i) => {
+                const stop = getSiteCircuit(s.id);
+                return (
+                  <Reveal key={s.id} index={i}>
+                    <a href={siteHref(s)} className="bh-card" style={{ display: "block", height: "100%" }}>
+                      <p className="bh-card__title">{stop?.stop ?? s.name}</p>
+                      <p className="bh-card__body">{stop?.role ?? s.role}</p>
+                      <p className="bh-meta" style={{ marginTop: 8 }}>
+                        {s.domain} · a {BRAND.name} company
+                      </p>
+                    </a>
+                  </Reveal>
+                );
+              })}
+          </div>
+          <p className="bh-meta" style={{ marginTop: 14 }}>
+            Internal operations —{" "}
+            {listSites({ status: "active" })
+              .filter((s) => s.orgRole === "internal")
+              .map((s) => getSiteCircuit(s.id)?.stop ?? s.name)
+              .join(" · ")}{" "}
+            — run in the open on the same registry.
+          </p>
+        </RuledSection>
+
         <RuledSection label="Quick paths">
           <div className="bh-stack" style={{ gap: 16 }}>
             <div

@@ -812,9 +812,10 @@
       "command": "packages/ui-fleet \u2014 add additive tokens (--bh-axis, --bh-axis-wide, --bh-rule, --bh-rule-strong, --bh-card-title-bg, --bh-status-bar-bg, --bh-duration-axis) to tokens.css; build TitleCard, Axis, RuledSection, StatusLine, TTYFrame, Marginalia; export all from @synthaembed/ui-fleet barrel. No site changes. No pure black.",
       "acceptance": "pnpm review green; no #000/#000000 in CSS values; 6 primitives exported and import without type errors in at least one site; prefers-reduced-motion disables axis/title reveals (instant).",
       "note": "Operating prompt: prompts/fleet-tastemaker.md. Voice = enterprise B2B. Symmetry is a desktop property (collapse <768px). Tap targets >=44px. Additive tokens only \u2014 never remove existing tokens.",
-      "claimedBy": "cursor",
+      "claimedBy": "claude",
       "claimedAt": "2026-07-03T02:04:11.153686+00:00",
-      "completedAt": "2026-07-03T02:07:38.003919+00:00"
+      "completedAt": "2026-07-03T02:07:38.003919+00:00",
+      "notes": "Company-site org section live: registry-driven BU grid (orgRole=business-unit) with team+offer roles and a-Blue-Hen-RE-company bylines; internal consoles named transparently. Full hero rework deferred; grid is the normative piece."
     },
     {
       "id": "SITE-015",
@@ -967,10 +968,11 @@
     {
       "id": "SITE-014",
       "title": "Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
-      "notes": "Spec 0019 \u00a73; hero = the company; store/pricing follow"
+      "notes": "Company-site org section live: registry-driven BU grid (orgRole=business-unit) with team+offer roles and a-Blue-Hen-RE-company bylines; internal consoles named transparently. Full hero rework deferred; grid is the normative piece.",
+      "claimedBy": "claude"
     },
     {
       "id": "SITE-015",

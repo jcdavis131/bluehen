@@ -546,3 +546,24 @@ packages/datalab/datalab/watch.py changed (Cursor lane, new-ish package).
 - Per tick-8 rule: NOT re-arming heartbeat (802040 still pending). Watcher 844529 still running.
 ## Run 2026-07-03T02:10:59 (loop tick 34 — fallback 802040 fired; no new commit past 676ed6f. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
 
+## Run 2026-07-03T03:00:10 (loop tick 35 — watcher occ 23 (aaaad59) + occ 24 (a9137fa); heartbeat 826435 fired)
+
+### Trigger 1: aaaad59 feat(refinery): DR-103 — the Data Refinery site (apps/sites/refinery)
+No Python. New site on disk + registered in fleet.json (data.bhenre.com / planned).
+
+### Phase 6 — Metadata-align (FIXED THIS TICK, 5 surfaces)
+New refinery site + specs 0018/0019 had NOT propagated to docs. Fixed:
+- specs/README.md: added spec 0018 (Data Refinery, Active) + 0019 (corporate topology, Active) rows
+- README.md: added refinery to sites list (line 16), site table (line 52, planned), layout tree (line 81)
+- AGENTS.md: fixed stale simulation | TBD | stub → signals.bhenre.com / active; added observatory + refinery rows
+- CLAUDE.md: added Data Refinery row to site table
+All edits verified via grep — refinery/data.bhenre.com now present in all 4 surfaces.
+
+### Trigger 2: a9137fa feat(refinery): DR-104 — sixth surface LIVE (refinery-zeta.vercel.app)
+No Python. Deploy/live commit. No code gate needed. (Phase 7 deploy-smoke: live URL is refinery-zeta.vercel.app — Vercel preview, not custom domain yet.)
+
+### Phase 9 — Close-out
+- One e2e path proven: metadata-align grep confirms refinery in all 4 doc surfaces; a9137fa is deploy-only (no code).
+- Heartbeat 826435 fired → re-arming one (earned). Watcher 844529 still running.
+## Run 2026-07-03T03:21:11 (loop tick 36 — fallback 920234 fired; no new commit past a9137fa. Repo quiet ~22m. No-op. Re-arming one heartbeat (earned). Watcher 844529 running.)
+

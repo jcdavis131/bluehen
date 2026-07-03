@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArxivExamDemo } from "../components/ArxivExamDemo";
 import {
   Axis,
+  CrossSellStrip,
   Marginalia,
   RuledSection,
   StatusLine,
@@ -84,6 +85,8 @@ export default function ResearchRagPage() {
             </Marginalia>
           </div>
         </RuledSection>
+
+        <CrossSellStrip siteId="research" />
       </Axis>
     </>
   );

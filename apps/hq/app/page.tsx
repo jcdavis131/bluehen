@@ -86,7 +86,21 @@ export default async function HqPage() {
             The org hub — every venture, one {BRAND.operatingLoop}.{" "}
             <Link href="/actions">Lifecycle controls →</Link>
           </p>
+          <p className="bh-meta" style={{ marginTop: "var(--bh-space-2)" }}>
+            This is the internal operations console for {BRAND.name}. The public company site is{" "}
+            <a href="https://bhenre.com">bhenre.com</a>.
+          </p>
         </TitleCard>
+
+        {!ADMIN && (
+          <div className="bh-alert bh-alert--warn" style={{ marginBottom: "var(--bh-space-8)" }}>
+            <strong>Admin key not configured.</strong> The <code>API_SECRET_KEY</code> environment
+            variable is not set on this server, so admin panels are disabled — fleet status, active
+            tenant counts, and the BD promotion panel will not load. Set <code>API_SECRET_KEY</code>{" "}
+            (or <code>SYNTH_ADMIN_KEY</code>) in the hosting environment (or a local{" "}
+            <code>.env</code>) to the core-api admin key and redeploy to enable them.
+          </div>
+        )}
 
         <RuledSection label="Operating state">
           <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>
@@ -99,7 +113,7 @@ export default async function HqPage() {
             <div className="bh-card">
               <div className="bh-label">Active tenants</div>
               <div className="bh-stat">
-                {fleet ? `${fleet.count} workspaces` : ADMIN ? "—" : "Set API_SECRET_KEY"}
+                {fleet ? `${fleet.count} workspaces` : ADMIN ? "—" : "Admin key not set"}
               </div>
             </div>
             <div className="bh-card">

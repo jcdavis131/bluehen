@@ -1122,6 +1122,16 @@
       "notes": "Admin-keyed dashboard on hq. Pulls from billing_usage_events + Medusa orders + certifications. Shows passive (P1-P6) vs active (A1-A5) MRR split with per-BU attribution. TOPO-002 (cross-BU checkout attribution) feeds the BU split."
     },
     {
+      "id": "BD-703",
+      "division": "bd",
+      "lane": "claude",
+      "priority": "P1",
+      "title": "Cert-driven research intake: walk one health-check failure through ticket -> hill-climb -> gate -> BD queue -> registry entry (Spec 0021)",
+      "status": "ready",
+      "spec": "0021",
+      "notes": "First end-to-end pass of the business operating loop. Source: a dumbmodel/fleet health-check failing slice (paid certs count when they exist). Opens an AR-* ticket with the Spec 0021 `source` block, runs the existing 0012 loop, publishes the fix on the research registry with origin + dates. Manual protocol v1; mechanical pick_task.py enforcement only if the source rule gets violated. Internal corpora qualify per policy rule 4, so nothing blocks this."
+    },
+    {
       "id": "AR-310",
       "title": "Re-measure champion under fixed-seed repeats (5x) \u2014 is baseline 1.465 reproducible?",
       "status": "done",

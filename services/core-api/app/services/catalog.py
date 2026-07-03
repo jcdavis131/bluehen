@@ -191,7 +191,19 @@ def get_sample(slug_or_id: str) -> dict | None:
         return {"slug": row.slug, "chunks": row.sample[:MAX_SAMPLE_CHUNKS]}
 
 
+_STATS_CACHE: dict = {"at": 0.0, "value": None}
+_STATS_TTL_S = 60.0  # matches the route's s-maxage
+
+
 def stats() -> dict:
+    """Aggregates behind a short in-process cache (spec §5.1: no full-table
+    scans on hot paths — the CDN caches 60s, so origin recomputes at most
+    once per window per instance)."""
+    import time as _time
+
+    now = _time.time()
+    if _STATS_CACHE["value"] is not None and now - _STATS_CACHE["at"] < _STATS_TTL_S:
+        return _STATS_CACHE["value"]
     with db_session() as session:
         datasets, docs, chunks = session.execute(
             select(
@@ -201,12 +213,14 @@ def stats() -> dict:
             )
         ).one()
         last = session.scalar(select(func.max(CatalogDataset.updated_at)))
-        return {
+        out = {
             "datasets": int(datasets),
             "docs": int(docs),
             "chunks": int(chunks),
             "lastSyncAt": last.isoformat() if last else None,
         }
+    _STATS_CACHE.update(at=now, value=out)
+    return out
 
 
 def submit(workspace_id: uuid.UUID, texts: list[str], consent: bool, tags: list[str]) -> dict:

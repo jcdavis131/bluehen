@@ -4,7 +4,7 @@
 > Queue detail: [TASKS.md](../TASKS.md) · Session context: [HANDOFF.md](../HANDOFF.md) ·
 > Deep review: [docs/reviews/deep-review-2026-07-02.md](./reviews/deep-review-2026-07-02.md)
 
-**Last updated: 2026-07-03 ~06:20 UTC**
+**Last updated: 2026-07-03 ~17:40 UTC**
 
 ## Production surfaces
 
@@ -25,13 +25,20 @@
 | REV-907/911 hardening (weights_only, embed caps) | claude | Committed; **deploys on next Railway restart window** (not worth killing training) |
 | Spec 0016 dumbmodel game layer | operator gate | Draft — awaiting game-set + consent sign-off; phase 3 blocked on rate limiting |
 
-## Data Refinery (Spec 0018 — building)
+## Data Refinery (Spec 0018 — LAUNCHED, all phases complete)
 
-Data plane LIVE in prod: /v1/catalog/* (6 datasets · 10 docs · 103
-chunks, measured), consent-gated submit, per-IP rate limits, on-demand
-harvest queue — verified with a live arXiv RSS collection (job
-a125b5ee: collected, +27 chunks). DR-101/102 done; DR-103 site (cursor)
-+ DR-104 wiring next. Corporate topology (Spec 0019) live in chrome.
+Sixth business unit fully operational: live site (refinery-zeta.vercel.app,
+copper identity), data plane (6 datasets · 103 chunks, on-demand harvests
+proven), consent flywheel (contribute → hq review → approve → catalog),
+Division Ops console at jcamd.com/ops, measured load posture (EVIDENCE
+3.10), 5-SME launch review done (BLOCK + 3 honesty violations fixed
+same-hour). OPEN: G1 data.bhenre.com attach (Operator), erasure tooling,
+Redis-backed limiter on scale-out.
+
+## Corporate topology (Spec 0019 — closed both directions)
+
+Company site presents all BUs from the registry; every BU signs itself
+back with a TeamStrip. orgRole drives all chrome.
 
 ## Shipped today (highlights)
 

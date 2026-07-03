@@ -1,5 +1,6 @@
 import {
   Axis,
+  ExplorationTracker,
   Marginalia,
   RuledSection,
   StatusLine,
@@ -10,6 +11,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import marketPlatforms from "../../../../../../config/market-platforms.json";
 import { WaitlistForm } from "../../../components/WaitlistForm";
+import { SIM_SURFACES } from "../../../components/surfaces";
 
 /** Public explainer for one simulated platform (UX-103, Spec 0020).
  *
@@ -177,6 +179,12 @@ synth omni simulate ${entry.id} --strategy baseline-momentum`}
             Phase C live trading is deferred under the v1 guardrail.
           </Marginalia>
         </RuledSection>
+
+        {/* Records this explainer as visited (localStorage, this origin only)
+            so the homepage tracker reflects real exploration — UX-120. */}
+        <div style={{ margin: "var(--bh-space-4) 0 0" }}>
+          <ExplorationTracker surfaces={SIM_SURFACES} currentId={entry.id} />
+        </div>
 
         <p style={{ margin: "var(--bh-space-6) 0" }}>
           <Link href="/" className="bh-link">

@@ -295,6 +295,15 @@ def run_forever(poll_seconds: float = 2.0) -> None:
             time.sleep(poll_seconds * 5)
             continue
         if job is None:
+            try:
+                from app.services.harvest import claim_next_harvest, run_harvest_job
+
+                hjob = claim_next_harvest()
+                if hjob is not None:
+                    run_harvest_job(hjob)
+                    continue
+            except Exception as exc:
+                log.warning("harvest poll failed: %s", exc)
             time.sleep(poll_seconds)
             continue
         try:

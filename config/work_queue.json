@@ -914,10 +914,11 @@
     {
       "id": "DR-102",
       "title": "Refinery submit/harvest APIs + rate limits + inbox review endpoints",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "submit shipped in DR-101; remaining: rate limits on public catalog routes + harvest job runner + inbox review endpoints"
+      "notes": "rate limits (catalog 120/min, sample 30, diagnose 12, submit 10 per IP), harvest queue + on-demand source collection in worker, submission review endpoints. Erasure tooling still open (reject marks only).",
+      "claimedBy": "claude"
     },
     {
       "id": "DR-103",

@@ -54,6 +54,7 @@ COPY services/worker services/worker
 COPY content/corpora /app/corpora
 # Charters + BD queue: the deploy authorization layer must exist in-image
 COPY config/recipes /app/config/recipes
+COPY config/datalab_sources.json /app/config/datalab_sources.json
 COPY content/fleet /app/content/fleet
 # Refinery catalog seeds (Spec 0018): local datalab manifests + OKF cards
 COPY content/datalab-seed /app/seed/datalab

@@ -10,6 +10,7 @@ from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field
 
 from app.auth import TenantCtx, require_admin, require_tenant, trace_from_request
+from app.ratelimit import rate_limit
 from app.config import ARTIFACTS_DIR, CORPORA_DIR, USE_MEMORY
 from app.database import db_session, ensure_schema
 from app.errors import http_exception_handler, validation_exception_handler
@@ -210,7 +211,8 @@ class DiagnoseIn(BaseModel):
 
 
 @app.post("/v1/diagnose")
-def diagnose(body: DiagnoseIn, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+def diagnose(body: DiagnoseIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+             _rl: Annotated[None, Depends(rate_limit("diagnose", 12))] = None):
     """Embedding health check (Spec 0015): measured diagnostics on a
     user-submitted sample; consented submissions feed the datalab inbox."""
     from app.services.diagnose import diagnose_corpus
@@ -229,7 +231,7 @@ CATALOG_CACHE = "public, s-maxage=60, stale-while-revalidate=300"
 
 
 @app.get("/v1/catalog/stats")
-def catalog_stats(response: Response):
+def catalog_stats(response: Response, _rl: Annotated[None, Depends(rate_limit("catalog", 120))] = None):
     from app.services import catalog
 
     response.headers["Cache-Control"] = CATALOG_CACHE
@@ -238,7 +240,8 @@ def catalog_stats(response: Response):
 
 @app.get("/v1/catalog/datasets")
 def catalog_list(response: Response, cursor: str | None = None, limit: int = 20,
-                 tag: str | None = None, q: str | None = None):
+                 tag: str | None = None, q: str | None = None,
+                 _rl: Annotated[None, Depends(rate_limit("catalog", 120))] = None):
     from app.services import catalog
 
     response.headers["Cache-Control"] = CATALOG_CACHE
@@ -246,7 +249,7 @@ def catalog_list(response: Response, cursor: str | None = None, limit: int = 20,
 
 
 @app.get("/v1/catalog/datasets/{slug}")
-def catalog_get(slug: str, response: Response):
+def catalog_get(slug: str, response: Response, _rl: Annotated[None, Depends(rate_limit("catalog", 120))] = None):
     from app.services import catalog
 
     out = catalog.get_dataset(slug)
@@ -257,7 +260,7 @@ def catalog_get(slug: str, response: Response):
 
 
 @app.get("/v1/catalog/datasets/{slug}/sample")
-def catalog_sample(slug: str, response: Response):
+def catalog_sample(slug: str, response: Response, _rl: Annotated[None, Depends(rate_limit("sample", 30))] = None):
     from app.services import catalog
 
     out = catalog.get_sample(slug)
@@ -274,13 +277,67 @@ class RefinerySubmitIn(BaseModel):
 
 
 @app.post("/v1/datalab/submit", status_code=201)
-def refinery_submit(body: RefinerySubmitIn, tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+def refinery_submit(body: RefinerySubmitIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                    _rl: Annotated[None, Depends(rate_limit("submit", 10))] = None):
     from app.services import catalog
 
     try:
         return catalog.submit(tenant.workspace_id, body.texts, body.consent, body.tags)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+class HarvestIn(BaseModel):
+    sourceId: str
+
+
+@app.post("/v1/admin/datalab/harvest", status_code=201)
+def harvest_enqueue(body: HarvestIn, _: Annotated[None, Depends(require_admin)]):
+    import uuid as _uuid
+
+    from app.models import HarvestJob
+
+    with db_session() as session:
+        job = HarvestJob(id=_uuid.uuid4(), source_id=body.sourceId, requested_by="admin")
+        session.add(job)
+        jid = job.id
+    return {"jobId": str(jid), "status": "pending"}
+
+
+@app.get("/v1/admin/refinery/submissions")
+def submissions_list(_: Annotated[None, Depends(require_admin)], status: str = "pending", limit: int = 50):
+    from app.models import RefinerySubmission
+    from sqlalchemy import select as _select
+
+    with db_session() as session:
+        rows = session.scalars(
+            _select(RefinerySubmission).where(RefinerySubmission.status == status)
+            .order_by(RefinerySubmission.created_at.desc()).limit(min(limit, 200))
+        ).all()
+        return {"items": [{
+            "id": str(r.id), "receipt": str(r.receipt), "textCount": r.text_count,
+            "tags": r.tags, "status": r.status, "createdAt": r.created_at.isoformat(),
+        } for r in rows]}
+
+
+class ReviewIn(BaseModel):
+    action: str  # approve | reject
+
+
+@app.post("/v1/admin/refinery/submissions/{sid}/review")
+def submission_review(sid: str, body: ReviewIn, _: Annotated[None, Depends(require_admin)]):
+    import uuid as _uuid
+
+    from app.models import RefinerySubmission
+
+    if body.action not in ("approve", "reject"):
+        raise HTTPException(status_code=400, detail="action must be approve|reject")
+    with db_session() as session:
+        row = session.get(RefinerySubmission, _uuid.UUID(sid))
+        if row is None:
+            raise HTTPException(status_code=404, detail="submission not found")
+        row.status = "approved" if body.action == "approve" else "rejected"
+        return {"id": sid, "status": row.status}
 
 
 @app.post("/v1/admin/catalog/sync")

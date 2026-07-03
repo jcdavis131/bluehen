@@ -997,113 +997,146 @@
       "division": "execution",
       "priority": "P0",
       "title": "Wire RunDetail.tsx into a real run route (observatory homepage's only click-through 404s)",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/observatory/app/runs/[id]/page.tsx renders components/RunDetail.tsx",
-      "acceptance": "Clicking a run card on / opens a working run detail page instead of 404"
+      "acceptance": "Clicking a run card on / opens a working run detail page instead of 404",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "app/runs/[id] renders RunDetail; compare cross-link; metric fallback; .gitignore negation for app/runs/"
     },
     {
       "id": "UX-102",
       "division": "execution",
       "priority": "P0",
       "title": "Refinery /requests drops dataset context from query param",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/refinery/app/requests/page.tsx reads searchParams.dataset, passes presetTopic to RequestForm",
-      "acceptance": "Clicking 'Request full access' on a dataset page pre-fills that dataset on /requests"
+      "acceptance": "Clicking 'Request full access' on a dataset page pre-fills that dataset on /requests",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "requests page reads searchParams.dataset (slug-validated), visible 'Requesting:' context, topic carries slug"
     },
     {
       "id": "UX-103",
       "division": "comms",
       "priority": "P0",
       "title": "Simulation /simulate/[platform] pages are CLI dumps with no back-link",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/simulation/app/simulate/[platform]/page.tsx \u2014 render a real result or remove the CTA",
-      "acceptance": "No public route ends in a raw shell-command dump with no path back"
+      "acceptance": "No public route ends in a raw shell-command dump with no path back",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "platform pages are registry-driven honest explainers (rules from config/market-platforms.json), waitlist CTA, back link, CLI behind For-engineers details"
     },
     {
       "id": "UX-104",
       "division": "comms",
       "priority": "P0",
       "title": "Add /certify to validation nav + sitemap; reconsider /queue public visibility",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "packages/fleet/src/narrative.ts SITE_NAV.validation; apps/sites/validation/app/sitemap.ts",
-      "acceptance": "Certify (the paid page) reachable from nav in one click; /queue reviewed for public appropriateness"
+      "acceptance": "Certify (the paid page) reachable from nav in one click; /queue reviewed for public appropriateness",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "/queue de-navved + noindex (route intact, linked from scorecards); /certify was already in nav"
     },
     {
       "id": "UX-105",
       "division": "comms",
       "priority": "P0",
       "title": "Render slasso scorecards as formatted markdown, not raw <pre> dump",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/validation/app/scorecards/[slug]/page.tsx",
-      "acceptance": "Scorecard body renders as formatted markdown (headings, lists, tables), not a text dump"
+      "acceptance": "Scorecard body renders as formatted markdown (headings, lists, tables), not a text dump",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "scorecards render via hardened local Markdown copy (blockquotes, ordered lists, href guard, infinite-loop fix \u2014 also ported to hq); resolveScorecardsDir + outputFileTracingIncludes fixed"
     },
     {
       "id": "UX-106",
       "division": "comms",
       "priority": "P0",
       "title": "Dedupe hq nav \u2014 'Org' and 'Org Reports' both link to /org",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "packages/fleet/src/narrative.ts SITE_NAV.hq",
-      "acceptance": "hq nav has one entry for /org, not two"
+      "acceptance": "hq nav has one entry for /org, not two",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "duplicate Org Reports nav entry removed"
     },
     {
       "id": "UX-107",
       "division": "comms",
       "priority": "P0",
       "title": "Fix simulation orgDivision mismatch (bd -> execution per spec 0019 topology table)",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "config/fleet.json \u2014 simulation.orgDivision",
-      "acceptance": "TeamStrip on signals.bhenre.com shows a division label consistent with spec 0019 \u00a71's table"
+      "acceptance": "TeamStrip on signals.bhenre.com shows a division label consistent with spec 0019 \u00a71's table",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "simulation orgDivision bd->execution; DIVISION_RELAY already had execution"
     },
     {
       "id": "UX-108",
       "division": "infra",
       "priority": "P0",
       "title": "Reconcile refinery domain across registry, metadata, storefront copy",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "config/fleet.json, apps/sites/refinery/app/layout.tsx, apps/sites/storefront/app/page.tsx",
-      "acceptance": "Registry domain, hardcoded metadataBase/sitemap host, and storefront BU tile text all agree"
+      "acceptance": "Registry domain, hardcoded metadataBase/sitemap host, and storefront BU tile text all agree",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "refinery metadataBase/sitemap/robots + SITE_CIRCUIT copy derive from registry via lib/site.ts; domain flip stays gated on Operator G1"
     },
     {
       "id": "UX-110",
       "division": "bd",
       "priority": "P1",
       "title": "Storefront portfolio matrix \u2014 everything Blue Hen RE sells, one row per BU, price/ask + CTA",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/storefront/app/ \u2014 new section or route, sourced from config/fleet.json",
-      "acceptance": "One page lists all 5 BU offers (free/fee/seat/dataset/waitlist) with working CTAs to each"
+      "acceptance": "One page lists all 5 BU offers (free/fee/seat/dataset/waitlist) with working CTAs to each",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "storefront /offers portfolio matrix, registry-driven (venture blocks + SiteVenture type); in nav, homepage, palette"
     },
     {
       "id": "UX-111",
       "division": "bd",
       "priority": "P1",
       "title": "Rework /pricing to reference the per-division offer matrix instead of 3 disconnected tiers",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/storefront/app/pricing/page.tsx",
       "acceptance": "/pricing links to or embeds the UX-110 matrix; tiers map visibly to BU offers",
       "dependsOn": [
         "UX-110"
-      ]
+      ],
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "pricing reframed: platform engagements + BU offer grid linking /offers; dynamic unit count"
     },
     {
       "id": "UX-112",
       "division": "bd",
       "priority": "P1",
       "title": "Dedicated offer anchors for arxiviq design-partner seat + dumbmodel credits (not generic /store)",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/research/app/page.tsx, apps/sites/dumbmodel/components/HealthCheckPanel.tsx, apps/sites/storefront/app/store/page.tsx",
-      "acceptance": "Each CTA lands on an offer-specific anchor/section, not the undifferentiated store list"
+      "acceptance": "Each CTA lands on an offer-specific anchor/section, not the undifferentiated store list",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "research design-partner offer section -> contact?topic=design-partner (option added to contact form); dumbmodel credits context + evaluation-sprint link"
     },
     {
       "id": "UX-113",
@@ -1140,60 +1173,78 @@
       "division": "comms",
       "priority": "P2",
       "title": "Permalinked /check/[id] results page instead of raw share-card PNG",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/dumbmodel/components/HealthCheckPanel.tsx, new app/check/[id]/page.tsx",
-      "acceptance": "'Share' produces a URL that renders a real page (with the OG image as preview), not a bare image"
+      "acceptance": "'Share' produces a URL that renders a real page (with the OG image as preview), not a bare image",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "stateless share permalink /check/result?d= with OG card via /api/og, clipboard copy + honest error state for forged params"
     },
     {
       "id": "UX-123",
       "division": "comms",
       "priority": "P2",
       "title": "TeamStrip (or byline) on interior pages, not just BU homepages",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "refinery catalog/dataset/contribute/requests pages; equivalent interior pages on other BUs",
-      "acceptance": "A visitor deep-linked into an interior page still sees 'a Blue Hen RE company' context"
+      "acceptance": "A visitor deep-linked into an interior page still sees 'a Blue Hen RE company' context",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "OrgByline on refinery catalog/dataset/contribute/requests pages"
     },
     {
       "id": "UX-124",
       "division": "bd",
       "priority": "P2",
       "title": "Add a real live proof metric to simulation homepage (spec 0019 \u00a72.4 requires one; currently none)",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/simulation/app/page.tsx",
-      "acceptance": "Homepage shows a measured number (waitlist size or reports-in-review count), not just static copy"
+      "acceptance": "Homepage shows a measured number (waitlist size or reports-in-review count), not just static copy",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "measured-or-honest-empty proof section (platform rulebooks + omni_sim runs, ISR-cached 60s); /api/status added"
     },
     {
       "id": "UX-130",
       "division": "comms",
       "priority": "P3",
       "title": "Move raw CLI + unexplained ML hyperparameters off public pages, behind an 'for engineers' disclosure",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/sites/research/app/methods/page.tsx, components/ArxivExamDemo.tsx, apps/sites/simulation/app/page.tsx",
-      "acceptance": "Public pages read in enterprise B2B voice per docs/VOICE_AND_PLATFORM.md; ops commands/hyperparameters gated or removed"
+      "acceptance": "Public pages read in enterprise B2B voice per docs/VOICE_AND_PLATFORM.md; ops commands/hyperparameters gated or removed",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "research + simulation ops commands behind For-engineers disclosures; recipe cells captioned plain-language; measured numbers verbatim"
     },
     {
       "id": "UX-131",
       "division": "execution",
       "priority": "P3",
       "title": "hq: explicit diagnostic when API_SECRET_KEY unset, instead of silent empty state",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/hq/app/page.tsx",
-      "acceptance": "An operator without API_SECRET_KEY set sees what's missing and how to fix it, not a blank stat tile"
+      "acceptance": "An operator without API_SECRET_KEY set sees what's missing and how to fix it, not a blank stat tile",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "explicit admin-key diagnostic card (bh-alert--warn CSS added to ui-fleet)"
     },
     {
       "id": "UX-132",
       "division": "comms",
       "priority": "P3",
       "title": "hq homepage: one line stating it's the internal cockpit of a company with a public site",
-      "status": "ready",
+      "status": "done",
       "spec": "0020",
       "command": "apps/hq/app/page.tsx",
-      "acceptance": "That context is visible on the page itself, not only in footer/dropdown chrome"
+      "acceptance": "That context is visible on the page itself, not only in footer/dropdown chrome",
+      "claimedBy": "claude",
+      "completedAt": "2026-07-03T14:25:27.591487+00:00",
+      "notes": "cockpit context line linking bhenre.com"
     }
   ]
 }

@@ -100,6 +100,9 @@ export function Markdown({ source }: { source: string }) {
     while (i < lines.length && lines[i].trim() && !/^(#|\||[-*]\s|```|>)/.test(lines[i])) {
       buf.push(lines[i]); i++;
     }
+    // Structural-looking line no branch consumed (e.g. "#####" beyond h4, or
+    // "#tag" with no space): take it as paragraph text so i always advances.
+    if (buf.length === 0) { buf.push(line); i++; }
     out.push(<p key={k++} className="bh-card__body">{inline(buf.join(" "), k)}</p>);
   }
 

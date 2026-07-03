@@ -45,12 +45,12 @@
 - [ ] **BD-702** — Commercial panel scorecard on dumbmodel (bd) · spec [0008](./specs/0008-*.md)
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
-- [ ] **UX-101** — Wire RunDetail.tsx into a real run route (observatory homepage's only click-through 404s) (execution) · spec [0020](./specs/0020-*.md)
-  - `apps/sites/observatory/app/runs/[id]/page.tsx renders components/RunDetail.tsx`
-- [ ] **UX-102** — Refinery /requests drops dataset context from query param (execution) · spec [0020](./specs/0020-*.md)
-  - `apps/sites/refinery/app/requests/page.tsx reads searchParams.dataset, passes presetTopic to RequestForm`
-- [ ] **UX-103** — Simulation /simulate/[platform] pages are CLI dumps with no back-link (comms) · spec [0020](./specs/0020-*.md)
-  - `apps/sites/simulation/app/simulate/[platform]/page.tsx — render a real result or remove the CTA`
+- [ ] **UX-113** — Registry-driven 'Also from Blue Hen RE' cross-sell strip on every BU homepage (comms) · spec [0020](./specs/0020-*.md)
+  - `packages/ui-fleet/src/ (new primitive) + all 5 BU homepages`
+- [ ] **UX-120** — Wire ReturnGreeting/ExplorationTracker/MilestoneStrip/CountUpStat/CommandPalette into dumbmodel, validation, simulation, refinery (comms) · spec [0020](./specs/0020-*.md)
+  - `four sites' app/layout.tsx or homepage — primitives already exist in @synthaembed/ui-fleet`
+- [ ] **UX-121** — Hall of Cone accepts consented user-submitted scores (live leaderboard, not static fixture) (bd) · spec [0020](./specs/0020-*.md)
+  - `apps/sites/dumbmodel/app/hall/, /api/diagnose — ties into spec 0016 consent flywheel`
 
 ## In progress
 
@@ -65,18 +65,17 @@ _None claimed — run `pick_task.py claim <id>`_
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
 - [ ] **OMNI-004** — Wire /v1/omni/simulate integration test · blockedBy: ['BLK-DOCKER']
-- [ ] **UX-111** — Rework /pricing to reference the per-division offer matrix instead of 3 disconnected tiers · blockedBy: ['UX-110']
 
 ## Recently done
 
-- [x] ~~**SITE-019** — Tastemaker Phase 6 — validate: pnpm review + check-tastemaker.mjs CI + fleet-review sign-off (Spec 0017)~~
-- [x] ~~**DR-101** — Refinery data plane: migration 009 + catalog/stats APIs + tick->Postgres sync + backfill~~
-- [x] ~~**DR-102** — Refinery submit/harvest APIs + rate limits + inbox review endpoints~~
-- [x] ~~**DR-103** — Refinery site app (apps/sites/refinery): full IA vs spec 0018 contract, copper accent, mobile-first~~
-- [x] ~~**DR-104** — Refinery fleet wiring: registry, nav, workspace bootstrap, Vercel project, domain (Operator G1)~~
-- [x] ~~**DR-105** — Refinery flywheel: dumbmodel inbox review queue -> catalog; RSS + scorecard cards visible~~
-- [x] ~~**SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)~~
-- [x] ~~**SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)~~
+- [x] ~~**UX-111** — Rework /pricing to reference the per-division offer matrix instead of 3 disconnected tiers~~
+- [x] ~~**UX-112** — Dedicated offer anchors for arxiviq design-partner seat + dumbmodel credits (not generic /store)~~
+- [x] ~~**UX-122** — Permalinked /check/[id] results page instead of raw share-card PNG~~
+- [x] ~~**UX-123** — TeamStrip (or byline) on interior pages, not just BU homepages~~
+- [x] ~~**UX-124** — Add a real live proof metric to simulation homepage (spec 0019 §2.4 requires one; currently none)~~
+- [x] ~~**UX-130** — Move raw CLI + unexplained ML hyperparameters off public pages, behind an 'for engineers' disclosure~~
+- [x] ~~**UX-131** — hq: explicit diagnostic when API_SECRET_KEY unset, instead of silent empty state~~
+- [x] ~~**UX-132** — hq homepage: one line stating it's the internal cockpit of a company with a public site~~
 
 ## Specs & context
 

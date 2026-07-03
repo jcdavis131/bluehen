@@ -69,6 +69,8 @@ function ContactForm() {
           <option value="evaluation-sprint">Evaluation Sprint</option>
           <option value="managed-embeddings">Managed Embeddings</option>
           <option value="enterprise">Enterprise Platform</option>
+          <option value="design-partner-seat">Design-Partner Seat</option>
+          <option value="portfolio">Portfolio Briefing</option>
         </select>
       </label>
       <label className="bh-card__body">

@@ -154,6 +154,7 @@ export const STAGE_RELAY: Record<string, string> = {
 export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
   storefront: [
     { href: "/", label: "Overview" },
+    { href: "/offers", label: "What We Sell" },
     { href: "/try", label: "Live Search" },
     { href: "/research", label: "Research Registry" },
     { href: "/pricing", label: "Pricing" },

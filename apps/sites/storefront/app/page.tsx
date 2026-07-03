@@ -38,6 +38,7 @@ const GATE_MIN_NDCG10 = 0.35;
 // per-origin — claiming cross-site visits would be dishonest).
 const HUB_SURFACES: ExplorationSurface[] = [
   { id: "home", label: "Operating Loop", href: "/" },
+  { id: "offers", label: "What We Sell", href: "/offers" },
   { id: "try", label: "Live Search", href: "/try" },
   { id: "research", label: "Experiment Museum", href: "/research" },
   { id: "pricing", label: "Pricing", href: "/pricing" },
@@ -158,6 +159,9 @@ export default async function HubPage() {
             >
               <Link href="/try" className="bh-btn bh-btn--primary bh-btn--hero">
                 Try live search
+              </Link>
+              <Link href="/offers" className="bh-btn bh-btn--ghost">
+                What we sell
               </Link>
               <Link href="/pricing" className="bh-btn bh-btn--ghost">
                 Pricing

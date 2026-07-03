@@ -2,6 +2,7 @@ import Link from "next/link";
 import data from "../../data/methods.json";
 import { PageHeader, SiteSubnav } from "@synthaembed/ui-fleet";
 import { getSiteCircuit, getSiteNav, GLOSSARY, RE } from "@synthaembed/fleet";
+import { ProductionCaseStudy } from "../../components/ProductionCaseStudy";
 
 export const metadata = {
   title: "Method — Applied Research · arxiviq.com",
@@ -39,6 +40,8 @@ export default function MethodsPage() {
         badge={<span className="fleet-badge ok">R&amp;D · Evidence-backed</span>}
       />
       <SiteSubnav items={nav} currentPath="/methods" />
+
+      <ProductionCaseStudy />
 
       {/* Org recipe */}
       <section className="fleet-card" style={{ marginBottom: 24 }}>

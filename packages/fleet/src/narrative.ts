@@ -174,6 +174,7 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/certify", label: "Get Certified" },
     { href: "/try", label: "Run Benchmark" },
     { href: "/queue", label: "Validation Queue" },
+    { href: "/scorecards", label: "Scorecards" },
     { href: "/feedback", label: "Feedback" },
   ],
   research: [
@@ -183,7 +184,10 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/feedback", label: "Feedback" },
   ],
   simulation: [{ href: "/", label: "Overview" }],
-  observatory: [{ href: "/", label: "Runs" }],
+  observatory: [
+    { href: "/", label: "Runs" },
+    { href: "/compare", label: "Compare" },
+  ],
 };
 
 export function getSiteNav(siteId: string) {

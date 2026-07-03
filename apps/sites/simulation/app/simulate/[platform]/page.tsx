@@ -8,7 +8,7 @@ import {
 import { getSiteCircuit } from "@synthaembed/fleet";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import marketPlatforms from "../../../../../../config/market-platforms.json" with { type: "json" };
+import marketPlatforms from "../../../../../../config/market-platforms.json";
 import { WaitlistForm } from "../../../components/WaitlistForm";
 
 /** Public explainer for one simulated platform (UX-103, Spec 0020).
@@ -25,7 +25,7 @@ type RegistryPlatform = {
   domain: string;
   simulationOnly: boolean;
   rules: string[];
-  rootMemoryUnits: { id: string; rules?: string; evidence?: string }[];
+  rootMemoryUnits?: { id: string; rules?: string; evidence?: string }[];
 };
 
 const REGISTRY: RegistryPlatform[] = marketPlatforms.platforms as RegistryPlatform[];
@@ -114,11 +114,11 @@ export default async function SimulatePage({ params }: { params: Promise<{ platf
               <li>The strategy under test and the fixture corpus it ran against.</li>
               <li>
                 The platform rules applied during the run
-                {entry.rootMemoryUnits.length > 0 && (
+                {(entry.rootMemoryUnits ?? []).length > 0 && (
                   <>
                     {" "}
                     (registry ids:{" "}
-                    {entry.rootMemoryUnits.map((u, i) => (
+                    {(entry.rootMemoryUnits ?? []).map((u, i) => (
                       <span key={u.id}>
                         {i > 0 && ", "}
                         <code>{u.id}</code>

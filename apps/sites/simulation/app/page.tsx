@@ -6,9 +6,9 @@ import {
   TitleCard,
   TeamStrip,
 } from "@synthaembed/ui-fleet";
-import { apiFetch } from "@synthaembed/ui-fleet/site-api";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import Link from "next/link";
+import marketPlatforms from "../../../../config/market-platforms.json";
 import { WaitlistForm } from "../components/WaitlistForm";
 
 export const metadata = {
@@ -17,12 +17,21 @@ export const metadata = {
     "Published strategy reports from paper-trading simulations across prediction markets, sports DFS, and retail equities. Simulation only — no live capital, no trading advice.",
 };
 
-const PLATFORMS = [
-  { id: "kalshi", name: "Kalshi", category: "Prediction market" },
-  { id: "polymarket", name: "Polymarket", category: "Prediction market" },
-  { id: "prizepicks", name: "PrizePicks", category: "Sports DFS" },
-  { id: "robinhood", name: "Robinhood", category: "Retail brokerage" },
-];
+/** Same registry the simulator enforces and /simulate/[platform] renders —
+ * one source, so the homepage grid cannot drift from the rulebook ids. */
+const CATEGORY_LABELS: Record<string, string> = {
+  "prediction-market": "Prediction market",
+  "sports-dfs": "Sports DFS",
+  "retail-brokerage": "Retail brokerage",
+};
+
+const PLATFORMS = (
+  marketPlatforms.platforms as { id: string; name: string; category: string }[]
+).map((p) => ({
+  id: p.id,
+  name: p.name,
+  category: CATEGORY_LABELS[p.category] ?? p.category,
+}));
 
 const LEDGER_WINDOW = 200;
 
@@ -38,20 +47,38 @@ type LiveProof = {
  * the honest empty state — never an invented number. Published-report count
  * is stated statically because it is repo truth: no report has cleared
  * review yet (update the copy when the first one ships). */
+/** Like ui-fleet's apiFetch but ISR-cached (revalidate 60s) instead of
+ * no-store, so the landing page stays statically servable and core-api sees
+ * at most one refetch per minute — not two calls per visitor. */
+async function cachedApi<T>(path: string): Promise<T> {
+  const baseUrl =
+    process.env.SYNTH_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+  const apiKey = process.env.SYNTH_API_KEY ?? "";
+  if (!apiKey) throw new Error("SYNTH_API_KEY not set");
+  const res = await fetch(`${baseUrl}${path}`, {
+    headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
+    next: { revalidate: 60 },
+  });
+  if (!res.ok) throw new Error(`GET ${path} -> ${res.status}`);
+  return res.json() as Promise<T>;
+}
+
 async function liveProof(): Promise<LiveProof> {
   try {
     const [registry, ledger] = await Promise.all([
-      apiFetch("/v1/omni/platforms") as Promise<{ platforms?: unknown[] }>,
-      apiFetch(`/v1/ledger?limit=${LEDGER_WINDOW}`) as Promise<{
-        entries?: { stage?: string }[];
-      }>,
+      cachedApi<{ platforms?: unknown[] }>("/v1/omni/platforms"),
+      cachedApi<{ entries?: { stage?: string }[] }>(`/v1/ledger?limit=${LEDGER_WINDOW}`),
     ]);
+    const platformCount = (registry.platforms ?? []).length;
     return {
-      live: true,
-      platformCount: (registry.platforms ?? []).length,
+      // An empty registry is not a live proof — fall back to the honest
+      // empty state rather than rendering "0 rulebooks enforced".
+      live: platformCount > 0,
+      platformCount,
       simRuns: (ledger.entries ?? []).filter((e) => e.stage === "omni_sim").length,
     };
-  } catch {
+  } catch (err) {
+    console.warn("simulation liveProof unavailable:", err instanceof Error ? err.message : err);
     return { live: false, platformCount: 0, simRuns: 0 };
   }
 }

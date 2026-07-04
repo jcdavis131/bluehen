@@ -1675,11 +1675,12 @@
     {
       "id": "PMF-005",
       "title": "Competitive teardown + positioning wedge doc",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Algolia Recommend, AWS Personalize, Shaped, Voyage/Cohere embeddings, DIY pgvector. For each: price shape, setup burden, who it serves, where we win (tenant-adapted models + self-improving loop + eval receipts + no data team required). Output docs/POSITIONING.md with the 3-sentence wedge per competitor. Honest: where THEY win too.",
-      "source": "BD/PMF series 2026-07-04"
+      "notes": "docs/POSITIONING.md (sonnet-delegated, live-verified pricing, UNVERIFIED flags where sources were secondhand): 5 vendors torn down w/ honest where-they-beat-us sections; 5 evidence-cited claims usable today + the claims list gated on the anchor case study. Feeds BD-003/BD-004/PMF-002.",
+      "source": "BD/PMF series 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "PMF-006",

@@ -61,7 +61,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**EXH-002** — Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant~~
 - [x] ~~**RECO-001** — Customer corpus upload: POST /v1/corpus (tenant) — JSONL/text upload becomes a collection and triggers the loop~~
 - [x] ~~**RECO-002** — Recommendations API: /v1/recommend — item-to-item + text-to-item over the deployed model~~
 - [x] ~~**RDPIPE-001** — R&D pipe segment 1: literature radar output -> structured hypothesis -> auto-drafted AR queue item~~
@@ -69,6 +68,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**RECO-004** — Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)~~
 - [x] ~~**RECO-005** — /v1/recommend filter DSL compiled from contracts~~
 - [x] ~~**AR-502** — [radar] MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Train~~
+- [x] ~~**PMF-005** — Competitive teardown + positioning wedge doc~~
 
 ## Specs & context
 

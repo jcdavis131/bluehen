@@ -189,7 +189,12 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/research-lab", label: "Research Registry" },
     { href: "/feedback", label: "Feedback" },
   ],
-  simulation: [{ href: "/", label: "Overview" }],
+  simulation: [
+    { href: "/", label: "Overview" },
+    { href: "/platforms", label: "Platforms" },
+    { href: "/reports", label: "Reports" },
+    { href: "/methodology", label: "Methodology" },
+  ],
   refinery: [
     { href: "/", label: "Overview" },
     { href: "/catalog", label: "Catalog" },

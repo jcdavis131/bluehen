@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-07-04T02:23:27Z",
+  "spec": "0013",
+  "mode": "simulation",
+  "note": "Fixture-driven paper simulations. Regenerate: uv run python scripts/omni_simulate.py --platform <id>",
+  "platforms": {
+    "kalshi": {
+      "mode": "simulation",
+      "platformId": "kalshi",
+      "strategyId": "baseline-momentum",
+      "corpusId": "omni-fixtures",
+      "skillPath": "C:\\Users\\jcdav\\bluehenre\\.claude\\worktrees\\simulation-lab-buildout\\config\\omni-skills\\best_skill.md",
+      "skillLoaded": true,
+      "sharpe": 13.5474,
+      "penalizedSharpe": 13.4224,
+      "turnover": 2.5,
+      "trades": [
+        {
+          "fixtureId": "kalshi-001",
+          "edge": 0.12,
+          "weight": 1.0,
+          "pnl": 0.004,
+          "rulesApplied": [
+            "kalshi-settlement"
+          ]
+        },
+        {
+          "fixtureId": "kalshi-002",
+          "edge": -0.05,
+          "weight": -0.5,
+          "pnl": 0.000375,
+          "rulesApplied": [
+            "kalshi-settlement"
+          ]
+        }
+      ],
+      "tradeCount": 2,
+      "platformRulesApplied": [
+        "kalshi-settlement"
+      ],
+      "contextRetrieval": [],
+      "bankrollStart": 10000.0,
+      "bankrollEnd": 10043.75
+    },
+    "polymarket": {
+      "mode": "simulation",
+      "platformId": "polymarket",
+      "strategyId": "baseline-momentum",
+      "corpusId": "omni-fixtures",
+      "skillPath": "C:\\Users\\jcdav\\bluehenre\\.claude\\worktrees\\simulation-lab-buildout\\config\\omni-skills\\best_skill.md",
+      "skillLoaded": true,
+      "sharpe": 0.0,
+      "penalizedSharpe": -0.09,
+      "turnover": 0.9,
+      "trades": [
+        {
+          "fixtureId": "poly-001",
+          "edge": 0.09,
+          "weight": 0.8999999999999999,
+          "pnl": 0.00162,
+          "rulesApplied": [
+            "poly-liquidity"
+          ]
+        }
+      ],
+      "tradeCount": 1,
+      "platformRulesApplied": [
+        "poly-liquidity"
+      ],
+      "contextRetrieval": [],
+      "bankrollStart": 10000.0,
+      "bankrollEnd": 10016.2
+    },
+    "prizepicks": {
+      "mode": "simulation",
+      "platformId": "prizepicks",
+      "strategyId": "baseline-momentum",
+      "corpusId": "omni-fixtures",
+      "skillPath": "C:\\Users\\jcdav\\bluehenre\\.claude\\worktrees\\simulation-lab-buildout\\config\\omni-skills\\best_skill.md",
+      "skillLoaded": true,
+      "sharpe": 2.1359,
+      "penalizedSharpe": 2.0859,
+      "turnover": 1.0,
+      "trades": [
+        {
+          "fixtureId": "pp-001",
+          "edge": 0.07,
+          "weight": 0.7000000000000001,
+          "pnl": 0.00147,
+          "rulesApplied": [
+            "pp-flex-6"
+          ]
+        },
+        {
+          "fixtureId": "pp-002",
+          "edge": 0.11,
+          "weight": 1.0,
+          "pnl": -0.001,
+          "rulesApplied": [
+            "pp-flex-6"
+          ]
+        }
+      ],
+      "tradeCount": 2,
+      "platformRulesApplied": [
+        "pp-flex-6"
+      ],
+      "contextRetrieval": [],
+      "bankrollStart": 10000.0,
+      "bankrollEnd": 10004.7
+    },
+    "robinhood": {
+      "mode": "simulation",
+      "platformId": "robinhood",
+      "strategyId": "baseline-momentum",
+      "corpusId": "omni-fixtures",
+      "skillPath": "C:\\Users\\jcdav\\bluehenre\\.claude\\worktrees\\simulation-lab-buildout\\config\\omni-skills\\best_skill.md",
+      "skillLoaded": true,
+      "sharpe": 8.6775,
+      "penalizedSharpe": 8.5375,
+      "turnover": 2.8,
+      "trades": [
+        {
+          "fixtureId": "rh-001",
+          "edge": 0.15,
+          "weight": 1.0,
+          "pnl": 0.005,
+          "rulesApplied": [
+            "rh-pdt"
+          ]
+        },
+        {
+          "fixtureId": "rh-002",
+          "edge": -0.08,
+          "weight": -0.8,
+          "pnl": -0.00064,
+          "rulesApplied": [
+            "rh-pdt"
+          ]
+        }
+      ],
+      "tradeCount": 2,
+      "platformRulesApplied": [
+        "rh-pdt"
+      ],
+      "contextRetrieval": [
+        {
+          "id": "rh-001",
+          "score": 2.0
+        }
+      ],
+      "bankrollStart": 10000.0,
+      "bankrollEnd": 10043.6
+    }
+  }
+}

@@ -39,8 +39,8 @@
 - [ ] **UX-107** — refinery: remove dangling 'Buy full corpus' reference; strip raw hash IDs from samples; render OKF card via Markdown component (None)
 - [ ] **UX-108** — Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box (None)
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
-- [ ] **UX-111** — refinery catalog: seed an externally-legible sample dataset; label internal-ops entries (None)
 - [ ] **UX-112** — Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language (None)
+- [ ] **WIRE-204** — Dead-surface endpoints + dedupe: wire hq to /v1/admin/fleet + usage/entitlements views; extract shared requeue_stale helper (jobs/harvest/certify) (None)
 
 ## In progress
 
@@ -66,13 +66,13 @@
 
 ## Recently done
 
-- [x] ~~**DR-109** — Wiki Refinery GLM refinement pass (Spec 0020)~~
 - [x] ~~**KIT-003** — Kit sample corpora — content/kits/* JSONL seeded for all three personas (Spec 0022)~~
 - [x] ~~**RT-403** — Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates~~
 - [x] ~~**INFRA-101** — Git-connect the three CLI-only Vercel projects (hub, finance-lab, training-console) so pushes auto-deploy~~
 - [x] ~~**UX-101** — CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration)~~
 - [x] ~~**UX-103** — arxiviq search hits have no snippet text or arxiv link (payload lacks text field)~~
 - [x] ~~**UX-110** — hq polish: dup 'Headquarters' titles, /ops aria-labels, SSR one-line health summary, observatory unblock CTA~~
+- [x] ~~**UX-111** — refinery catalog: seed an externally-legible sample dataset; label internal-ops entries~~
 - [x] ~~**WIRE-203** — usage_events retention: nightly rollup + purge past N days~~
 
 ## Specs & context

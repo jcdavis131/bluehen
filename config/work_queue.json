@@ -1408,10 +1408,10 @@
     {
       "id": "UX-111",
       "title": "refinery catalog: seed an externally-legible sample dataset; label internal-ops entries",
-      "status": "in_progress",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Current entries read as internal jargon. Harvest a public, customer-shaped source (e.g., a docs site) + add an 'internal' tag rendered as a badge.",
+      "notes": "python-docs-tutorial harvested live (catalog 7 datasets / 167 chunks); internal-ops badge renders on tagged entries; wiki auto-rebuilt with the new dataset page via the harvest hook.",
       "source": "UX+backend deep-dive study 2026-07-04",
       "claimedBy": "claude",
       "claimedAt": "2026-07-04T16:23:44.317373+00:00"

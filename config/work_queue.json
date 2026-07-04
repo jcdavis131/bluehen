@@ -279,7 +279,8 @@
         "BLK-DISK"
       ],
       "spec": "0008",
-      "command": "uv run python scripts/realtext_methods.py --site both"
+      "command": "uv run python scripts/realtext_methods.py --site both",
+      "notes": "NEXT SLATE #1 (runnable now, no gates). HOW: mirror RT-401 \u2014 detached run of scripts/realtext_methods.py variant for both-sites corpora; if the script lacks a both-sites mode, extend load_domains to take research corpus (data/corpora/research/corpus.jsonl) as in-domain and AG News as OOD. ACCEPT: methods table 2 seeds in data/sweeps/, EVIDENCE 3.13 row with scoped verdict. LANE: claude (or sonnet subagent with this note verbatim). Use packages/asn-engine/.venv python; launch detached (tool timeout is 10min)."
     },
     {
       "id": "RT-403",
@@ -549,7 +550,8 @@
       "status": "ready",
       "spec": "0003",
       "command": "Add --loss barlow to domain_sweep.py; run sweep",
-      "note": "Implement flag without Docker; run needs INF-001"
+      "note": "Implement flag without Docker; run needs INF-001",
+      "notes": "NEXT SLATE #2 (runnable now). Domain sweep Family C Barlow arm: scripts/domain_sweep.py exists \u2014 run with family C config per specs/0003; detached; results to data/sweeps/. ACCEPT: jsonl rows + one-line verdict in knowledge/teams/rnd.md dated heading. LANE: sonnet subagent ok."
     },
     {
       "id": "DONE-001",
@@ -1038,7 +1040,7 @@
       "priority": "P1",
       "division": "execution",
       "spec": "0020",
-      "notes": "METERING HALF SHIPPED: usage_events (mig 011), best-effort recording on search/embed/diagnose (never fails requests, under-bills on error by design), GET /v1/usage tenant view + /v1/admin/usage rollup. REMAINING: Stripe metered subscription + webhook reconciliation \u2014 needs STRIPE_SECRET_KEY (Operator gate).",
+      "notes": "METERING HALF SHIPPED: usage_events (mig 011), best-effort recording on search/embed/diagnose (never fails requests, under-bills on error by design), GET /v1/usage tenant view + /v1/admin/usage rollup. REMAINING: Stripe metered subscription + webhook reconciliation \u2014 needs STRIPE_SECRET_KEY (Operator gate). | SLATE-WHEN-KEYED (STRIPE_SECRET_KEY): 1) uv pip install stripe (opt-in, no lock churn); 2) services/core-api/app/services/billing.py: create metered subscription items per workspace, nightly usage push from usage_events (idempotent by event id watermark); 3) POST /v1/admin/billing/reconcile + webhook /v1/billing/webhook (verify sig); 4) test-mode e2e with a $0 price. ACCEPT: usage event -> Stripe test invoice line visible.",
       "claimedBy": "claude"
     },
     {
@@ -1125,7 +1127,7 @@
       "priority": "P2",
       "division": "execution",
       "spec": "0020",
-      "notes": "Publish script shipped (publish_model_hf.py): pulls DB artifact + measured metrics, refuses ungraded models, honest model card w/ baselines. Verified honest exit-2 without HF_TOKEN. REMAINING: HF_TOKEN (Operator) + CI hook on gate pass.",
+      "notes": "Publish script shipped (publish_model_hf.py): pulls DB artifact + measured metrics, refuses ungraded models, honest model card w/ baselines. Verified honest exit-2 without HF_TOKEN. REMAINING: HF_TOKEN (Operator) + CI hook on gate pass. | SLATE-WHEN-KEYED (HF_TOKEN): 1) uv pip install huggingface_hub; 2) run scripts/publish_model_hf.py --version asn-head-4000090; 3) wire into worker post-charter-deploy hook behind env PUBLISH_ON_DEPLOY=1. ACCEPT: HF repo live with measured card.",
       "claimedBy": "claude",
       "claimedAt": "2026-07-04T03:49:58.741276+00:00"
     },
@@ -1289,6 +1291,14 @@
       "priority": "P1",
       "notes": "asn-head-4000090 (barlow + hard negatives) gates=True, charter-deployed, ER 28.06 record; slice-caveat recorded in EVIDENCE 3.12 addendum; rollback candidates retained.",
       "claimedBy": "claude"
+    },
+    {
+      "id": "INFRA-101",
+      "title": "Git-connect the three CLI-only Vercel projects (hub, finance-lab, training-console) so pushes auto-deploy",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "SLATE #3. Found in v2 verification sweep: repoId=None on these projects -> they NEVER rebuild on push (stale chrome/TeamStrips). HOW: PATCH each project's link via Vercel API (repoId 1030933495, same as siblings) or dashboard Git tab; verify rootDirectory matches apps/sites/{storefront,simulation,observatory}; then trigger one deployment each and confirm TeamStrip/org-footer present live. ACCEPT: all three serve current main."
     }
   ]
 }

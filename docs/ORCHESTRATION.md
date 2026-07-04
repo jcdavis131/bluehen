@@ -21,17 +21,29 @@ sources (registry) ──datalab watch──▶ datasets (OKF cards)
 Every arrow above is deployed and exercised; the orchestrator's job is
 keeping arrows healthy and routing work to the cheapest capable agent.
 
-## Orchestrator (Claude lead-dev loop) — standing plan
+## Orchestrator (Claude lead-dev loop) — standing plan (v2, 2026-07-04)
 
-- **Triggers:** Monitor events (deploys, worker outcomes, container
-  restarts), queue changes, Operator messages; heartbeat 25–30 min.
-- **Each iteration:** (1) read signals; (2) fix the highest-severity
-  broken arrow first (production > correctness > velocity > polish);
-  (3) batch Railway deploys — never restart mid-training without cause;
-  (4) close/annotate queue items; (5) refresh STATUS.md; (6) commit,
-  push, re-arm monitors.
-- **Escalation to Operator:** prod data mutations, spend, auth changes,
-  brand/product decisions, anything gated in specs.
+- **Cadence:** tight — heartbeat ≤ 20 min; event monitors are always the
+  primary wake signal. Never stretch past 30 min while the Operator is
+  active.
+- **Each iteration runs three phases:**
+  1. **SENSE** — monitors, gates, queue, prod pulse. Cheap and local.
+  2. **EXECUTE** — claim and build. Parallelizable, well-specified work
+     is DELEGATED to smaller-model subagents (haiku for verification/
+     sweeps/report generation, sonnet for scoped implementation) with
+     precise, self-contained instructions; the orchestrator integrates
+     results and owns every commit. One orchestrator-sized task max per
+     tick; everything else fans out.
+  3. **CLOSE (mandatory)** — (a) REVIEW: verify what shipped (tests,
+     live checks — delegable); (b) HANDOFF: refresh STATUS.md/HANDOFF.md
+     and queue notes so any session can resume cold; (c) SLATE: groom
+     the next 1–3 tasks with per-task guidance written into
+     config/work_queue.json notes — acceptance criteria, files, lane —
+     so smaller agents can execute them without re-derivation.
+- **Deploy discipline:** batch Railway deploys; never restart mid-train
+  without cause.
+- **Escalation to Operator:** prod data mutations, spend, auth/domain
+  changes, anything spec-gated.
 
 ## Sub-agent detailed plans (GLM 5.2 — executable charters)
 

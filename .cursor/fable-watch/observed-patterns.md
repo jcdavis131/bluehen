@@ -1370,3 +1370,23 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** After RT-401 barlow win: Monitor "Barlow retrain through gates and charter" ended → "Gates passed — verifying the charter deploy and the new model's measured numbers" → c35344 RT-403 barlow serving in prod (ER 28.06 record, gated, slice-caveat recorded).
 - **Why it works:** Research verdict (P-255) isn't the end — the winning recipe gets a **named deploy monitor** covering eval gates AND charter (org deploy rules). Close-out verifies measured numbers on the serving model, not just training metrics. Slice-caveat in commit preserves RT-401 protocol honesty (P-226) at promotion time.
 - **Maps to:** refine validate-gate + post-deploy-smoke — bake-off winner → retrain monitor (gates + charter) → prod verify with caveats recorded.
+
+### P-257 - Post-deploy proof: same-slice commercial panel on hard negatives with prod model
+- **Observed:** After RT-403 barlow prod deploy: 6d7205 — same-slice commercial panel on hard negatives; "deployed barlow model leads the entire panel." Updates EVIDENCE.md, aseline_results.json, esearch_prod_pairs_hard.json, research site ProductionCaseStudy.tsx.
+- **Why it works:** Extends P-256/P-224: prod promotion isn't closed until the **serving model** is re-measured on the same honest slice (hard negatives, P-222) against the commercial panel. BD/research UI gets updated numbers from prod, not training-run artifacts. Closes the RT-401→RT-403 narrative with extrinsic proof.
+- **Maps to:** refine validate-gate + post-deploy-smoke — after charter deploy, run same-slice panel on hard negatives and record in EVIDENCE + public case study.
+
+### P-258 - LOOPBOT refresh is heredoc string-replace on baked HTML (timestamp + pills)
+- **Observed:** Operator un loopbot with the RT-401 results → Fable 5 edits loopbot.html via python -X utf8 heredoc: replaces check-in timestamp (2026-07-04 ~00:05 → ~06:30 UTC) and status pill content before republish.
+- **Why it works:** Extends P-220/P-214: LOOPBOT updates are **surgical replaces** on the baked artifact, not a full regenerate. Timestamp bump signals a new lap to the pinned-tab heartbeat (P-213). RT-401/barlow results land as pill/feed text replaces, keeping the same artifact URL.
+- **Maps to:** refine progress-board + close-the-loop — honor "run loopbot with X results" via timestamp + content replaces on loopbot.html, then publish.
+
+### P-259 - Operator-owed LOOPBOT runs before gate pulse in the loop tick
+- **Observed:** Loop tick — LOOPBOT owes the Operator this lap, then the gate pulse: → artifact republished (~54s). Honors queued un loopbot with the RT-401 results before resuming blocker recon.
+- **Why it works:** Watch-mode pulses (P-231) defer to **explicit operator debt** — if the operator asked for LOOPBOT with specific results (P-258), that ships first in the tick, then gate pulse resumes. Prevents the loop from skipping a human-facing deliverable while doing recon.
+- **Maps to:** refine progress-board + close-the-loop — loop tick order: operator-owed LOOPBOT → gate pulse → queue work.
+
+### P-260 - Post-long-sleep recap: fleet milestone + Operator keys as revenue unlock list
+- **Observed:** After ~5h loop sleep: ※ recap: … all seven sites are live and the new Barlow model now serves production, beating every commercial baseline on the hard slice. Next action: your keys (GLM, Stripe, HF) unlock the remaining revenue streams.
+- **Why it works:** Extends P-230/P-247: after extended idle, recap states **measurable fleet milestone** (7 sites, prod model, panel win on hard slice) then narrows **next action** to named Operator keys tied to **revenue streams** — not generic "waiting on you." Operator knows what each key unlocks without re-reading EVIDENCE.
+- **Maps to:** refine recap-on-long-session + progress-board — long-sleep recap = milestone headline + keys-to-revenue mapping.

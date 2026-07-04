@@ -188,6 +188,7 @@ class WikiPage(Base):
     kind: Mapped[str] = mapped_column(String(16), nullable=False)
     title: Mapped[str] = mapped_column(Text, nullable=False)
     body_md: Mapped[str] = mapped_column(Text, nullable=False)
+    description: Mapped[str | None] = mapped_column(Text)
     generated_by: Mapped[str] = mapped_column(String(16), default="deterministic")
     sources: Mapped[list | None] = mapped_column(JSONB)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

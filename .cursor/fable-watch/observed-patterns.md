@@ -1470,3 +1470,8 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** Operator PR-clean gate (P-275): 11 shell commands (~4m 12s) →  9c5af9 Merge pull request #2 from jcdavis131/worktree-simulation-lab-buildout on main. Simulation Lab (Spec 0013) PR cleared from the stack.
 - **Why it works:** The audit isn't read-only — it **closes** open work (merge #2) so main reflects shipped state before the next UX/WIRE tick. Prevents parallel PR drift while the loop continues on main.
 - **Maps to:** refine monorepo-review-loop + close-the-loop — PR hygiene pass merges reconcilable PRs, then loop resumes on updated main.
+
+### P-277 - Operator vision directive → canonical docs + flywheel ledger + queue tasks
+- **Observed:** Operator asked: business objective, each site's unique contribution, cross-site support, closed-loop self-maintaining ecosystem with passive purchasable goods/services →  2cc53a ision: canonical business objective + flywheel ledger encoded (Operator directive) — updates docs/SITE_ARCHITECTURE.md, specs/0019-corporate-topology.md, work_queue.json (~1m 45s).
+- **Why it works:** Strategic reframes don't stay in chat — they land in **architecture doc + spec + queue** so every agent/session inherits the same business objective. "Operator directive" in commit message marks normative source. Refinement work is metadata-align, not random copy edits.
+- **Maps to:** refine metadata-align + progress-board — Operator vision questions → encode in SITE_ARCHITECTURE + spec + queue follow-ups.

@@ -1457,10 +1457,12 @@
     {
       "id": "FLY-001",
       "title": "Aim the wiki at demand generation: topic pages become indexable evergreen articles (deterministic layer)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "The org's only passive growth engine. HOW: wiki topic/dataset pages get descriptive intros generated from measured facts (counts, sources, dates \u2014 deterministic templates, no LLM needed), proper meta descriptions via the API (add description field to wiki_pages), and inclusion in the refinery sitemap (add /wiki/* routes from live /v1/wiki). ACCEPT: wiki pages carry unique metas + appear in sitemap.xml; search-console-ready."
+      "notes": "wiki_pages.description (mig 018) with measured deterministic metas on all 4 page kinds; /wiki/[slug] generateMetadata from API; sitemap includes live /wiki/* routes (daily changefreq), honest omission when API unreachable. Search-console-ready after deploy + rebuild.",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T17:18:08.744132+00:00"
     },
     {
       "id": "FLY-002",

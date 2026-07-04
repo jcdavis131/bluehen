@@ -58,11 +58,12 @@ def _load_datasets() -> list[dict]:
         } for r in rows]
 
 
-def _upsert(session, slug: str, kind: str, title: str, body: str, sources: list[str]) -> bool:
+def _upsert(session, slug: str, kind: str, title: str, body: str, sources: list[str],
+            description: str | None = None) -> bool:
     row = session.scalar(select(WikiPage).where(WikiPage.slug == slug))
     if row is None:
         session.add(WikiPage(id=uuid.uuid4(), slug=slug, kind=kind, title=title,
-                             body_md=body, sources=sources,
+                             body_md=body, sources=sources, description=description,
                              updated_at=datetime.now(timezone.utc)))
         return True
     if row.body_md.split("\n\n## Model refinement")[0] != body.split("\n\n## Model refinement")[0]:
@@ -74,6 +75,7 @@ def _upsert(session, slug: str, kind: str, title: str, body: str, sources: list[
         row.body_md = body
         row.title = title
         row.sources = sources
+        row.description = description
         row.updated_at = datetime.now(timezone.utc)
         return True
     return False
@@ -102,7 +104,10 @@ def rebuild_wiki() -> dict:
         for src, n in sorted(by_source.items(), key=lambda t: -t[1]):
             body.append(f"- `{src}` — {n} dataset{'s' if n != 1 else ''}")
         changed += _upsert(session, "index", "index", "Dataset catalog index",
-                           "\n".join(body) + FOOTER_DETERMINISTIC, [d["slug"] for d in ds])
+                           "\n".join(body) + FOOTER_DETERMINISTIC, [d["slug"] for d in ds],
+                           description=f"Auto-built index of {len(ds)} provenance-carrying datasets "
+                                       f"({sum(x['chunks'] for x in ds)} retrieval-ready chunks) in the "
+                                       f"Blue Hen RE Data Refinery catalog.")
 
         # topic pages (per tag)
         tags: dict[str, list[dict]] = {}
@@ -117,7 +122,9 @@ def rebuild_wiki() -> dict:
             for d in members:
                 body.append(f"- [{d['name']}](/datasets/{d['slug']}) — {d['docs']} docs · {d['chunks']} chunks")
             changed += _upsert(session, f"topic-{tag}", "topic", f"Topic: {tag}",
-                               "\n".join(body) + FOOTER_DETERMINISTIC, [d["slug"] for d in members])
+                               "\n".join(body) + FOOTER_DETERMINISTIC, [d["slug"] for d in members],
+                               description=f"{len(members)} dataset(s) tagged '{tag}' in the Data Refinery "
+                                           f"catalog with provenance, chunk counts, and cross-links.")
 
         # per-dataset wiki pages with computed cross-links
         for d in ds:
@@ -136,7 +143,9 @@ def rebuild_wiki() -> dict:
                     body.append(f"- [{o['name']}](/datasets/{o['slug']}) — {why}")
             changed += _upsert(session, f"dataset-{d['slug']}", "dataset", d["name"],
                                "\n".join(body) + FOOTER_DETERMINISTIC,
-                               [d["slug"]] + [o["slug"] for o in rel])
+                               [d["slug"]] + [o["slug"] for o in rel],
+                               description=f"{d['name']}: {d['docs']} docs, {d['chunks']} chunks, "
+                                           f"created {d['created']} — provenance and related datasets.")
 
         # link map
         edges = []
@@ -152,7 +161,9 @@ def rebuild_wiki() -> dict:
             body.append(f"- [{a['name']}](/datasets/{a['slug']}) ↔ [{b['name']}](/datasets/{b['slug']})")
         changed += _upsert(session, "link-map", "link-map", "Cross-link map",
                            "\n".join(body) + FOOTER_DETERMINISTIC,
-                           [d["slug"] for d in ds])
+                           [d["slug"] for d in ds],
+                           description=f"Computed cross-link map across {len(ds)} catalog datasets, "
+                                       f"rebuilt after every harvest.")
 
     out = {"pages_changed": changed, "datasets": len(ds), "topics": len(tags), "builtAt": stamp}
     log.info("wiki rebuild: %s", out)
@@ -207,6 +218,7 @@ def list_pages() -> dict:
         rows = session.scalars(select(WikiPage).order_by(WikiPage.kind, WikiPage.slug)).all()
         return {"pages": [{
             "slug": r.slug, "kind": r.kind, "title": r.title,
+            "description": r.description,
             "generatedBy": r.generated_by, "updatedAt": r.updated_at.isoformat(),
         } for r in rows]}
 
@@ -217,5 +229,6 @@ def get_page(slug: str) -> dict | None:
         if row is None:
             return None
         return {"slug": row.slug, "kind": row.kind, "title": row.title,
+                "description": row.description,
                 "bodyMd": row.body_md, "generatedBy": row.generated_by,
                 "updatedAt": row.updated_at.isoformat()}

@@ -26,6 +26,7 @@ LR = 2.0e-3
 WEIGHT_DECAY = 1e-4
 AUG = 1.0
 BARLOW_LAMBDA = 0.0215
+T8_AUX_WEIGHT = 0.25  # AR-311: auxiliary Barlow on served[:, :8]
 
 
 class Net(nn.Module):
@@ -71,9 +72,13 @@ def train_loop(
             break
         bi = torch.randint(0, x_tr.shape[0], (BATCH,), generator=g)
         x = x_tr[bi]
-        z1 = model(x + AUG * torch.randn(x.shape, generator=g))
-        z2 = model(x + AUG * torch.randn(x.shape, generator=g))
-        loss = barlow_twins(z1, z2, BARLOW_LAMBDA)
+        s1 = model.serve(x + AUG * torch.randn(x.shape, generator=g))
+        s2 = model.serve(x + AUG * torch.randn(x.shape, generator=g))
+        z1 = model.proj(s1)
+        z2 = model.proj(s2)
+        loss = barlow_twins(z1, z2, BARLOW_LAMBDA) + T8_AUX_WEIGHT * barlow_twins(
+            s1[:, :8], s2[:, :8], BARLOW_LAMBDA
+        )
         opt.zero_grad()
         loss.backward()
         opt.step()

@@ -1566,6 +1566,33 @@
       "priority": "P1",
       "notes": "OPERATOR GATE: provide the corpus (listings/valuations/workflow docs; any text/JSONL). Then: RECO-001 upload -> auto hill-climb -> gated tenant recommender -> measure vs panel on the RE slice. The proving vertical for Recommend Everything.",
       "source": "Spec 0023 flywheel"
+    },
+    {
+      "id": "RECO-004",
+      "title": "Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Migration + POST /v1/contracts + validate-at-write in data.ingest/exhaust paths; contract-reject metered. Ships with RECO-001 upload so tenant zero onboards with a contract from day one.",
+      "source": "Spec 0024 metadata contracts"
+    },
+    {
+      "id": "RECO-005",
+      "title": "/v1/recommend filter DSL compiled from contracts",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Filters validate against declared filterable fields; partial expression indexes auto-created at declaration; 400s name the contract version.",
+      "source": "Spec 0024 metadata contracts"
+    },
+    {
+      "id": "SCALE-001",
+      "title": "HNSW indexes + encoder-cache sizing for tenant growth",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P3",
+      "notes": "Add pgvector HNSW when chunk counts justify (currently seq-scan-fine); raise _ENCODER_CACHE_MAX with memory headroom math; per-isolation-tier index strategy per Spec 0024.",
+      "source": "Spec 0024 metadata contracts"
     }
   ]
 }

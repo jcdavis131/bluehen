@@ -28,15 +28,17 @@
   - `uv run python scripts/realtext_methods.py --site both`
 - [ ] **RT-403** — Collapse-regime vs BGE/e5/Qwen3 panel (research) · spec [0008](./specs/0008-*.md)
   - `uv run python scripts/collapse_regime.py`
+- [ ] **RT-404** — Tenant Barlow recipe — all Phase A sites (research) · spec [0008](./specs/0008-*.md)
+  - `Extend tenant_baseline.py --recipe barlow; run --all-sites`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
 - [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
+- [ ] **RT-403** — Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates (None)
 
 ## In progress
 
-- [ ] **RT-401** — Real-text bake-off: research-rag corpus (@claude)
 - [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0021 P1) (@claude)
 - [ ] **MON-005** — Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0021 P3) (@claude)
 - [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4) (@claude)
@@ -46,7 +48,6 @@
 
 - [ ] **INF-001** — Local stack up (Postgres + Redis + migrate + bootstrap) · blockedBy: ['BLK-DISK', 'BLK-DOCKER']
 - [ ] **INF-002** — Run API + worker + verify research-rag search · blockedBy: ['BLK-DOCKER']
-- [ ] **RT-404** — Tenant Barlow recipe — all Phase A sites · blockedBy: ['RT-401']
 - [ ] **RAG-501** — Scale arXiv corpus to 200 papers + re-kickoff · blockedBy: ['BLK-DOCKER']
 - [ ] **RAG-504** — arxiviq tier drop@8 benchmark (20 queries) · blockedBy: ['BLK-DOCKER']
 - [ ] **SRV-601** — MRL-trained checkpoint deploy on research-rag · blockedBy: ['BLK-DOCKER']
@@ -56,6 +57,7 @@
 - [ ] **MON-004** — Storefront: hosted-model product page (per-domain model cards -> subscribe -> API key) (Spec 0021 P2) · blockedBy: ['MON-003']
 - [ ] **MON-010** — hq revenue dashboard: per-stream MRR, passive vs active split, BU attribution (Spec 0021) · blockedBy: ['MON-001', 'MON-006']
 - [ ] **KIT-002** — Storefront /kits landing — three persona cards + Just try it (Spec 0022 Phase A) · blockedBy: ['KIT-001']
+- [ ] **KIT-004** — Per-kit sample search pages — chips + LiveSearchPanel on static corpus (Spec 0022 Phase B) · blockedBy: ['KIT-002', 'KIT-003']
 
 ## Recently done
 

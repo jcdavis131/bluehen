@@ -1340,3 +1340,23 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** Re-armed: Monitor(RT-401 true completion (rows + write marker or crash)) — timeout 3500s, classifier-approved. Prior note: stdout block-buffered (P-249).
 - **Why it works:** Block-buffered Python won't flush progress to terminal — completion must be detected via **artifact signals** (result rows accumulated, explicit write marker file) or **crash**. Naming both success criteria and failure in the monitor event (P-170) avoids hanging on silent stdout. Long timeout (3500s) matches bake-off runtime class.
 - **Maps to:** refine event-driven-wait + background-failure-triage — buffered long jobs: monitor on file/row markers + crash, not terminal output.
+
+### P-251 - Fill-the-wait: ship parallel queue work while long-running monitor stays armed
+- **Observed:** RT-401 completion monitor still running → Fable 5 pushed 777edc0 MON-005/008 monetization stack (~3m 26s, +110-line HF publish script among 39 files) without disarming the bake-off monitor.
+- **Why it works:** Extends P-019 (background lane): a 3500s monitor means the foreground would idle for an hour+. Parallel shipping on entitlements/refinery/commerce uses wall time productively. Monitor count stays at 1 — no duplicate waiters on RT-401.
+- **Maps to:** refine fill-the-wait + event-driven-wait — while a long eval monitor runs, pick independent queue items (different lane, no shared state conflict).
+
+### P-252 - External publish scripts exit non-zero with explanation; never fake success
+- **Observed:** publish_model_hf.py (MON-008): "Gate: requires HF_TOKEN (Operator). Without it this script explains and exits 2 — it never fakes a publish." Only gate-passing models publishable; model card carries measured numbers.
+- **Why it works:** Publish operations are narrative-sensitive — a silent no-op or fake success would claim models shipped to HF when they didn't. Exit 2 + explanation matches P-212 (never fail the request) inverted for **batch/operator scripts**: fail loud, not quiet. Open-core flywheel tied to measured provenance on the card.
+- **Maps to:** refine respect-the-guard + validate-gate — external publish CLI requires token; explain and exit 2; no fake publish.
+
+### P-253 - Monitor event + row count interpreted against expected job phases; hold for write marker
+- **Observed:** RT-401 completion monitor event fired at **5 rows** — Fable 5: "the SOTA panel phase adds entries beyond the 4 methods. Holding until the write marker confirms completion." Monitor stays armed.
+- **Why it works:** Extends P-249/P-250: row count alone isn't completion when the protocol has **phases** (4 methods → SOTA panel adds more). Domain context prevents premature EVIDENCE close-out. Write marker remains the authoritative done signal for block-buffered jobs.
+- **Maps to:** refine event-driven-wait + validate-gate — interpret monitor events with phase awareness; don't complete on partial row counts.
+
+### P-254 - Primary completion monitor chains to a simpler terminal monitor
+- **Observed:** RT-401 true completion (rows + write marker or crash) stream ended → re-armed Monitor(RT-401 final rows or process exit) (3000s, classifier-approved). Prior monitor was stricter (P-250); fallback monitor covers **final row flush** or **process exit** when the first wait ends ambiguously.
+- **Why it works:** Extends P-171 monitor chaining: when the authoritative monitor fires without a write marker (P-253 hold), downgrade to a simpler terminal condition rather than declaring done or hanging forever. Process exit catches crash/completion; final rows catches last SOTA panel entries.
+- **Maps to:** refine event-driven-wait — chain strict completion monitor → simpler final-rows-or-exit monitor.

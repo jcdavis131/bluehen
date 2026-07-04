@@ -258,7 +258,7 @@
       "division": "research",
       "priority": 20,
       "title": "Real-text bake-off: research-rag corpus",
-      "status": "in_progress",
+      "status": "done",
       "blockedBy": [
         "BLK-DISK"
       ],
@@ -266,7 +266,8 @@
       "command": "pnpm evidence:realtext:research-rag",
       "acceptance": "EVIDENCE.md \u00a73.9 verdict; Barlow promote if \u0394nDCG \u2265 0.005",
       "claimedBy": "claude",
-      "claimedAt": "2026-07-04T02:55:03.391698+00:00"
+      "claimedAt": "2026-07-04T02:55:03.391698+00:00",
+      "notes": "EVIDENCE 3.12: barlow wins real text 2-seed (0.832 vs infonce 0.81, t32 0.84, ood 0.932); all trained > all zero-shot in-domain. RT-403 queued for gated prod promotion."
     },
     {
       "id": "RT-402",
@@ -1276,6 +1277,14 @@
         "MON-001"
       ],
       "notes": "Blocked on Medusa production checkout + MON-001 Stripe metering for fair-use enforcement on Pro."
+    },
+    {
+      "id": "RT-403",
+      "title": "Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "EVIDENCE 3.12 basis. Change loss.method to barlow for head-only prod recipe; require research-tenant gates to pass before charter deploy; rollback on regression."
     }
   ]
 }

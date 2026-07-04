@@ -1,0 +1,11 @@
+{"kind": "zeroshot", "model": "raw-MiniLM", "indomain": {"effRank": 270.05, "knn_full": 0.8633, "ndcg_full": 0.7656, "knn_t128": 0.8283, "knn_t64": 0.7667, "knn_t32": 0.6733}, "ood_knn": 0.895}
+{"kind": "zeroshot", "model": "BGE-small", "indomain": {"effRank": 274.88, "knn_full": 0.8783, "ndcg_full": 0.7647, "knn_t128": 0.8383, "knn_t64": 0.7517, "knn_t32": 0.6683}, "ood_knn": 0.8817}
+{"kind": "zeroshot", "model": "e5-small", "indomain": {"effRank": 243.12, "knn_full": 0.8867, "ndcg_full": 0.7796, "knn_t128": 0.8417, "knn_t64": 0.745, "knn_t32": 0.6583}, "ood_knn": 0.9167}
+{"kind": "trained", "method": "infonce", "seed": 0, "indomain": {"effRank": 263.1, "knn_full": 0.89, "ndcg_full": 0.805, "knn_t128": 0.8517, "knn_t64": 0.8317, "knn_t32": 0.7717}, "ood_knn": 0.9117}
+{"kind": "trained", "method": "infonce", "seed": 1, "indomain": {"effRank": 258.4, "knn_full": 0.885, "ndcg_full": 0.8171, "knn_t128": 0.8617, "knn_t64": 0.8367, "knn_t32": 0.7783}, "ood_knn": 0.9}
+{"kind": "trained", "method": "vicreg", "seed": 0, "indomain": {"effRank": 263.47, "knn_full": 0.88, "ndcg_full": 0.7994, "knn_t128": 0.855, "knn_t64": 0.8283, "knn_t32": 0.765}, "ood_knn": 0.9133}
+{"kind": "trained", "method": "vicreg", "seed": 1, "indomain": {"effRank": 262.5, "knn_full": 0.8783, "ndcg_full": 0.8048, "knn_t128": 0.8583, "knn_t64": 0.8467, "knn_t32": 0.7583}, "ood_knn": 0.9283}
+{"kind": "trained", "method": "barlow", "seed": 0, "indomain": {"effRank": 221.93, "knn_full": 0.875, "ndcg_full": 0.8318, "knn_t128": 0.8667, "knn_t64": 0.855, "knn_t32": 0.845}, "ood_knn": 0.9317}
+{"kind": "trained", "method": "barlow", "seed": 1, "indomain": {"effRank": 218.16, "knn_full": 0.8817, "ndcg_full": 0.8311, "knn_t128": 0.8717, "knn_t64": 0.8617, "knn_t32": 0.8417}, "ood_knn": 0.9317}
+{"kind": "trained", "method": "mrl", "seed": 0, "indomain": {"effRank": 228.3, "knn_full": 0.8717, "ndcg_full": 0.7933, "knn_t128": 0.8383, "knn_t64": 0.8217, "knn_t32": 0.76}, "ood_knn": 0.8983}
+{"kind": "trained", "method": "mrl", "seed": 1, "indomain": {"effRank": 221.81, "knn_full": 0.885, "ndcg_full": 0.8114, "knn_t128": 0.8533, "knn_t64": 0.84, "knn_t32": 0.8033}, "ood_knn": 0.91}

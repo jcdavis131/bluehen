@@ -404,6 +404,27 @@ advantage is construction; the 512 rank collapse (15.6) is protocol-
 independent and actionable. Current prod default (256) sits in the sane
 middle. No default change without a query-grounded re-test.
 
+### 3.12 Real-text method bake-off (RT-401, AG News, 2 seeds) — 2026-07-04
+
+`scripts/realtext_methods.py` · MiniLM backbone fine-tunes vs fair
+zero-shot panel · served Z1 graded · in-domain nDCG (seeds s0/s1):
+
+| Method | nDCG full | knn t32 | OOD knn | effRank |
+|---|---|---|---|---|
+| **barlow** | **0.8318 / 0.8311** | **0.845 / 0.842** | **0.932 / 0.932** | 222/218 |
+| infonce | 0.8050 / 0.8171 | 0.772 / 0.778 | 0.912 / 0.900 | 263/258 |
+| mrl | 0.7933 / 0.8114 | 0.760 / 0.803 | 0.898 / 0.910 | 228/222 |
+| vicreg | 0.7994 / 0.8048 | 0.765 / 0.758 | 0.913 / 0.928 | 263/262 |
+| zero-shot best (e5-small) | 0.7796 | 0.658 | 0.917 | 243 |
+
+**Verdicts.** (1) Every trained method beats the entire zero-shot SOTA
+panel in-domain — the venture thesis (domain tuning > off-the-shelf) holds
+on real text, +0.052 for barlow over the best zero-shot. (2) **Barlow
+clears its promotion gate 4x over** (Δ vs infonce ≈ +0.020 mean, gate
+0.005) with the best truncation retention and OOD, seed-stable. (3) Next:
+promote barlow into the prod DEFAULT_RECIPE **behind tenant-corpus gates**
+(queued RT-403) — no hot recipe swap without per-tenant eval.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

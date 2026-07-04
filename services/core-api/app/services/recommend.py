@@ -38,12 +38,24 @@ def recommend_by_item(workspace_id: uuid.UUID, item_id: str, k: int = 5) -> dict
     """Nearest neighbors of a known item, excluding itself, using its
     stored vector — the item's own trained-space position is the query."""
     with db_session(workspace_id) as session:
+        # Anchor in the DEPLOYED model's space; stale index rows from other
+        # versions persist and must not win by lexicographic accident.
         anchor = session.execute(text("""
-            SELECT chunk_id, embedding, model_version
-            FROM document_chunks
-            WHERE workspace_id = :wid AND chunk_id = :cid
-            ORDER BY model_version DESC LIMIT 1
+            SELECT dc.chunk_id, dc.embedding, dc.model_version
+            FROM document_chunks dc
+            JOIN model_versions mv
+              ON mv.workspace_id = dc.workspace_id
+             AND mv.version = dc.model_version AND mv.deployed
+            WHERE dc.workspace_id = :wid AND dc.chunk_id = :cid
+            LIMIT 1
         """), {"wid": str(workspace_id), "cid": item_id}).mappings().first()
+        if anchor is None:
+            anchor = session.execute(text("""
+                SELECT chunk_id, embedding, model_version
+                FROM document_chunks
+                WHERE workspace_id = :wid AND chunk_id = :cid
+                ORDER BY model_version DESC LIMIT 1
+            """), {"wid": str(workspace_id), "cid": item_id}).mappings().first()
         if anchor is None:
             raise LookupError(f"item {item_id!r} not found in the index")
         rows = session.execute(text("""

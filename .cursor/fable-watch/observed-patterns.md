@@ -1546,3 +1546,13 @@ ow-next-routes-manifest — Vercel suggests (1) misconfigured Output Directory v
 - **Observed:** Mid-lap fix in services/worker/main.py: "notes": f"indexed {index_info.get('chunks', 0)} chunks" → get('indexed', 0) with assert in heredoc patch (~2m in progress).
 - **Why it works:** Operations ledger notes are read by operators and agents for truth. Using chunks when the API returns indexed logs **0 chunks forever** without error — silent wrong telemetry. Fix aligns note text with response schema (P-016 read sibling/API shape).
 - **Maps to:** refine correct-assumptions + follow-procedure — ledger/notes must use the same field names as the API response dict.
+
+### P-293 - Post-acceptance postmortem: deploy-displacement guard + EVIDENCE correction
+- **Observed:** After RECO-001 ACCEPT (3.14): postmortem 83a46d5 — site-bound workspace upload must **not displace** fleet site's serving model/index; customer (siteless) tenants still zero-touch deploy. Champion restored, 702 chunks reindexed. EVIDENCE §3.14 corrected (~5m, 11 shells).
+- **Why it works:** Acceptance proved the pipeline; postmortem found **wrong blast radius** (research workspace upload overwrote storefront serving). Fix adds explicit skip + ledger note; restores champion; updates EVIDENCE — honest science (P-226) over keeping a flashy zero-touch claim on the wrong tenant class.
+- **Maps to:** refine validate-gate + close-the-loop — product acceptance → postmortem → guard + restore + EVIDENCE correction.
+
+### P-294 - Loop goal reframes to current product initiative while keeping v2 protocol
+- **Observed:** Wakeup /loop continue the hill-climb toward **Recommend Everything**: execute the slate one task at a time — protocol v2 (SENSE/EXECUTE/CLOSE, delegate to small models in parallel) → inspects search.py (RECO-002 path, ~27s).
+- **Why it works:** Extends P-189/P-273: continuation prompt tracks **current business initiative** (Recommend Everything, not generic org build) while preserving slate cadence + v2 phases. Agent reads relevant service code (search) for the next RECO task without re-deriving goal from stale context.
+- **Maps to:** refine progress-board — loop prompt names active product initiative + v2 protocol + one-task cadence.

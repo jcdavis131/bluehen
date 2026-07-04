@@ -1485,3 +1485,19 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** Mid-lap compound check: inline Python ll queue modules import clean (jobs, harvest, certify, queueing) && uv run pytest services/core-api/tests -q | tail -1 (~28s+).
 - **Why it works:** Queue/harvest/certify modules share import paths — a syntax error in one breaks others silently until runtime. Named import smoke (import clean) plus pytest summary in one round-trip catches wiring regressions before push. Cheap gate for WIRE/queue edits.
 - **Maps to:** refine validate-gate + smoke-import — queue subsystem edits: compound import smoke + pytest tail before commit.
+
+### P-280 - Vercel routes-manifest failure surfaces output-dir + turbo outputs checklist
+- **Observed:** Deploy failed: 
+ow-next-routes-manifest — Vercel suggests (1) misconfigured Output Directory vs Next.js config, (2) add .next/** to turbo.json task outputs, (3) build command did not complete — check build logs.
+- **Why it works:** Extends P-123 post-deploy smoke inverted — deploy failure gets **structured diagnosis** from platform error text, not generic "deploy failed." Monorepo sites often fail when turbo outputs omit .next/** or root dir wrong. Actionable before retry.
+- **Maps to:** refine diagnose-before-retry + use-available-integrations — Vercel routes-manifest errors → check output directory, turbo outputs, build logs.
+
+### P-281 - /btw side channel unavailable under Remote Control
+- **Observed:** During /rc active session: /btw isn't available over Remote Control.
+- **Why it works:** P-151 documented /btw for non-interrupting side questions locally; under Remote Control that channel is blocked. Operator on mobile must use the main prompt or interrupt — worth knowing when supervising unattended loops remotely.
+- **Maps to:** note — platform constraint when /rc active (contrast P-191 Remote Control + P-151 /btw).
+
+### P-282 - Post-fix deploy monitor names the corrective change (not generic rebuild)
+- **Observed:** After Vercel routes-manifest failure (P-280): Monitor "Hub rebuild with corrected filter" stream ended → shell verify (~26s). Monitor label encodes **what was fixed** (filter correction), not just "deploy lands."
+- **Why it works:** Extends P-215: when retrying a failed deploy, the monitor event distinguishes fix attempt from first deploy — operator/agent knows this wait is for the **corrected** build. Reduces confusion when multiple deploy retries chain.
+- **Maps to:** refine event-driven-wait + post-deploy-smoke — failed deploy retry gets a monitor named for the fix applied.

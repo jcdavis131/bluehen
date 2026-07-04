@@ -1,10 +1,30 @@
-# Blue Hen RE
+# Blue Hen RE — a self-sustaining intelligence engine
 
-**RE = RAG Embeddings.** Fleet-orchestrated platform: one agent, one API, many mini-org sites.
+**One operating loop, seven live surfaces, zero-touch transactions.**
+Blue Hen RE (RE = *Relay Engine* / *RAG Embeddings*) is a closed-loop ML
+organization: consumer-facing sites provide passive value and emit
+consented data exhaust; a FastAPI/Postgres backbone routes it; an
+evaluation-gated training pipeline turns it into stronger embedding
+models that deploy back to the same surfaces. Assets the loop produces —
+models, datasets, scorecards, reports, knowledge — are the product line.
 
-**Repository:** [github.com/jcdavis131/henington-homes](https://github.com/jcdavis131/henington-homes)  
-**Primary domain:** [bhenre.com](https://bhenre.com) · **Control plane:** [jcamd.com](https://jcamd.com)  
-**Fleet registry:** [`config/fleet.json`](./config/fleet.json) · **Agent guide:** [`AGENTS.md`](./AGENTS.md) · **Agent init:** [`docs/AGENT_INIT.md`](./docs/AGENT_INIT.md) · **Tasks:** [`TASKS.md`](./TASKS.md)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
+
+| Live surface | What it is |
+|---|---|
+| [bhenre.com](https://bhenre.com) | The company: org story, store, metered API |
+| [dumbmodel.com](https://dumbmodel.com) | Free embedding health checks (the funnel) |
+| [slasso.com](https://slasso.com) | Automated RAG certification |
+| [arxiviq.com](https://arxiviq.com) | Live retrieval assistant + research registry |
+| [data.bhenre.com](https://data.bhenre.com) | Dataset catalog + self-writing wiki |
+| [signals.bhenre.com](https://signals.bhenre.com) | Simulation-only strategy reports |
+| [jcamd.com](https://jcamd.com) | The operator cockpit (runs in the open) |
+
+**Docs:** [Site architecture](./docs/SITE_ARCHITECTURE.md) ·
+[Orchestration](./docs/ORCHESTRATION.md) · [Specs](./specs/) ·
+[Evidence ledger](./EVIDENCE.md) · [Status board](./docs/STATUS.md) ·
+[Tasks](./TASKS.md)
+**Agent onboarding:** [`AGENTS.md`](./AGENTS.md) · [`docs/AGENT_INIT.md`](./docs/AGENT_INIT.md)
 
 ## Architecture (fleet-centered)
 

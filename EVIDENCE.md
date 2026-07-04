@@ -417,6 +417,14 @@ zero-shot panel · served Z1 graded · in-domain nDCG (seeds s0/s1):
 | vicreg | 0.7994 / 0.8048 | 0.765 / 0.758 | 0.913 / 0.928 | 263/262 |
 | zero-shot best (e5-small) | 0.7796 | 0.658 | 0.917 | 243 |
 
+**Prod promotion executed (2026-07-04).** `asn-head-4000090` (barlow,
+hard-negative pairs) passed gates and charter-deployed: ER **28.06**
+(highest recorded for this tenant), nDCG 0.8847 *on the harder
+hard-jaccard slice* — cross-slice nDCG comparisons to earlier models
+(measured on random-negative slices) are invalid by construction; the
+within-run gates and record rank are the valid signals. Rollback
+available (prior models retained undeployed).
+
 **Verdicts.** (1) Every trained method beats the entire zero-shot SOTA
 panel in-domain — the venture thesis (domain tuning > off-the-shelf) holds
 on real text, +0.052 for barlow over the best zero-shot. (2) **Barlow

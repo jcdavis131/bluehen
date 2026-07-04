@@ -286,14 +286,15 @@
       "division": "research",
       "priority": 22,
       "title": "Collapse-regime vs BGE/e5/Qwen3 panel",
-      "status": "in_progress",
+      "status": "done",
       "blockedBy": [
         "BLK-DISK"
       ],
       "spec": "0008",
       "command": "uv run python scripts/collapse_regime.py",
       "claimedBy": "claude",
-      "claimedAt": "2026-07-04T05:15:49.138920+00:00"
+      "claimedAt": "2026-07-04T05:15:49.138920+00:00",
+      "notes": "asn-head-4000090 (barlow + hard negatives) gates=True, charter-deployed, ER 28.06 record; slice-caveat recorded in EVIDENCE 3.12 addendum; rollback candidates retained."
     },
     {
       "id": "RT-404",
@@ -1283,10 +1284,11 @@
     {
       "id": "RT-403",
       "title": "Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "EVIDENCE 3.12 basis. Change loss.method to barlow for head-only prod recipe; require research-tenant gates to pass before charter deploy; rollback on regression."
+      "notes": "asn-head-4000090 (barlow + hard negatives) gates=True, charter-deployed, ER 28.06 record; slice-caveat recorded in EVIDENCE 3.12 addendum; rollback candidates retained.",
+      "claimedBy": "claude"
     }
   ]
 }

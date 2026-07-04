@@ -26,8 +26,6 @@
 - [ ] **AR-305** — Weight decay 5e-5 (research) · spec [0003](./specs/0003-*.md)
 - [ ] **RT-402** — Real-text bake-off: AG News + both sites (research) · spec [0008](./specs/0008-*.md)
   - `uv run python scripts/realtext_methods.py --site both`
-- [ ] **RT-403** — Collapse-regime vs BGE/e5/Qwen3 panel (research) · spec [0008](./specs/0008-*.md)
-  - `uv run python scripts/collapse_regime.py`
 - [ ] **RT-404** — Tenant Barlow recipe — all Phase A sites (research) · spec [0008](./specs/0008-*.md)
   - `Extend tenant_baseline.py --recipe barlow; run --all-sites`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
@@ -35,7 +33,6 @@
 - [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
-- [ ] **RT-403** — Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates (None)
 
 ## In progress
 
@@ -61,7 +58,6 @@
 
 ## Recently done
 
-- [x] ~~**DR-107** — Refinery launch review: 5-SME OKF living reviews + deploy checklist~~
 - [x] ~~**SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)~~
 - [x] ~~**SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)~~
 - [x] ~~**HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal~~
@@ -69,6 +65,7 @@
 - [x] ~~**DR-108** — Wiki Refinery deterministic layer (Spec 0020)~~
 - [x] ~~**DR-109** — Wiki Refinery GLM refinement pass (Spec 0020)~~
 - [x] ~~**KIT-003** — Kit sample corpora — content/kits/* JSONL seeded for all three personas (Spec 0022)~~
+- [x] ~~**RT-403** — Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates~~
 
 ## Specs & context
 

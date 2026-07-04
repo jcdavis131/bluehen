@@ -40,17 +40,17 @@
 .fleet-closed-loop__node {
   flex: 1;
   min-width: 0;
-  border: 2px solid var(--bh-border);
+  border: 2px solid var(--bh-card-border);
   border-radius: var(--bh-radius-md);
   padding: var(--bh-space-3);
   background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block-sm);
   transition: border-color var(--bh-duration) var(--bh-ease),
     box-shadow var(--bh-duration) var(--bh-ease);
 }
 
 .fleet-closed-loop__node:hover {
-  border-color: var(--bh-border-strong);
-  box-shadow: var(--bh-shadow-sm);
+  box-shadow: var(--bh-shadow-block);
 }
 
 .fleet-closed-loop__node.is-active {
@@ -150,8 +150,9 @@
 .fleet-closed-loop__feedback,
 .fleet-closed-loop__stages {
   background: var(--bh-surface);
-  border: 2px solid var(--bh-border);
+  border: 2px solid var(--bh-card-border);
   border-radius: var(--bh-radius-md);
+  box-shadow: var(--bh-shadow-block-sm);
   padding: var(--bh-space-4);
   margin-bottom: var(--bh-space-3);
   font-size: 0.8125rem;

@@ -147,7 +147,7 @@ export function TierComparePanel() {
       {(full || edge) && (
         <>
           {rankChanged && (
-            <div className="fleet-card" style={{ fontSize: 13, borderColor: "#e8c547" }}>
+            <div className="fleet-card" style={{ fontSize: 13, borderColor: "var(--bh-stage-validate)" }}>
               <strong>Rank shift at edge tier</strong> — top-1 differs between full and edge.
               MRL-trained checkpoints reduce this drop; post-hoc truncate may reorder results.
             </div>
@@ -216,7 +216,7 @@ export function TierComparePanel() {
                         <td style={{ padding: "4px 8px" }}>
                           {er ?? "—"}
                           {delta != null && delta !== 0 && (
-                            <span style={{ marginLeft: 6, color: delta > 0 ? "#e8c547" : "#5cb87a" }}>
+                            <span style={{ marginLeft: 6, color: delta > 0 ? "var(--bh-stage-validate)" : "var(--bh-stage-prod)" }}>
                               ({delta > 0 ? "+" : ""}
                               {delta})
                             </span>

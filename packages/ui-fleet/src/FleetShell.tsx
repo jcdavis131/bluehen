@@ -14,6 +14,61 @@ const SITE_MARK_GLYPH: Record<string, "hen" | "cone"> = {
   dumbmodel: "cone",
 };
 
+/** Runs during HTML parse, before first paint: stamps the stored theme on
+ * <html> so tokens.css resolves the right palette immediately. With no
+ * stored choice, the prefers-color-scheme media block in tokens.css rules. */
+const THEME_INIT = `(function(){try{var t=localStorage.getItem("bh-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-bh-theme",t);}catch(e){}})();`;
+
+function currentTheme(): "light" | "dark" {
+  const stamped = document.documentElement.getAttribute("data-bh-theme");
+  if (stamped === "dark" || stamped === "light") return stamped;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function ThemeToggle() {
+  // null until mounted — the server can't know the theme, so render a
+  // neutral glyph first and settle after hydration.
+  const [theme, setTheme] = useState<"light" | "dark" | null>(null);
+
+  useEffect(() => {
+    setTheme(currentTheme());
+  }, []);
+
+  const toggle = useCallback(() => {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-bh-theme", next);
+    try {
+      localStorage.setItem("bh-theme", next);
+    } catch {
+      /* private mode — theme still applies for this page */
+    }
+    setTheme(next);
+  }, []);
+
+  return (
+    <button
+      type="button"
+      className="fleet-theme-toggle"
+      onClick={toggle}
+      aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+      title={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+    >
+      {theme === "dark" ? (
+        /* sun */
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7" />
+        </svg>
+      ) : (
+        /* moon */
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4 8.8 8.8 0 1 0 20.6 14.2Z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
 /** Corporate topology (Spec 0019): ONE company site, revenue-bearing
  * business units, internal consoles — derived from fleet.json orgRole so
  * the nav is always the org chart, never a hardcoded list. */
@@ -68,6 +123,7 @@ export function FleetShell({
 
   return (
     <div className="fleet-shell" data-site={siteId}>
+      <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
       <header className="fleet-header">
         <Link href="/" className="fleet-brand" onClick={closeAll} aria-label={`${surface?.stop ?? site?.name ?? siteId} home`}>
           <span className="fleet-brand__mark" aria-hidden="true">
@@ -76,14 +132,6 @@ export function FleetShell({
           <span>{surface?.stop ?? site?.name ?? siteId}</span>
           {site?.domain && <span className="fleet-brand__domain">{site.domain}</span>}
         </Link>
-        <button
-          className="fleet-nav-toggle"
-          onClick={toggleNav}
-          aria-label={navOpen ? "Close navigation" : "Open navigation"}
-          aria-expanded={navOpen}
-        >
-          {navOpen ? "✕" : "☰"}
-        </button>
         <nav className={`fleet-nav${navOpen ? " is-open" : ""}`} aria-label="Site">
           {siteNav.map((item) => {
             const active =
@@ -149,6 +197,17 @@ export function FleetShell({
             )}
           </div>
         </nav>
+        <div className="fleet-header__actions">
+          <ThemeToggle />
+          <button
+            className="fleet-nav-toggle"
+            onClick={toggleNav}
+            aria-label={navOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={navOpen}
+          >
+            {navOpen ? "✕" : "☰"}
+          </button>
+        </div>
       </header>
       <main className="fleet-main">{children}</main>
       <footer className="fleet-footer fleet-footer--org">

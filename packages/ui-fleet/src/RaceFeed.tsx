@@ -14,11 +14,11 @@ export interface LedgerEntry {
 }
 
 const DIVISION_ACCENT: Record<string, string> = {
-  orchestration: "#a78bfa",
-  data: "#38bdf8",
-  research: "#3d8bfd",
-  bd: "#e8c547",
-  execution: "#5cb87a",
+  orchestration: "var(--bh-div-orchestration)",
+  data: "var(--bh-div-data)",
+  research: "var(--bh-div-research)",
+  bd: "var(--bh-div-bd)",
+  execution: "var(--bh-div-execution)",
 };
 
 /** Stable entry identity: ts + stage alone collide for same-second,

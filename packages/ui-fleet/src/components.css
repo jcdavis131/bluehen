@@ -1,5 +1,6 @@
 /**
- * Blue Hen RE — brutalist components
+ * Blue Hen RE — warm neobrutalist components
+ * Ink outlines, blocky offset shadows, press-down interactions.
  */
 
 /* ── Shell chrome ───────────────────────────────────────── */
@@ -7,19 +8,26 @@
 
 .fleet-header {
   /* per-site accent signature — instant "which surface am I on" */
-  border-top: 3px solid var(--bh-accent);
+  border-top: 4px solid var(--bh-accent);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--bh-space-4);
   padding: var(--bh-space-3) var(--bh-space-4);
-  border-bottom: 2px solid var(--bh-border-strong);
+  border-bottom: 2px solid var(--bh-ink);
   background: var(--bh-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 20;
+}
+
+.fleet-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--bh-space-2);
+  flex-shrink: 0;
 }
 
 .fleet-brand {
@@ -75,10 +83,11 @@
 }
 
 .fleet-nav {
-  /* Mobile-first: hidden drawer, toggled by .is-open. Desktop inline at >=721px. */
+  /* Mobile-first: hidden drawer, toggled by .is-open. Desktop inline at >=721px.
+     Anchored to the sticky header so it tracks header height exactly. */
   display: none;
-  position: fixed;
-  top: 56px;
+  position: absolute;
+  top: 100%;
   left: 0;
   right: 0;
   flex-direction: column;
@@ -86,11 +95,11 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   padding: var(--bh-space-4);
-  border-bottom: 2px solid var(--bh-border-strong);
+  border-bottom: 2px solid var(--bh-ink);
   gap: var(--bh-space-2);
   z-index: 19;
   font-size: 0.78rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .fleet-nav.is-open {
@@ -98,11 +107,14 @@
 }
 
 .fleet-nav a {
-  color: var(--bh-muted);
+  color: var(--bh-text-secondary);
   text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
   padding: var(--bh-space-2) var(--bh-space-3);
   border-bottom: none;
-  border-left: 2px solid transparent;
+  border-left: 3px solid transparent;
   min-height: 44px;
   display: flex;
   align-items: center;
@@ -117,16 +129,24 @@
   border-bottom-color: transparent;
 }
 
-/* Mobile hamburger — visible by default (mobile), hidden at >=721px */
+/* Mobile hamburger — a chunky accent block, visible by default (mobile),
+   hidden at >=721px */
 .fleet-nav-toggle {
   display: block;
-  background: none;
-  border: none;
-  color: var(--bh-text);
+  background: var(--bh-accent);
+  border: 2px solid var(--bh-ink);
+  border-radius: 10px;
+  color: var(--bh-on-accent);
   cursor: pointer;
-  padding: var(--bh-space-2);
-  font-size: 1.25rem;
+  padding: var(--bh-space-2) var(--bh-space-3);
+  font-size: 1.05rem;
   line-height: 1;
+  box-shadow: var(--bh-shadow-block-sm);
+}
+
+.fleet-nav-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }
 
 .fleet-main {
@@ -135,8 +155,46 @@
   padding: var(--bh-space-6) var(--bh-space-4) var(--bh-space-12);
 }
 
+/* Theme toggle — chunky chip in the header, presses like every button */
+.fleet-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  background: var(--bh-surface);
+  color: var(--bh-text);
+  border: 2px solid var(--bh-ink);
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: var(--bh-shadow-block-sm);
+  transition: transform var(--bh-duration) var(--bh-ease),
+    box-shadow var(--bh-duration) var(--bh-ease),
+    color var(--bh-duration) var(--bh-ease);
+}
+
+.fleet-theme-toggle:hover {
+  color: var(--bh-accent);
+}
+
+.fleet-theme-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.fleet-theme-toggle:focus-visible {
+  outline: 2px solid var(--bh-accent);
+  outline-offset: 2px;
+}
+
+.fleet-theme-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
 .fleet-footer {
-  border-top: 2px solid var(--bh-border);
+  border-top: 2px solid var(--bh-ink);
   padding: var(--bh-space-6) var(--bh-space-4);
   display: flex;
   flex-direction: column;
@@ -168,22 +226,29 @@
   font-family: var(--bh-font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.05em;
-  color: var(--bh-accent);
-  background: transparent;
-  border: 1px solid var(--bh-border);
-  border-radius: var(--bh-radius);
+  color: var(--bh-text);
+  background: var(--bh-surface);
+  border: 2px solid var(--bh-ink);
+  border-radius: 10px;
   padding: 6px 12px;
   cursor: pointer;
   width: 100%;
   min-height: 44px;
   text-align: left;
-  transition: border-color var(--bh-duration) var(--bh-ease), color var(--bh-duration) var(--bh-ease);
+  box-shadow: var(--bh-shadow-block-sm);
+  transition: transform var(--bh-duration) var(--bh-ease),
+    box-shadow var(--bh-duration) var(--bh-ease),
+    color var(--bh-duration) var(--bh-ease);
 }
 
 .fleet-switcher__button:hover,
 .fleet-switcher__button[aria-expanded="true"] {
-  border-color: var(--bh-accent);
-  color: var(--bh-text);
+  color: var(--bh-accent);
+}
+
+.fleet-switcher__button:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }
 
 .fleet-switcher__panel {
@@ -193,9 +258,9 @@
   max-height: 50vh;
   overflow-y: auto;
   background: var(--bh-surface);
-  border: 1px solid var(--bh-border);
+  border: 2px solid var(--bh-ink);
   border-radius: var(--bh-radius-lg);
-  box-shadow: none;
+  box-shadow: var(--bh-shadow-block);
   padding: var(--bh-space-4);
   margin-top: var(--bh-space-2);
 }
@@ -319,6 +384,9 @@
     position: static;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: center;
+    /* keep brand left / nav+actions right under space-between */
+    margin-left: auto;
     background: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -382,9 +450,10 @@
 .fleet-card,
 .bh-card {
   background: var(--bh-surface);
-  border: 2px solid var(--bh-border);
-  border-radius: var(--bh-radius-md);
+  border: 2px solid var(--bh-card-border);
+  border-radius: var(--bh-radius-lg);
   padding: var(--bh-space-5);
+  box-shadow: var(--bh-shadow-block-sm);
   transition: border-color var(--bh-duration) var(--bh-ease),
     box-shadow var(--bh-duration) var(--bh-ease),
     transform var(--bh-duration) var(--bh-ease-out);
@@ -392,13 +461,11 @@
 
 .fleet-card:hover,
 .bh-card:hover {
-  border-color: var(--bh-border-strong);
-  box-shadow: var(--bh-shadow-sm);
+  box-shadow: var(--bh-shadow-block);
 }
 
 .bh-card--organic {
   border-radius: var(--bh-radius-organic);
-  border-color: var(--bh-border-strong);
 }
 
 .bh-card--organic:hover {
@@ -472,6 +539,9 @@
 
 /* ── Buttons ────────────────────────────────────────────── */
 
+/* The blocky press: rest → offset ink shadow; hover → lifts away from the
+   page; active → presses flat into it. Motion never carries meaning alone —
+   background/color still shift on hover. */
 .bh-btn {
   display: inline-flex;
   align-items: center;
@@ -479,70 +549,91 @@
   gap: var(--bh-space-2);
   font-family: var(--bh-font-body);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   min-height: 44px; /* touch floor */
   padding: 11px 20px;
-  border-radius: var(--bh-radius-sm);
-  border: 2px solid transparent;
+  border-radius: var(--bh-radius-btn);
+  border: 2px solid var(--bh-ink);
+  box-shadow: var(--bh-shadow-block);
   cursor: pointer;
   transition: background var(--bh-duration) var(--bh-ease),
     border-color var(--bh-duration) var(--bh-ease),
-    color var(--bh-duration) var(--bh-ease);
+    color var(--bh-duration) var(--bh-ease),
+    transform var(--bh-duration) var(--bh-ease),
+    box-shadow var(--bh-duration) var(--bh-ease);
+}
+
+.bh-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--bh-shadow-block-lg);
+}
+
+.bh-btn:active:not(:disabled) {
+  transform: translate(var(--bh-block-x), var(--bh-block-y));
+  box-shadow: none;
+}
+
+.bh-btn:focus-visible {
+  outline: 2px solid var(--bh-accent);
+  outline-offset: 2px;
 }
 
 .bh-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .bh-btn--primary {
   background: var(--bh-accent);
-  color: var(--bh-canvas);
-  border-color: var(--bh-accent);
+  color: var(--bh-on-accent);
 }
 
 .bh-btn--primary:hover:not(:disabled) {
-  background: var(--bh-text);
-  border-color: var(--bh-text);
-  color: var(--bh-canvas);
-  box-shadow: var(--bh-glow-accent);
-}
-
-.bh-btn--primary:focus-visible {
-  outline: 2px solid var(--bh-accent);
-  outline-offset: 2px;
+  background: var(--bh-accent-dim);
+  color: var(--bh-on-accent);
 }
 
 .bh-btn--ghost {
-  background: transparent;
+  background: var(--bh-surface);
   color: var(--bh-text);
-  border-color: var(--bh-border-strong);
 }
 
 .bh-btn--ghost:hover:not(:disabled) {
-  border-color: var(--bh-accent);
   color: var(--bh-accent);
-}
-
-.bh-btn--ghost:focus-visible {
-  outline: 2px solid var(--bh-accent);
-  outline-offset: 2px;
 }
 
 .bh-btn--sm {
   font-size: 0.75rem;
   padding: 7px 12px;
+  box-shadow: var(--bh-shadow-block-sm);
+}
+
+.bh-btn--sm:active:not(:disabled) {
+  transform: translate(2px, 2px);
 }
 
 .bh-btn--chip {
   font-family: var(--bh-font-mono);
   font-size: 0.68rem;
   font-weight: 500;
+  min-height: auto;
   padding: 5px 10px;
   background: var(--bh-inset);
   color: var(--bh-muted);
-  border: 1px solid var(--bh-border);
+  border: 1px solid var(--bh-border-strong);
+  border-radius: var(--bh-radius-md);
+  box-shadow: none;
+}
+
+.bh-btn--chip:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+}
+
+.bh-btn--chip:active:not(:disabled) {
+  transform: none;
 }
 
 .bh-btn--chip:hover:not(:disabled) {
@@ -575,18 +666,20 @@
   font-family: var(--bh-font-body);
   font-size: 0.9375rem;
   color: var(--bh-text);
-  background: var(--bh-inset);
-  border: 2px solid var(--bh-border);
-  border-radius: var(--bh-radius-sm);
+  background: var(--bh-surface-raised);
+  border: 2px solid var(--bh-ink);
+  border-radius: var(--bh-radius-md);
   padding: 10px 12px;
-  transition: border-color var(--bh-duration) var(--bh-ease);
+  transition: border-color var(--bh-duration) var(--bh-ease),
+    box-shadow var(--bh-duration) var(--bh-ease);
 }
 
 .bh-input:focus,
 .bh-textarea:focus,
 .bh-select:focus {
   outline: none;
-  border-color: var(--bh-border-focus);
+  border-color: var(--bh-accent);
+  box-shadow: var(--bh-shadow-block-sm);
 }
 
 .bh-textarea {
@@ -655,8 +748,9 @@
 /* ── Table (benchmark lab) ──────────────────────────────── */
 
 .bh-table-wrap {
-  border: 2px solid var(--bh-border);
-  border-radius: var(--bh-radius-md);
+  border: 2px solid var(--bh-card-border);
+  border-radius: var(--bh-radius-lg);
+  box-shadow: var(--bh-shadow-block-sm);
   /* wide tables scroll inside their frame — never clip, never overflow the page */
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -1067,16 +1161,13 @@
   gap: var(--bh-space-3);
 }
 
-/* Card hover lift (motion-safe) */
+/* Card hover lift (motion-safe) — link cards rise off the page and the
+   blocky shadow deepens */
 @media (prefers-reduced-motion: no-preference) {
-  .fleet-card,
-  .bh-card {
-    transition: transform var(--bh-duration) var(--bh-ease), border-color var(--bh-duration) var(--bh-ease);
-  }
   a.fleet-card:hover,
   a.bh-card:hover {
-    transform: translateY(-1px);
-    border-color: var(--bh-border-strong);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--bh-shadow-block);
   }
 }
 
@@ -1230,7 +1321,7 @@
 .bh-palette__overlay {
   position: fixed;
   inset: 0;
-  background: rgba(11, 13, 10, 0.7);
+  background: var(--bh-overlay);
   z-index: 90;
   display: flex;
   justify-content: center;
@@ -1240,9 +1331,9 @@
   width: min(560px, calc(100vw - 32px));
   align-self: flex-start;
   background: var(--bh-surface-raised);
-  border: 1px solid var(--bh-border-strong);
+  border: 2px solid var(--bh-ink);
   border-radius: var(--bh-radius-lg);
-  box-shadow: var(--bh-shadow-lg);
+  box-shadow: var(--bh-shadow-block-lg);
   overflow: hidden;
 }
 .bh-palette__input {
@@ -1299,7 +1390,7 @@
 .bh-btn--hero {
   font-size: 1.0625rem;
   padding: 18px 34px;
-  border-radius: var(--bh-radius-md);
+  border-radius: var(--bh-radius-btn);
   position: relative;
   overflow: hidden;
 }
@@ -1315,16 +1406,6 @@
   .bh-btn--hero:focus-visible::after {
     transition: transform 650ms var(--bh-ease-out);
     transform: translateX(120%);
-  }
-  .bh-btn:active {
-    transform: scale(0.98);
-  }
-  .bh-btn--hero {
-    transition: transform var(--bh-duration) var(--bh-ease), box-shadow var(--bh-duration-slow) var(--bh-ease);
-  }
-  .bh-btn--hero:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--bh-shadow-md), var(--bh-glow-accent);
   }
 }
 

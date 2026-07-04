@@ -1453,6 +1453,22 @@
       "priority": "P3",
       "notes": "Surface pending >48h with a highlighted row.",
       "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "FLY-001",
+      "title": "Aim the wiki at demand generation: topic pages become indexable evergreen articles (deterministic layer)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "The org's only passive growth engine. HOW: wiki topic/dataset pages get descriptive intros generated from measured facts (counts, sources, dates \u2014 deterministic templates, no LLM needed), proper meta descriptions via the API (add description field to wiki_pages), and inclusion in the refinery sitemap (add /wiki/* routes from live /v1/wiki). ACCEPT: wiki pages carry unique metas + appear in sitemap.xml; search-console-ready."
+    },
+    {
+      "id": "FLY-002",
+      "title": "Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "Makes the factory visible at every storefront. Registry-driven component (ui-fleet) reading /v1/catalog/stats + /v1/models via each site's BFF; honest empty states. Reinforces 'the loop produces while you watch'."
     }
   ]
 }

@@ -5,6 +5,29 @@
 > (tokens.css + components.css) · Data spine: core-api via `synth-core`/BFF
 > routes only — **no site ever touches Postgres or torch directly.**
 
+## The business objective (canonical, Operator-set 2026-07-04)
+
+Blue Hen RE is an **asset factory with storefronts**: a closed-loop
+ecosystem that grows and maintains itself. The operating loop produces
+sellable assets as byproducts of its own self-improvement — models,
+datasets, scorecards, reports, knowledge — the sites list them,
+customers self-serve, billing is event-driven, and every customer
+interaction feeds the loop as data. Human effort concentrates on gates
+and direction, never on transactions. Viability test: revenue accrues
+while nobody is watching, and each sale makes the next asset better.
+
+### The flywheel ledger (who produces, sells, feeds)
+
+| Site | Uniquely produces | Sells (passive) | Feeds |
+|---|---|---|---|
+| company (bhenre) | trust: story, gates, evidence | all checkout; metered API P1 | every BU's conversion endpoint |
+| dumbmodel | consented text + attention | — (funnel by design) | training data; primed buyers → slasso |
+| slasso | scorecards (credibility artifacts) | automated certification P4 | proof for company claims; scorecards → refinery |
+| arxiviq | living proof (panel-beating search) | subscriptions/engagements | the case study all sites cite; corpus trains champion |
+| refinery | datasets + self-writing wiki | corpus access P3; harvests | corpora for all; wiki = compounding SEO surface |
+| signals | simulation reports | premium notes P5 | generality proof beyond prose |
+| hq/observatory | legibility of the loop | — | the "governed" trust layer |
+
 ## The shape of the whole
 
 Seven surfaces, one spine, two loops:

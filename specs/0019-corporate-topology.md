@@ -4,6 +4,14 @@
 **Refines:** Spec 0015 (venture fleet) · Spec 0012 (operating loop) · Spec 0018 (refinery)
 **Owner:** Claude (topology layer, chrome) · Cursor (company-site restructure, BU team strips)
 
+## 0. The objective this topology serves (Operator, 2026-07-04)
+
+A viable business as a closed-loop ecosystem that grows and maintains
+itself, passively providing valuable goods and services for purchase.
+The loop produces assets; the sites are storefronts; billing is
+automated; interactions feed the loop. See docs/SITE_ARCHITECTURE.md
+"flywheel ledger" for the per-site produce/sell/feed contract.
+
 ## 1. The model
 
 Blue Hen RE is **one company** with **one corporate website** and a set

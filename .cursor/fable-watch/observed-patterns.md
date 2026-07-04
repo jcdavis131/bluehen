@@ -1455,3 +1455,18 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** /loop continue the hill-climb: execute the UX/WIRE study slate one task at a time — protocol v2 (SENSE/EXECUTE/CLOSE, delegate to small models in parallel) → v2 tick executes WIRE-203 with design-first retention (P-272) → 740f9e pushed (~2m).
 - **Why it works:** Extends P-189 (goal in continuation prompt): names **which slate** (UX/WIRE study), **cadence** (one task), **protocol phase model** (SENSE/EXECUTE/CLOSE), and **delegation policy** (small models in parallel). The loop agent knows to sense before execute and close after, not just pick the next queue ID.
 - **Maps to:** refine progress-board + sme-fanout — v2 loop prompt carries slate + SENSE/EXECUTE/CLOSE + parallel delegate policy.
+
+### P-274 - Post-deploy harvest monitor verifies catalog counts + legible sample before task done
+- **Observed:** UX-111 close-out: Monitor "Harvest the python-docs sample post-deploy" ended → push 934045 UX-111 verified — catalog at 7 datasets/167 chunks with legible sample live. Queue notes: python-docs-tutorial harvested live; wiki auto-rebuilt via harvest hook.
+- **Why it works:** Seeding a sample dataset isn't done at commit — harvest must run post-deploy and produce **measurable catalog state** (7/167) plus a **legible sample** on the live refinery. Monitor names the harvest target (python-docs) and phase (post-deploy). Extends P-207 content assertions to data-refinery catalog.
+- **Maps to:** refine post-deploy-smoke + event-driven-wait — catalog seed tasks use post-deploy harvest monitors with count + sample legibility checks.
+
+### P-275 - Operator gate: review all open PRs for cleanliness before continuing the loop
+- **Observed:** User: eview all open PR and make sure everything is clean before continuing → Fable 5 runs shell command to audit open PRs (~11s, in progress) before resuming UX/WIRE slate.
+- **Why it works:** With multiple in-flight PRs (P-243: #1 spec 0021, #2 simulation lab), continuing feature work on a dirty PR stack creates merge/review debt. Explicit PR hygiene gate pauses the loop until open branches are reconciled — complements branch-per-initiative with a **continue only when clean** checkpoint.
+- **Maps to:** refine monorepo-review-loop + agent-guardrails — honor operator PR-clean gate before next loop tick.
+
+### P-276 - Open-PR hygiene audit ends with merge-to-main before slate continues
+- **Observed:** Operator PR-clean gate (P-275): 11 shell commands (~4m 12s) →  9c5af9 Merge pull request #2 from jcdavis131/worktree-simulation-lab-buildout on main. Simulation Lab (Spec 0013) PR cleared from the stack.
+- **Why it works:** The audit isn't read-only — it **closes** open work (merge #2) so main reflects shipped state before the next UX/WIRE tick. Prevents parallel PR drift while the loop continues on main.
+- **Maps to:** refine monorepo-review-loop + close-the-loop — PR hygiene pass merges reconcilable PRs, then loop resumes on updated main.

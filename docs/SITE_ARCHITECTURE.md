@@ -16,6 +16,14 @@ interaction feeds the loop as data. Human effort concentrates on gates
 and direction, never on transactions. Viability test: revenue accrues
 while nobody is watching, and each sale makes the next asset better.
 
+**The market face (Operator, 2026-07-04): RE = Recommend Everything.**
+Custom RAG and embedding-model solutions for anything — SOTA
+recommendation engines for every business, out of the box. The promise
+is the machinery: a customer brings a corpus and interaction exhaust;
+the loop trains their domain model, gates it against baselines, and
+serves recommendations that improve automatically. Every business unit
+is a demonstration of that promise on a different domain.
+
 ### The flywheel ledger (who produces, sells, feeds)
 
 | Site | Uniquely produces | Sells (passive) | Feeds |

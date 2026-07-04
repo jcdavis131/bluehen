@@ -1501,3 +1501,13 @@ ow-next-routes-manifest — Vercel suggests (1) misconfigured Output Directory v
 - **Observed:** After Vercel routes-manifest failure (P-280): Monitor "Hub rebuild with corrected filter" stream ended → shell verify (~26s). Monitor label encodes **what was fixed** (filter correction), not just "deploy lands."
 - **Why it works:** Extends P-215: when retrying a failed deploy, the monitor event distinguishes fix attempt from first deploy — operator/agent knows this wait is for the **corrected** build. Reduces confusion when multiple deploy retries chain.
 - **Maps to:** refine event-driven-wait + post-deploy-smoke — failed deploy retry gets a monitor named for the fix applied.
+
+### P-283 - Public repo baseline: LICENSE + CONTRIBUTING + SECURITY + templates + README vision
+- **Observed:** 76e40af chore(public): professional baseline for the public repo — README reframed ("self-sustaining intelligence engine"), LICENSE, CONTRIBUTING.md, SECURITY.md, GitHub issue/PR templates; removed stale dashboard.html; moved reports under docs. (~5m, 4 shells + retry).
+- **Why it works:** Extends P-277 vision encode to **public-facing repo hygiene** — open-source/professional baseline matches flywheel narrative before external eyes land on GitHub. Not just README copy; legal + contribution + security surfaces ship together.
+- **Maps to:** refine metadata-align + close-the-loop — public repo push bundles LICENSE/CONTRIBUTING/SECURITY/templates with vision-aligned README.
+
+### P-284 - Retry metadata field when first write silently didn't take
+- **Observed:** After public baseline push: "one retry on the description field that didn't take" — second shell command without re-running the whole baseline.
+- **Why it works:** Platform/metadata writes (GitHub About/description, Vercel env — P-150) can fail silently. Named retry on the **specific field** avoids a full re-baseline. Cheap second pass vs declaring done with wrong public metadata.
+- **Maps to:** refine diagnose-before-retry + metadata-align — when a description/metadata field doesn't stick, retry that field only.

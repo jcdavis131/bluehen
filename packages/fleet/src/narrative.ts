@@ -15,8 +15,12 @@ export const RE = {
   relay: "Relay Engine",
   /** Technical product (API, whitepaper, eval) */
   tech: "RAG Embeddings",
+  /** Market promise (customer-facing, Operator 2026-07-04) */
+  market: "Recommend Everything",
   /** One-line for footers */
   dual: "Relay Engine · RAG Embeddings",
+  /** Customer-facing pitch line */
+  pitch: "Recommend Everything — SOTA recommendation engines for every business, out of the box",
 } as const;
 
 export const BRAND = {

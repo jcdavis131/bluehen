@@ -1512,6 +1512,33 @@
       "priority": "P1",
       "notes": "Packaging only: document metered API, /v1/certify contract, /v1/exhaust schema, dataset access; honest pending-gate labels on payment. No new backend.",
       "source": "Spec 0022 intelligence engine"
+    },
+    {
+      "id": "RECO-001",
+      "title": "Customer corpus upload: POST /v1/corpus (tenant) \u2014 JSONL/text upload becomes a collection and triggers the loop",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "THE out-of-the-box gap: today corpora are server-baked. HOW: tenant-keyed multipart or JSON-lines body (cap ~5MB v1) -> stored to DATALAB inbox + collection created (reuse data.ingest chunking) -> auto-enqueue hill-climb (existing machinery). ACCEPT: curl a small corpus -> trained gated model serving /v1/search for that tenant with zero human steps.",
+      "source": "Recommend Everything reframe 2026-07-04"
+    },
+    {
+      "id": "RECO-002",
+      "title": "Recommendations API: /v1/recommend \u2014 item-to-item + text-to-item over the deployed model",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Semantic surface for the market promise. HOW: given {itemId | text, k} -> embed via deployed model -> nearest chunks/items (existing pgvector search), response shaped as recommendations with scores + reasons (matched snippet). Alias semantics documented vs /v1/search. Metered as 'recommend'.",
+      "source": "Recommend Everything reframe 2026-07-04"
+    },
+    {
+      "id": "RECO-003",
+      "title": "Company site hero carries the market promise: 'Recommend Everything' pitch + out-of-the-box story",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "Use RE.pitch token (shipped). Hero rewrite: promise -> how it works (corpus + exhaust in, recommendations out, improves itself) -> proof (EVIDENCE panel numbers) -> CTA. Enterprise voice.",
+      "source": "Recommend Everything reframe 2026-07-04"
     }
   ]
 }

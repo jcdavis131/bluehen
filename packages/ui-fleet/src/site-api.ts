@@ -167,6 +167,34 @@ export async function siteLead(input: LeadInput) {
   });
 }
 
+export type CertifySubmitResult = {
+  submissionId: string;
+  status: string;
+  contract: string;
+  paymentStatus: string;
+};
+
+export type CertifyStatusResult = {
+  submissionId: string;
+  status: string;
+  scorecard?: Record<string, unknown> | null;
+  error?: string | null;
+  paymentStatus: string;
+  createdAt: string;
+};
+
+/** Automated certification (Spec 0021 P4) — queue an endpoint for harness grading. */
+export async function siteCertifySubmit(endpointUrl: string): Promise<CertifySubmitResult> {
+  return apiFetch("/v1/certify", {
+    method: "POST",
+    body: JSON.stringify({ endpointUrl }),
+  }) as Promise<CertifySubmitResult>;
+}
+
+export async function siteCertifyStatus(submissionId: string): Promise<CertifyStatusResult> {
+  return apiFetch(`/v1/certify/${submissionId}`) as Promise<CertifyStatusResult>;
+}
+
 /** True when a workspace API key is configured (i.e. core-api is reachable). */
 export function hasCoreApi(): boolean {
   return Boolean(process.env.SYNTH_API_KEY);

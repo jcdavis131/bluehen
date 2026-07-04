@@ -1,4 +1,7 @@
-import { PageHeader, Reveal } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import Link from "next/link";
+import { PageHeader, Reveal } from "@synthaembed/ui-fleet";
+import { getSiteCircuit } from "@synthaembed/fleet";
+import Link from "next/link";
+import { CertifyForm } from "../../components/CertifyForm";
 
 export const metadata = {
   title: "RAG Certification — slasso.com",
@@ -32,6 +35,8 @@ export default function CertifyPage() {
         lead="A reproducible benchmark run of your retrieval stack, scored against published thresholds, with a scorecard you can link in sales conversations."
       />
 
+      <CertifyForm />
+
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
         {STEPS.map((s, i) => (
           <Reveal key={s.title} index={i}>
@@ -55,14 +60,14 @@ export default function CertifyPage() {
       </div>
 
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-        <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
-          Book a certification run
-        </a>
         <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">
-          Questions first? Start a briefing
+          Need a guided sprint instead?
         </a>
         <Link className="bh-btn bh-btn--ghost" href="/try">
           Preview the harness
+        </Link>
+        <Link className="bh-btn bh-btn--ghost" href="/scorecards">
+          Published scorecards
         </Link>
       </div>
     </>

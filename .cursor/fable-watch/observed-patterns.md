@@ -1254,3 +1254,89 @@
 - **Observed:** After watch-mode pulse, user: sk me a series of questions to help unblock you → Fable 5 enters extended thinking ("Puzzling…") to prepare questions. Prior single-gate menu (domain attach P-232) superseded by batch-unblock request.
 - **Why it works:** When multiple Operator gates stack (domain, GLM, Stripe, Docker — P-230), a question series clears them in one session instead of leaving menus unanswered. Operator explicitly opts into being polled; agent drives the sequence.
 - **Maps to:** refine agent-guardrails + progress-board — honor "ask me questions to unblock" with a structured gate-clearing interview.
+
+### P-234 - When Operator intent is already explicit, skip the Q&A and execute immediately
+- **Observed:** User asked sk me a series of questions to help unblock you but had already said ttach data.bhenre.com. Fable 5: "Clear answers — executing immediately. Domain first (now explicitly approved):" → push without running the question series.
+- **Why it works:** P-233's interview mode is optional — if prior messages already answer a gate, don't stall on formal Q&A. "Executing immediately" respects operator time and clears the gate that was blocking watch mode.
+- **Maps to:** refine agent-guardrails + correct-assumptions — batch-unblock request + explicit prior approval → act, don't re-prompt.
+
+### P-235 - Cleared Operator gate recorded in commit message, fleet registry, and spec notes
+- **Observed:** eat(refinery): G1 cleared — data.bhenre.com live (Operator-approved attach) — leet.json domain → data.bhenre.com, notes: G1 cleared 2026-07-03: data.bhenre.com attached (Operator-approved); spec 0018 updated.
+- **Why it works:** Gate clearance is traceable at three layers: git history (which gate, who approved), fleet registry (live domain), spec (design doc aligned). Next pulse can drop G1 from the waiting-on-you card without archaeology.
+- **Maps to:** refine metadata-align + close-the-loop — Operator gate clears update fleet.json + commit message names gate ID + approval.
+
+### P-236 - After a gate clears, loop tick polls specifically for keys landing
+- **Observed:** Post-G1 (data.bhenre.com live): /loop continue → Loop tick — checking whether any keys landed: → 1 shell command (~36s). Prior pulse was generic (P-231); this tick names **keys** because domain gate cleared and GLM/Stripe remain.
+- **Why it works:** Blocker recon adapts to what's left on the waiting-on-you card (P-230). After one Operator action, the next tick doesn't repeat full deploy check — it probes the remaining gates (env keys) so watch mode exits as soon as the operator sets them.
+- **Maps to:** refine session-orient + P-201 — loop pulse narrows to uncleared gates after partial unblock.
+
+### P-237 - Operator directs terminal agent to offload one-off execution tasks to Cursor
+- **Observed:** User (queued): "Make sure you pass one-off smaller tasks and execution tasks for my cursor agent to help pick up and offload some of your work as needed." Fable 5 context on autoresearch operating-loop spec; simultaneously writing ~/.claude/scripts/open-pr.sh (in progress).
+- **Why it works:** Fleet has lanes (Cursor = execution/sites/scripts, Claude = research/train). When the terminal agent hits execution-shaped or parallelizable work, queue it for Cursor instead of serializing everything in one session. Explicit operator instruction prevents lane hoarding and uses the shared work queue as the handoff surface.
+- **Maps to:** refine lane-discipline + progress-board — terminal agent enqueues SITE-/INF-/cursor-lane one-offs for Cursor rather than doing all execution inline.
+
+### P-238 - Worktree autoresearch arm seeds champion state from main before run
+- **Observed:** AR-311 queued; from worktree: "checking whether I can run a hill-climb arm… delegate protocol and what state autoresearch_run.py needs" → mkdir -p data && cp -r …/bluehenre/data/autoresearch data/ → inspect champion_train.py.
+- **Why it works:** Worktrees don't inherit uncommitted or gitignored run state. Copying data/autoresearch/ from main ensures the experiment starts from the current champion/baseline (extends P-196 champion-copy). Checking delegate protocol + run script prerequisites before launch avoids false DISCARD from empty/wrong cwd.
+- **Maps to:** refine lane-discipline + diagnose-before-retry — worktree experiments seed autoresearch state from main and verify protocol before utoresearch_run.py.
+
+### P-239 - Champion state sync from worktree avoids clobbering a mid-run main daemon
+- **Observed:** After AR-311 KEEP in worktree: champion/best.json/last_run live in worktree's untracked data/autoresearch/. Close-out gives exact sync command to main but notes "I didn't touch the main checkout's copy to avoid clobbering a mid-run daemon." Winning script also committed as scripts/autoresearch_train.py in PR #1.
+- **Why it works:** Blind copying champion state across checkouts can corrupt an active autoresearch daemon on main. Deferring sync + naming the three files (est.json, champion_train.py, last_run.json) lets the operator merge when safe. Committed train script is the durable artifact; untracked run state is ephemeral until synced.
+- **Maps to:** refine lane-discipline + close-the-loop — worktree experiment close-out documents sync command and daemon-safe deferral.
+
+### P-240 - Experiment KEEP does not imply BD promotion when eval gate still fails
+- **Observed:** AR-311 result: "first cert-driven champion KEEP (robust 1.411→1.4216, knn_t8 +0.014), stale baseline retired per AR-310; **gate still fails so no BD promotion, calibration ruling needed**."
+- **Why it works:** Separates **training win** (KEEP, metric delta) from **promotion eligibility** (gate pass). Reporting both prevents false "we shipped a champion to production" narratives when calibration/gate work remains. Extends P-199 (baseline honesty) to promotion honesty.
+- **Maps to:** refine validate-gate + close-the-loop — KEEP close-out states gate status and whether BD promotion happened.
+
+### P-241 - Research task opened from a real failing gate, not queue filler
+- **Observed:** "AR-311 opened from a real failing gate" — experiment spawned because certification/gate actually failed, not because the queue needed an ID.
+- **Why it works:** Cert-driven research loop (Spec 0021) ties new AR-* work to measured failures. The queue item is downstream of evidence, which keeps autoresearch aimed at real regressions.
+- **Maps to:** refine follow-procedure + validate-gate — AR tasks originate from failing gates, not speculative backlog.
+
+### P-242 - Silent path-depth misconfig emptied registry and 404'd routes — fix, rebuild, re-verify all routes
+- **Observed:** Simulation Lab build: pps/sites/* three levels deep caused registry to "silently empty" and detail pages 404. Fixed → rebuilt → "all seven routes return 200 with live data."
+- **Why it works:** Fleet SDK path assumptions fail quietly (empty registry, not a loud error). Close-out names the failure mode and proof (seven 200s with live data), not just "fixed routing." Extends P-192/P-207 live verification to multi-route sweep.
+- **Maps to:** refine diagnose-before-retry + post-deploy-smoke — after site registry fixes, verify every route returns 200 with data.
+
+### P-243 - Parallel feature work ships on its own branch to keep unrelated PR clean
+- **Observed:** Simulation Lab close-out: "this is on its own branch, so PR #1 (spec 0021) stays clean" — draft **PR #2** opened for Spec 0013 / signals.bhenre.com while cert-driven research remains in PR #1.
+- **Why it works:** Stacking unrelated features in one PR blocks review and merge. Branch-per-initiative lets Operator merge cert research independently of site fleet work. Names both PR numbers in close-out for traceability.
+- **Maps to:** refine logical-commit-split + lane-discipline — one spec/site per branch/PR when another PR is in flight.
+
+### P-244 - Ship UI structure for a gated feature; leave paywall integration as Cursor-queued task
+- **Observed:** "MON-007 (Stripe paywall on reports) remains Cursor's queued task — the feed is structured for it (first report free fits the free-preview model)." Simulation Lab report feed shipped; Stripe paywall explicitly deferred to Cursor lane.
+- **Why it works:** Extends P-237 offload: Fable 5 builds the honest fixture-pass feed + free-preview shape now; monetization wiring stays on the execution agent's queue. Close-out names the follow-on task ID so Cursor can claim MON-007 without re-discovery.
+- **Maps to:** refine lane-discipline + progress-board — ship structural UI; enqueue/defer payment integration to Cursor with task ID named.
+
+### P-245 - Local stack up triggers migration as the blocker-clearing step
+- **Observed:** "Local stack is up — running the migration to fully clear the local blocker:" → one shell: docker ps --format … | head -3 then 
+ode scripts/db-migrate.mjs | tail -3.
+- **Why it works:** BLK-DOCKER unblock isn't done when containers start — schema must match code (especially after MON-001 mig 011, cert migrations, etc.). Confirming container names/status then running migrate is the minimal proof that local API/worker can proceed. Labeled compound command matches P-202.
+- **Maps to:** refine follow-procedure + session-orient — when Docker gate clears, next action is docker ps + db migrate before picking RT-/local tasks.
+
+### P-246 - Blocker cleared → immediately start the task that was waiting on it
+- **Observed:** After P-245 migrate: recap states "RT-401 real-text bake-off is running now" — the task that was blocked on Docker (P-201 RT-401 ↔ Docker) starts as soon as local stack + migration complete. One shell still running (~9m).
+- **Why it works:** Clearing a blocker without starting the unblocked work wastes the window. The agent chains docker+migrate → kick off RT-401 in the same lap rather than waiting for the next loop wakeup.
+- **Maps to:** refine follow-procedure + event-driven-wait — gate clear immediately triggers the dependent long-running job.
+
+### P-247 - Long-session recap names live state, in-flight job, and explicit EVIDENCE next step
+- **Observed:** ※ recap: … all sites and the Data Refinery are live, with data.bhenre.com attached. The RT-401 real-text bake-off is running now, and next I record its verdict in EVIDENCE.
+- **Why it works:** Extends P-031/P-206: recap isn't just "what shipped" — it states **what's running** (background bake-off) and **what happens when it finishes** (EVIDENCE row). Operator knows not to interrupt and where the result will land.
+- **Maps to:** refine recap-on-long-session + close-the-loop — recap includes in-flight jobs + named artifact destination.
+
+### P-248 - Long-running eval monitor names a quantitative progress threshold
+- **Observed:** Monitor "RT-401 method results accumulate to 4" stream ended — monitor event tracks **count of method results** (4), not just "job done."
+- **Why it works:** Extends P-170/P-172: bake-offs with multiple methods need mid-flight milestones. Naming the threshold (4 results) makes partial progress visible before the full RT-401 verdict lands in EVIDENCE (P-247).
+- **Maps to:** refine event-driven-wait — long eval jobs use accumulation-threshold monitor names.
+
+### P-249 - Monitor stream end ≠ job done: check processes, note buffering, re-arm
+- **Observed:** After RT-401 monitor ended: "Still running (8 python processes; stdout block-buffered). Re-arming the completion monitor."
+- **Why it works:** Stream end can fire on intermediate state or logging lag. Checking live process count prevents premature EVIDENCE write or queue close-out. Re-arming the **completion** monitor (not the accumulation one) chains waits correctly (P-171). Block-buffered stdout explains silent terminal — diagnostic note, not panic.
+- **Maps to:** refine event-driven-wait + diagnose-before-retry — on monitor end, verify processes; re-arm if job still live.
+
+### P-250 - Completion monitor for buffered jobs watches rows + write marker or crash
+- **Observed:** Re-armed: Monitor(RT-401 true completion (rows + write marker or crash)) — timeout 3500s, classifier-approved. Prior note: stdout block-buffered (P-249).
+- **Why it works:** Block-buffered Python won't flush progress to terminal — completion must be detected via **artifact signals** (result rows accumulated, explicit write marker file) or **crash**. Naming both success criteria and failure in the monitor event (P-170) avoids hanging on silent stdout. Long timeout (3500s) matches bake-off runtime class.
+- **Maps to:** refine event-driven-wait + background-failure-triage — buffered long jobs: monitor on file/row markers + crash, not terminal output.

@@ -137,6 +137,19 @@ class CatalogDataset(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
+class DatasetEntitlement(Base):
+    """Paid dataset access (Spec 0021 P3). Keyed by commerce order + slug."""
+
+    __tablename__ = "dataset_entitlements"
+
+    id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    order_id: Mapped[str] = mapped_column(String(128), nullable=False)
+    dataset_slug: Mapped[str] = mapped_column(String(256), nullable=False)
+    email: Mapped[str] = mapped_column(Text, default="")
+    payment_status: Mapped[str] = mapped_column(String(24), default="pending-gate")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
 class HarvestJob(Base):
     __tablename__ = "harvest_jobs"
 
@@ -206,6 +219,19 @@ class CertSubmission(Base):
     payment_status: Mapped[str] = mapped_column(String(24), default="pending-gate")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class Entitlement(Base):
+    """Paid-or-granted access (Spec 0021). SKU examples: dataset:<slug>, notes:signals."""
+
+    __tablename__ = "entitlements"
+
+    id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    workspace_id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False)
+    sku: Mapped[str] = mapped_column(String(128), nullable=False)
+    granted_by: Mapped[str] = mapped_column(String(32), default="admin")
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
 class Lead(Base):

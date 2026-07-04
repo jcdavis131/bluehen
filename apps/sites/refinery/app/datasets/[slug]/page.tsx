@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { getDataset, getSample } from "../../../lib/catalog";
+import { commerceConfigured, datasetVariantId } from "../../../lib/commerce";
+import { BuyCorpusButton } from "../../../components/BuyCorpusButton";
 
 export const revalidate = 60;
 
@@ -16,10 +18,30 @@ export default async function DatasetPage({
   const ds = await getDataset(slug);
   if (!ds) notFound();
   const sample = ds.sampleAvailable ? await getSample(slug) : null;
+  const checkoutReady = commerceConfigured();
 
   return (
     <>
       <PageHeader eyebrow={surface?.eyebrow} title={ds.name} lead={`${ds.docCount} docs · ${ds.chunkCount} chunks · created ${new Date(ds.createdAt).toUTCString()}`} />
+
+      <section className="bh-card bh-card--organic" style={{ marginBottom: 20 }}>
+        <h2 className="bh-card__title">Access tiers</h2>
+        <p className="bh-card__body">
+          <strong>Free preview</strong> — sample chunks below (sanitized, rate-limited).
+          <br />
+          <strong>Paid full corpus</strong> — complete <code>chunks.jsonl</code> via time-limited signed URL after checkout.
+        </p>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 12, alignItems: "center" }}>
+          <BuyCorpusButton
+            datasetSlug={ds.slug}
+            variantId={datasetVariantId()}
+            commerceReady={checkoutReady}
+          />
+          <Link href={`/requests?dataset=${encodeURIComponent(ds.slug)}`} className="bh-btn bh-btn--ghost">
+            Custom harvest / scope
+          </Link>
+        </div>
+      </section>
 
       <section className="bh-card" style={{ marginBottom: 20 }}>
         <h2 className="bh-card__title">Provenance</h2>
@@ -49,7 +71,7 @@ export default async function DatasetPage({
 
       {sample && sample.chunks.length > 0 && (
         <section className="bh-card" style={{ marginBottom: 20 }}>
-          <h2 className="bh-card__title">Sample chunks (first {sample.chunks.length}, sanitized)</h2>
+          <h2 className="bh-card__title">Sample chunks (free preview — first {sample.chunks.length}, sanitized)</h2>
           <div className="bh-stack" style={{ marginTop: 10 }}>
             {sample.chunks.slice(0, 8).map((c, i) => (
               <div key={i} className="bh-hit">
@@ -62,9 +84,6 @@ export default async function DatasetPage({
       )}
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <Link href={`/requests?dataset=${encodeURIComponent(ds.slug)}`} className="bh-btn bh-btn--primary">
-          Request full access
-        </Link>
         <Link href="/catalog" className="bh-btn bh-btn--ghost">← Catalog</Link>
       </div>
     </>

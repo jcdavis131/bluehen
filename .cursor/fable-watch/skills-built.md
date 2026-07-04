@@ -2,6 +2,10 @@
 
 > Process: watch terminal 1.txt (Claude / Fable 5 working), extract behavioral patterns, codify each into a skill under `~/.cursor/skills/` so Cursor reaches parity.
 
+## Best-practices review (2026-07-03)
+
+All 42 skills audited against [Anthropic best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). Checklist: `skill-review-checklist.md` · Results: `skill-review-results.md` · Audit: `audit_skills.py` · **42/42 pass** `validate_skills.py`.
+
 ## Loop
 - PID 26612, every 480s, sentinel `AGENT_LOOP_TICK_FABLE_WATCH`.
 - Stop: kill PID, do not re-arm.

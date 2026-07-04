@@ -102,3 +102,16 @@ def open_checkpoint(path: str) -> Iterator[Path]:
         yield tmp_path
     finally:
         tmp_path.unlink(missing_ok=True)
+
+
+def presigned_get_url(uri: str, expires_s: int = 3600) -> str:
+    """Time-limited GET URL for an s3:// artifact."""
+    if not uri.startswith("s3://"):
+        raise ValueError("presigned_get_url requires s3:// URI")
+    bucket, key = _split_s3_uri(uri)
+    client = _s3_client()
+    return client.generate_presigned_url(
+        "get_object",
+        Params={"Bucket": bucket, "Key": key},
+        ExpiresIn=max(60, min(expires_s, 86_400)),
+    )

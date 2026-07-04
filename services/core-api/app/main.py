@@ -7,6 +7,7 @@ from typing import Annotated, Any
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.exceptions import RequestValidationError
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from app.auth import TenantCtx, require_admin, require_tenant, trace_from_request
@@ -274,6 +275,55 @@ def catalog_sample(slug: str, response: Response, _rl: Annotated[None, Depends(r
     return out
 
 
+class CatalogFulfillIn(BaseModel):
+    orderId: str
+    datasetSlug: str
+    email: str = ""
+    paymentStatus: str = "pending-gate"
+
+
+class CatalogDownloadIn(BaseModel):
+    orderId: str
+
+
+@app.post("/v1/admin/catalog/fulfill", status_code=201)
+def catalog_fulfill(body: CatalogFulfillIn, _: Annotated[None, Depends(require_admin)]):
+    from app.services import catalog
+
+    try:
+        return catalog.grant_entitlement(
+            body.orderId, body.datasetSlug, body.email, body.paymentStatus)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.post("/v1/catalog/datasets/{slug}/download")
+def catalog_download(slug: str, body: CatalogDownloadIn, request: Request,
+                     _rl: Annotated[None, Depends(rate_limit("download", 20))] = None):
+    from app.services import catalog
+
+    base = str(request.base_url).rstrip("/")
+    try:
+        return catalog.issue_download(slug, body.orderId, base)
+    except PermissionError as e:
+        raise HTTPException(status_code=403, detail=str(e)) from e
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e)) from e
+
+
+@app.get("/v1/catalog/datasets/{slug}/artifact")
+def catalog_artifact(slug: str, orderId: str, expiresAt: int, token: str,
+                       _rl: Annotated[None, Depends(rate_limit("artifact", 30))] = None):
+    from app.services import catalog
+
+    if not catalog.verify_download_token(slug, orderId, expiresAt, token):
+        raise HTTPException(status_code=403, detail="invalid or expired download token")
+    path = catalog.resolve_artifact_path(slug)
+    if path is None:
+        raise HTTPException(status_code=404, detail="artifact not found")
+    return FileResponse(path, media_type="application/x-ndjson", filename=f"{slug}-chunks.jsonl")
+
+
 class RefinerySubmitIn(BaseModel):
     texts: list[str] = Field(min_length=1, max_length=64)
     consent: bool = False
@@ -428,6 +478,50 @@ def certify_status(sid: str, tenant: Annotated[TenantCtx, Depends(require_tenant
     if out is None:
         raise HTTPException(status_code=404, detail="submission not found")
     return out
+
+
+@app.get("/v1/catalog/datasets/{slug}/full")
+def catalog_full(slug: str, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                 _rl: Annotated[None, Depends(rate_limit("full-corpus", 10))] = None):
+    """MON-005 paid tier: entitled workspaces download the full corpus."""
+    from app.services import catalog, entitlements
+
+    sku = f"dataset:{slug}"
+    if not entitlements.has(tenant.workspace_id, sku):
+        raise HTTPException(
+            status_code=403,
+            detail=f"no entitlement for {sku} — request access via the Data Refinery (payment attaches at the commerce gate)",
+        )
+    out = catalog.get_full_corpus(tenant.workspace_id, slug)
+    if out is None:
+        raise HTTPException(status_code=404, detail="full corpus unavailable for this dataset")
+    filename, body = out
+    from app.services.usage import record as _record_usage
+
+    _record_usage(tenant.workspace_id, "dataset-download")
+    return Response(content=body, media_type="application/jsonl",
+                    headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+
+
+@app.get("/v1/entitlements")
+def entitlements_view(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    from app.services import entitlements
+
+    return entitlements.list_for(tenant.workspace_id)
+
+
+class GrantIn(BaseModel):
+    workspaceId: str
+    sku: str
+
+
+@app.post("/v1/admin/entitlements/grant", status_code=201)
+def entitlement_grant(body: GrantIn, _: Annotated[None, Depends(require_admin)]):
+    import uuid as _uuid
+
+    from app.services import entitlements
+
+    return entitlements.grant(_uuid.UUID(body.workspaceId), body.sku, granted_by="admin")
 
 
 @app.get("/v1/usage")

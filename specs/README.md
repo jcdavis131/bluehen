@@ -30,7 +30,9 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 | [0017](./0017-fleet-tastemaker-redesign.md) | Fleet tastemaker redesign — Kubrick × Wes Anderson × modernized TUI | **Ready** | `packages/ui-fleet` tokens + primitives; 7-site spine rollout |
 | [0018](./0018-data-refinery.md) | Data Refinery — harvesting & dataset-prep venture | **Active** | `packages/datalab`, `apps/sites/refinery` (data.bhenre.com), DR-101..107, migration 009 |
 | [0019](./0019-corporate-topology.md) | Corporate topology — one company site, revenue-bearing business units | **Active** | Refines 0015/0012/0018; company-site restructure + BU team strips |
-| [0020](./0020-monetization-layer.md) | Monetization layer — diversified passive + active income, low overhead | **Draft** | 6 passive + 5 active streams; metered API, hosted inference, dataset marketplace, automated certification, premium notes, open-core |
+| [0020](./0020-wiki-refinery.md) | Wiki Refinery — agent knowledge from fleet corpora | **Implemented** | `/v1/wiki`, refinery `/wiki`, DR-108/109 |
+| [0021](./0021-monetization-layer.md) | Monetization layer — diversified passive + active income, low overhead | **Draft** | 6 passive + 5 active streams; metered API, hosted inference, dataset marketplace, automated certification, premium notes, open-core |
+| [0022](./0022-product-catalog-and-blue-hen-kits.md) | Product catalog & Blue Hen Kits — self-serve + family-friendly | **Ready** | `config/kits.json`, `/kits` guest layer, KIT-001..008 |
 
 **Production hosting:** Vercel (sites) + Railway (core-api + worker) + Neon Postgres — [ADR-002](../docs/adr/002-core-api-hosting.md), [ADR-003](../docs/adr/003-unified-org-cli.md) (CLI), [`infra/railway.md`](../infra/railway.md). Deploy task: `INF-003` (Operator).
 

@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "entryPath": "/kits",
+  "freeTier": {
+    "maxDocuments": 20,
+    "maxSearchesPerDay": 50,
+    "retentionDays": 30,
+    "embedder": "bge-m3"
+  },
+  "proTier": {
+    "medusaHandle": "kit-pro",
+    "maxDocuments": 500,
+    "tuneThresholdDocs": 50,
+    "plainName": "Search trained on your library"
+  },
+  "lane2Products": [
+    { "id": "kit-pro", "plainName": "Kit Pro", "lane": 2 },
+    { "id": "api-credits", "plainName": "API Search", "lane": 2 },
+    { "id": "hosted-library", "plainName": "Hosted Library", "lane": 2 },
+    { "id": "dataset", "plainName": "Dataset download", "lane": 2 },
+    { "id": "certification", "plainName": "Search quality certificate", "lane": 2 },
+    { "id": "signals-premium", "plainName": "Simulation reports feed", "lane": 2 }
+  ],
+  "lane3Engagements": [
+    {
+      "id": "evaluation-sprint",
+      "plainName": "Search audit",
+      "terminatesIn": "api-credits"
+    },
+    {
+      "id": "managed-embeddings",
+      "plainName": "We set up your Library",
+      "terminatesIn": "hosted-library"
+    },
+    {
+      "id": "custom-harvest",
+      "plainName": "Custom dataset build",
+      "terminatesIn": "dataset"
+    },
+    {
+      "id": "research-engagement",
+      "plainName": "Custom field search",
+      "terminatesIn": "hosted-library"
+    },
+    {
+      "id": "enterprise",
+      "plainName": "Your own Blue Hen in your cloud",
+      "terminatesIn": "hosted-library"
+    }
+  ],
+  "kits": [
+    {
+      "id": "brief-search",
+      "plainName": "Brief Search",
+      "tagline": "Search every brief you've ever written.",
+      "persona": "design",
+      "icon": "brief",
+      "sampleCorpusPath": "content/kits/brief-search/corpus.jsonl",
+      "sampleQueries": [
+        "What did we say about accessibility?",
+        "Which clients asked for a mobile-first layout?",
+        "Find mentions of brand voice guidelines"
+      ],
+      "uploadHint": "Upload PDF or DOCX briefs, decks, and critique notes.",
+      "relatedVenture": "storefront"
+    },
+    {
+      "id": "jobsite-search",
+      "plainName": "Job-Site Search",
+      "tagline": "Ask your job folder a question.",
+      "persona": "construction",
+      "icon": "hard-hat",
+      "sampleCorpusPath": "content/kits/jobsite-search/corpus.jsonl",
+      "sampleQueries": [
+        "What did the inspector flag about the roof?",
+        "Compare the HVAC scope between these two quotes",
+        "What are the warranty terms in the subcontract?"
+      ],
+      "uploadHint": "Upload inspection reports, bids, specs, and lease PDFs.",
+      "relatedVenture": "refinery"
+    },
+    {
+      "id": "field-notebook",
+      "plainName": "Field Notebook",
+      "tagline": "Search your research like you search the web — but only your sources.",
+      "persona": "science",
+      "icon": "notebook",
+      "sampleCorpusPath": "content/kits/field-notebook/corpus.jsonl",
+      "sampleQueries": [
+        "Which sites had dissolved oxygen below 5 mg/L?",
+        "How did we sample benthic macroinvertebrates?",
+        "What species were identified at the upstream transect?"
+      ],
+      "uploadHint": "Upload field notes, lab protocols, and reference PDFs.",
+      "relatedVenture": "research"
+    }
+  ]
+}

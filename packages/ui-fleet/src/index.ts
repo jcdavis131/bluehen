@@ -20,7 +20,14 @@ export { FeedbackForm } from "./FeedbackForm";
 export { SearchHitList } from "./SearchHitList";
 export { ApiStatusBanner } from "./ApiStatusBanner";
 export { PageHeader } from "./PageHeader";
-export type { SearchHit, SearchResult, FeedbackInput, DiagnoseResult } from "./site-api";
+export type {
+  SearchHit,
+  SearchResult,
+  FeedbackInput,
+  DiagnoseResult,
+  CertifySubmitResult,
+  CertifyStatusResult,
+} from "./site-api";
 
 /* Tastemaker primitives (Spec 0017) — Kubrick axis × Wes title cards ×
    modernized TUI hairline, inside FleetShell <main>. */

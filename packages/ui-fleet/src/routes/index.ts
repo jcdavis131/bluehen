@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
+  siteCertifyStatus,
+  siteCertifySubmit,
   siteDiagnose,
   siteFeedback,
   siteHealth,
@@ -101,5 +103,35 @@ export async function GET_bdQueue() {
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     return NextResponse.json({ error: msg, candidates: [] }, { status: msg.includes("SYNTH_API_KEY") ? 503 : 502 });
+  }
+}
+
+export async function POST_certify(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const endpointUrl = String(body.endpointUrl ?? "").trim();
+    if (!endpointUrl) {
+      return NextResponse.json({ error: "endpointUrl required" }, { status: 400 });
+    }
+    const data = await siteCertifySubmit(endpointUrl);
+    return NextResponse.json(data, { status: 201 });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    const status = msg.includes("SYNTH_API_KEY") ? 503 : msg.includes("400") ? 400 : 502;
+    return NextResponse.json({ error: msg }, { status });
+  }
+}
+
+export async function GET_certifyStatus(submissionId: string) {
+  try {
+    const id = submissionId.trim();
+    if (!id) return NextResponse.json({ error: "submission id required" }, { status: 400 });
+    const data = await siteCertifyStatus(id);
+    if (!data) return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json(data);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    const status = msg.includes("SYNTH_API_KEY") ? 503 : msg.includes("404") ? 404 : 502;
+    return NextResponse.json({ error: msg }, { status });
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-03",
+  "updated": "2026-07-04",
   "protocol": "Any agent: read blockers \u2192 pick_task.py list \u2192 claim \u2192 work \u2192 done \u2192 render. Specs in specs/; fleet in config/fleet.json.",
   "blockers": [
     {
@@ -258,13 +258,15 @@
       "division": "research",
       "priority": 20,
       "title": "Real-text bake-off: research-rag corpus",
-      "status": "ready",
+      "status": "in_progress",
       "blockedBy": [
         "BLK-DISK"
       ],
       "spec": "0008",
       "command": "pnpm evidence:realtext:research-rag",
-      "acceptance": "EVIDENCE.md \u00a73.9 verdict; Barlow promote if \u0394nDCG \u2265 0.005"
+      "acceptance": "EVIDENCE.md \u00a73.9 verdict; Barlow promote if \u0394nDCG \u2265 0.005",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T02:55:03.391698+00:00"
     },
     {
       "id": "RT-402",
@@ -1077,7 +1079,7 @@
     {
       "id": "MON-005",
       "title": "Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0021 P3)",
-      "status": "ready",
+      "status": "in_progress",
       "lane": "cursor",
       "priority": "P2",
       "division": "comms",
@@ -1085,7 +1087,10 @@
       "dependsOn": [
         "DR-103"
       ],
-      "notes": "Requires Refinery site (DR-103) to ship first. Free tier = preview rows; paid = full corpus via time-limited signed URL after Medusa checkout. | UNBLOCKED: DR-103 shipped (refinery live)."
+      "notes": "AUTOMATION SHIPPED: entitlements layer (mig 014, sku dataset:<slug>), GET /v1/catalog/datasets/{slug}/full (403 w/ sku until entitled; downloads metered), admin grant endpoint, tenant entitlements view. REMAINING: checkout webhook grants (Medusa/Stripe gate) + refinery site paid-tier UI (cursor).",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T03:49:58.608714+00:00",
+      "completedAt": "2026-07-04T02:22:31.088845+00:00"
     },
     {
       "id": "MON-006",
@@ -1111,12 +1116,14 @@
     {
       "id": "MON-008",
       "title": "CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0021 P6)",
-      "status": "ready",
+      "status": "in_progress",
       "lane": "claude",
       "priority": "P2",
       "division": "execution",
       "spec": "0020",
-      "notes": "After each deploy-gate pass, CI publishes model to HF Hub with model card (eval scores, training config, OKF provenance). Open models = SEO/trust/flywheel funnel -> drives P1/P2 hosted revenue. Needs HF_TOKEN (Operator)."
+      "notes": "Publish script shipped (publish_model_hf.py): pulls DB artifact + measured metrics, refuses ungraded models, honest model card w/ baselines. Verified honest exit-2 without HF_TOKEN. REMAINING: HF_TOKEN (Operator) + CI hook on gate pass.",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T03:49:58.741276+00:00"
     },
     {
       "id": "MON-010",
@@ -1160,6 +1167,115 @@
       "claimedBy": "claude",
       "priority": "P2",
       "notes": "refine_changed_pages wired into every rebuild behind GLM_API_KEY (agentkit client, now shipped in image); labeled dated sections, honest deterministic-only footer when unkeyed. ACTIVATES when Operator sets the key."
+    },
+    {
+      "id": "KIT-001",
+      "division": "comms",
+      "priority": 71,
+      "title": "Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022)",
+      "status": "ready",
+      "spec": "0022",
+      "lane": "cursor",
+      "command": "Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.",
+      "acceptance": "kits.json validates in CI; listKits() returns 3 launch kits; pnpm review green."
+    },
+    {
+      "id": "KIT-002",
+      "division": "comms",
+      "priority": 72,
+      "title": "Storefront /kits landing \u2014 three persona cards + Just try it (Spec 0022 Phase A)",
+      "status": "ready",
+      "spec": "0022",
+      "lane": "cursor",
+      "command": "apps/sites/storefront/app/kits/page.tsx \u2014 job-first copy from kits.json; no division names above fold; link each card to /kits/[kitId].",
+      "acceptance": "bhenre.com/kits renders 3 cards; grep kit routes for operating loop / nDCG / effective rank returns zero in visible copy; pnpm review green.",
+      "dependsOn": [
+        "KIT-001"
+      ]
+    },
+    {
+      "id": "KIT-003",
+      "division": "data",
+      "priority": 72,
+      "title": "Kit sample corpora \u2014 content/kits/* JSONL seeded for all three personas (Spec 0022)",
+      "status": "done",
+      "spec": "0022",
+      "lane": "cursor",
+      "notes": "brief-search, jobsite-search, field-notebook corpus.jsonl seeded with anonymized sample chunks + meta.title/page for citations.",
+      "completedAt": "2026-07-04T03:40:00.000000+00:00"
+    },
+    {
+      "id": "KIT-004",
+      "division": "comms",
+      "priority": 73,
+      "title": "Per-kit sample search pages \u2014 chips + LiveSearchPanel on static corpus (Spec 0022 Phase B)",
+      "status": "ready",
+      "spec": "0022",
+      "lane": "cursor",
+      "command": "apps/sites/storefront/app/kits/[kitId]/page.tsx \u2014 load sample corpus server-side; sample query chips; KitSearchPanel client component.",
+      "acceptance": "Each kit sample query returns >=1 result with citation meta; <5s on prod API or honest offline state; pnpm review green.",
+      "dependsOn": [
+        "KIT-002",
+        "KIT-003"
+      ]
+    },
+    {
+      "id": "KIT-005",
+      "division": "execution",
+      "priority": 74,
+      "title": "Kit upload + free-tier quotas \u2014 BFF + workspace session (Spec 0022 Phase C)",
+      "status": "ready",
+      "spec": "0022",
+      "lane": "cursor",
+      "command": "POST /api/kits/upload + /api/kits/search on storefront; kit_session cookie; enforce 20 doc / 50 search-day limits; proxy ingest+search via synth-core.",
+      "acceptance": "Upload 21st doc returns 429 problem+json; 51st search same day blocked; workspace RLS isolated; tests in core-api or storefront route tests.",
+      "dependsOn": [
+        "KIT-004"
+      ]
+    },
+    {
+      "id": "KIT-006",
+      "division": "comms",
+      "priority": 75,
+      "title": "Kit search citations UI \u2014 filename + page on every result row (Spec 0022)",
+      "status": "ready",
+      "spec": "0022",
+      "lane": "cursor",
+      "command": "KitSearchResult component: render meta.title, meta.page as Found on page N of {filename}; required on sample and upload modes.",
+      "acceptance": "Playwright or render test asserts citation string present on first hit; pnpm review green.",
+      "dependsOn": [
+        "KIT-004"
+      ]
+    },
+    {
+      "id": "KIT-007",
+      "division": "comms",
+      "priority": 76,
+      "title": "Pricing page three-lane restructure + terminatesIn footers (Spec 0022 Phase E)",
+      "status": "ready",
+      "spec": "0022",
+      "lane": "cursor",
+      "command": "apps/sites/storefront/app/pricing/page.tsx \u2014 L1 free tools (/kits link), L2 self-serve (/store), L3 engagements with terminatesIn from kits.json lane3Engagements.",
+      "acceptance": "Each Lane 3 card shows Typically becomes: {plainName}; L1 links to /kits; pnpm review green.",
+      "dependsOn": [
+        "KIT-001"
+      ]
+    },
+    {
+      "id": "KIT-008",
+      "division": "comms",
+      "priority": 77,
+      "title": "Kit Pro Medusa SKU + upgrade CTA on kit pages (Spec 0022 Phase F)",
+      "status": "blocked",
+      "spec": "0022",
+      "lane": "cursor",
+      "command": "Medusa product kit-pro (monthly); upgrade CTA on /kits/[kitId] when at quota or from footer; honest opening soon when commerce not configured.",
+      "acceptance": "Checkout flow delivers pro tier flag on workspace; tune threshold 50 docs documented; depends on Medusa prod (Operator gate).",
+      "dependsOn": [
+        "KIT-005",
+        "MON-001"
+      ],
+      "notes": "Blocked on Medusa production checkout + MON-001 Stripe metering for fair-use enforcement on Pro."
     }
   ]
 }

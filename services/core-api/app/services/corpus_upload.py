@@ -37,8 +37,7 @@ def validate_documents(documents: list[dict]) -> None:
         total += len(text.encode("utf-8"))
     if total > MAX_TOTAL_BYTES:
         raise ValueError(f"corpus exceeds {MAX_TOTAL_BYTES} bytes total")
-    # Spec 0024 seam: when the tenant has a metadata contract (RECO-004),
-    # validate each doc's metadata against it here — reject loud.
+
 
 
 def save_corpus(workspace_id: uuid.UUID, name: str, documents: list[dict]) -> Path:
@@ -64,11 +63,15 @@ def upload_and_train(workspace_id: uuid.UUID, name: str,
     from app.services import lifecycle
     from app.services.usage import record as record_usage
 
+    from app.services.contracts import validate_documents_against_contract
+
+    contract_version = validate_documents_against_contract(workspace_id, documents)
     path = save_corpus(workspace_id, name, documents)
     record_usage(workspace_id, "corpus-upload")
     out: dict = {
         "corpus": path.name,
         "docCount": len(documents),
+        "contractVersion": contract_version,
         "training": None,
     }
     if train:

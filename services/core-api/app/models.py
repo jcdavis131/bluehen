@@ -235,6 +235,20 @@ class Entitlement(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
+class TenantMetaContract(Base):
+    """Versioned metadata contract (Spec 0024): the boundary that keeps
+    tenant JSONB filterable and consistent."""
+
+    __tablename__ = "tenant_meta_contracts"
+
+    id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+    workspace_id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False, index=True)
+    version: Mapped[int] = mapped_column(Integer, nullable=False)
+    json_schema: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    filterable: Mapped[list] = mapped_column(JSONB, default=list)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
 class UsageDaily(Base):
     """Archived daily usage rollups (WIRE-203). Raw events purge into these."""
 

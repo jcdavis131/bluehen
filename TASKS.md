@@ -61,7 +61,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**UX-111** — refinery catalog: seed an externally-legible sample dataset; label internal-ops entries~~
 - [x] ~~**WIRE-203** — usage_events retention: nightly rollup + purge past N days~~
 - [x] ~~**WIRE-204** — Dead-surface endpoints + dedupe: wire hq to /v1/admin/fleet + usage/entitlements views; extract shared requeue_stale helper (jobs/harvest/certify)~~
 - [x] ~~**FLY-001** — Aim the wiki at demand generation: topic pages become indexable evergreen articles (deterministic layer)~~
@@ -69,6 +68,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**EXH-002** — Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant~~
 - [x] ~~**RECO-001** — Customer corpus upload: POST /v1/corpus (tenant) — JSONL/text upload becomes a collection and triggers the loop~~
 - [x] ~~**RECO-002** — Recommendations API: /v1/recommend — item-to-item + text-to-item over the deployed model~~
+- [x] ~~**RECO-004** — Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)~~
 
 ## Specs & context
 

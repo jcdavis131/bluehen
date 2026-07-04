@@ -1575,11 +1575,12 @@
     {
       "id": "RECO-004",
       "title": "Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Migration + POST /v1/contracts + validate-at-write in data.ingest/exhaust paths; contract-reject metered. Ships with RECO-001 upload so tenant zero onboards with a contract from day one.",
-      "source": "Spec 0024 metadata contracts"
+      "notes": "SHIPPED: tenant_meta_contracts (mig 019, tenant-granted), POST/GET /v1/contracts, append-only versions, _bh.* reserved namespace enforced both directions (tenants cannot declare it; platform types checked when present), upload path validates per-doc metadata with path-named 400s, contract-reject metered. v1 validator = documented JSON-Schema subset (type/required/enum), no new deps. Exhaust payload validation + filter-DSL = RECO-005.",
+      "source": "Spec 0024 metadata contracts",
+      "claimedBy": "claude"
     },
     {
       "id": "RECO-005",

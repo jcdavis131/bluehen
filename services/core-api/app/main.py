@@ -524,6 +524,33 @@ def entitlement_grant(body: GrantIn, _: Annotated[None, Depends(require_admin)])
     return entitlements.grant(_uuid.UUID(body.workspaceId), body.sku, granted_by="admin")
 
 
+class ContractIn(BaseModel):
+    jsonSchema: dict
+    filterable: list[dict] | None = None
+
+
+@app.post("/v1/contracts", status_code=201)
+def register_contract(body: ContractIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                      _rl: Annotated[None, Depends(rate_limit("contracts", 12))] = None):
+    """Register the tenant's metadata contract (Spec 0024). Versions are
+    append-only; the newest version validates every subsequent write."""
+    from app.services import contracts
+
+    try:
+        return contracts.register(tenant.workspace_id, body.jsonSchema, body.filterable)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.get("/v1/contracts")
+def get_contract(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
+    from app.services import contracts
+
+    out = contracts.active(tenant.workspace_id)
+    return out or {"version": None,
+                   "note": "no contract registered — metadata is unvalidated until one is"}
+
+
 class RecommendIn(BaseModel):
     text: str | None = None
     itemId: str | None = None

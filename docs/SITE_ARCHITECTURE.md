@@ -24,6 +24,13 @@ the loop trains their domain model, gates it against baselines, and
 serves recommendations that improve automatically. Every business unit
 is a demonstration of that promise on a different domain.
 
+**Strategic roles (Spec 0023):** Blue Hen = the horizontal product ·
+ArXivIQ = the R&D pipeline · DumbModel = the automated evaluator ·
+Jcamd = the orchestration core. Verticals (real estate first) are
+proving tenants. Blueprint status: shared-core + tenant-adapters is
+SHIPPED (resident backbone + Postgres heads); R&D auto-pipe and anchor
+tenant are slated (RDPIPE-*, ANCHOR-001).
+
 ### The flywheel ledger (who produces, sells, feeds)
 
 | Site | Uniquely produces | Sells (passive) | Feeds |

@@ -1539,6 +1539,33 @@
       "priority": "P2",
       "notes": "Use RE.pitch token (shipped). Hero rewrite: promise -> how it works (corpus + exhaust in, recommendations out, improves itself) -> proof (EVIDENCE panel numbers) -> CTA. Enterprise voice.",
       "source": "Recommend Everything reframe 2026-07-04"
+    },
+    {
+      "id": "RDPIPE-001",
+      "title": "R&D pipe segment 1: literature radar output -> structured hypothesis -> auto-drafted AR queue item",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Spec 0023 \u00a74. HOW: extend scripts/arxiv_literature_radar.py (or post-process its output): per paper, deterministic extraction of {claim, mechanism, applicability to head-only/loss/chunking}; draft AR-4xx queue items with hypothesis + suggested harness change, status 'proposed' (human/agent promotes to ready). GLM summarization layer key-gated. ACCEPT: radar run yields >=1 well-formed proposed AR item.",
+      "source": "Spec 0023 flywheel"
+    },
+    {
+      "id": "RDPIPE-002",
+      "title": "R&D pipe segment 2: auto-labeled AR items trigger idle-time harness runs",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Worker/local runner picks 'auto'-labeled proposed AR items when idle (like autotrain tick), runs the delegate protocol, records KEEP/DISCARD. Bounded: 1 auto-run/day.",
+      "source": "Spec 0023 flywheel"
+    },
+    {
+      "id": "ANCHOR-001",
+      "title": "Anchor tenant: real-estate (henington-homes) corpus onboarding through the out-of-the-box path",
+      "status": "blocked",
+      "lane": "operator+claude",
+      "priority": "P1",
+      "notes": "OPERATOR GATE: provide the corpus (listings/valuations/workflow docs; any text/JSONL). Then: RECO-001 upload -> auto hill-climb -> gated tenant recommender -> measure vs panel on the RE slice. The proving vertical for Recommend Everything.",
+      "source": "Spec 0023 flywheel"
     }
   ]
 }

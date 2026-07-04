@@ -1132,6 +1132,26 @@
       "notes": "First end-to-end pass of the business operating loop. Source: a dumbmodel/fleet health-check failing slice (paid certs count when they exist). Opens an AR-* ticket with the Spec 0021 `source` block, runs the existing 0012 loop, publishes the fix on the research registry with origin + dates. Manual protocol v1; mechanical pick_task.py enforcement only if the source rule gets violated. Internal corpora qualify per policy rule 4, so nothing blocks this."
     },
     {
+      "id": "BD-704",
+      "division": "bd",
+      "lane": "cursor",
+      "priority": "P1",
+      "title": "Scorecards emit per-slice failure JSON matching Spec 0021 source contract",
+      "status": "ready",
+      "spec": "0021",
+      "notes": "slasso exam runner + dumbmodel health check output per-slice failures as { failedSlice, gateMetric, gateValue, gateThreshold, scorecardRef } so a failing slice can be pasted directly into an AR-* ticket's `source` block. Small execution task offloaded from Claude's spec-0021 stream per Operator."
+    },
+    {
+      "id": "SITE-020",
+      "division": "comms",
+      "lane": "cursor",
+      "priority": "P2",
+      "title": "Research registry (arxiviq): render origin provenance on method entries (Spec 0021)",
+      "status": "ready",
+      "spec": "0021",
+      "notes": "Method entries that carry originCert/originTicket display an origin line: 'Motivated by <slice> failure in <cert/health-check>, <date>; fixed recipe passed gate <metric >= threshold> on <date>.' No customer-identifying data — slice + corpus category only. Offloaded from Claude's spec-0021 stream per Operator."
+    },
+    {
       "id": "AR-310",
       "title": "Re-measure champion under fixed-seed repeats (5x) \u2014 is baseline 1.465 reproducible?",
       "status": "done",

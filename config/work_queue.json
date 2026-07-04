@@ -1310,10 +1310,11 @@
     {
       "id": "RT-404",
       "title": "Harder in-domain method eval: query-grounded pairs + larger negative pools on research corpus",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "SLATE. RT-402 saturated at ~0.935 with 1-vs-1 pos/neg ranking. HOW: rank positive among K=16 hard negatives (retrieval_scores over a pool), and/or use real user-style queries (title->abstract pairs from arXiv metadata). ACCEPT: method separation >2x seed\u566a\u58f0 or an honest null. LANE: sonnet-delegable with this note."
+      "notes": "EVIDENCE 3.15: pool16 instrument validated (ceiling broken); honest null on method separation (span ~0.01 < 2x seed noise); trained heads decisively beat commercial zero-shots in-domain; vicreg zero-variance top mean noted for future seeds.",
+      "claimedBy": "claude"
     },
     {
       "id": "UX-101",
@@ -1618,10 +1619,10 @@
       "id": "AR-502",
       "division": "research",
       "title": "[radar] MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Train",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "spec": "0023",
-      "notes": "MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Training Framework (https://arxiv.org/pdf/2606.07654v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness? [auto-probe 2026-07-04: PROBE-KEEP \u2014 mrl ndcg 1.0000 vs barlow 1.0000 (1-seed smoke; not evidence-grade)]",
+      "notes": "MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Training Framework (https://arxiv.org/pdf/2606.07654v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness? [auto-probe 2026-07-04: PROBE-KEEP \u2014 mrl ndcg 1.0000 vs barlow 1.0000 (1-seed smoke; not evidence-grade)] [RT-404 full verdict: mrl in the pack on pool16 (0.840/0.842) \u2014 no in-domain gain; closed measured.]",
       "source": "scripts/radar_to_hypotheses.py"
     },
     {

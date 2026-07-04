@@ -27,7 +27,6 @@
 - [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
-- [ ] **RT-404** — Harder in-domain method eval: query-grounded pairs + larger negative pools on research corpus (None)
 - [ ] **UX-102** — bhenre homepage: demote raw ledger/gate-failure internals below CTAs; one calm status line up top (None)
 - [ ] **UX-104** — arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section (None)
 - [ ] **UX-105** — dumbmodel /check result: add 'Get this certified' -> slasso.com/certify CTA (prove->certify handoff) (None)
@@ -39,6 +38,7 @@
 - [ ] **FLY-002** — Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports) (None)
 - [ ] **EXH-003** — Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema (None)
 - [ ] **MON-009** — Developer surface (Spec 0022 C): bhenre.com/developers — tiered APIs, exhaust integration guide, certification API docs (None)
+- [ ] **RECO-003** — Company site hero carries the market promise: 'Recommend Everything' pitch + out-of-the-box story (None)
 
 ## In progress
 
@@ -61,7 +61,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**EXH-001** — Unified Data Exhaust API (Spec 0022 A): POST /v1/exhaust, strict schema, consent-gated storage into datalab inbox~~
 - [x] ~~**EXH-002** — Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant~~
 - [x] ~~**RECO-001** — Customer corpus upload: POST /v1/corpus (tenant) — JSONL/text upload becomes a collection and triggers the loop~~
 - [x] ~~**RECO-002** — Recommendations API: /v1/recommend — item-to-item + text-to-item over the deployed model~~
@@ -69,6 +68,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**RDPIPE-002** — R&D pipe segment 2: auto-labeled AR items trigger idle-time harness runs~~
 - [x] ~~**RECO-004** — Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)~~
 - [x] ~~**RECO-005** — /v1/recommend filter DSL compiled from contracts~~
+- [x] ~~**AR-502** — [radar] MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Train~~
 
 ## Specs & context
 

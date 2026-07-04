@@ -469,6 +469,19 @@ guard shipped: siteless uploads in a site-bound workspace train + gate
 but never displace site serving; customer tenants (no site binding)
 keep zero-touch deploy. Ledger key fixed.
 
+### 3.15 RT-404 — K-pool protocol validates; honest null on method ranking — 2026-07-04
+
+`ndcg_pool16` (positive ranked among 16 seeded hard negatives, identical
+pools per method) breaks RT-402's ceiling: spread 0.776–0.855. Findings:
+(1) **all trained heads beat commercial zero-shots in-domain** (trained
+0.841–0.851 vs BGE 0.784, e5 0.776; raw MiniLM 0.842); (2) method means
+span only ~0.01 while barlow's seed spread is 0.02 — **no method
+separation beyond seed noise** (honest null; champion barlow stands,
+un-extended); (3) vicreg intriguing: top mean 0.8513 with zero seed
+variance — watch, don't promote; (4) mrl in the pack → AR-502's
+Matryoshka-pooling hypothesis yields no in-domain gain at this scale
+(closed, measured). Instrument adopted for future method evals.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

@@ -32,7 +32,7 @@ export async function generateMetadata({
   return { title: "Wiki" };
 }
 
-export default async function WikiPage('
+export default async function WikiPage(
 {
   params,
 }: {

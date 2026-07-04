@@ -461,9 +461,13 @@ Acceptance run on prod: POST /v1/corpus (40 real research docs, tenant
 key) -> collection ce2ce339 -> train job 7a8b277d -> completed
 asn-head-7296198 (ER 27.68) -> **gates=True** -> BD pilot queued ->
 **charter-approved deploy**. No human action after the single API call.
-Known gap (honest): index stage is site-scoped, so the siteless upload
-indexed 0 chunks — the deployed model serves, but the uploaded corpus
-is not yet the search substrate; fix folded into RECO-002.
+**Correction (same day):** "indexed 0 chunks" was a ledger key-name bug
+(read `chunks`, service returns `indexed`) — indexing worked; the upload
+actually REPLACED arxiviq's serving model + shrank its index to the
+40-doc subset. Champion asn-head-4000090 restored (702 chunks). Policy
+guard shipped: siteless uploads in a site-bound workspace train + gate
+but never displace site serving; customer tenants (no site binding)
+keep zero-touch deploy. Ledger key fixed.
 
 ## 4. Enterprise RAG (extrinsic — target)
 

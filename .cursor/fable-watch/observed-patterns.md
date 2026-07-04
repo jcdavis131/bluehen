@@ -1521,3 +1521,28 @@ ow-next-routes-manifest — Vercel suggests (1) misconfigured Output Directory v
 - **Observed:** 5c63188 spec: 0024 metadata contracts — consistent multi-tenant filtering over JSONB — adds specs/0024-metadata-contracts.md + work_queue.json rows (RECO-004 metadata contracts, related RECO items with Spec 0024 source).
 - **Why it works:** Extends P-203/P-277: architectural work lands as **spec first + queue traceability** in one commit, not code-only or tasks-only. source: Spec 0024 metadata contracts on each task links backlog to acceptance doc.
 - **Maps to:** refine follow-procedure + metadata-align — spec NNNN + RECO/queue rows in single push.
+
+### P-287 - Spec number collision: renumber + cross-ref sweep + honest queue statuses
+- **Observed:** 7b2f6fb chore(specs): spec/task review sync — collision fixed, statuses honest — engine spec renumbered **0022 → 0025** (0022 reserved for product-catalog); updates refs in 0023/0024/README; queue statuses synced.
+- **Why it works:** Duplicate spec IDs silently fork acceptance criteria. Renumber with explicit note (Renumbered from 0022 (collision with product-catalog spec)) + grep-style cross-ref updates in dependent specs prevents agents citing wrong doc. Bundled with **honest statuses** in work_queue — metadata-align at spec-registry level.
+- **Maps to:** refine metadata-align + conservative-rename — detect spec ID collision → renumber → sweep cross-refs → sync queue statuses.
+
+### P-288 - Task ACCEPT criteria become the post-deploy monitor name
+- **Observed:** RECO-001 shipped (56cb83d — POST /v1/corpus upload + tests) → Monitor(Acceptance: upload real corpus post-deploy) (1800s, classifier-approved). Queue notes ACCEPT: curl a small corpus -> trained gated model serving /v1/search… zero human steps.
+- **Why it works:** Extends P-215/P-274: the monitor label mirrors the **spec/task acceptance sentence**, not generic deploy-done. Post-deploy proof is the exact out-of-the-box path the task promised — upload real corpus and verify the loop triggers.
+- **Maps to:** refine event-driven-wait + validate-gate — copy ACCEPT line from queue/spec into post-deploy monitor event name.
+
+### P-290 - Unparseable monitor probe → suspect wrong route, verify job state, kill mispathed monitor
+- **Observed:** RECO-001 acceptance monitor: "job-status probe returned unparseable — likely a wrong route path in my monitor." → check actual route → "Job already completed. Killing the mispathed monitor and pulling the gates verdict."
+- **Why it works:** Extends P-249: monitor failure may be **probe misconfiguration** (wrong path), not job failure. Direct route check + job state read avoids waiting on a broken watcher. Kill the bad monitor explicitly so it doesn't fire false events. Then pull the real verdict (gates).
+- **Maps to:** refine diagnose-before-retry + event-driven-wait — unparseable monitor output → verify route + job state → kill mispathed monitor.
+
+### P-291 - Product ACCEPT close-out: EVIDENCE row mirrors queue zero-human-steps claim
+- **Observed:** After mispathed monitor fix (P-290): stopped polling task → ddcc16b evidence: RECO-001 acceptance — upload to charter-approved deploy, zero human steps (3.14) — queue marked done, EVIDENCE §3.14.
+- **Why it works:** RECO-001 queue ACCEPT promised curl corpus -> … zero human steps. Commit message and EVIDENCE section **repeat that exact claim** with charter-approved deploy proof — product tasks close in EVIDENCE, not just code+tests. Extends P-255 to customer-facing out-of-the-box flows.
+- **Maps to:** refine close-the-loop + validate-gate — product RECO-* tasks close with EVIDENCE row echoing queue ACCEPT wording.
+
+### P-292 - Ledger note uses API canonical field name; wrong key silently reports zero
+- **Observed:** Mid-lap fix in services/worker/main.py: "notes": f"indexed {index_info.get('chunks', 0)} chunks" → get('indexed', 0) with assert in heredoc patch (~2m in progress).
+- **Why it works:** Operations ledger notes are read by operators and agents for truth. Using chunks when the API returns indexed logs **0 chunks forever** without error — silent wrong telemetry. Fix aligns note text with response schema (P-016 read sibling/API shape).
+- **Maps to:** refine correct-assumptions + follow-procedure — ledger/notes must use the same field names as the API response dict.

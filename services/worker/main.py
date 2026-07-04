@@ -203,7 +203,27 @@ def process_job(payload: dict) -> None:
 
         # A charter authorizes deploy; it never overrides the eval gate
         # (Spec 0008): gate-failed models must not reach production serving.
-        if gates_passed and handoffs.charter_allows_deploy(site_id, result.model_version):
+        ws_site = None
+        try:
+            from app.models import Workspace
+
+            with db_session() as _s:
+                _ws = _s.get(Workspace, job["workspace_id"])
+                ws_site = _ws.site_id if _ws else None
+        except Exception:
+            ws_site = None
+        if site_id is None and ws_site is not None:
+            # RECO-001 lesson (EVIDENCE 3.14 correction): an uploaded-corpus run
+            # inside a site-bound workspace is an experiment; it must not
+            # displace the site's serving model/index. Customer tenants
+            # (no site binding) still get zero-touch deploy.
+            governance.record_ledger(
+                job["workspace_id"],
+                {"stage": "deploy", "modelVersion": result.model_version,
+                 "notes": "skipped — siteless upload in site-bound workspace (gates recorded; deploy requires explicit /v1/models/deploy)"},
+                {"traceId": trace_id},
+            )
+        elif gates_passed and handoffs.charter_allows_deploy(site_id, result.model_version):
             deploy_note = "charter-approved deploy (gates passed)"
             deploy_out = deploy_model(
                 workspace_id,
@@ -229,7 +249,7 @@ def process_job(payload: dict) -> None:
                     "stage": "index",
                     "siteId": site_id,
                     "modelVersion": result.model_version,
-                    "notes": f"indexed {index_info.get('chunks', 0)} chunks",
+                    "notes": f"indexed {index_info.get('indexed', 0)} chunks",
                 },
                 {"traceId": trace_id},
             )

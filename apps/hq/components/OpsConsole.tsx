@@ -51,6 +51,7 @@ export function OpsConsole({
         <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
           <h2 className="bh-card__title">Source registry ({sources.length})</h2>
           <button className="bh-btn bh-btn--ghost" disabled={busy !== null}
+                  aria-label="Sync catalog now"
                   onClick={() => act({ action: "sync" }, "catalog sync")}>
             {busy === "catalog sync" ? "Syncing…" : "Sync catalog"}
           </button>
@@ -69,6 +70,7 @@ export function OpsConsole({
                   </td>
                   <td>
                     <button className="bh-btn bh-btn--ghost" disabled={busy !== null}
+                            aria-label={`Harvest source ${s.id} now`}
                             onClick={() => act({ action: "harvest", sourceId: s.id }, `harvest ${s.id}`)}>
                       {busy === `harvest ${s.id}` ? "Queued…" : "Harvest now"}
                     </button>
@@ -101,10 +103,12 @@ export function OpsConsole({
                     <td className="bh-meta">{new Date(s.createdAt).toUTCString().slice(0, 22)}</td>
                     <td style={{ whiteSpace: "nowrap" }}>
                       <button className="bh-btn bh-btn--ghost" disabled={busy !== null}
+                              aria-label={`Approve submission ${s.receipt}`}
                               onClick={() => act({ action: "review", submissionId: s.id, decision: "approve" }, `approve ${s.id.slice(0, 6)}`)}>
                         Approve
                       </button>{" "}
                       <button className="bh-btn bh-btn--ghost" disabled={busy !== null}
+                              aria-label={`Reject submission ${s.receipt}`}
                               onClick={() => act({ action: "review", submissionId: s.id, decision: "reject" }, `reject ${s.id.slice(0, 6)}`)}>
                         Reject
                       </button>

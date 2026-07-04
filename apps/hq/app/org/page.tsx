@@ -5,7 +5,7 @@ import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } fro
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Org — Blue Hen RE",
+  title: "Org",
   description: "The org's living status board + per-division team digests.",
 };
 

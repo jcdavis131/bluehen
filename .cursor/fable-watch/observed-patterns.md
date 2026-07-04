@@ -1430,3 +1430,8 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** UX subagent close-out: "All six home. Integrating — first the three one-line wiring fixes (cheaper to fix than to file), then the consolidated task list" → c856fc4 15 tasks filed, 3 wiring fixes applied inline from ~40 findings (~8m 45s).
 - **Why it works:** Triage rule: fixes cheaper than queue overhead ship immediately; only non-trivial findings become tasks. ~40 findings → 15 tasks avoids queue spam while preserving traceability. Extends P-237 (Cursor offload) — filed tasks can land on Cursor lane.
 - **Maps to:** refine lane-discipline + progress-board — UX audit: inline trivial fixes; consolidate remainder into numbered queue tasks.
+
+### P-269 - UX fix: confirm backend already enriches data before wiring display + outbound link
+- **Observed:** UX-103: "The hit list already renders payload.text — the backend enrichment completes snippets automatically. Adding the outbound link and shipping:" → 58f4e47 UX-101 + UX-103 (SSR-true stats, judgeable search hits).
+- **Why it works:** Before UI work, verify the API already supplies the field (search.py enrichment). Fix is **display + link wiring**, not re-fetch or duplicate snippet logic. Avoids frontend/backend duplication and ships faster from UX audit findings (P-268).
+- **Maps to:** refine match-conventions + correct-assumptions — UX hit fixes: read backend payload first, then wire UI.

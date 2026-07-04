@@ -1,6 +1,6 @@
 import { FeedbackForm, PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@synthaembed/fleet";
 export const metadata = {
-  title: `${GLOSSARY.feedback} — Headquarters`,
+  title: GLOSSARY.feedback,
 };
 
 export default function ControlFeedbackPage() {

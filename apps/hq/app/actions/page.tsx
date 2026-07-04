@@ -3,7 +3,7 @@ import { PageHeader } from "@synthaembed/ui-fleet";import { GLOSSARY } from "@sy
 import { BdPromotionPanel } from "../../components/BdPromotionPanel";
 
 export const metadata = {
-  title: `Lifecycle Controls — Headquarters`,
+  title: "Lifecycle Controls",
 };
 
 export default function ActionsPage() {

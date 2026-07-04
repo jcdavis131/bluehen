@@ -85,10 +85,14 @@ export default function RunListPage() {
           )}
 
           {runs && runs.length === 0 && (
-            <div className="empty-state">
+            <div className="bh-alert">
               No runs recorded yet. Instrument a training script with{" "}
               <code>runboard.init(...)</code> or seed a demo run with{" "}
               <code>uv run python -m runboard demo</code>.
+              <br />
+              Production runs are recorded on the Railway volume — view via
+              jcamd.com/ops or run <code>uv run python -m runboard list</code>{" "}
+              locally.
             </div>
           )}
 

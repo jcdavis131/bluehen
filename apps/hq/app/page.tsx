@@ -57,7 +57,6 @@ async function getFleetStatus() {
 }
 
 export const metadata = {
-  title: "Headquarters — Blue Hen RE",
   description: "The org hub: fleet directory, live operating loop, lifecycle controls. jcamd.com",
 };
 
@@ -67,6 +66,12 @@ export default async function HqPage() {
   const [online, fleet, loop] = await Promise.all([getHealth(), getFleetStatus(), getLoopData()]);
   const local = process.env.NEXT_PUBLIC_FLEET_LOCAL === "1";
   const orgBySite = new Map((fleet?.orgs ?? []).map((o: Record<string, unknown>) => [o.siteId, o]));
+
+  const liveUnits = sites.filter((s) => s.status === "active").length;
+  const servingVersion = loop.models.find((m) => m.deployed && m.version)?.version;
+  const healthLine = servingVersion
+    ? `${liveUnits} business units live · model ${servingVersion} serving · updated ${new Date().toISOString().slice(11, 19)} UTC`
+    : "status loads live";
 
   return (
     <>
@@ -82,6 +87,7 @@ export default async function HqPage() {
           title={surface?.stop ?? "Headquarters"}
           marginalia={`${BRAND.operatingLoop} · fleet control`}
         >
+          <p className="bh-meta">{healthLine}</p>
           <p className="bh-title-card__copy">
             The org hub: every venture on one {BRAND.operatingLoop}.{" "}
             <Link href="/actions">Lifecycle controls →</Link>

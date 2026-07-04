@@ -1398,11 +1398,12 @@
     {
       "id": "UX-110",
       "title": "hq polish: dup 'Headquarters' titles, /ops aria-labels, SSR one-line health summary, observatory unblock CTA",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Four small fixes in apps/hq + observatory empty state.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "notes": "Sonnet-delegated: bare page titles (4 pages incl /org edge case), /ops aria-labels, SSR health line on hq home (real data or honest fallback), observatory unblock CTA. Typechecks green.",
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "UX-111",

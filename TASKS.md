@@ -66,7 +66,6 @@
 
 ## Recently done
 
-- [x] ~~**DR-108** — Wiki Refinery deterministic layer (Spec 0020)~~
 - [x] ~~**DR-109** — Wiki Refinery GLM refinement pass (Spec 0020)~~
 - [x] ~~**KIT-003** — Kit sample corpora — content/kits/* JSONL seeded for all three personas (Spec 0022)~~
 - [x] ~~**RT-403** — Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates~~
@@ -74,6 +73,7 @@
 - [x] ~~**UX-101** — CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration)~~
 - [x] ~~**UX-103** — arxiviq search hits have no snippet text or arxiv link (payload lacks text field)~~
 - [x] ~~**UX-110** — hq polish: dup 'Headquarters' titles, /ops aria-labels, SSR one-line health summary, observatory unblock CTA~~
+- [x] ~~**WIRE-203** — usage_events retention: nightly rollup + purge past N days~~
 
 ## Specs & context
 

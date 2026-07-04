@@ -67,3 +67,41 @@ def admin_rollup(days: int = 31) -> dict:
     for ws, kind, units in rows:
         out.setdefault(str(ws), {})[kind] = int(units)
     return {"sinceDays": days, "workspaces": out}
+
+
+RETENTION_DAYS = 45
+_last_rollup_day: str | None = None
+
+
+def rollup_and_purge(retention_days: int = RETENTION_DAYS) -> dict:
+    """Archive raw events older than the retention window into usage_daily,
+    deleting them in the same transaction (idempotent: rows either exist raw
+    OR are archived — never both, never double-counted)."""
+    from sqlalchemy import delete, text
+
+    cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+    with db_session() as session:
+        session.execute(text("""
+            INSERT INTO usage_daily (workspace_id, kind, day, units)
+            SELECT workspace_id, kind, date(ts), sum(units)
+            FROM usage_events WHERE ts < :cutoff
+            GROUP BY workspace_id, kind, date(ts)
+            ON CONFLICT ON CONSTRAINT uq_usage_daily_ws_kind_day
+            DO UPDATE SET units = usage_daily.units + EXCLUDED.units
+        """), {"cutoff": cutoff})
+        purged = session.execute(
+            delete(UsageEvent).where(UsageEvent.ts < cutoff)).rowcount
+    return {"purgedRaw": int(purged), "cutoff": cutoff.isoformat()}
+
+
+def daily_tick() -> dict | None:
+    """Cheap once-per-day guard for the worker loop (restart-safe: the
+    rollup itself is idempotent)."""
+    global _last_rollup_day
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    if _last_rollup_day == today:
+        return None
+    _last_rollup_day = today
+    out = rollup_and_purge()
+    log.info("usage retention: %s", out)
+    return out

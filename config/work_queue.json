@@ -1426,11 +1426,13 @@
     {
       "id": "WIRE-203",
       "title": "usage_events retention: nightly rollup + purge past N days",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Unbounded growth flagged. Add worker daily tick: aggregate into usage_daily (new table) then delete raw rows >45d. Keep Stripe-reconciliation watermark semantics.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "notes": "usage_daily (mig 017, tenant-granted) + atomic archive-then-purge at 45d (idempotent, no double-count) + once-daily worker tick (restart-safe). Month view unaffected (45d raw > 31d window).",
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T15:55:36.238425+00:00"
     },
     {
       "id": "WIRE-204",

@@ -1435,3 +1435,18 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** UX-103: "The hit list already renders payload.text — the backend enrichment completes snippets automatically. Adding the outbound link and shipping:" → 58f4e47 UX-101 + UX-103 (SSR-true stats, judgeable search hits).
 - **Why it works:** Before UI work, verify the API already supplies the field (search.py enrichment). Fix is **display + link wiring**, not re-fetch or duplicate snippet logic. Avoids frontend/backend duplication and ships faster from UX audit findings (P-268).
 - **Maps to:** refine match-conventions + correct-assumptions — UX hit fixes: read backend payload first, then wire UI.
+
+### P-270 - Duplicate subagent completion echo: acknowledge integrated, don't re-commit
+- **Observed:** UX-110 agent finished · 11m 45s → second completion echo → "already integrated, committed, and its flagged /org title fixed in the same commit." Parent does not re-apply work.
+- **Why it works:** Background agents can double-fire completion events. Idempotent close-out: check git/integrate state before acting on echo. Prevents duplicate commits or conflicting edits from the same subagent handoff.
+- **Maps to:** refine background-failure-triage + lane-discipline — dedupe subagent completion echoes against already-integrated commits.
+
+### P-271 - UX subagent close-out slates wire/integration task for next tick
+- **Observed:** After UX-110 (79c45d2 hq/observatory polish): "The pending wakeup stands; **WIRE-203** next tick."
+- **Why it works:** Extends P-263: UX polish subagent completes → parent names the **next wiring task ID** (WIRE-203) for the following tick, separating UI polish from cross-site wiring work. Loop continuity without re-scanning queue.
+- **Maps to:** refine progress-board — subagent UX close-out slates WIRE-* follow-up for next tick.
+
+### P-272 - Data retention design stated as invariants before implementation
+- **Observed:** WIRE-203 v2 tick: design narrated before shell — "archive-then-purge in one transaction (rows older than 45 days aggregate into usage_daily and are deleted atomically — idempotent, no double-count, and the 31-day tenant view always reads raw)."
+- **Why it works:** Usage/billing retention is easy to get wrong (double-count, partial purge, stale tenant view). Stating **transaction boundary**, **idempotency**, **aggregation target**, and **read path** before coding makes review and rollback obvious. Extends P-211 monetization half-shipped discipline to ops wiring.
+- **Maps to:** refine follow-procedure + policy-as-config — retention jobs: document invariants (atomic, idempotent, read path) before first migration/script edit.

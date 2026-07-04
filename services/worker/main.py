@@ -313,6 +313,12 @@ def run_forever(poll_seconds: float = 2.0) -> None:
                     continue
             except Exception as exc:
                 log.warning("harvest poll failed: %s", exc)
+            try:
+                from app.services.usage import daily_tick
+
+                daily_tick()
+            except Exception as exc:
+                log.warning("usage retention tick failed: %s", exc)
             time.sleep(poll_seconds)
             continue
         try:

@@ -87,12 +87,12 @@ export function ExamScorecard() {
                   key={m.modelId}
                   style={{
                     borderTop: "1px solid var(--fleet-border, #2a2f3a)",
-                    background: m.isHen ? "rgba(92,184,122,0.08)" : "transparent",
+                    background: m.isHen ? "var(--bh-stage-prod-tint)" : "transparent",
                   }}
                 >
                   <td style={{ padding: "6px 10px", fontWeight: m.isHen ? 700 : 500 }}>
                     {m.name}
-                    {m.isHen && <span style={{ marginLeft: 6, fontSize: 11, color: "#5cb87a" }}>org</span>}
+                    {m.isHen && <span style={{ marginLeft: 6, fontSize: 11, color: "var(--bh-stage-prod)" }}>org</span>}
                   </td>
                   <td style={{ padding: "6px 10px", fontFamily: "ui-monospace" }}>{pct(m.accuracy)}</td>
                   <td style={{ padding: "6px 10px", fontFamily: "ui-monospace" }}>{m.mrr.toFixed(3)}</td>

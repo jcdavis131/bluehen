@@ -15,11 +15,11 @@ import {
 import type { LedgerEntry } from "./RaceFeed";
 
 const DIVISION_STYLE: Record<OrgDivisionId, { accent: string; tint: string }> = {
-  orchestration: { accent: "#a78bfa", tint: "rgba(167, 139, 250, 0.12)" },
-  data: { accent: "#38bdf8", tint: "rgba(56, 189, 248, 0.12)" },
-  research: { accent: "#3d8bfd", tint: "rgba(61, 139, 253, 0.12)" },
-  bd: { accent: "#e8c547", tint: "rgba(232, 197, 71, 0.12)" },
-  execution: { accent: "#5cb87a", tint: "rgba(92, 184, 122, 0.12)" },
+  orchestration: { accent: "var(--bh-div-orchestration)", tint: "var(--bh-div-orchestration-tint)" },
+  data: { accent: "var(--bh-div-data)", tint: "var(--bh-div-data-tint)" },
+  research: { accent: "var(--bh-div-research)", tint: "var(--bh-div-research-tint)" },
+  bd: { accent: "var(--bh-div-bd)", tint: "var(--bh-div-bd-tint)" },
+  execution: { accent: "var(--bh-div-execution)", tint: "var(--bh-div-execution-tint)" },
 };
 
 const STALL_MS = 24 * 60 * 60 * 1000;

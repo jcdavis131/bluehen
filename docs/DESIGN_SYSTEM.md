@@ -2,7 +2,7 @@
 
 **Codename:** `bh-*` (Blue Hen)  
 **Package:** `@synthaembed/ui-fleet` → import `@synthaembed/ui-fleet/styles.css`  
-**Status:** v0.1 — foundation ready; proliferate to remaining pages incrementally
+**Status:** v0.3 — warm neobrutalism + dual themes; proliferate to remaining pages incrementally
 
 ---
 
@@ -15,10 +15,16 @@
 - **Readable measure.** Body text capped at `--bh-axis-narrow: 640px` on every viewport.
 - **No horizontal scroll.** Every page passes an `overflow-x` audit at 320px.
 
-### Brutalist
-- **Honest structure:** 2px borders, 2–4px radii, no glass/blur chrome
-- **Visible hierarchy:** uppercase mono eyebrows, section labels, grid you can read
-- **Measured contrast:** warm ink canvas, not pure black
+### Warm neobrutalist
+- **Cream paper + ink:** the light theme is warm cream (`--bh-canvas`) with near-black ink outlines (`--bh-ink`), never clinical white/gray
+- **Blocky offset shadows:** `--bh-shadow-block*` — hard, unblurred, ink-colored. Interactive elements *lift* on hover and *press flat* on `:active` (translate by the shadow offset, shadow goes to none)
+- **Honest structure:** 2px ink borders on cards/buttons/inputs; chunky 8–12px radii; hierarchy you can read
+- **Bold uppercase nav:** site nav is 700-weight uppercase; the accent underlines the active section
+
+### Two themes, one geometry
+- **Light (default):** cream paper, ink outlines, accents darkened to AA 4.5:1 on cream
+- **Dark:** warm ink canvas (not pure black), bone-colored outlines, black blocky shadows
+- Switched by `data-bh-theme="light|dark"` on `<html>` (persisted in `localStorage["bh-theme"]`, stamped pre-paint by `FleetShell`), falling back to `prefers-color-scheme`. Never hardcode a color a theme can't swap — always tokens.
 
 ### Organic
 - **Warm neutrals:** stone and moss tones, not cyberpunk
@@ -27,7 +33,7 @@
 - **Organic cards:** `.bh-card--organic` uses asymmetric radius
 
 ### Professional
-- **One accent per site** via `data-site` on `.fleet-shell`
+- **One accent per site** via `data-site` on `.fleet-shell` — same seven hues, theme-swapped values
 - **4px spacing scale** — `--bh-space-*`
 - **Evidence-first copy** — badges state facts; no hype gradients
 

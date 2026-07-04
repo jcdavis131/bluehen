@@ -1,11 +1,165 @@
 /**
  * Blue Hen RE — design tokens
- * Brutalist structure · organic warmth · professional restraint
+ * Warm neobrutalism: cream paper, ink rules, blocky offset shadows,
+ * per-site accents. Two themes — light (default) and dark — switched by
+ * `data-bh-theme` on <html>, falling back to prefers-color-scheme.
  * @see docs/DESIGN_SYSTEM.md
  */
 
+/* ── Structural tokens (theme-independent) ─────────────────── */
 :root {
-  /* Canvas — warm ink, not pure black */
+  /* Typography */
+  --bh-font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --bh-font-body: "DM Sans", system-ui, -apple-system, sans-serif;
+  --bh-font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* Geometry — chunky, friendly radii; hard edges come from ink + shadow */
+  --bh-radius-none: 0;
+  --bh-radius-sm: 4px;
+  --bh-radius-md: 8px;
+  --bh-radius-lg: 12px;
+  --bh-radius-btn: 12px;
+  --bh-radius-organic: 4px 16px 6px 14px;
+
+  /* Blocky offset shadows — the press-down language */
+  --bh-block-x: 4px;
+  --bh-block-y: 4px;
+
+  /* Spacing scale (4px base) */
+  --bh-space-1: 4px;
+  --bh-space-2: 8px;
+  --bh-space-3: 12px;
+  --bh-space-4: 16px;
+  --bh-space-5: 20px;
+  --bh-space-6: 24px;
+  --bh-space-8: 32px;
+  --bh-space-10: 40px;
+  --bh-space-12: 48px;
+  --bh-space-16: 64px;
+
+  /* Layout */
+  --bh-max-width: 1080px;
+  --bh-max-width-narrow: 720px;
+
+  /* Motion */
+  --bh-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --bh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --bh-duration: 120ms;
+  --bh-duration-slow: 250ms;
+
+  /* Tastemaker (Spec 0017) — Kubrick axis, hairline, slow push */
+  --bh-axis: 720px;
+  --bh-axis-wide: 1080px;
+  --bh-duration-axis: 400ms;
+}
+
+/* ── Light theme (default) — cream paper + ink ─────────────── */
+:root {
+  color-scheme: light;
+
+  /* Canvas — warm cream, not clinical white */
+  --bh-canvas: #f1e7e0;
+  --bh-canvas-elevated: #ece0d7;
+  --bh-surface: #fbf6ef;
+  --bh-surface-raised: #ffffff;
+  --bh-inset: #e9dcd2;
+  --bh-glass: rgba(251, 246, 239, 0.88);
+
+  /* Structure — soft hairlines; hard outlines use --bh-ink */
+  --bh-border: #d9cabe;
+  --bh-border-strong: #b9a795;
+  --bh-border-focus: #1d1811;
+
+  /* Ink — the hard outline + blocky shadow color */
+  --bh-ink: #1d1811;
+  --bh-ink-shadow: #1d1811;
+  --bh-card-border: #1d1811;
+
+  /* Type */
+  --bh-text: #201a13;
+  --bh-text-secondary: #4c443a;
+  --bh-muted: #6f655a;
+  --bh-faint: #9b8f82;
+
+  /* Brand & semantic — same seven hues, darkened for AA 4.5:1 on cream */
+  --bh-hen-blue: #3d6b89;
+  --bh-hen-blue-dim: #2c4f67;
+  --bh-heather: #5c5b85;
+  --bh-heather-dim: #454463;
+  --bh-instrument: #35706c;
+  --bh-instrument-dim: #275350;
+  --bh-moss: #4c7052;
+  --bh-moss-dim: #38533d;
+  --bh-clay: #7d6234;
+  --bh-clay-dim: #5c4826;
+  --bh-cone-rust: #a4522e;
+  --bh-cone-dim: #7c3e22;
+  --bh-copper: #8e5527;
+  --bh-copper-dim: #6a3f1d;
+  --bh-slate-blue: #52657f;
+  --bh-danger: #a83a28;
+  --bh-danger-dim: #7e2b1e;
+
+  /* Site accent (overridden per shell via data-site) */
+  --bh-accent: var(--bh-hen-blue);
+  --bh-accent-dim: var(--bh-hen-blue-dim);
+  --bh-accent-muted: rgba(61, 107, 137, 0.12);
+  /* Text color that sits ON an accent-filled surface */
+  --bh-on-accent: #fdf8f1;
+
+  /* Shadows — soft ambient stays for overlays; blocky is the brand */
+  --bh-shadow-sm: 0 1px 2px rgba(32, 26, 19, 0.08);
+  --bh-shadow-md: 0 2px 8px rgba(32, 26, 19, 0.1);
+  --bh-shadow-lg: 0 4px 24px rgba(32, 26, 19, 0.16);
+  --bh-glow-accent: 0 0 0 rgba(0, 0, 0, 0);
+  --bh-shadow-block: var(--bh-block-x) var(--bh-block-y) 0 var(--bh-ink-shadow);
+  --bh-shadow-block-sm: 2px 2px 0 var(--bh-ink-shadow);
+  --bh-shadow-block-lg: 6px 6px 0 var(--bh-ink-shadow);
+
+  /* Overlay scrim */
+  --bh-overlay: rgba(32, 26, 19, 0.45);
+
+  /* Tastemaker surfaces */
+  --bh-rule: 1px solid var(--bh-border);
+  --bh-rule-strong: 2px solid var(--bh-ink);
+  --bh-card-title-bg: var(--bh-surface);
+  --bh-status-bar-bg: var(--bh-surface);
+
+  /* Research registry lifecycle stages */
+  --bh-stage-rd: #2761b3;
+  --bh-stage-rd-tint: rgba(39, 97, 179, 0.1);
+  --bh-stage-validate: #8a6a10;
+  --bh-stage-validate-tint: rgba(138, 106, 16, 0.12);
+  --bh-stage-prod: #2f7d4d;
+  --bh-stage-prod-tint: rgba(47, 125, 77, 0.1);
+  --bh-stage-retired: #ab4040;
+  --bh-stage-retired-tint: rgba(171, 64, 64, 0.08);
+
+  /* Operating-loop division colors (diagram, circuit, feed) */
+  --bh-div-orchestration: #6d5bb8;
+  --bh-div-orchestration-tint: rgba(109, 91, 184, 0.12);
+  --bh-div-data: #1f6f95;
+  --bh-div-data-tint: rgba(31, 111, 149, 0.12);
+  --bh-div-research: #2761b3;
+  --bh-div-research-tint: rgba(39, 97, 179, 0.12);
+  --bh-div-bd: #8a6a10;
+  --bh-div-bd-tint: rgba(138, 106, 16, 0.12);
+  --bh-div-execution: #2f7d4d;
+  --bh-div-execution-tint: rgba(47, 125, 77, 0.12);
+
+  /* Legacy fleet aliases (backward compat) */
+  --fleet-bg: var(--bh-canvas);
+  --fleet-surface: var(--bh-surface);
+  --fleet-border: var(--bh-border);
+  --fleet-text: var(--bh-text);
+  --fleet-muted: var(--bh-muted);
+  --fleet-accent: var(--bh-accent);
+}
+
+/* ── Dark theme — warm ink, same geometry ──────────────────── */
+:root[data-bh-theme="dark"] {
+  color-scheme: dark;
+
   --bh-canvas: #0b0d0a;
   --bh-canvas-elevated: #101210;
   --bh-surface: #161814;
@@ -13,20 +167,19 @@
   --bh-inset: #0e100c;
   --bh-glass: rgba(22, 24, 20, 0.82);
 
-  /* Structure — honest borders */
   --bh-border: #2a2f28;
   --bh-border-strong: #3a4238;
-  --bh-border-focus: #5a6b58;
+  --bh-border-focus: #e6ebe3;
 
-  /* Type */
+  --bh-ink: #d9d2c4;
+  --bh-ink-shadow: #000000;
+  --bh-card-border: #4a4f46;
+
   --bh-text: #e6ebe3;
   --bh-text-secondary: #b8bfb4;
   --bh-muted: #7a8278;
   --bh-faint: #525850;
 
-  /* Brand & semantic — Spec 0017 desaturated ~10% so all 7 accents read as
-     one muted Wes-Anderson family. hen-blue lifted to L=0.48 to clear AA 4.5:1
-     on --bh-canvas. */
   --bh-hen-blue: #5384a1;
   --bh-hen-blue-dim: #345571;
   --bh-heather: #8786b5;
@@ -45,61 +198,23 @@
   --bh-danger: #c45c4a;
   --bh-danger-dim: #5c2a22;
 
-  /* Site accent (override per shell via data-site) */
   --bh-accent: var(--bh-hen-blue);
   --bh-accent-dim: var(--bh-hen-blue-dim);
   --bh-accent-muted: rgba(83, 132, 161, 0.14);
+  --bh-on-accent: #0b0d0a;
 
-  /* Typography */
-  --bh-font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --bh-font-body: "DM Sans", system-ui, -apple-system, sans-serif;
-  --bh-font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
-
-  /* Brutalist geometry — tight radii */
-  --bh-radius-none: 0;
-  --bh-radius-sm: 2px;
-  --bh-radius-md: 4px;
-  --bh-radius-lg: 8px;
-  --bh-radius-organic: 2px 14px 4px 12px;
-
-  /* Spacing scale (4px base) */
-  --bh-space-1: 4px;
-  --bh-space-2: 8px;
-  --bh-space-3: 12px;
-  --bh-space-4: 16px;
-  --bh-space-5: 20px;
-  --bh-space-6: 24px;
-  --bh-space-8: 32px;
-  --bh-space-10: 40px;
-  --bh-space-12: 48px;
-  --bh-space-16: 64px;
-
-  /* Layout */
-  --bh-max-width: 1080px;
-  --bh-max-width-narrow: 720px;
-
-  /* Shadows */
   --bh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --bh-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.35);
   --bh-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.4);
   --bh-glow-accent: 0 0 20px rgba(83, 132, 161, 0.08);
 
-  /* Motion */
-  --bh-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --bh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --bh-duration: 120ms;
-  --bh-duration-slow: 250ms;
+  --bh-overlay: rgba(11, 13, 10, 0.7);
 
-  /* Tastemaker (Spec 0017) — additive; Kubrick axis, TUI hairline, slow push */
-  --bh-axis: 720px;
-  --bh-axis-wide: 1080px;
   --bh-rule: 1px solid var(--bh-border);
-  --bh-rule-strong: 1px solid var(--bh-border-strong);
+  --bh-rule-strong: 2px solid var(--bh-border-strong);
   --bh-card-title-bg: var(--bh-surface-raised);
   --bh-status-bar-bg: var(--bh-canvas-elevated);
-  --bh-duration-axis: 400ms;
 
-  /* Research registry lifecycle stages */
   --bh-stage-rd: #3d8bfd;
   --bh-stage-rd-tint: rgba(61, 139, 253, 0.1);
   --bh-stage-validate: #e8c547;
@@ -109,65 +224,152 @@
   --bh-stage-retired: #d96565;
   --bh-stage-retired-tint: rgba(217, 101, 101, 0.08);
 
-  /* Legacy fleet aliases (backward compat) */
-  --fleet-bg: var(--bh-canvas);
-  --fleet-surface: var(--bh-surface);
-  --fleet-border: var(--bh-border);
-  --fleet-text: var(--bh-text);
-  --fleet-muted: var(--bh-muted);
-  --fleet-accent: var(--bh-accent);
+  --bh-div-orchestration: #a78bfa;
+  --bh-div-orchestration-tint: rgba(167, 139, 250, 0.12);
+  --bh-div-data: #38bdf8;
+  --bh-div-data-tint: rgba(56, 189, 248, 0.12);
+  --bh-div-research: #3d8bfd;
+  --bh-div-research-tint: rgba(61, 139, 253, 0.12);
+  --bh-div-bd: #e8c547;
+  --bh-div-bd-tint: rgba(232, 197, 71, 0.12);
+  --bh-div-execution: #5cb87a;
+  --bh-div-execution-tint: rgba(92, 184, 122, 0.12);
 }
 
-/* Per-site accent themes */
+/* ── Per-site accent themes ────────────────────────────────── */
+/* Accent hue vars are theme-swapped above, so one block serves both
+   modes; only the fixed-alpha tints need a dark override. */
 .fleet-shell[data-site="storefront"] {
   --bh-accent: var(--bh-hen-blue);
   --bh-accent-dim: var(--bh-hen-blue-dim);
-  --bh-accent-muted: rgba(83, 132, 161, 0.12);
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
 }
 
 .fleet-shell[data-site="hq"] {
   --bh-accent: var(--bh-slate-blue);
-  --bh-accent-dim: #475a6c;
-  --bh-accent-muted: rgba(109, 127, 152, 0.12);
+  --bh-accent-dim: #3c4c62;
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
 }
 
 .fleet-shell[data-site="dumbmodel"] {
   --bh-accent: var(--bh-cone-rust);
   --bh-accent-dim: var(--bh-cone-dim);
-  --bh-accent-muted: rgba(178, 116, 80, 0.12);
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
 }
 
 .fleet-shell[data-site="validation"] {
   /* certification green — the referee's pass color */
   --bh-accent: var(--bh-moss);
   --bh-accent-dim: var(--bh-moss-dim);
-  --bh-accent-muted: rgba(109, 141, 114, 0.12);
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
 }
 
 .fleet-shell[data-site="research"] {
   /* scholarly heather — reads as ink-and-library, unlike anything else in the fleet */
   --bh-accent: var(--bh-heather);
   --bh-accent-dim: var(--bh-heather-dim);
-  --bh-accent-muted: rgba(135, 134, 181, 0.12);
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
 }
 
 .fleet-shell[data-site="simulation"] {
   /* market sand — the contained experiment */
   --bh-accent: var(--bh-clay);
   --bh-accent-dim: var(--bh-clay-dim);
-  --bh-accent-muted: rgba(192, 164, 120, 0.12);
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
 }
 
 .fleet-shell[data-site="refinery"] {
   /* refinery copper — raw material, worked */
   --bh-accent: var(--bh-copper);
   --bh-accent-dim: var(--bh-copper-dim);
-  --bh-accent-muted: rgba(192, 137, 96, 0.12);
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
 }
 
 .fleet-shell[data-site="observatory"] {
   /* instrument teal — telemetry glow, distinct from storefront steel */
   --bh-accent: var(--bh-instrument);
   --bh-accent-dim: var(--bh-instrument-dim);
-  --bh-accent-muted: rgba(102, 160, 157, 0.12);
+  --bh-accent-muted: color-mix(in srgb, var(--bh-accent) 12%, transparent);
+}
+
+/* System dark: applies when the user has no stored choice. The inline
+   theme script stamps data-bh-theme before paint when a choice exists;
+   otherwise this media block mirrors the explicit-dark values above. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bh-theme="light"]) {
+    color-scheme: dark;
+
+    --bh-canvas: #0b0d0a;
+    --bh-canvas-elevated: #101210;
+    --bh-surface: #161814;
+    --bh-surface-raised: #1c1f1a;
+    --bh-inset: #0e100c;
+    --bh-glass: rgba(22, 24, 20, 0.82);
+
+    --bh-border: #2a2f28;
+    --bh-border-strong: #3a4238;
+    --bh-border-focus: #e6ebe3;
+
+    --bh-ink: #d9d2c4;
+    --bh-ink-shadow: #000000;
+    --bh-card-border: #4a4f46;
+
+    --bh-text: #e6ebe3;
+    --bh-text-secondary: #b8bfb4;
+    --bh-muted: #7a8278;
+    --bh-faint: #525850;
+
+    --bh-hen-blue: #5384a1;
+    --bh-hen-blue-dim: #345571;
+    --bh-heather: #8786b5;
+    --bh-heather-dim: #5c5b85;
+    --bh-instrument: #66a09d;
+    --bh-instrument-dim: #426e6c;
+    --bh-moss: #6d8d72;
+    --bh-moss-dim: #3e5141;
+    --bh-clay: #c0a478;
+    --bh-clay-dim: #69593c;
+    --bh-cone-rust: #b27450;
+    --bh-cone-dim: #593b27;
+    --bh-copper: #c08960;
+    --bh-copper-dim: #6b4a33;
+    --bh-slate-blue: #6d7f98;
+    --bh-danger: #c45c4a;
+    --bh-danger-dim: #5c2a22;
+
+    --bh-accent-muted: rgba(83, 132, 161, 0.14);
+    --bh-on-accent: #0b0d0a;
+
+    --bh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --bh-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.35);
+    --bh-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --bh-glow-accent: 0 0 20px rgba(83, 132, 161, 0.08);
+
+    --bh-overlay: rgba(11, 13, 10, 0.7);
+
+    --bh-rule: 1px solid var(--bh-border);
+    --bh-rule-strong: 2px solid var(--bh-border-strong);
+    --bh-card-title-bg: var(--bh-surface-raised);
+    --bh-status-bar-bg: var(--bh-canvas-elevated);
+
+    --bh-stage-rd: #3d8bfd;
+    --bh-stage-rd-tint: rgba(61, 139, 253, 0.1);
+    --bh-stage-validate: #e8c547;
+    --bh-stage-validate-tint: rgba(232, 197, 71, 0.1);
+    --bh-stage-prod: #5cb87a;
+    --bh-stage-prod-tint: rgba(92, 184, 122, 0.1);
+    --bh-stage-retired: #d96565;
+    --bh-stage-retired-tint: rgba(217, 101, 101, 0.08);
+
+    --bh-div-orchestration: #a78bfa;
+    --bh-div-orchestration-tint: rgba(167, 139, 250, 0.12);
+    --bh-div-data: #38bdf8;
+    --bh-div-data-tint: rgba(56, 189, 248, 0.12);
+    --bh-div-research: #3d8bfd;
+    --bh-div-research-tint: rgba(61, 139, 253, 0.12);
+    --bh-div-bd: #e8c547;
+    --bh-div-bd-tint: rgba(232, 197, 71, 0.12);
+    --bh-div-execution: #5cb87a;
+    --bh-div-execution-tint: rgba(92, 184, 122, 0.12);
+  }
 }

@@ -7,7 +7,7 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 - Shipped specs are immutable. Changes get a new spec or a tracked revision note.
 - ML specs MUST include an **evaluation gate** CI can enforce.
 
-## Status matrix (2026-06-30)
+## Status matrix (2026-07-04)
 
 | # | Title | Status | Implementation |
 |---|---|---|---|
@@ -28,11 +28,14 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 | [0015](./0015-venture-fleet.md) | Venture fleet — one business per public site | **Ready** | Approved; dumbmodel venture v1 in progress (SITE-008) |
 | [0016](./0016-dumbmodel-game-layer.md) | dumbmodel game layer — play → labeled training data | **Draft** | Awaiting Operator sign-off (game set + consent copy); phase 3 gated on REV-903 |
 | [0017](./0017-fleet-tastemaker-redesign.md) | Fleet tastemaker redesign — Kubrick × Wes Anderson × modernized TUI | **Ready** | `packages/ui-fleet` tokens + primitives; 7-site spine rollout |
-| [0018](./0018-data-refinery.md) | Data Refinery — harvesting & dataset-prep venture | **Active** | `packages/datalab`, `apps/sites/refinery` (data.bhenre.com), DR-101..107, migration 009 |
-| [0019](./0019-corporate-topology.md) | Corporate topology — one company site, revenue-bearing business units | **Active** | Refines 0015/0012/0018; company-site restructure + BU team strips |
+| [0018](./0018-data-refinery.md) | Data Refinery — harvesting & dataset-prep venture | **Implemented** | `packages/datalab`, `apps/sites/refinery` (data.bhenre.com), DR-101..107, migration 009 |
+| [0019](./0019-corporate-topology.md) | Corporate topology — one company site, revenue-bearing business units | **Implemented** | Refines 0015/0012/0018; company-site restructure + BU team strips |
 | [0020](./0020-wiki-refinery.md) | Wiki Refinery — agent knowledge from fleet corpora | **Implemented** | `/v1/wiki`, refinery `/wiki`, DR-108/109 |
-| [0021](./0021-monetization-layer.md) | Monetization layer — diversified passive + active income, low overhead | **Draft** | 6 passive + 5 active streams; metered API, hosted inference, dataset marketplace, automated certification, premium notes, open-core |
+| [0021](./0021-monetization-layer.md) | Monetization layer — diversified passive + active income, low overhead | **Partial** | 6 passive + 5 active streams; metered API, hosted inference, dataset marketplace, automated certification, premium notes, open-core |
 | [0022](./0022-product-catalog-and-blue-hen-kits.md) | Product catalog & Blue Hen Kits — self-serve + family-friendly | **Ready** | `config/kits.json`, `/kits` guest layer, KIT-001..008 |
+| [0023](./0023-multitenant-flywheel.md) | Multi-tenant flywheel — horizontal intelligence layer | **Active** | Blueprint 1 shipped (shared backbone + tenant heads); RDPIPE-*, ANCHOR-001 slated |
+| [0024](./0024-metadata-contracts.md) | Tenant metadata contracts — consistent JSONB filtering | **Ready** | RECO-004/005, SCALE-001 slated |
+| [0025](./0025-intelligence-engine.md) | Self-sustaining intelligence engine (renumbered from 0022) | **Implemented (A+B)** | /v1/exhaust live, autotrain self-trigger in worker; C = MON-009 packaging |
 
 **Production hosting:** Vercel (sites) + Railway (core-api + worker) + Neon Postgres — [ADR-002](../docs/adr/002-core-api-hosting.md), [ADR-003](../docs/adr/003-unified-org-cli.md) (CLI), [`infra/railway.md`](../infra/railway.md). Deploy task: `INF-003` (Operator).
 

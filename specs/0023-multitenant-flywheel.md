@@ -1,7 +1,7 @@
 # Spec 0023 — The multi-tenant flywheel: horizontal intelligence layer
 
 **Status:** Active (Operator vision, 2026-07-04)
-**Refines:** Spec 0022 (engine) · 0019 (topology) · 0021 (monetization)
+**Refines:** Spec 0025 (engine) · 0019 (topology) · 0021 (monetization)
 **Owner:** Claude (blueprints 1–2 machinery) · Operator (anchor-tenant data, naming gates)
 
 ## 1. The reframe

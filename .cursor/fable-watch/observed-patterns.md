@@ -1511,3 +1511,13 @@ ow-next-routes-manifest — Vercel suggests (1) misconfigured Output Directory v
 - **Observed:** After public baseline push: "one retry on the description field that didn't take" — second shell command without re-running the whole baseline.
 - **Why it works:** Platform/metadata writes (GitHub About/description, Vercel env — P-150) can fail silently. Named retry on the **specific field** avoids a full re-baseline. Cheap second pass vs declaring done with wrong public metadata.
 - **Maps to:** refine diagnose-before-retry + metadata-align — when a description/metadata field doesn't stick, retry that field only.
+
+### P-285 - Post-compaction boot: read specs + business memory + restore skills before continuing
+- **Observed:** After 100% context (tick 148–150): next lap reads specs/0024-metadata-contracts.md, specs/0023-multitenant-flywheel.md, memory/business-objective.md, LICENSE → Skills restored (loop, artifact-design, dataviz) → push (~1m 46s).
+- **Why it works:** Context compaction drops in-flight state. Re-read **normative specs + Operator business memory** before coding restores the flywheel frame. Explicit skill restore re-arms loop/artifact/dataviz behaviors the session had before compaction. Extends P-188 recon after gap to **post-compaction** gap.
+- **Maps to:** refine session-orient + recap-on-long-session — at 100% context / post-compaction: spec + memory read + skill restore before next task.
+
+### P-286 - New spec + queue tasks ship in one push (RECO-* from Spec 0024)
+- **Observed:** 5c63188 spec: 0024 metadata contracts — consistent multi-tenant filtering over JSONB — adds specs/0024-metadata-contracts.md + work_queue.json rows (RECO-004 metadata contracts, related RECO items with Spec 0024 source).
+- **Why it works:** Extends P-203/P-277: architectural work lands as **spec first + queue traceability** in one commit, not code-only or tasks-only. source: Spec 0024 metadata contracts on each task links backlog to acceptance doc.
+- **Maps to:** refine follow-procedure + metadata-align — spec NNNN + RECO/queue rows in single push.

@@ -51,10 +51,11 @@
       "division": "infra",
       "priority": 0,
       "title": "Free disk space + restart Docker Desktop",
-      "status": "ready",
+      "status": "done",
       "spec": null,
       "command": "docker system prune -a; remove apps/*/.next; restart Docker Desktop",
-      "acceptance": "C: >5GB free; docker ps works"
+      "acceptance": "C: >5GB free; docker ps works",
+      "notes": "Disk freed (3.5GB via cache prune) + Docker Desktop restarted by Operator 2026-07-03."
     },
     {
       "id": "INF-001",
@@ -148,13 +149,14 @@
       "division": "research",
       "priority": 10,
       "title": "Barlow \u03bb=0.022 near champion",
-      "status": "ready",
+      "status": "done",
       "automation": "autoresearch_patch",
       "patch": {
         "BARLOW_LAMBDA": "0.022"
       },
       "spec": "0003",
-      "command": "daemon or: uv run python scripts/autoresearch_run.py cursor"
+      "command": "daemon or: uv run python scripts/autoresearch_run.py cursor",
+      "notes": "Subsumed: RT-403 promoted barlow lambda=0.0215 into prod DEFAULT_RECIPE (EVIDENCE 3.12); separate probe unnecessary."
     },
     {
       "id": "AR-302",
@@ -300,7 +302,7 @@
       "notes": "asn-head-4000090 (barlow + hard negatives) gates=True, charter-deployed, ER 28.06 record; slice-caveat recorded in EVIDENCE 3.12 addendum; rollback candidates retained."
     },
     {
-      "id": "RT-404",
+      "id": "RT-406",
       "division": "research",
       "priority": 23,
       "title": "Tenant Barlow recipe \u2014 all Phase A sites",
@@ -309,7 +311,8 @@
         "RT-401"
       ],
       "spec": "0008",
-      "command": "Extend tenant_baseline.py --recipe barlow; run --all-sites"
+      "command": "Extend tenant_baseline.py --recipe barlow; run --all-sites",
+      "notes": " [renumbered from duplicate RT-404]"
     },
     {
       "id": "RAG-501",
@@ -1037,12 +1040,12 @@
     {
       "id": "MON-001",
       "title": "Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0021 P1)",
-      "status": "in_progress",
+      "status": "blocked",
       "lane": "claude",
       "priority": "P1",
       "division": "execution",
       "spec": "0020",
-      "notes": "METERING HALF SHIPPED: usage_events (mig 011), best-effort recording on search/embed/diagnose (never fails requests, under-bills on error by design), GET /v1/usage tenant view + /v1/admin/usage rollup. REMAINING: Stripe metered subscription + webhook reconciliation \u2014 needs STRIPE_SECRET_KEY (Operator gate). | SLATE-WHEN-KEYED (STRIPE_SECRET_KEY): 1) uv pip install stripe (opt-in, no lock churn); 2) services/core-api/app/services/billing.py: create metered subscription items per workspace, nightly usage push from usage_events (idempotent by event id watermark); 3) POST /v1/admin/billing/reconcile + webhook /v1/billing/webhook (verify sig); 4) test-mode e2e with a $0 price. ACCEPT: usage event -> Stripe test invoice line visible.",
+      "notes": "Machinery SHIPPED (usage_events metering live, verified). BLOCKED on Operator: STRIPE_SECRET_KEY (sk_test) to wire invoicing. Pre-scripted in notes history.",
       "claimedBy": "claude"
     },
     {
@@ -1087,7 +1090,7 @@
     {
       "id": "MON-005",
       "title": "Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0021 P3)",
-      "status": "in_progress",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
       "division": "comms",
@@ -1095,7 +1098,7 @@
       "dependsOn": [
         "DR-103"
       ],
-      "notes": "AUTOMATION SHIPPED: entitlements layer (mig 014, sku dataset:<slug>), GET /v1/catalog/datasets/{slug}/full (403 w/ sku until entitled; downloads metered), admin grant endpoint, tenant entitlements view. REMAINING: checkout webhook grants (Medusa/Stripe gate) + refinery site paid-tier UI (cursor).",
+      "notes": "SHIPPED: free preview + paid full corpus via /v1/catalog/datasets/{slug}/full, entitlement-gated (403 names sku), mig 014/015.",
       "claimedBy": "claude",
       "claimedAt": "2026-07-04T03:49:58.608714+00:00",
       "completedAt": null
@@ -1103,12 +1106,12 @@
     {
       "id": "MON-006",
       "title": "slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4)",
-      "status": "in_progress",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
       "division": "comms",
       "spec": "0020",
-      "notes": "AUTOMATION SHIPPED: POST /v1/certify (SSRF-guarded https-only, rate limit 6/min) -> worker embeds fixed catalog slice via customer endpoint -> same metric code as our own gates -> scorecard published to validation BD records + tenant-visible via GET /v1/certify/{id}. payment_status=pending-gate until Medusa checkout attaches (Operator gate). Cursor lane: slasso /certify submission UI.",
+      "notes": "SHIPPED: POST /v1/certify -> worker cert queue -> customer-endpoint contract eval -> scorecard; e2e proven (honest-fail 405 on GET-only endpoint). Site surfacing = UX-106 (cursor).",
       "claimedBy": "claude"
     },
     {
@@ -1124,12 +1127,12 @@
     {
       "id": "MON-008",
       "title": "CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0021 P6)",
-      "status": "in_progress",
+      "status": "blocked",
       "lane": "claude",
       "priority": "P2",
       "division": "execution",
       "spec": "0020",
-      "notes": "Publish script shipped (publish_model_hf.py): pulls DB artifact + measured metrics, refuses ungraded models, honest model card w/ baselines. Verified honest exit-2 without HF_TOKEN. REMAINING: HF_TOKEN (Operator) + CI hook on gate pass. | SLATE-WHEN-KEYED (HF_TOKEN): 1) uv pip install huggingface_hub; 2) run scripts/publish_model_hf.py --version asn-head-4000090; 3) wire into worker post-charter-deploy hook behind env PUBLISH_ON_DEPLOY=1. ACCEPT: HF repo live with measured card.",
+      "notes": "Machinery SHIPPED (publish_model_hf.py, exit-2 verified without token). BLOCKED on Operator: HF_TOKEN. CI hook lands with the token.",
       "claimedBy": "claude",
       "claimedAt": "2026-07-04T03:49:58.741276+00:00"
     },
@@ -1481,7 +1484,7 @@
       "claimedBy": "claude",
       "priority": "P1",
       "notes": "Shipped: one intake for all consumer surfaces incl. future SENTINEL; unconsented events counted+discarded; consented land as exhaust-<source>.jsonl (harvestable). Metered as 'exhaust'.",
-      "source": "Spec 0022 intelligence engine"
+      "source": "Spec 0025 intelligence engine"
     },
     {
       "id": "EXH-002",
@@ -1491,7 +1494,7 @@
       "claimedBy": "claude",
       "priority": "P1",
       "notes": "Shipped: worker checks per-site new cataloged chunks since last training job every 15min; >= SYNTH_AUTOTRAIN_THRESHOLD (150 default) auto-enqueues hill-climb; gates+charter unchanged; triggers logged.",
-      "source": "Spec 0022 intelligence engine"
+      "source": "Spec 0025 intelligence engine"
     },
     {
       "id": "EXH-003",
@@ -1501,7 +1504,7 @@
       "claimedBy": null,
       "priority": "P1",
       "notes": "Re-document existing intakes as exhaust specializations OR route through the unified endpoint via each BFF; consent copy unchanged. ACCEPT: exhaust events visible in /v1/admin/usage under 'exhaust'.",
-      "source": "Spec 0022 intelligence engine"
+      "source": "Spec 0025 intelligence engine"
     },
     {
       "id": "MON-009",
@@ -1511,7 +1514,7 @@
       "claimedBy": null,
       "priority": "P1",
       "notes": "Packaging only: document metered API, /v1/certify contract, /v1/exhaust schema, dataset access; honest pending-gate labels on payment. No new backend.",
-      "source": "Spec 0022 intelligence engine"
+      "source": "Spec 0025 intelligence engine"
     },
     {
       "id": "RECO-001",

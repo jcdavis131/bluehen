@@ -16,15 +16,11 @@
 
 ## Ready now (pick any)
 
-- [ ] **INF-000** — Free disk space + restart Docker Desktop (infra)
-  - `docker system prune -a; remove apps/*/.next; restart Docker Desktop`
-- [ ] **AR-301** — Barlow λ=0.022 near champion (research) · spec [0003](./specs/0003-*.md)
-  - `daemon or: uv run python scripts/autoresearch_run.py cursor`
 - [ ] **AR-302** — Synthetic D_SERVE=32 edge stress (research) · spec [0003](./specs/0003-*.md)
 - [ ] **AR-303** — AUG=0.5 lower view noise (research) · spec [0003](./specs/0003-*.md)
 - [ ] **AR-304** — Batch=48 intermediate (research) · spec [0003](./specs/0003-*.md)
 - [ ] **AR-305** — Weight decay 5e-5 (research) · spec [0003](./specs/0003-*.md)
-- [ ] **RT-404** — Tenant Barlow recipe — all Phase A sites (research) · spec [0008](./specs/0008-*.md)
+- [ ] **RT-406** — Tenant Barlow recipe — all Phase A sites (research) · spec [0008](./specs/0008-*.md)
   - `Extend tenant_baseline.py --recipe barlow; run --all-sites`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
   - `Add --loss barlow to domain_sweep.py; run sweep`
@@ -41,13 +37,12 @@
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
 - [ ] **UX-112** — Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language (None)
 - [ ] **WIRE-205** — hq /ops: age alert for refinery submissions stuck pending (None)
+- [ ] **FLY-002** — Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports) (None)
+- [ ] **EXH-003** — Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema (None)
 
 ## In progress
 
-- [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0021 P1) (@claude)
-- [ ] **MON-005** — Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0021 P3) (@claude)
-- [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4) (@claude)
-- [ ] **MON-008** — CI step: publish trained ASN models to HuggingFace with model card (open-core, Spec 0021 P6) (@claude)
+_None claimed — run `pick_task.py claim <id>`_
 
 ## Blocked on infra (work elsewhere)
 

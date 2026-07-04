@@ -1,7 +1,7 @@
 # Spec 0024 — Tenant metadata contracts: consistent filtering over JSONB
 
 **Status:** Active (Operator architecture dialogue, 2026-07-04)
-**Refines:** Spec 0023 (flywheel) · 0022 (engine) · Owner: Claude
+**Refines:** Spec 0023 (flywheel) · 0025 (engine) · Owner: Claude
 
 ## Problem
 

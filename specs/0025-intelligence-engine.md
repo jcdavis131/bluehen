@@ -1,4 +1,6 @@
-# Spec 0022 — The self-sustaining intelligence engine
+# Spec 0025 — The self-sustaining intelligence engine
+
+> Renumbered from 0022 (collision with product-catalog spec).
 
 **Status:** Active (Operator vision statement, 2026-07-04)
 **Refines:** Spec 0019 §0 (objective) · Spec 0021 (monetization) · Spec 0018/0020

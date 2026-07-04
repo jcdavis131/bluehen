@@ -39,6 +39,29 @@
 
 ---
 
+## Logo system — the crest register
+
+Wimbledon-style roundel identity, single color, two registers:
+
+- **SiteEmblem** (`marks.tsx`) — one monoline pictogram per surface in
+  `currentColor`: hen (storefront/company, solid with punched eye), pennant
+  (hq), balance (validation), open book (research), cone (dumbmodel), twin
+  waves (simulation), dome + star (observatory), funnel (refinery). Shared
+  stroke weight (`EMBLEM_STROKE`), round caps; reads at 16px.
+- **Roundel** (`marks.tsx`) — the full crest: double ring, site name arcing
+  over the crown, `BLUE HEN RE` arcing under the base (seal convention,
+  glyph tops toward center), separator dots at the horizontal axis, emblem
+  centered. Used in the shared footer; available for print/social.
+- **Favicons** — `scripts/generate_site_icons.mjs` regenerates every
+  `app/icon.svg` from the same geometry (`mark-geometry.ts`): accent disc,
+  cream ring, cream emblem. Run it whenever geometry changes.
+
+Geometry lives once in `packages/ui-fleet/src/mark-geometry.ts`; React marks
+and favicons both consume it. Mascots (`mascots.tsx`) remain the character
+register — marketing moments, not chrome.
+
+---
+
 ## Files
 
 | File | Role |

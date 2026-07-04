@@ -33,6 +33,7 @@ Run:  packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py -
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import random
 import sys
@@ -316,6 +317,12 @@ def main() -> int:
                 oodm = metrics_for(encode_texts(ck, ood_texts), ood_labels)
                 emit({"kind": "trained", "method": method, "seed": seed,
                       "indomain": idm, "ood_knn": oodm["knn_full"]})
+                if os.environ.get("CLEAN_CKPTS") == "1":
+                    # checkpoints are ~500MB each and re-derivable; metrics
+                    # are already emitted — reclaim disk as we go
+                    import shutil
+
+                    shutil.rmtree(ck.parent if ck.parent != ckdir else ck, ignore_errors=True)
         fh.close()
 
         rows = [json.loads(l) for l in args.out.read_text().splitlines() if l.strip()]

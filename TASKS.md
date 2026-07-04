@@ -36,9 +36,9 @@
 - [ ] **UX-108** — Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box (None)
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
 - [ ] **UX-112** — Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language (None)
-- [ ] **WIRE-205** — hq /ops: age alert for refinery submissions stuck pending (None)
 - [ ] **FLY-002** — Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports) (None)
 - [ ] **EXH-003** — Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema (None)
+- [ ] **MON-009** — Developer surface (Spec 0022 C): bhenre.com/developers — tiered APIs, exhaust integration guide, certification API docs (None)
 
 ## In progress
 
@@ -61,13 +61,13 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**WIRE-203** — usage_events retention: nightly rollup + purge past N days~~
-- [x] ~~**WIRE-204** — Dead-surface endpoints + dedupe: wire hq to /v1/admin/fleet + usage/entitlements views; extract shared requeue_stale helper (jobs/harvest/certify)~~
+- [x] ~~**WIRE-205** — hq /ops: age alert for refinery submissions stuck pending~~
 - [x] ~~**FLY-001** — Aim the wiki at demand generation: topic pages become indexable evergreen articles (deterministic layer)~~
 - [x] ~~**EXH-001** — Unified Data Exhaust API (Spec 0022 A): POST /v1/exhaust, strict schema, consent-gated storage into datalab inbox~~
 - [x] ~~**EXH-002** — Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant~~
 - [x] ~~**RECO-001** — Customer corpus upload: POST /v1/corpus (tenant) — JSONL/text upload becomes a collection and triggers the loop~~
 - [x] ~~**RECO-002** — Recommendations API: /v1/recommend — item-to-item + text-to-item over the deployed model~~
+- [x] ~~**RDPIPE-001** — R&D pipe segment 1: literature radar output -> structured hypothesis -> auto-drafted AR queue item~~
 - [x] ~~**RECO-004** — Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)~~
 
 ## Specs & context

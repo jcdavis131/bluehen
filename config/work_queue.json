@@ -1452,11 +1452,12 @@
     {
       "id": "WIRE-205",
       "title": "hq /ops: age alert for refinery submissions stuck pending",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P3",
-      "notes": "Surface pending >48h with a highlighted row.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "notes": "Submissions pending >48h wear a warn badge on hq /ops.",
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "FLY-001",
@@ -1548,11 +1549,12 @@
     {
       "id": "RDPIPE-001",
       "title": "R&D pipe segment 1: literature radar output -> structured hypothesis -> auto-drafted AR queue item",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Spec 0023 \u00a74. HOW: extend scripts/arxiv_literature_radar.py (or post-process its output): per paper, deterministic extraction of {claim, mechanism, applicability to head-only/loss/chunking}; draft AR-4xx queue items with hypothesis + suggested harness change, status 'proposed' (human/agent promotes to ready). GLM summarization layer key-gated. ACCEPT: radar run yields >=1 well-formed proposed AR item.",
-      "source": "Spec 0023 flywheel"
+      "notes": "SHIPPED (sonnet-delegated): scripts/radar_to_hypotheses.py \u2014 deterministic lever-mapped extraction from data/literature/radar_latest.json, max 3/run, arxiv-id dedupe, --dry-run, honest empty state. First run drafted AR-501/502/503 (Matryoshka pooling, 2D Matryoshka, permutation-invariant fine-tuning). Next segment: RDPIPE-002 idle auto-runs.",
+      "source": "Spec 0023 flywheel",
+      "claimedBy": "claude"
     },
     {
       "id": "RDPIPE-002",
@@ -1599,6 +1601,36 @@
       "priority": "P3",
       "notes": "Add pgvector HNSW when chunk counts justify (currently seq-scan-fine); raise _ENCODER_CACHE_MAX with memory headroom math; per-isolation-tier index strategy per Spec 0024.",
       "source": "Spec 0024 metadata contracts"
+    },
+    {
+      "id": "AR-501",
+      "division": "research",
+      "title": "[radar] KaLM-Reranker-V1: Fast but Not Late Interaction for Compressed Document Reranking",
+      "status": "proposed",
+      "lane": "claude",
+      "spec": "0023",
+      "notes": "KaLM-Reranker-V1: Fast but Not Late Interaction for Compressed Document Reranking (https://arxiv.org/pdf/2606.22807v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness?",
+      "source": "scripts/radar_to_hypotheses.py"
+    },
+    {
+      "id": "AR-502",
+      "division": "research",
+      "title": "[radar] MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Train",
+      "status": "proposed",
+      "lane": "claude",
+      "spec": "0023",
+      "notes": "MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Training Framework (https://arxiv.org/pdf/2606.07654v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness?",
+      "source": "scripts/radar_to_hypotheses.py"
+    },
+    {
+      "id": "AR-503",
+      "division": "research",
+      "title": "[radar] Field Order Should Not Matter: Permutation-Invariant Embedding Model Fine-Tuning for Structured Meta",
+      "status": "proposed",
+      "lane": "claude",
+      "spec": "0023",
+      "notes": "Field Order Should Not Matter: Permutation-Invariant Embedding Model Fine-Tuning for Structured Metadata Retrieval (https://arxiv.org/pdf/2606.30473v1) -- lever: chunk. Does the paper's chunking/retrieval mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness?",
+      "source": "scripts/radar_to_hypotheses.py"
     }
   ]
 }

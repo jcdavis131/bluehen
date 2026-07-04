@@ -106,7 +106,14 @@ export function OpsConsole({
                   <tr key={s.id}>
                     <td><code>{s.receipt.slice(0, 13)}…</code></td>
                     <td>{s.textCount}</td>
-                    <td className="bh-meta">{new Date(s.createdAt).toUTCString().slice(0, 22)}</td>
+                    <td className="bh-meta">
+                      {new Date(s.createdAt).toUTCString().slice(0, 22)}
+                      {Date.now() - new Date(s.createdAt).getTime() > 48 * 3600 * 1000 && (
+                        <span className="bh-badge bh-badge--warn" style={{ marginLeft: 8 }}>
+                          pending &gt;48h
+                        </span>
+                      )}
+                    </td>
                     <td style={{ whiteSpace: "nowrap" }}>
                       <button className="bh-btn bh-btn--ghost" disabled={busy !== null}
                               aria-label={`Approve submission ${s.receipt}`}

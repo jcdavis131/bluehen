@@ -1,5 +1,5 @@
 import { PageHeader } from "@synthaembed/ui-fleet";
-import { adminDatalabSources, adminSubmissions } from "@synthaembed/ui-fleet/admin-api";
+import { adminDatalabSources, adminSubmissions, adminUsage } from "@synthaembed/ui-fleet/admin-api";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { OpsConsole } from "../../components/OpsConsole";
 
@@ -11,12 +11,21 @@ export default async function OpsPage() {
   let sources: any[] = [];
   let jobs: any[] = [];
   let submissions: any[] = [];
+  let usage: { sinceDays: number; workspaces: Record<string, Record<string, number>> } = {
+    sinceDays: 31,
+    workspaces: {},
+  };
   let error: string | null = null;
   try {
-    const [src, subs] = await Promise.all([adminDatalabSources(), adminSubmissions()]);
+    const [src, subs, use] = await Promise.all([
+      adminDatalabSources(),
+      adminSubmissions(),
+      adminUsage(),
+    ]);
     sources = src.sources ?? [];
     jobs = src.recentJobs ?? [];
     submissions = subs.items ?? [];
+    usage = use ?? usage;
   } catch (e) {
     error = e instanceof Error ? e.message : String(e);
   }
@@ -34,7 +43,7 @@ export default async function OpsPage() {
           this deployment.
         </div>
       ) : (
-        <OpsConsole sources={sources} jobs={jobs} submissions={submissions} />
+        <OpsConsole sources={sources} jobs={jobs} submissions={submissions} usage={usage} />
       )}
     </>
   );

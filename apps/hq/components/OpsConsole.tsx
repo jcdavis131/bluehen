@@ -11,16 +11,22 @@ type Source = {
 };
 type Job = { id: string; sourceId: string; status: string; error: string | null; updatedAt: string };
 type Submission = { id: string; receipt: string; textCount: number; status: string; createdAt: string };
+type Usage = { sinceDays: number; workspaces: Record<string, Record<string, number>> };
 
 export function OpsConsole({
   sources,
   jobs,
   submissions,
+  usage,
 }: {
   sources: Source[];
   jobs: Job[];
   submissions: Submission[];
+  usage: Usage;
 }) {
+  const usageRows = Object.entries(usage.workspaces ?? {}).flatMap(([wsId, kinds]) =>
+    Object.entries(kinds).map(([kind, units]) => ({ wsId, kind, units }))
+  );
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
 
@@ -138,6 +144,32 @@ export function OpsConsole({
                     <td>{j.status}</td>
                     <td className="bh-meta">{new Date(j.updatedAt).toUTCString().slice(0, 22)}</td>
                     <td className="bh-meta">{j.error ? j.error.slice(0, 60) : "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section className="bh-card bh-card--flush">
+        <h2 className="bh-card__title" style={{ padding: "12px 16px 0" }}>
+          Usage (billing events, last {usage.sinceDays}d)
+        </h2>
+        {usageRows.length === 0 ? (
+          <p className="bh-card__body" style={{ padding: "8px 16px 16px" }}>
+            No usage events yet — metering records every billable call.
+          </p>
+        ) : (
+          <div className="bh-table-wrap" style={{ border: 0 }}>
+            <table className="bh-table">
+              <tbody>
+                <tr><th>Workspace</th><th>Kind</th><th>Units</th></tr>
+                {usageRows.map((r) => (
+                  <tr key={`${r.wsId}-${r.kind}`}>
+                    <td><code>{r.wsId.slice(0, 8)}</code></td>
+                    <td>{r.kind}</td>
+                    <td>{r.units}</td>
                   </tr>
                 ))}
               </tbody>

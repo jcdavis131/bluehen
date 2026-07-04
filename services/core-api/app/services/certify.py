@@ -68,19 +68,12 @@ def get_submission(workspace_id: uuid.UUID, sid: str) -> dict | None:
 
 
 def claim_next_cert() -> dict | None:
+    from app.services.queueing import claim_next
+
     with db_session() as session:
-        cutoff = datetime.now(timezone.utc) - timedelta(minutes=STALE_MINUTES)
-        session.execute(
-            update(CertSubmission)
-            .where(CertSubmission.status == "running", CertSubmission.updated_at < cutoff)
-            .values(status="pending", updated_at=datetime.now(timezone.utc)))
-        row = session.scalar(
-            select(CertSubmission).where(CertSubmission.status == "pending")
-            .order_by(CertSubmission.created_at).with_for_update(skip_locked=True).limit(1))
+        row = claim_next(session, CertSubmission)
         if row is None:
             return None
-        row.status = "running"
-        row.updated_at = datetime.now(timezone.utc)
         return {"id": row.id, "workspace_id": row.workspace_id, "endpoint_url": row.endpoint_url}
 
 

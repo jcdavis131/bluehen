@@ -21,21 +21,12 @@ STALE_MINUTES = 30
 
 
 def claim_next_harvest() -> dict | None:
+    from app.services.queueing import claim_next
+
     with db_session() as session:
-        cutoff = datetime.now(timezone.utc) - timedelta(minutes=STALE_MINUTES)
-        session.execute(
-            update(HarvestJob)
-            .where(HarvestJob.status == "running", HarvestJob.updated_at < cutoff)
-            .values(status="pending", updated_at=datetime.now(timezone.utc))
-        )
-        job = session.scalar(
-            select(HarvestJob).where(HarvestJob.status == "pending")
-            .order_by(HarvestJob.created_at).with_for_update(skip_locked=True).limit(1)
-        )
+        job = claim_next(session, HarvestJob)
         if job is None:
             return None
-        job.status = "running"
-        job.updated_at = datetime.now(timezone.utc)
         return {"id": job.id, "source_id": job.source_id}
 
 

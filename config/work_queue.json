@@ -1439,11 +1439,12 @@
     {
       "id": "WIRE-204",
       "title": "Dead-surface endpoints + dedupe: wire hq to /v1/admin/fleet + usage/entitlements views; extract shared requeue_stale helper (jobs/harvest/certify)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P3",
-      "notes": "",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "notes": "Shared queueing.claim_next (stale-requeue + skip-locked) replaces 3 near-verbatim copies (jobs/harvest/certify \u2014 tests green); hq /ops gains the billing-usage rollup panel (sonnet-delegated, adminUsage via /v1/admin/usage). Entitlements admin view folded into the same panel pattern later if needed.",
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "WIRE-205",

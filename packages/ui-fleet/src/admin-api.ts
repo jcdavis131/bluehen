@@ -102,3 +102,7 @@ export async function adminReviewSubmission(id: string, action: "approve" | "rej
 export async function adminCatalogSync() {
   return adminFetch("/v1/admin/catalog/sync", { method: "POST", body: "{}" });
 }
+
+export async function adminUsage(days = 31) {
+  return adminFetch(`/v1/admin/usage?days=${days}`);
+}

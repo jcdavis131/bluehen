@@ -1475,3 +1475,13 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** Operator asked: business objective, each site's unique contribution, cross-site support, closed-loop self-maintaining ecosystem with passive purchasable goods/services →  2cc53a ision: canonical business objective + flywheel ledger encoded (Operator directive) — updates docs/SITE_ARCHITECTURE.md, specs/0019-corporate-topology.md, work_queue.json (~1m 45s).
 - **Why it works:** Strategic reframes don't stay in chat — they land in **architecture doc + spec + queue** so every agent/session inherits the same business objective. "Operator directive" in commit message marks normative source. Refinement work is metadata-align, not random copy edits.
 - **Maps to:** refine metadata-align + progress-board — Operator vision questions → encode in SITE_ARCHITECTURE + spec + queue follow-ups.
+
+### P-278 - Vision queue spawns flywheel tasks; metadata insertion verified with typecheck+build gate
+- **Observed:** After P-277 vision encode: df9d3f3 **FLY-001** — wiki as demand engine (generateMetadata on /wiki/[slug], sitemap with live routes, mig 018 descriptions). Stray-quote fix: 8b15b25 names cause (FLY-001 metadata insertion) and proof (	ypecheck+build green) (~6m total).
+- **Why it works:** Operator vision → queue task (FLY-001) → concrete SEO/demand wiring on refinery, not generic copy. Surgical fix commit ties regression to the feature and confirms build gate before close-out — extends P-192/P-207 to **build green** as deploy readiness for site metadata work.
+- **Maps to:** refine metadata-align + validate-gate — flywheel tasks from vision; fix commits name parent task + typecheck/build proof.
+
+### P-279 - Queue wiring change gated by import smoke + pytest in one compound shell
+- **Observed:** Mid-lap compound check: inline Python ll queue modules import clean (jobs, harvest, certify, queueing) && uv run pytest services/core-api/tests -q | tail -1 (~28s+).
+- **Why it works:** Queue/harvest/certify modules share import paths — a syntax error in one breaks others silently until runtime. Named import smoke (import clean) plus pytest summary in one round-trip catches wiring regressions before push. Cheap gate for WIRE/queue edits.
+- **Maps to:** refine validate-gate + smoke-import — queue subsystem edits: compound import smoke + pytest tail before commit.

@@ -1633,6 +1633,114 @@
       "spec": "0023",
       "notes": "Field Order Should Not Matter: Permutation-Invariant Embedding Model Fine-Tuning for Structured Metadata Retrieval (https://arxiv.org/pdf/2606.30473v1) -- lever: chunk. Does the paper's chunking/retrieval mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness?",
       "source": "scripts/radar_to_hypotheses.py"
+    },
+    {
+      "id": "PMF-001",
+      "title": "Define ICP hypotheses v1: three candidate segments with pain, willingness-to-pay, reachability",
+      "status": "ready",
+      "lane": "operator+claude",
+      "priority": "P1",
+      "notes": "Candidates to evaluate (from strategy call): (a) real-estate brokerages/teams (anchor synergy, dense data), (b) e-commerce SMBs needing 'similar items/customers also' without a data team, (c) SaaS docs/support teams (search+deflection). Claude drafts docs/PMF_ICP.md scoring each on pain intensity, budget authority, data readiness, reach; Operator picks the primary. ACCEPT: one primary + one secondary ICP named, with the disqualifiers written down.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "PMF-002",
+      "title": "Run 10 discovery interviews with the primary ICP",
+      "status": "ready",
+      "lane": "operator",
+      "priority": "P1",
+      "notes": "Operator-led (network + henington-homes contacts). Claude delivers the interview guide (docs/PMF_INTERVIEWS.md): current solution, last time the problem hurt, what they'd pay, who decides. Rule: sell nothing in the interview. ACCEPT: 10 write-ups; patterns extracted into PMF-001 doc revisions.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "PMF-003",
+      "title": "Instrument the funnel with our own exhaust API (dogfood): conversion events across all BU sites",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Key events: health-check completed, certify submitted, briefing requested, catalog->request, kit tried, pricing viewed. Emit via each site's BFF to /v1/exhaust (kind=interaction, consent per privacy posture \u2014 count-only, no PII payloads). hq /org gains a funnel panel. ACCEPT: weekly funnel counts visible without external analytics.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "PMF-004",
+      "title": "Design-partner program: page + offer on bhenre.com",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "Offer: 3 design partners get a custom recommender built free (their corpus, our loop) in exchange for case-study rights + biweekly feedback. Page states what they give/get, honest 'measured results published as-is' clause. CTA -> briefing form with 'design partner' flag.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "PMF-005",
+      "title": "Competitive teardown + positioning wedge doc",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Algolia Recommend, AWS Personalize, Shaped, Voyage/Cohere embeddings, DIY pgvector. For each: price shape, setup burden, who it serves, where we win (tenant-adapted models + self-improving loop + eval receipts + no data team required). Output docs/POSITIONING.md with the 3-sentence wedge per competitor. Honest: where THEY win too.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "PMF-006",
+      "title": "Pricing hypothesis on the page: publish 'from $X' on certification + kits, measure response",
+      "status": "blocked",
+      "lane": "operator+cursor",
+      "priority": "P2",
+      "notes": "BLOCKED on Operator pricing call (certification tier price, kit pro price). Then cursor publishes; PMF-003 events measure pricing-page->briefing conversion. ACCEPT: 30 days of data on price-anchored vs contact-only CTAs.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "BD-001",
+      "title": "Connect the till: Stripe test key -> first end-to-end paid transaction",
+      "status": "blocked",
+      "lane": "operator",
+      "priority": "P1",
+      "notes": "THE unblock (strategy call risk #1). Operator: paste sk_test key. Machinery ready: MON-001 metering live, entitlements live, checkout pre-scripted. ACCEPT: one test purchase grants an entitlement and appears in /v1/usage.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "BD-002",
+      "title": "Anchor-tenant case study: real-estate recommender end-to-end, published with measured numbers",
+      "status": "blocked",
+      "lane": "operator+claude",
+      "priority": "P1",
+      "notes": "Depends ANCHOR-001 (Operator corpus). Then: contract -> upload -> auto-trained -> /v1/recommend w/ geo+price filters -> case study on bhenre.com + arxiviq with the honest panel comparison. This is the flagship sales asset (strategy call step 2).",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "BD-003",
+      "title": "Outbound asset kit: one measured-proof one-pager per business unit",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Per BU: what it does, one real number (EVIDENCE-cited), one screenshot, one CTA. docs/exports/ + linked from hq. No claim above measured gates. Serves PMF-002 interviews + BD-004 outreach.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "BD-004",
+      "title": "20-prospect list + outreach sequence for the primary ICP",
+      "status": "ready",
+      "lane": "operator+claude",
+      "priority": "P2",
+      "notes": "Operator: names/contacts (network, henington-homes ecosystem). Claude: 3-touch sequence templates \u2014 opener offers the free dumbmodel health check on THEIR data (give value first), second the case study, third a briefing. No spray; personalized fields required.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "BD-005",
+      "title": "dumbmodel result page: consented email capture so free checks become a nurture list",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "After the health-check result: optional 'email me this scorecard + what to do about it' (consent checkbox, plain language). Stores as lead w/ score context. Ties the funnel's top to an ownable channel.",
+      "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "BD-006",
+      "title": "Weekly BD digest: funnel counts + leads + usage rolled into the hq org report",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P3",
+      "notes": "Automated from PMF-003 events + leads + usage_daily: one section in the weekly report (existing report machinery) \u2014 new checks, submissions, briefings, entitlements, MRR-when-live. The Operator reads one page Monday morning.",
+      "source": "BD/PMF series 2026-07-04"
     }
   ]
 }

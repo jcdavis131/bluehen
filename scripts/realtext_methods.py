@@ -171,7 +171,12 @@ def main() -> int:
 
     methods, seeds, epochs, train_pairs_n, run_zeroshot = METHODS, SEEDS, EPOCHS, TRAIN_PAIRS, True
     if args.smoke:
-        methods = {"infonce": METHODS["infonce"]}
+        import os as _os
+
+        # RDPIPE-002: auto-probes pick their arms via SMOKE_METHODS=a,b
+        wanted = [m.strip() for m in _os.environ.get("SMOKE_METHODS", "infonce").split(",")
+                  if m.strip() in METHODS]
+        methods = {m: METHODS[m] for m in (wanted or ["infonce"])}
         seeds = (0,)
         epochs = 1
         train_pairs_n = 8

@@ -61,13 +61,13 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**WIRE-205** — hq /ops: age alert for refinery submissions stuck pending~~
 - [x] ~~**FLY-001** — Aim the wiki at demand generation: topic pages become indexable evergreen articles (deterministic layer)~~
 - [x] ~~**EXH-001** — Unified Data Exhaust API (Spec 0022 A): POST /v1/exhaust, strict schema, consent-gated storage into datalab inbox~~
 - [x] ~~**EXH-002** — Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant~~
 - [x] ~~**RECO-001** — Customer corpus upload: POST /v1/corpus (tenant) — JSONL/text upload becomes a collection and triggers the loop~~
 - [x] ~~**RECO-002** — Recommendations API: /v1/recommend — item-to-item + text-to-item over the deployed model~~
 - [x] ~~**RDPIPE-001** — R&D pipe segment 1: literature radar output -> structured hypothesis -> auto-drafted AR queue item~~
+- [x] ~~**RDPIPE-002** — R&D pipe segment 2: auto-labeled AR items trigger idle-time harness runs~~
 - [x] ~~**RECO-004** — Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)~~
 
 ## Specs & context

@@ -1559,11 +1559,12 @@
     {
       "id": "RDPIPE-002",
       "title": "R&D pipe segment 2: auto-labeled AR items trigger idle-time harness runs",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Worker/local runner picks 'auto'-labeled proposed AR items when idle (like autotrain tick), runs the delegate protocol, records KEEP/DISCARD. Bounded: 1 auto-run/day.",
-      "source": "Spec 0023 flywheel"
+      "notes": "SHIPPED: scripts/autoresearch_auto.py \u2014 once-daily bounded probe of oldest runnable proposed AR-5xx (SMOKE_METHODS hook in harness), PROBE-KEEP promotes to ready / DISCARD closes, unrunnable items honestly annotated. First run: AR-502 PROBE-KEEP (mrl vs barlow, smoke). R&D pipe complete: radar -> drafter -> probe -> gates -> charter.",
+      "source": "Spec 0023 flywheel",
+      "claimedBy": "claude"
     },
     {
       "id": "ANCHOR-001",
@@ -1609,17 +1610,17 @@
       "status": "proposed",
       "lane": "claude",
       "spec": "0023",
-      "notes": "KaLM-Reranker-V1: Fast but Not Late Interaction for Compressed Document Reranking (https://arxiv.org/pdf/2606.22807v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness?",
+      "notes": "KaLM-Reranker-V1: Fast but Not Late Interaction for Compressed Document Reranking (https://arxiv.org/pdf/2606.22807v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness? [auto-probe: no runnable mapping \u2014 needs agent implementation]",
       "source": "scripts/radar_to_hypotheses.py"
     },
     {
       "id": "AR-502",
       "division": "research",
       "title": "[radar] MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Train",
-      "status": "proposed",
+      "status": "ready",
       "lane": "claude",
       "spec": "0023",
-      "notes": "MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Training Framework (https://arxiv.org/pdf/2606.07654v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness?",
+      "notes": "MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Training Framework (https://arxiv.org/pdf/2606.07654v1) -- lever: loss. Does the paper's loss-function mechanism improve ndcg_pairs/effRank on the research corpus under the head-only harness? [auto-probe 2026-07-04: PROBE-KEEP \u2014 mrl ndcg 1.0000 vs barlow 1.0000 (1-seed smoke; not evidence-grade)]",
       "source": "scripts/radar_to_hypotheses.py"
     },
     {

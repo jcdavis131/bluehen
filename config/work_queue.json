@@ -1588,11 +1588,12 @@
     {
       "id": "RECO-005",
       "title": "/v1/recommend filter DSL compiled from contracts",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Filters validate against declared filterable fields; partial expression indexes auto-created at declaration; 400s name the contract version.",
-      "source": "Spec 0024 metadata contracts"
+      "notes": "SHIPPED: filters on both /v1/recommend modes, compiled from the active contract (keyword eq/in, number eq/gte/lte, date gte/lte; geo deferred to PostGIS gate); parameterized SQL, field names contract-whitelisted + regex-hardened at registration; declarations auto-create partial expression indexes (best-effort). 7 tests.",
+      "source": "Spec 0024 metadata contracts",
+      "claimedBy": "claude"
     },
     {
       "id": "SCALE-001",

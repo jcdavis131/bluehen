@@ -8,6 +8,7 @@ and when present it must carry the platform types."""
 
 from __future__ import annotations
 
+import re
 import uuid
 from datetime import datetime, timezone
 
@@ -33,6 +34,8 @@ def _check_schema_shape(schema: dict, filterable: list[dict]) -> None:
     if not isinstance(props, dict) or not props:
         raise ValueError("json_schema.properties must be a non-empty object")
     for name, spec in props.items():
+        if not re.match(r"^[A-Za-z_][A-Za-z0-9_.-]{0,63}$", name) or "'" in name:
+            raise ValueError(f"property name {name!r}: letters/digits/_/./- only, max 64 chars")
         if name.startswith("_bh."):
             raise ValueError(f"{name!r}: the _bh.* namespace is platform-reserved")
         if not isinstance(spec, dict) or spec.get("type") not in _TYPE_MAP:
@@ -59,7 +62,36 @@ def register(workspace_id: uuid.UUID, json_schema: dict,
             json_schema=json_schema, filterable=filterable,
             created_at=datetime.now(timezone.utc))
         session.add(row)
-        return {"version": row.version, "filterable": filterable}
+        version = row.version
+    _ensure_filter_indexes(workspace_id, filterable)
+    return {"version": version, "filterable": filterable}
+
+
+_INDEX_CASTS = {"keyword": "", "number": "::numeric", "date": "::timestamptz"}
+
+
+def _ensure_filter_indexes(workspace_id: uuid.UUID, filterable: list[dict]) -> None:
+    """Spec 0024 §4: declarations compile to infrastructure. Best-effort —
+    registration never fails on index DDL."""
+    from sqlalchemy import text as _text
+
+    ws8 = str(workspace_id).replace("-", "")[:8]
+    for f in filterable:
+        cast = _INDEX_CASTS.get(f["type"])
+        if cast is None:
+            continue  # geo: deferred
+        name = f["name"]
+        if not re.match(r"^[A-Za-z_][A-Za-z0-9_.-]{0,63}$", name):
+            continue
+        safe = "".join(c for c in name if c.isalnum() or c == "_")[:32]
+        try:
+            with db_session() as session:
+                session.execute(_text(
+                    f"CREATE INDEX IF NOT EXISTS idx_meta_{ws8}_{safe} "
+                    f"ON document_chunks (((payload->>'{name}'){cast})) "
+                    f"WHERE workspace_id = '{workspace_id}'"))
+        except Exception:
+            pass
 
 
 def active(workspace_id: uuid.UUID) -> dict | None:

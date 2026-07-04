@@ -10,7 +10,38 @@ import uuid
 from sqlalchemy import text
 
 from app.database import db_session
+from app.services.filters import compile_filters
 from app.services.search import _enrich_payload, search_chunks
+
+
+def _active_contract(workspace_id: uuid.UUID) -> dict | None:
+    from app.services.contracts import active
+
+    return active(workspace_id)
+
+
+def _filtered_text_search(workspace_id: uuid.UUID, query_text: str, k: int,
+                          fsql: str, fparams: dict) -> dict:
+    from app.services.embedding import embed_texts
+
+    q = embed_texts(workspace_id, [query_text], truncate=False)["vectors"][0]
+    vec = "[" + ",".join(str(x) for x in q) + "]"
+    sql = f"""
+        SELECT dc.chunk_id, dc.text, dc.payload, dc.model_version,
+               1 - (dc.embedding <=> CAST(:qvec AS vector)) AS score
+        FROM document_chunks dc
+        JOIN model_versions mv ON mv.workspace_id = dc.workspace_id
+         AND mv.version = dc.model_version AND mv.deployed
+        WHERE dc.workspace_id = :wid{fsql}
+        ORDER BY dc.embedding <=> CAST(:qvec AS vector) LIMIT :k
+    """
+    with db_session(workspace_id) as session:
+        rows = session.execute(text(sql), {"wid": str(workspace_id), "qvec": vec,
+                                           "k": k, **fparams}).mappings().all()
+    hits = [{"id": r["chunk_id"], "score": r["score"],
+             "payload": _enrich_payload(r["payload"], r["text"])} for r in rows]
+    mv = rows[0]["model_version"] if rows else None
+    return {"hits": hits, "modelVersion": mv}
 
 
 def _shape(hits: list[dict], model_version: str | None) -> dict:
@@ -29,12 +60,18 @@ def _shape(hits: list[dict], model_version: str | None) -> dict:
     return {"modelVersion": model_version, "recommendations": recs}
 
 
-def recommend_by_text(workspace_id: uuid.UUID, query_text: str, k: int = 5) -> dict:
-    out = search_chunks(workspace_id, query_text, k=k)
+def recommend_by_text(workspace_id: uuid.UUID, query_text: str, k: int = 5,
+                      filters: dict | None = None) -> dict:
+    if filters:
+        fsql, fparams = compile_filters(_active_contract(workspace_id), filters)
+        out = _filtered_text_search(workspace_id, query_text, k, fsql, fparams)
+    else:
+        out = search_chunks(workspace_id, query_text, k=k)
     return _shape(out.get("hits", []), out.get("modelVersion"))
 
 
-def recommend_by_item(workspace_id: uuid.UUID, item_id: str, k: int = 5) -> dict:
+def recommend_by_item(workspace_id: uuid.UUID, item_id: str, k: int = 5,
+                      filters: dict | None = None) -> dict:
     """Nearest neighbors of a known item, excluding itself, using its
     stored vector — the item's own trained-space position is the query."""
     with db_session(workspace_id) as session:
@@ -58,15 +95,19 @@ def recommend_by_item(workspace_id: uuid.UUID, item_id: str, k: int = 5) -> dict
             """), {"wid": str(workspace_id), "cid": item_id}).mappings().first()
         if anchor is None:
             raise LookupError(f"item {item_id!r} not found in the index")
-        rows = session.execute(text("""
+        fsql, fparams = ("", {})
+        if filters:
+            fsql, fparams = compile_filters(_active_contract(workspace_id), filters)
+        rows = session.execute(text(f"""
             SELECT chunk_id, text, payload,
                    1 - (embedding <=> :avec) AS score
             FROM document_chunks
             WHERE workspace_id = :wid AND model_version = :mv
-              AND chunk_id != :cid
+              AND chunk_id != :cid{fsql}
             ORDER BY embedding <=> :avec LIMIT :k
         """), {"wid": str(workspace_id), "avec": anchor["embedding"],
-               "mv": anchor["model_version"], "cid": item_id, "k": k}).mappings().all()
+               "mv": anchor["model_version"], "cid": item_id, "k": k,
+               **fparams}).mappings().all()
     hits = [{"id": r["chunk_id"], "score": r["score"],
              "payload": _enrich_payload(r["payload"], r["text"])} for r in rows]
     return _shape(hits, anchor["model_version"])

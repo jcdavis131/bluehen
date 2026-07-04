@@ -1390,3 +1390,8 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** After ~5h loop sleep: ※ recap: … all seven sites are live and the new Barlow model now serves production, beating every commercial baseline on the hard slice. Next action: your keys (GLM, Stripe, HF) unlock the remaining revenue streams.
 - **Why it works:** Extends P-230/P-247: after extended idle, recap states **measurable fleet milestone** (7 sites, prod model, panel win on hard slice) then narrows **next action** to named Operator keys tied to **revenue streams** — not generic "waiting on you." Operator knows what each key unlocks without re-reading EVIDENCE.
 - **Maps to:** refine recap-on-long-session + progress-board — long-sleep recap = milestone headline + keys-to-revenue mapping.
+
+### P-261 - Named subagent sweep: queue-reality consistency before schema/infra fixes
+- **Observed:** Background agent Queue-reality consistency sweep finished · 2m 56s while foreground edits  15_dataset_entitlements.py migration via heredoc.
+- **Why it works:** Before Alembic/schema work, a dedicated subagent reconciles work_queue.json / TASKS.md with what's actually shipped vs gated — prevents claiming done tasks as blocked or vice versa. Elapsed time reported (P-190). Runs parallel to unrelated migration edit (P-251 fill-the-wait pattern for subagents).
+- **Maps to:** refine metadata-align + sme-fanout — queue-reality consistency as a named background subagent before infra migrations.

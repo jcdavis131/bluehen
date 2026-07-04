@@ -283,7 +283,7 @@
       "notes": "NEXT SLATE #1 (runnable now, no gates). HOW: mirror RT-401 \u2014 detached run of scripts/realtext_methods.py variant for both-sites corpora; if the script lacks a both-sites mode, extend load_domains to take research corpus (data/corpora/research/corpus.jsonl) as in-domain and AG News as OOD. ACCEPT: methods table 2 seeds in data/sweeps/, EVIDENCE 3.13 row with scoped verdict. LANE: claude (or sonnet subagent with this note verbatim). Use packages/asn-engine/.venv python; launch detached (tool timeout is 10min)."
     },
     {
-      "id": "RT-403",
+      "id": "RT-405",
       "division": "research",
       "priority": 22,
       "title": "Collapse-regime vs BGE/e5/Qwen3 panel",
@@ -831,7 +831,7 @@
       "completedAt": "2026-07-03T01:55:11.503239+00:00"
     },
     {
-      "id": "SITE-014",
+      "id": "SITE-017T",
       "division": "comms",
       "priority": 67,
       "title": "Tastemaker Phase 1 \u2014 ui-fleet tokens + 6 primitives (Spec 0017)",
@@ -847,7 +847,7 @@
       "notes": "Company-site org section live: registry-driven BU grid (orgRole=business-unit) with team+offer roles and a-Blue-Hen-RE-company bylines; internal consoles named transparently. Full hero rework deferred; grid is the normative piece."
     },
     {
-      "id": "SITE-015",
+      "id": "SITE-018T",
       "division": "comms",
       "priority": 68,
       "title": "Tastemaker Phase 2 \u2014 pilot spine on storefront homepage (Spec 0017)",
@@ -1096,7 +1096,7 @@
       "notes": "AUTOMATION SHIPPED: entitlements layer (mig 014, sku dataset:<slug>), GET /v1/catalog/datasets/{slug}/full (403 w/ sku until entitled; downloads metered), admin grant endpoint, tenant entitlements view. REMAINING: checkout webhook grants (Medusa/Stripe gate) + refinery site paid-tier UI (cursor).",
       "claimedBy": "claude",
       "claimedAt": "2026-07-04T03:49:58.608714+00:00",
-      "completedAt": "2026-07-04T02:22:31.088845+00:00"
+      "completedAt": null
     },
     {
       "id": "MON-006",

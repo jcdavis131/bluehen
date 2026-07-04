@@ -1405,3 +1405,13 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** "The v2 loop's first cycle closed cleanly: found silently-broken things in parallel, fixed them, verified the fixes, slated the next batch. Next tick executes RT-402 from the slate."
 - **Why it works:** Names the loop iteration shape: discover (queue-reality + migration monitor, P-261) → fix → verify (entitlements smoke) → **explicit next ID** (RT-402). Operator and next wakeup know exactly what's queued without re-scanning the board.
 - **Maps to:** refine progress-board + close-the-loop — cycle close-out slates the next task ID for the following tick.
+
+### P-264 - Slated queue task prep delegated to named subagent (task ID + model in label)
+- **Observed:** P-263 slated RT-402 → background agent RT-402 script prep (sonnet) finished · 5m 34s. Parent: "Waiting for 1 background agent to finish" → then foreground continues. Second agent verifying smoke-run JSONL output.
+- **Why it works:** Heavy script prep runs in a model-tagged subagent while parent holds the lane. Agent name carries **queue ID + role + model** so completion maps back to the slate without reading the full transcript. Elapsed time + token cost visible (P-190).
+- **Maps to:** refine lane-discipline + sme-fanout — execute slated research tasks via named background subagents; parent waits then verifies output.
+
+### P-265 - Subagent script delivery: smoke row fast, default path untouched, then detached full run
+- **Observed:** RT-402 subagent close-out: "Sonnet delivered to spec (smoke row in 32s, default path untouched). Reviewing the diff footprint, committing, launching the full run detached:" → push → Monitor(RT-402 full run completion or crash) (3500s).
+- **Why it works:** Three gates before the long job: (1) smoke produces one valid row quickly, (2) existing code paths unchanged, (3) diff footprint reviewed. Only then commit + **detached** full run + monitor (P-250). Prevents a 3500s bake on a broken script.
+- **Maps to:** refine validate-gate + sme-fanout — subagent script handoff requires smoke row + default-path unchanged before detached full run.

@@ -441,6 +441,20 @@ clears its promotion gate 4x over** (Δ vs infonce ≈ +0.020 mean, gate
 promote barlow into the prod DEFAULT_RECIPE **behind tenant-corpus gates**
 (queued RT-403) — no hot recipe swap without per-tenant eval.
 
+### 3.13 RT-402 — research-corpus bake-off (instrument saturated) — 2026-07-04
+
+`realtext_methods.py --corpus research` (in-domain: corpus pairs w/ hard
+negatives; OOD: AG News; 4 methods x 2 seeds + zero-shot panel).
+**In-domain saturated**: all trained methods 0.9262–0.9354 vs zero-shot
+0.917–0.926 — the adjacent-chunk protocol on this corpus cannot separate
+methods (ceiling ≈ 0.935, gains +0.01–0.02, effRank uniform ~34.5). No
+method verdict is claimable from the in-domain slice. **OOD (AG News)**:
+barlow 0.865/0.867 vs infonce 0.858/0.857 — small but seed-consistent,
+same direction as RT-401. Conclusion: RT-401's barlow finding stands
+un-contradicted; discriminating in-domain method tests on this corpus
+need a harder protocol (query-grounded eval, larger negative pools) —
+follow-up RT-404 queued.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

@@ -274,13 +274,13 @@
       "division": "research",
       "priority": 21,
       "title": "Real-text bake-off: AG News + both sites",
-      "status": "in_progress",
+      "status": "done",
       "blockedBy": [
         "BLK-DISK"
       ],
       "spec": "0008",
       "command": "uv run python scripts/realtext_methods.py --site both",
-      "notes": "NEXT SLATE #1 (runnable now, no gates). HOW: mirror RT-401 \u2014 detached run of scripts/realtext_methods.py variant for both-sites corpora; if the script lacks a both-sites mode, extend load_domains to take research corpus (data/corpora/research/corpus.jsonl) as in-domain and AG News as OOD. ACCEPT: methods table 2 seeds in data/sweeps/, EVIDENCE 3.13 row with scoped verdict. LANE: claude (or sonnet subagent with this note verbatim). Use packages/asn-engine/.venv python; launch detached (tool timeout is 10min).",
+      "notes": "EVIDENCE 3.13: in-domain slice saturated (all ~0.935); barlow OOD edge seed-consistent; RT-401 stands. RT-404 queued for a harder protocol.",
       "claimedBy": "claude",
       "claimedAt": "2026-07-04T13:57:18.691694+00:00"
     },
@@ -1303,6 +1303,14 @@
       "notes": "hub/finance-lab/training-console git-connected (repo 1030933495), rootDirs corrected, fresh prod deploys triggered (dpl_FKcj/Gq7e/89B9). VERIFY next tick: TeamStrip + org chrome live on bhenre.com, signals, training.jcamd.com.",
       "claimedBy": "claude",
       "claimedAt": "2026-07-04T13:57:18.539966+00:00"
+    },
+    {
+      "id": "RT-404",
+      "title": "Harder in-domain method eval: query-grounded pairs + larger negative pools on research corpus",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "SLATE. RT-402 saturated at ~0.935 with 1-vs-1 pos/neg ranking. HOW: rank positive among K=16 hard negatives (retrieval_scores over a pool), and/or use real user-style queries (title->abstract pairs from arXiv metadata). ACCEPT: method separation >2x seed\u566a\u58f0 or an honest null. LANE: sonnet-delegable with this note."
     }
   ]
 }

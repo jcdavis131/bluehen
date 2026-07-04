@@ -24,8 +24,6 @@
 - [ ] **AR-303** — AUG=0.5 lower view noise (research) · spec [0003](./specs/0003-*.md)
 - [ ] **AR-304** — Batch=48 intermediate (research) · spec [0003](./specs/0003-*.md)
 - [ ] **AR-305** — Weight decay 5e-5 (research) · spec [0003](./specs/0003-*.md)
-- [ ] **RT-402** — Real-text bake-off: AG News + both sites (research) · spec [0008](./specs/0008-*.md)
-  - `uv run python scripts/realtext_methods.py --site both`
 - [ ] **RT-404** — Tenant Barlow recipe — all Phase A sites (research) · spec [0008](./specs/0008-*.md)
   - `Extend tenant_baseline.py --recipe barlow; run --all-sites`
 - [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
@@ -33,10 +31,10 @@
 - [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
-- [ ] **INFRA-101** — Git-connect the three CLI-only Vercel projects (hub, finance-lab, training-console) so pushes auto-deploy (None)
 
 ## In progress
 
+- [ ] **RT-402** — Real-text bake-off: AG News + both sites (@claude)
 - [ ] **MON-001** — Stripe metered billing: core-api /v1/search + /v1/embed record usage events; webhook reconciles to invoice (Spec 0021 P1) (@claude)
 - [ ] **MON-005** — Refinery dataset access tiers: free preview + paid full corpus; signed-URL delivery after checkout (Spec 0021 P3) (@claude)
 - [ ] **MON-006** — slasso automated certification: self-service submission -> eval-harness run -> scorecard publish -> badge -> charge (Spec 0021 P4) (@claude)
@@ -59,7 +57,6 @@
 
 ## Recently done
 
-- [x] ~~**SITE-014** — Storefront restructure as THE company website: divisions overview grid from registry, operating-loop diagram, BU offer cards (Spec 0019)~~
 - [x] ~~**SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)~~
 - [x] ~~**HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal~~
 - [x] ~~**AR-310** — Re-measure champion under fixed-seed repeats (5x) — is baseline 1.465 reproducible?~~
@@ -67,6 +64,7 @@
 - [x] ~~**DR-109** — Wiki Refinery GLM refinement pass (Spec 0020)~~
 - [x] ~~**KIT-003** — Kit sample corpora — content/kits/* JSONL seeded for all three personas (Spec 0022)~~
 - [x] ~~**RT-403** — Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates~~
+- [x] ~~**INFRA-101** — Git-connect the three CLI-only Vercel projects (hub, finance-lab, training-console) so pushes auto-deploy~~
 
 ## Specs & context
 

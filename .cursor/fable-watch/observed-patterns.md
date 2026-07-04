@@ -1395,3 +1395,13 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** Background agent Queue-reality consistency sweep finished · 2m 56s while foreground edits  15_dataset_entitlements.py migration via heredoc.
 - **Why it works:** Before Alembic/schema work, a dedicated subagent reconciles work_queue.json / TASKS.md with what's actually shipped vs gated — prevents claiming done tasks as blocked or vice versa. Elapsed time reported (P-190). Runs parallel to unrelated migration edit (P-251 fill-the-wait pattern for subagents).
 - **Maps to:** refine metadata-align + sme-fanout — queue-reality consistency as a named background subagent before infra migrations.
+
+### P-262 - Entitlements endpoint verified with honest empty list for unentitled workspace
+- **Observed:** After migration heal monitor: "entitlements endpoint answers with an honest empty list for an unentitled workspace — table live, chain linear, prod migrations green again."
+- **Why it works:** New monetization tables can silently 500 or return fake defaults. Verifying **unentitled → empty list** proves the endpoint is live and truthful (P-212/P-252 honesty family). "Chain linear" + "prod migrations green" closes the Alembic blocker class.
+- **Maps to:** refine post-deploy-smoke + validate-gate — entitlements: verify empty response for unentitled tenant, not just HTTP 200.
+
+### P-263 - Loop cycle close-out: parallel silent-break sweep → fix → verify → slate next task
+- **Observed:** "The v2 loop's first cycle closed cleanly: found silently-broken things in parallel, fixed them, verified the fixes, slated the next batch. Next tick executes RT-402 from the slate."
+- **Why it works:** Names the loop iteration shape: discover (queue-reality + migration monitor, P-261) → fix → verify (entitlements smoke) → **explicit next ID** (RT-402). Operator and next wakeup know exactly what's queued without re-scanning the board.
+- **Maps to:** refine progress-board + close-the-loop — cycle close-out slates the next task ID for the following tick.

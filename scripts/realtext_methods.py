@@ -16,6 +16,15 @@ negative, chunked via datalab.chunk.chunk_text at 256 tokens — same approach a
 rag_chunk_ablation.build_pairs) plus effective rank of the anchor embeddings. When --corpus is
 omitted, behavior is exactly the original AG News / DBpedia panel.
 
+RT-404 (harder in-domain eval): the 1-pos-vs-1-neg pair nDCG (ndcg_pairs) saturated at ~0.935
+for every method — no separation. In corpus mode we additionally rank each anchor's positive
+against a pool of K hard negatives (highest-jaccard non-positive chunks, same jaccard machinery
+as build_corpus_pairs' single hardest negative, extended to top-K with a seeded random fallback
+fill when the corpus doesn't have K distinct cross-doc candidates). Reported as
+ndcg_pool{K} (nDCG@10 over the K+1 candidate ranking) alongside the existing ndcg_pairs/effRank.
+K=16 in a full run, K=4 under --smoke. Pool construction is seeded off CORPUS_POOL_SEED so the
+same corpus always yields the same pools regardless of which model/method is being scored.
+
 Run:  packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py --out data/sweeps/methods.jsonl
       packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py --corpus data/corpora/research/corpus.jsonl
       packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py --corpus data/corpora/research/corpus.jsonl --smoke
@@ -25,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import sys
 from pathlib import Path
 
@@ -51,6 +61,11 @@ CORPUS_MAX_PAIRS = 40
 CORPUS_CHUNK_TOKENS = 256
 OOD_AGNEWS_N_FULL = 600
 OOD_AGNEWS_N_SMOKE = 20
+
+# RT-404 hard-negative pool constants
+CORPUS_POOL_K_FULL = 16
+CORPUS_POOL_K_SMOKE = 4
+CORPUS_POOL_SEED = 0
 
 METHODS = {
     "infonce": {"loss": {"infoNceTemp": 0.05}},
@@ -92,18 +107,25 @@ def load_corpus_docs(corpus: Path, max_docs: int) -> list[dict]:
     return docs
 
 
-def build_corpus_pairs(docs: list[dict], max_pairs: int) -> list[dict]:
-    """Adjacent-chunk positive + hard-jaccard negative, chunked at CORPUS_CHUNK_TOKENS.
-
-    Same pair-building approach as rag_chunk_ablation.build_pairs, fixed to a single
-    chunk size (no arm sweep) since RT-402 only needs one in-domain retrieval slice.
-    """
+def chunk_corpus_docs(docs: list[dict]) -> tuple[list[tuple[str, str]], list[frozenset]]:
+    """Chunk docs at CORPUS_CHUNK_TOKENS and precompute jaccard token sets for each chunk."""
     chunked: list[tuple[str, str]] = []  # (doc_id, text)
     for d in docs:
         for c in chunk_text(d["id"], d["text"], max_tokens=CORPUS_CHUNK_TOKENS, strategy="auto"):
             chunked.append((d["id"], c.text))
-    pairs = []
     token_sets = [frozenset(t.lower().split()) for _, t in chunked]
+    return chunked, token_sets
+
+
+def build_corpus_pairs(chunked: list[tuple[str, str]], token_sets: list[frozenset],
+                        max_pairs: int) -> list[dict]:
+    """Adjacent-chunk positive + single hardest-jaccard negative.
+
+    Same pair-building approach as rag_chunk_ablation.build_pairs. Each pair also carries
+    anchor_idx (the anchor's position in `chunked`) so RT-404's pool builder can rank the
+    same jaccard scores over the top-K hardest negatives instead of just the single hardest.
+    """
+    pairs = []
     for i in range(len(chunked) - 1):
         doc_i, text_i = chunked[i]
         doc_j, text_j = chunked[i + 1]
@@ -119,16 +141,50 @@ def build_corpus_pairs(docs: list[dict], max_pairs: int) -> list[dict]:
                 best, best_s = k, s
         if best < 0:
             continue
-        pairs.append({"anchor": text_i, "positive": text_j, "negative": chunked[best][1]})
+        pairs.append({"anchor_idx": i, "anchor": text_i, "positive": text_j, "negative": chunked[best][1]})
         if len(pairs) >= max_pairs:
             break
     return pairs
 
 
-def corpus_metrics_for(state_or_name, pairs: list[dict]) -> dict:
-    """Pair-based retrieval nDCG + effective rank of anchors (no topic labels needed)."""
+def build_hard_neg_pool(chunked: list[tuple[str, str]], token_sets: list[frozenset],
+                         anchor_idx: int, positive_text: str, k: int, rng: random.Random) -> list[str]:
+    """RT-404: top-K hardest (highest-jaccard) non-positive chunks for one anchor.
+
+    Prefers cross-doc candidates (same jaccard scoring as build_corpus_pairs). If the corpus
+    doesn't have K distinct cross-doc candidates, fills the remaining slots with a seeded
+    random sample from any other non-positive chunk (including same-doc) so --smoke corpora
+    still produce a full-size pool.
+    """
+    doc_i = chunked[anchor_idx][0]
+    anchor_toks = token_sets[anchor_idx]
+    scored = []
+    for idx, toks in enumerate(token_sets):
+        if idx == anchor_idx or chunked[idx][0] == doc_i:
+            continue
+        text = chunked[idx][1]
+        if text == positive_text:
+            continue
+        union = len(anchor_toks | toks)
+        s = (len(anchor_toks & toks) / union) if union else 0.0
+        scored.append((s, idx))
+    scored.sort(key=lambda x: (-x[0], x[1]))
+    chosen = [idx for _, idx in scored[:k]]
+    if len(chosen) < k:
+        chosen_set = set(chosen) | {anchor_idx}
+        fallback = [idx for idx in range(len(chunked))
+                    if idx not in chosen_set and chunked[idx][1] != positive_text]
+        rng.shuffle(fallback)
+        chosen += fallback[: k - len(chosen)]
+    return [chunked[idx][1] for idx in chosen]
+
+
+def corpus_metrics_for(state_or_name, pairs: list[dict], chunked: list[tuple[str, str]],
+                        token_sets: list[frozenset], pool_k: int, seed: int) -> dict:
+    """Pair-based retrieval nDCG + effective rank, plus RT-404's harder pool-ranked nDCG."""
+    pool_key = f"ndcg_pool{pool_k}"
     if not pairs:
-        return {"ndcg_pairs": 0.0, "effRank": 0.0}
+        return {"ndcg_pairs": 0.0, "effRank": 0.0, pool_key: 0.0}
     anchors = [p["anchor"] for p in pairs]
     positives = [p["positive"] for p in pairs]
     negatives = [p["negative"] for p in pairs]
@@ -143,7 +199,28 @@ def corpus_metrics_for(state_or_name, pairs: list[dict]) -> dict:
         ])
         rel = [1.0 if d == "pos" else 0.0 for d, _ in ranked]
         ndcgs.append(ndcg_at_k(rel, k=2))
-    return {"ndcg_pairs": round(sum(ndcgs) / len(ndcgs), 4), "effRank": round(effective_rank(Za), 2)}
+
+    # RT-404: rank the positive among a pool of pool_k hard negatives (deterministic per seed)
+    rng = random.Random(seed)
+    pools = [build_hard_neg_pool(chunked, token_sets, p["anchor_idx"], p["positive"], pool_k, rng)
+             for p in pairs]
+    uniq_negs = sorted({t for pool in pools for t in pool})
+    neg_vecs = {}
+    if uniq_negs:
+        Zneg = encode_texts(state_or_name, uniq_negs)
+        neg_vecs = {t: Zneg[j].tolist() for j, t in enumerate(uniq_negs)}
+    pool_ndcgs = []
+    for i, pool in enumerate(pools):
+        candidates = [("pos", Zp[i].tolist())] + [(f"neg{j}", neg_vecs[t]) for j, t in enumerate(pool)]
+        ranked = retrieval_scores(Za[i].tolist(), candidates)
+        rel = [1.0 if d == "pos" else 0.0 for d, _ in ranked]
+        pool_ndcgs.append(ndcg_at_k(rel, k=10))
+
+    return {
+        "ndcg_pairs": round(sum(ndcgs) / len(ndcgs), 4),
+        "effRank": round(effective_rank(Za), 2),
+        pool_key: round(sum(pool_ndcgs) / len(pool_ndcgs), 4) if pool_ndcgs else 0.0,
+    }
 
 
 def load_agnews_ood(seed: int, n: int):
@@ -195,20 +272,34 @@ def main() -> int:
         max_docs = 8 if args.smoke else CORPUS_MAX_DOCS
         max_pairs = 4 if args.smoke else CORPUS_MAX_PAIRS
         ood_n = OOD_AGNEWS_N_SMOKE if args.smoke else OOD_AGNEWS_N_FULL
+        pool_k = CORPUS_POOL_K_SMOKE if args.smoke else CORPUS_POOL_K_FULL
+        pool_key = f"ndcg_pool{pool_k}"
 
         docs = load_corpus_docs(args.corpus, max_docs)
         half = max(1, len(docs) // 2)
         train_docs = docs[:half]
         eval_docs = docs[half:] or docs[:half]
-        train_corpus_pairs = build_corpus_pairs(train_docs, max_pairs) or build_corpus_pairs(docs, max_pairs)
-        eval_corpus_pairs = build_corpus_pairs(eval_docs, max_pairs) or train_corpus_pairs
+
+        train_chunked, train_tokens = chunk_corpus_docs(train_docs)
+        train_corpus_pairs = build_corpus_pairs(train_chunked, train_tokens, max_pairs)
+        if not train_corpus_pairs:
+            train_chunked, train_tokens = chunk_corpus_docs(docs)
+            train_corpus_pairs = build_corpus_pairs(train_chunked, train_tokens, max_pairs)
+
+        eval_chunked, eval_tokens = chunk_corpus_docs(eval_docs)
+        eval_corpus_pairs = build_corpus_pairs(eval_chunked, eval_tokens, max_pairs)
+        if not eval_corpus_pairs:
+            eval_chunked, eval_tokens = train_chunked, train_tokens
+            eval_corpus_pairs = train_corpus_pairs
+
         ood_texts, ood_labels = load_agnews_ood(0, ood_n)
 
         if run_zeroshot:
             print("=== zero-shot SOTA panel (corpus mode) ===", flush=True)
             for name, hf in SOTA.items():
                 try:
-                    idm = corpus_metrics_for(hf, eval_corpus_pairs)
+                    idm = corpus_metrics_for(hf, eval_corpus_pairs, eval_chunked, eval_tokens,
+                                              pool_k, CORPUS_POOL_SEED)
                     oodm = metrics_for(encode_texts(hf, ood_texts), ood_labels)
                     emit({"kind": "zeroshot", "model": name, "indomain": idm, "ood_knn": oodm["knn_full"]})
                 except Exception as e:
@@ -220,7 +311,8 @@ def main() -> int:
                 recipe = {"baseModel": BACKBONE, "epochs": epochs, "batchSize": 32, "lr": 2e-5,
                           "asn": {"enabled": False}, **extra}
                 ck = Path(train_asn(train_corpus_pairs, recipe, ckdir / f"{method}_{seed}_corpus").checkpoint_path)
-                idm = corpus_metrics_for(ck, eval_corpus_pairs)
+                idm = corpus_metrics_for(ck, eval_corpus_pairs, eval_chunked, eval_tokens,
+                                          pool_k, CORPUS_POOL_SEED)
                 oodm = metrics_for(encode_texts(ck, ood_texts), ood_labels)
                 emit({"kind": "trained", "method": method, "seed": seed,
                       "indomain": idm, "ood_knn": oodm["knn_full"]})
@@ -228,14 +320,15 @@ def main() -> int:
 
         rows = [json.loads(l) for l in args.out.read_text().splitlines() if l.strip()]
         print("\n=== SUMMARY (corpus mode) ===")
-        print(f"{'model/method':<22} {'ndcg_pairs':>10} {'effRank':>8} {'ood_knn':>8}")
+        print(f"{'model/method':<22} {'ndcg_pairs':>10} {pool_key:>12} {'effRank':>8} {'ood_knn':>8}")
         for r in rows:
             if r.get("error"):
                 print(f"{r['model']:<22}  ERROR {r['error'][:40]}")
                 continue
             name = r.get("model") or f"{r['method']}(s{r['seed']})"
             m = r["indomain"]
-            print(f"{name:<22} {m['ndcg_pairs']:>10} {m['effRank']:>8} {r['ood_knn']:>8}")
+            print(f"{name:<22} {m['ndcg_pairs']:>10} {m.get(pool_key, '—'):>12} "
+                  f"{m['effRank']:>8} {r['ood_knn']:>8}")
         print("done", flush=True)
         return 0
 

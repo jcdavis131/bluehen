@@ -31,7 +31,7 @@ Spec-driven development. Code follows specs; specs follow `PLAN.md` and `SCIENCE
 | [0018](./0018-data-refinery.md) | Data Refinery — harvesting & dataset-prep venture | **Active** | `packages/datalab`, `apps/sites/refinery` (data.bhenre.com), DR-101..107, migration 009 |
 | [0019](./0019-corporate-topology.md) | Corporate topology — one company site, revenue-bearing business units | **Active** | Refines 0015/0012/0018; company-site restructure + BU team strips |
 | [0020](./0020-monetization-layer.md) | Monetization layer — diversified passive + active income, low overhead | **Draft** | 6 passive + 5 active streams; metered API, hosted inference, dataset marketplace, automated certification, premium notes, open-core |
-| [0021](./0021-cert-driven-research-loop.md) | Cert-driven research loop — cert failure → research ticket → gate → registry publish | **Draft** | 90-day customer-driven autoresearch policy; research ticket `source` contract; BD-703 first end-to-end pass |
+| [0021](./0021-cert-driven-research-loop.md) | Cert-driven research loop — cert failure → research ticket → gate → registry publish | **Ready** | 90-day customer-driven autoresearch policy active (→ 2026-10-01); research ticket `source` contract; BD-703 first end-to-end pass |
 
 **Production hosting:** Vercel (sites) + Railway (core-api + worker) + Neon Postgres — [ADR-002](../docs/adr/002-core-api-hosting.md), [ADR-003](../docs/adr/003-unified-org-cli.md) (CLI), [`infra/railway.md`](../infra/railway.md). Deploy task: `INF-003` (Operator).
 

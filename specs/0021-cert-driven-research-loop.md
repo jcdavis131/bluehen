@@ -1,6 +1,6 @@
 # 0021 — Cert-driven research loop: cert failure → research ticket → gate → registry publish
 
-- **Status:** Draft (awaiting Operator sign-off on the 90-day priority policy)
+- **Status:** Ready (Operator signed off 2026-07-03 — 90-day policy active through 2026-10-01)
 - **Owner:** Operator (policy) · Claude (research intake + tickets) · Cursor (cert fulfillment surfaces)
 - **Refines:** 0012 (closed loop — makes the business case for it) · 0020 (monetization — P4 automated certification, A1/A2 active streams)
 - **Related specs:** 0005 (auto-research conductor) · 0008 (eval harness & gates) · 0015 (venture fleet)

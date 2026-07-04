@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-03",
+  "updated": "2026-07-04",
   "protocol": "Any agent: read blockers \u2192 pick_task.py list \u2192 claim \u2192 work \u2192 done \u2192 render. Specs in specs/; fleet in config/fleet.json.",
   "blockers": [
     {
@@ -1127,9 +1127,11 @@
       "lane": "claude",
       "priority": "P1",
       "title": "Cert-driven research intake: walk one health-check failure through ticket -> hill-climb -> gate -> BD queue -> registry entry (Spec 0021)",
-      "status": "ready",
+      "status": "in_progress",
       "spec": "0021",
-      "notes": "First end-to-end pass of the business operating loop. Source: a dumbmodel/fleet health-check failing slice (paid certs count when they exist). Opens an AR-* ticket with the Spec 0021 `source` block, runs the existing 0012 loop, publishes the fix on the research registry with origin + dates. Manual protocol v1; mechanical pick_task.py enforcement only if the source rule gets violated. Internal corpora qualify per policy rule 4, so nothing blocks this."
+      "notes": "First end-to-end pass of the business operating loop. Source: a dumbmodel/fleet health-check failing slice (paid certs count when they exist). Opens an AR-* ticket with the Spec 0021 `source` block, runs the existing 0012 loop, publishes the fix on the research registry with origin + dates. Manual protocol v1; mechanical pick_task.py enforcement only if the source rule gets violated. Internal corpora qualify per policy rule 4, so nothing blocks this.",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T02:07:42.286087+00:00"
     },
     {
       "id": "BD-704",
@@ -1149,7 +1151,7 @@
       "title": "Research registry (arxiviq): render origin provenance on method entries (Spec 0021)",
       "status": "ready",
       "spec": "0021",
-      "notes": "Method entries that carry originCert/originTicket display an origin line: 'Motivated by <slice> failure in <cert/health-check>, <date>; fixed recipe passed gate <metric >= threshold> on <date>.' No customer-identifying data — slice + corpus category only. Offloaded from Claude's spec-0021 stream per Operator."
+      "notes": "Method entries that carry originCert/originTicket display an origin line: 'Motivated by <slice> failure in <cert/health-check>, <date>; fixed recipe passed gate <metric >= threshold> on <date>.' No customer-identifying data \u2014 slice + corpus category only. Offloaded from Claude's spec-0021 stream per Operator."
     },
     {
       "id": "AR-310",

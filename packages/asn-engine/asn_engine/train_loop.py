@@ -280,6 +280,10 @@ def train_head_on_features(
     lr = float(recipe.get("lr", 2e-5))
     loss_cfg = recipe.get("loss", {})
     temp = float(loss_cfg.get("infoNceTemp", 0.07))
+    # RT-403: barlow won the real-text bake-off (EVIDENCE 3.12) — head-only
+    # training honors loss.method; infonce stays the default.
+    loss_method = loss_cfg.get("method", "infonce")
+    barlow_lmbda = float(loss_cfg.get("barlowLambda", 0.0215))
     out_dim = int(recipe.get("projOutDim", 384))
     hidden_dim = int(recipe.get("projHiddenDim", 1024))
 
@@ -297,7 +301,10 @@ def train_head_on_features(
                 continue  # InfoNCE needs in-batch negatives
             z_a = head(feats_a[idx])
             z_p = head(feats_p[idx])
-            loss = info_nce(z_a, z_p, temperature=temp)
+            if loss_method == "barlow":
+                loss = barlow_twins(z_a, z_p, off_lambda=barlow_lmbda)
+            else:
+                loss = info_nce(z_a, z_p, temperature=temp)
             opt.zero_grad()
             loss.backward()
             opt.step()

@@ -1360,3 +1360,8 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** RT-401 true completion (rows + write marker or crash) stream ended → re-armed Monitor(RT-401 final rows or process exit) (3000s, classifier-approved). Prior monitor was stricter (P-250); fallback monitor covers **final row flush** or **process exit** when the first wait ends ambiguously.
 - **Why it works:** Extends P-171 monitor chaining: when the authoritative monitor fires without a write marker (P-253 hold), downgrade to a simpler terminal condition rather than declaring done or hanging forever. Process exit catches crash/completion; final rows catches last SOTA panel entries.
 - **Maps to:** refine event-driven-wait — chain strict completion monitor → simpler final-rows-or-exit monitor.
+
+### P-255 - Long eval close-out: monitor end → verdict in → EVIDENCE + queue + push
+- **Observed:** Final monitor ended → "RT-401 complete — the full real-text verdict is in. Writing EVIDENCE and closing:" → 974970f esearch: RT-401 real-text bake-off — barlow wins, all trained beat zero-shot SOTA (EVIDENCE 3.12) — updates EVIDENCE.md, work_queue, methods.jsonl, TASKS.md (~1m).
+- **Why it works:** Closes the arc from P-246/P-247: the job that started when Docker cleared finishes with **verdict → EVIDENCE section → queue status → push** in one lap. Commit message carries task ID, headline result, and EVIDENCE anchor (§3.12). Operator's pending "run loopbot with RT-401 results" can now consume this artifact.
+- **Maps to:** refine close-the-loop + validate-gate — eval monitor completion triggers EVIDENCE write + queue close-out + push in one chain.

@@ -286,12 +286,14 @@
       "division": "research",
       "priority": 22,
       "title": "Collapse-regime vs BGE/e5/Qwen3 panel",
-      "status": "ready",
+      "status": "in_progress",
       "blockedBy": [
         "BLK-DISK"
       ],
       "spec": "0008",
-      "command": "uv run python scripts/collapse_regime.py"
+      "command": "uv run python scripts/collapse_regime.py",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T05:15:49.138920+00:00"
     },
     {
       "id": "RT-404",

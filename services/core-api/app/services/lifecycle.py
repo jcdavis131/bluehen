@@ -19,7 +19,9 @@ DEFAULT_RECIPE = {
     "projHiddenDim": 1024,
     "extractBatchSize": 2,
     "extractMaxLength": 128,  # chunks are ~100 tokens; halves activation memory
-    "loss": {"infoNceTemp": 0.07, "zeloWeight": 0},
+    # RT-403 (EVIDENCE 3.12): barlow won real text 2-seed, 4x its gate.
+    # Promotion is still gate-checked per tenant by the worker pipeline.
+    "loss": {"method": "barlow", "barlowLambda": 0.0215, "infoNceTemp": 0.07, "zeloWeight": 0},
     "asn": {
         "kStrong": 8,
         "kTail": 8,

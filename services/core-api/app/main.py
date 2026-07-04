@@ -524,6 +524,33 @@ def entitlement_grant(body: GrantIn, _: Annotated[None, Depends(require_admin)])
     return entitlements.grant(_uuid.UUID(body.workspaceId), body.sku, granted_by="admin")
 
 
+class RecommendIn(BaseModel):
+    text: str | None = None
+    itemId: str | None = None
+    k: int = 5
+
+
+@app.post("/v1/recommend")
+def recommend(body: RecommendIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+              _rl: Annotated[None, Depends(rate_limit("recommend", 60))] = None):
+    """Recommendations over the tenant's deployed model (RECO-002):
+    text-to-item or item-to-item, with a reason on every result."""
+    from app.services import recommend as rec_svc
+    from app.services.usage import record as record_usage
+
+    k = max(1, min(body.k, 25))
+    if bool(body.text) == bool(body.itemId):
+        raise HTTPException(status_code=400,
+                            detail="provide exactly one of 'text' or 'itemId'")
+    record_usage(tenant.workspace_id, "recommend")
+    try:
+        if body.text:
+            return rec_svc.recommend_by_text(tenant.workspace_id, body.text, k)
+        return rec_svc.recommend_by_item(tenant.workspace_id, body.itemId, k)
+    except LookupError as e:
+        raise HTTPException(status_code=404, detail=str(e)) from e
+
+
 class CorpusDoc(BaseModel):
     id: str | None = None
     title: str | None = None

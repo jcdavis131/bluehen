@@ -259,6 +259,53 @@ def process_job(payload: dict) -> None:
         jobs.fail_job(job_id, workspace_id, str(exc))
 
 
+_AUTOTRAIN_LAST_CHECK: float = 0.0
+
+
+def _autotrain_tick(check_every_s: float = 900.0) -> None:
+    """Spec 0022 §3: the loop starts itself. When a site accumulates enough
+    NEW cataloged chunks since its last training job, enqueue a hill-climb.
+    Gates + charter still decide deployment; every trigger is ledger-logged."""
+    import os
+    import time as _time
+
+    global _AUTOTRAIN_LAST_CHECK
+    now = _time.time()
+    if now - _AUTOTRAIN_LAST_CHECK < check_every_s:
+        return
+    _AUTOTRAIN_LAST_CHECK = now
+
+    threshold = int(os.environ.get("SYNTH_AUTOTRAIN_THRESHOLD", "150"))
+    from sqlalchemy import func, select
+
+    from app.database import db_session
+    from app.models import CatalogDataset, TrainingJob, Workspace
+    from app.services.lifecycle import hill_climb
+
+    with db_session() as session:
+        workspaces = session.execute(
+            select(Workspace.id, Workspace.site_id).where(Workspace.site_id.isnot(None))
+        ).all()
+        for ws_id, site_id in workspaces:
+            last_job = session.scalar(
+                select(func.max(TrainingJob.created_at))
+                .where(TrainingJob.workspace_id == ws_id))
+            q = select(func.coalesce(func.sum(CatalogDataset.chunk_count), 0)).where(
+                CatalogDataset.tags.contains([site_id]))
+            if last_job is not None:
+                q = q.where(CatalogDataset.updated_at > last_job)
+            new_chunks = int(session.execute(q).scalar() or 0)
+            if new_chunks >= threshold:
+                log.info("AUTOTRAIN trigger site=%s new_chunks=%d >= %d",
+                         site_id, new_chunks, threshold)
+                try:
+                    out = hill_climb(ws_id, site_id, "corpus.jsonl",
+                                     {"traceId": f"autotrain-{site_id}"})
+                    log.info("autotrain enqueued: %s", out)
+                except Exception as exc:
+                    log.warning("autotrain enqueue failed site=%s: %s", site_id, exc)
+
+
 def run_forever(poll_seconds: float = 2.0) -> None:
     from app.config import ARTIFACTS_DIR, CHARTER_GATE_ENABLED, MODEL_REGISTRY_URI
 
@@ -319,6 +366,10 @@ def run_forever(poll_seconds: float = 2.0) -> None:
                 daily_tick()
             except Exception as exc:
                 log.warning("usage retention tick failed: %s", exc)
+            try:
+                _autotrain_tick()
+            except Exception as exc:
+                log.warning("autotrain tick failed: %s", exc)
             time.sleep(poll_seconds)
             continue
         try:

@@ -66,14 +66,14 @@
 
 ## Recently done
 
-- [x] ~~**INFRA-101** — Git-connect the three CLI-only Vercel projects (hub, finance-lab, training-console) so pushes auto-deploy~~
-- [x] ~~**UX-101** — CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration)~~
 - [x] ~~**UX-103** — arxiviq search hits have no snippet text or arxiv link (payload lacks text field)~~
 - [x] ~~**UX-110** — hq polish: dup 'Headquarters' titles, /ops aria-labels, SSR one-line health summary, observatory unblock CTA~~
 - [x] ~~**UX-111** — refinery catalog: seed an externally-legible sample dataset; label internal-ops entries~~
 - [x] ~~**WIRE-203** — usage_events retention: nightly rollup + purge past N days~~
 - [x] ~~**WIRE-204** — Dead-surface endpoints + dedupe: wire hq to /v1/admin/fleet + usage/entitlements views; extract shared requeue_stale helper (jobs/harvest/certify)~~
 - [x] ~~**FLY-001** — Aim the wiki at demand generation: topic pages become indexable evergreen articles (deterministic layer)~~
+- [x] ~~**EXH-001** — Unified Data Exhaust API (Spec 0022 A): POST /v1/exhaust, strict schema, consent-gated storage into datalab inbox~~
+- [x] ~~**EXH-002** — Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant~~
 
 ## Specs & context
 

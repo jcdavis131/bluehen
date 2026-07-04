@@ -1472,6 +1472,46 @@
       "lane": "cursor",
       "priority": "P2",
       "notes": "Makes the factory visible at every storefront. Registry-driven component (ui-fleet) reading /v1/catalog/stats + /v1/models via each site's BFF; honest empty states. Reinforces 'the loop produces while you watch'."
+    },
+    {
+      "id": "EXH-001",
+      "title": "Unified Data Exhaust API (Spec 0022 A): POST /v1/exhaust, strict schema, consent-gated storage into datalab inbox",
+      "status": "done",
+      "lane": "claude",
+      "claimedBy": "claude",
+      "priority": "P1",
+      "notes": "Shipped: one intake for all consumer surfaces incl. future SENTINEL; unconsented events counted+discarded; consented land as exhaust-<source>.jsonl (harvestable). Metered as 'exhaust'.",
+      "source": "Spec 0022 intelligence engine"
+    },
+    {
+      "id": "EXH-002",
+      "title": "Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant",
+      "status": "done",
+      "lane": "claude",
+      "claimedBy": "claude",
+      "priority": "P1",
+      "notes": "Shipped: worker checks per-site new cataloged chunks since last training job every 15min; >= SYNTH_AUTOTRAIN_THRESHOLD (150 default) auto-enqueues hill-climb; gates+charter unchanged; triggers logged.",
+      "source": "Spec 0022 intelligence engine"
+    },
+    {
+      "id": "EXH-003",
+      "title": "Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema",
+      "status": "ready",
+      "lane": "cursor",
+      "claimedBy": null,
+      "priority": "P1",
+      "notes": "Re-document existing intakes as exhaust specializations OR route through the unified endpoint via each BFF; consent copy unchanged. ACCEPT: exhaust events visible in /v1/admin/usage under 'exhaust'.",
+      "source": "Spec 0022 intelligence engine"
+    },
+    {
+      "id": "MON-009",
+      "title": "Developer surface (Spec 0022 C): bhenre.com/developers \u2014 tiered APIs, exhaust integration guide, certification API docs",
+      "status": "ready",
+      "lane": "cursor",
+      "claimedBy": null,
+      "priority": "P1",
+      "notes": "Packaging only: document metered API, /v1/certify contract, /v1/exhaust schema, dataset access; honest pending-gate labels on payment. No new backend.",
+      "source": "Spec 0022 intelligence engine"
     }
   ]
 }

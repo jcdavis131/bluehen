@@ -524,6 +524,28 @@ def entitlement_grant(body: GrantIn, _: Annotated[None, Depends(require_admin)])
     return entitlements.grant(_uuid.UUID(body.workspaceId), body.sku, granted_by="admin")
 
 
+class ExhaustIn(BaseModel):
+    source: str
+    kind: str
+    consent: bool = False
+    payload: dict | None = None
+
+
+@app.post("/v1/exhaust", status_code=201)
+def exhaust(body: ExhaustIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+            _rl: Annotated[None, Depends(rate_limit("exhaust", 120))] = None):
+    """Unified data-exhaust intake (Spec 0022): every consumer surface emits
+    through this one schema; consent gates storage, always."""
+    from app.services import exhaust as exhaust_svc
+
+    try:
+        return exhaust_svc.ingest(
+            tenant.workspace_id, body.source, body.kind, body.consent, body.payload
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
 @app.get("/v1/usage")
 def usage_view(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
     from app.services.usage import workspace_usage

@@ -307,7 +307,7 @@
     {
       "id": "refinery",
       "name": "Data Refinery",
-      "domain": "refinery-zeta.vercel.app",
+      "domain": "data.bhenre.com",
       "phase": "B",
       "role": "Data Operations business unit \u2014 provenance-carrying datasets, custom harvests, dataset prep (Spec 0018)",
       "orgDivision": "data",
@@ -337,7 +337,7 @@
       },
       "orgRole": "business-unit",
       "division": "data",
-      "notes": "Interim Vercel alias; swap domain to data.bhenre.com on Operator G1 approval"
+      "notes": "G1 cleared 2026-07-03: data.bhenre.com attached (Operator-approved)"
     }
   ]
 }

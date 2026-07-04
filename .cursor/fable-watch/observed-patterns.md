@@ -1209,3 +1209,48 @@
 - **Observed:** BD-702 shipped: eat(bd): BD-702 — commercial panel scorecard (5 models, one slice, one metric code). Scorecard at content/fleet/bd/scorecards/dumbmodel/ — five models, identical 32-pair slice, same script (aseline_retrieval_eval.py). Each exam row: model name, ndcg10, effectiveRank, provenance. Notes state comparative outcome honestly (bge leads ndcg; ours ties e5/gte with highest ER in that group).
 - **Why it works:** Public baseline proof requires **comparability** — same slice, same metric code, provenance labeled per model (prod vs local). The narrative in notes interprets ties and tradeoffs without cherry-picking one number. Extends P-218 from single cert to multi-model commercial panel on dumbmodel.
 - **Maps to:** refine validate-gate + close-the-loop — BD scorecards bundle panel results, provenance, and honest comparative notes in one artifact.
+
+### P-225 - Ablation holds the encoder constant to isolate the variable under test
+- **Observed:** RAG-502 ag_chunk_ablation.py: ablates chunk sizes (128/256/512) with **raw MiniLM held constant** — "the ablation isolates CHUNKING, so the encoder must be constant." Same prod metric code + hard-jaccard negatives per arm.
+- **Why it works:** Varying two knobs at once makes results uninterpretable. Fixing the encoder while sweeping chunk strategy isolates chunking effects. Protocol is documented per arm (chunk → pairs → embed → nDCG + ER). Results land in data/eval/chunk_ablation_results.json + EVIDENCE §3.11.
+- **Maps to:** refine validate-gate + follow-procedure — ablation scripts declare what's held constant and reuse prod metric code.
+
+### P-226 - EVIDENCE verdict: scoped conclusion, protocol caveat, explicit no-change-without-retest
+- **Observed:** EVIDENCE §3.11 verdict: smaller chunks win on this corpus **but** "part of the 128-token advantage is construction" (adjacent-chunk positives get easier as chunks shrink); 512 ER collapse is "protocol-independent and actionable"; "No default change without a query-grounded re-test."
+- **Why it works:** Narrative claims without caveats oversell ablations. Naming the confound (positive construction) and separating actionable signal (512 rank collapse) from scoped wins keeps prod defaults honest. The retest gate prevents knee-jerk config changes from one slice.
+- **Maps to:** refine validate-gate + document-non-action — EVIDENCE rows include scoped verdict, protocol caveat, and change gate.
+
+### P-227 - Loop tick runs cadence-due org maintenance before picking queue work
+- **Observed:** /loop continue tick: "refreshing the org's daily team reports (their cadence is due) and taking the pulse" → chore: daily org team runs — updates knowledge/teams/*.md, daily OKF reports, knowledge/log.md, datasets index.
+- **Why it works:** Hill-climb loops aren't only feature tasks — Spec 0014 agentic org teams have a daily cadence. The loop checks what's **due by schedule** (team reports) alongside deploy/gate pulse. Org hygiene ships as deterministic chores without waiting for a explicit queue ID.
+- **Maps to:** refine follow-procedure + progress-board — loop ticks include cadence-due org team report refresh.
+
+### P-228 - Daily org run commit separates deterministic duties from Operator-gated layer
+- **Observed:** Commit message: daily org team runs (deterministic duties; GLM layer awaits key) — team OKF reports and harvest listings land; GLM-powered layer explicitly deferred pending GLM_API_KEY.
+- **Why it works:** Same HALF SHIPPED pattern (P-211) applied to org ops: what ran without keys is committed; what's blocked names the gate. Prevents assuming the full agent-team stack is live when only deterministic scripts ran.
+- **Maps to:** refine document-non-action + lane-discipline — org-run commits label deterministic vs key-gated portions.
+
+### P-229 - LOOPBOT day-arc feed narrates shipped themes, not just task IDs
+- **Observed:** Lap close-out lists the full day's arc in prose: "5-model panel scorecard… hard-negative mining… chunk-ablation finding… certification queue's honest-failure proof… verified metering… daily team runs that turned the evidence ledger into a dataset."
+- **Why it works:** Extends P-220/P-213: LOOPBOT content reads as a **story of what moved**, linking tasks into one operator-visible arc. Task IDs live in git/queue; the feed answers "what did the org accomplish today?"
+- **Maps to:** refine progress-board + recap-on-long-session — LOOPBOT lap entries summarize thematic progress across multiple queue items.
+
+### P-230 - When queue drains to Operator gates, loop enters watch mode with explicit waiting-on-you card
+- **Observed:** "Status pills read the truth: queue drained to your gates, loop in watch mode. The 'waiting on you' card is unchanged — domain click, GLM key, Stripe key, Docker restart — and everything else the org could do alone today, it did."
+- **Why it works:** Autonomous loop knows when to stop picking work: only Operator-gated items remain. Watch mode + unchanged waiting card prevents fake progress. Naming all four gates (domain, GLM, Stripe, Docker) matches P-201 blocker polling. Operator message follows: ttach data.bhenre.com and set the GLM key.
+- **Maps to:** refine agent-guardrails + close-the-loop — drain queue to gates → watch mode → list Operator actions explicitly.
+
+### P-231 - Watch-mode loop ticks compress to pulse-only recon (no queue work)
+- **Observed:** After P-230 watch mode: user sends /loop continue → Loop tick — pulse: → 1 shell command, ~31s, no push. Operator message (ttach data.bhenre.com and set the GLM key) still pending. HEAD unchanged at prior commit.
+- **Why it works:** When the queue is drained to Operator gates, continuing the loop doesn't mean forcing fake tasks — a cheap pulse (blocker check, LOOPBOT refresh prep) keeps the cadence alive without churn. Distinguishes **watch-mode pulse** from **work-mode lap** (push + multi-shell).
+- **Maps to:** refine progress-board + session-orient — in watch mode, loop ticks are pulse-only until a gate clears or Operator acts.
+
+### P-232 - Domain-attach gate: recommended API path, manual dashboard fallback, hold option
+- **Observed:** Operator asked to attach data.bhenre.com. Fable 5 presents four options: (1) **Recommended** — agent runs one API call + fleet registry swap from efinery-zeta.vercel.app to data.bhenre.com; (2) operator adds domain in Vercel dashboard, agent swaps registry when done; (3) different subdomain; (4) hold — stays on vercel.app alias. Notes "DNS is already on Vercel so it's instant and reversible."
+- **Why it works:** Extends P-032/P-205 dual-unblock to domain ops: programmatic path is default, manual path for operators who prefer dashboard, hold preserves current state explicitly. Naming the registry consequence (leet.json swap everywhere) makes the attach more than a Vercel click — it's fleet-wide.
+- **Maps to:** refine agent-guardrails + use-available-integrations — Operator gates get numbered options with Recommended, manual fallback, and hold.
+
+### P-233 - Operator can request a structured unblock Q&A instead of one gate at a time
+- **Observed:** After watch-mode pulse, user: sk me a series of questions to help unblock you → Fable 5 enters extended thinking ("Puzzling…") to prepare questions. Prior single-gate menu (domain attach P-232) superseded by batch-unblock request.
+- **Why it works:** When multiple Operator gates stack (domain, GLM, Stripe, Docker — P-230), a question series clears them in one session instead of leaving menus unanswered. Operator explicitly opts into being polled; agent drives the sequence.
+- **Maps to:** refine agent-guardrails + progress-board — honor "ask me questions to unblock" with a structured gate-clearing interview.

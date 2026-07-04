@@ -3,7 +3,7 @@
 **Status:** Active (Operator build-out directive 2026-07-03)
 **Owner:** Claude (backend/data plane) · Cursor (site) · OpenCode (fixtures/tests)
 **Depends on:** datalab package (shipped), OKF v0.1 (shipped), Spec 0015 (venture fleet), migration chain ≤ 008
-**Operator gates:** G1 domain (`data.bhenre.com` suggested) · G2 S3/`MODEL_REGISTRY_URI`-style artifact creds (scale phase) · G3 consent/licensing copy legal review · G4 pricing for premium harvests
+**Operator gates:** ~~G1 domain~~ CLEARED 2026-07-03 · G2 S3/`MODEL_REGISTRY_URI`-style artifact creds (scale phase) · G3 consent/licensing copy legal review · G4 pricing for premium harvests
 
 ## 1. Why (venture thesis)
 

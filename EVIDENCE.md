@@ -455,6 +455,16 @@ un-contradicted; discriminating in-domain method tests on this corpus
 need a harder protocol (query-grounded eval, larger negative pools) —
 follow-up RT-404 queued.
 
+### 3.14 RECO-001 — corpus upload to charter-approved deploy, zero human steps — 2026-07-04
+
+Acceptance run on prod: POST /v1/corpus (40 real research docs, tenant
+key) -> collection ce2ce339 -> train job 7a8b277d -> completed
+asn-head-7296198 (ER 27.68) -> **gates=True** -> BD pilot queued ->
+**charter-approved deploy**. No human action after the single API call.
+Known gap (honest): index stage is site-scoped, so the siteless upload
+indexed 0 chunks — the deployed model serves, but the uploaded corpus
+is not yet the search substrate; fix folded into RECO-002.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

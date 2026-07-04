@@ -61,7 +61,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**UX-103** — arxiviq search hits have no snippet text or arxiv link (payload lacks text field)~~
 - [x] ~~**UX-110** — hq polish: dup 'Headquarters' titles, /ops aria-labels, SSR one-line health summary, observatory unblock CTA~~
 - [x] ~~**UX-111** — refinery catalog: seed an externally-legible sample dataset; label internal-ops entries~~
 - [x] ~~**WIRE-203** — usage_events retention: nightly rollup + purge past N days~~
@@ -69,6 +68,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**FLY-001** — Aim the wiki at demand generation: topic pages become indexable evergreen articles (deterministic layer)~~
 - [x] ~~**EXH-001** — Unified Data Exhaust API (Spec 0022 A): POST /v1/exhaust, strict schema, consent-gated storage into datalab inbox~~
 - [x] ~~**EXH-002** — Self-triggering loop (Spec 0022 B): volume-threshold auto hill-climb per tenant~~
+- [x] ~~**RECO-001** — Customer corpus upload: POST /v1/corpus (tenant) — JSONL/text upload becomes a collection and triggers the loop~~
 
 ## Specs & context
 

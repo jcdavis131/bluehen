@@ -1519,11 +1519,12 @@
     {
       "id": "RECO-001",
       "title": "Customer corpus upload: POST /v1/corpus (tenant) \u2014 JSONL/text upload becomes a collection and triggers the loop",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "THE out-of-the-box gap: today corpora are server-baked. HOW: tenant-keyed multipart or JSON-lines body (cap ~5MB v1) -> stored to DATALAB inbox + collection created (reuse data.ingest chunking) -> auto-enqueue hill-climb (existing machinery). ACCEPT: curl a small corpus -> trained gated model serving /v1/search for that tenant with zero human steps.",
-      "source": "Recommend Everything reframe 2026-07-04"
+      "notes": "SHIPPED + acceptance PROVEN in prod (EVIDENCE 3.14): upload->train->gates->charter deploy, zero human steps. Siteless-index gap folded into RECO-002.",
+      "source": "Recommend Everything reframe 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "RECO-002",
@@ -1531,7 +1532,7 @@
       "status": "ready",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Semantic surface for the market promise. HOW: given {itemId | text, k} -> embed via deployed model -> nearest chunks/items (existing pgvector search), response shaped as recommendations with scores + reasons (matched snippet). Alias semantics documented vs /v1/search. Metered as 'recommend'.",
+      "notes": "Semantic surface for the market promise. HOW: given {itemId | text, k} -> embed via deployed model -> nearest chunks/items (existing pgvector search), response shaped as recommendations with scores + reasons (matched snippet). Alias semantics documented vs /v1/search. Metered as 'recommend'. ALSO: collection-scoped indexing for uploaded corpora (siteless uploads currently index 0 chunks \u2014 EVIDENCE 3.14); /v1/recommend should serve from the tenant's latest deployed collection.",
       "source": "Recommend Everything reframe 2026-07-04"
     },
     {

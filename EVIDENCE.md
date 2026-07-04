@@ -425,6 +425,14 @@ hard-jaccard slice* — cross-slice nDCG comparisons to earlier models
 within-run gates and record rank are the valid signals. Rollback
 available (prior models retained undeployed).
 
+**Same-slice panel (hard negatives, 2026-07-04).** Re-measured the
+commercial panel on the identical hard-jaccard slice the deployed barlow
+model was graded on: **ours 0.8847 / ER 28.06** vs bge-small 0.827 /
+24.68 · raw MiniLM 0.8501 / 27.76 · e5-small-v2 0.8385 / 20.21 ·
+gte-small 0.827 / 21.08. On confusable negatives the domain-tuned model
+leads the entire panel (+0.035 over its own backbone, +0.058 over
+bge-small) — the hard case is where tuning pays.
+
 **Verdicts.** (1) Every trained method beats the entire zero-shot SOTA
 panel in-domain — the venture thesis (domain tuning > off-the-shelf) holds
 on real text, +0.052 for barlow over the best zero-shot. (2) **Barlow

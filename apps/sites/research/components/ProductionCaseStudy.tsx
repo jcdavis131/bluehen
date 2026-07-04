@@ -15,11 +15,15 @@ type ModelRow = {
   quant: string | null;
 };
 
-// Measured locally on the same 200-pair prod collection with the same
-// metric code as the prod eval (scripts/baseline_retrieval_eval.py).
+// Measured locally on the same 200-pair HARD-NEGATIVE prod collection
+// (hard-jaccard mining) with the same metric code as the prod eval
+// (scripts/baseline_retrieval_eval.py) — same slice as the deployed
+// model's number, so the rows are directly comparable.
 const BASELINES = [
-  { model: "BAAI/bge-small-en-v1.5", ndcg10: 0.9193, effectiveRank: 22.83 },
-  { model: "all-MiniLM-L6-v2 (raw)", ndcg10: 0.8847, effectiveRank: 25.97 },
+  { model: "BAAI/bge-small-en-v1.5", ndcg10: 0.827, effectiveRank: 24.68 },
+  { model: "all-MiniLM-L6-v2 (raw)", ndcg10: 0.8501, effectiveRank: 27.76 },
+  { model: "intfloat/e5-small-v2", ndcg10: 0.8385, effectiveRank: 20.21 },
+  { model: "thenlper/gte-small", ndcg10: 0.827, effectiveRank: 21.08 },
 ];
 
 export async function ProductionCaseStudy() {
@@ -71,7 +75,7 @@ export async function ProductionCaseStudy() {
                   <td>{b.model}</td>
                   <td>{b.ndcg10}</td>
                   <td>{b.effectiveRank}</td>
-                  <td>local, same pairs + metric code</td>
+                  <td>local, same hard-negative slice + metric code</td>
                 </tr>
               ))}
             </tbody>

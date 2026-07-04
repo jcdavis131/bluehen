@@ -2,29 +2,29 @@
   {
     "model": "BAAI/bge-small-en-v1.5",
     "pairsEvaluated": 32,
-    "ndcg10": 0.9193,
-    "effectiveRank": 22.83,
+    "ndcg10": 0.827,
+    "effectiveRank": 24.68,
     "dims": 384
   },
   {
     "model": "sentence-transformers/all-MiniLM-L6-v2",
     "pairsEvaluated": 32,
-    "ndcg10": 0.8847,
-    "effectiveRank": 25.97,
+    "ndcg10": 0.8501,
+    "effectiveRank": 27.76,
     "dims": 384
   },
   {
     "model": "intfloat/e5-small-v2",
     "pairsEvaluated": 32,
-    "ndcg10": 0.9077,
-    "effectiveRank": 18.85,
+    "ndcg10": 0.8385,
+    "effectiveRank": 20.21,
     "dims": 384
   },
   {
     "model": "thenlper/gte-small",
     "pairsEvaluated": 32,
-    "ndcg10": 0.9077,
-    "effectiveRank": 19.63,
+    "ndcg10": 0.827,
+    "effectiveRank": 21.08,
     "dims": 384
   }
 ]

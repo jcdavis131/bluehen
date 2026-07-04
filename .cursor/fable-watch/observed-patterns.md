@@ -1365,3 +1365,8 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** Final monitor ended → "RT-401 complete — the full real-text verdict is in. Writing EVIDENCE and closing:" → 974970f esearch: RT-401 real-text bake-off — barlow wins, all trained beat zero-shot SOTA (EVIDENCE 3.12) — updates EVIDENCE.md, work_queue, methods.jsonl, TASKS.md (~1m).
 - **Why it works:** Closes the arc from P-246/P-247: the job that started when Docker cleared finishes with **verdict → EVIDENCE section → queue status → push** in one lap. Commit message carries task ID, headline result, and EVIDENCE anchor (§3.12). Operator's pending "run loopbot with RT-401 results" can now consume this artifact.
 - **Maps to:** refine close-the-loop + validate-gate — eval monitor completion triggers EVIDENCE write + queue close-out + push in one chain.
+
+### P-256 - Bake-off winner chains to prod deploy monitor (gates + charter verification)
+- **Observed:** After RT-401 barlow win: Monitor "Barlow retrain through gates and charter" ended → "Gates passed — verifying the charter deploy and the new model's measured numbers" → c35344 RT-403 barlow serving in prod (ER 28.06 record, gated, slice-caveat recorded).
+- **Why it works:** Research verdict (P-255) isn't the end — the winning recipe gets a **named deploy monitor** covering eval gates AND charter (org deploy rules). Close-out verifies measured numbers on the serving model, not just training metrics. Slice-caveat in commit preserves RT-401 protocol honesty (P-226) at promotion time.
+- **Maps to:** refine validate-gate + post-deploy-smoke — bake-off winner → retrain monitor (gates + charter) → prod verify with caveats recorded.

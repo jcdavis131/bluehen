@@ -524,6 +524,37 @@ def entitlement_grant(body: GrantIn, _: Annotated[None, Depends(require_admin)])
     return entitlements.grant(_uuid.UUID(body.workspaceId), body.sku, granted_by="admin")
 
 
+class CorpusDoc(BaseModel):
+    id: str | None = None
+    title: str | None = None
+    text: str
+    metadata: dict | None = None
+
+
+class CorpusUploadIn(BaseModel):
+    name: str
+    documents: list[CorpusDoc]
+    train: bool = True
+
+
+@app.post("/v1/corpus", status_code=201)
+def upload_corpus(body: CorpusUploadIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                  _rl: Annotated[None, Depends(rate_limit("corpus", 6))] = None):
+    """Out-of-the-box entry point (RECO-001): documents in, gated
+    recommender out — the loop handles train/eval/deploy from here."""
+    from app.services import corpus_upload
+
+    try:
+        return corpus_upload.upload_and_train(
+            tenant.workspace_id, body.name,
+            [d.model_dump() for d in body.documents], body.train,
+        )
+    except ValueError as e:
+        detail = str(e)
+        raise HTTPException(status_code=409 if "ceiling" in detail else 400,
+                            detail=detail) from e
+
+
 class ExhaustIn(BaseModel):
     source: str
     kind: str

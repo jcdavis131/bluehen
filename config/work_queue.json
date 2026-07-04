@@ -1408,11 +1408,13 @@
     {
       "id": "UX-111",
       "title": "refinery catalog: seed an externally-legible sample dataset; label internal-ops entries",
-      "status": "ready",
+      "status": "in_progress",
       "lane": "claude",
       "priority": "P2",
       "notes": "Current entries read as internal jargon. Harvest a public, customer-shaped source (e.g., a docs site) + add an 'internal' tag rendered as a badge.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-04T16:23:44.317373+00:00"
     },
     {
       "id": "UX-112",

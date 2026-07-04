@@ -57,7 +57,12 @@ export default async function CatalogPage({
             <p className="bh-meta">
               {d.docCount} docs · {d.chunkCount} chunks ·{" "}
               {new Date(d.createdAt).toUTCString().slice(0, 16)}
-              {d.tags.length > 0 && <> · {d.tags.join(" · ")}</>}
+              {d.tags.filter((t) => t !== "internal").length > 0 && (
+                <> · {d.tags.filter((t) => t !== "internal").join(" · ")}</>
+              )}
+              {d.tags.includes("internal") && (
+                <span className="bh-badge" style={{ marginLeft: 8 }}>internal ops</span>
+              )}
             </p>
           </Link>
         ))}

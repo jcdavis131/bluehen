@@ -1450,3 +1450,8 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** WIRE-203 v2 tick: design narrated before shell — "archive-then-purge in one transaction (rows older than 45 days aggregate into usage_daily and are deleted atomically — idempotent, no double-count, and the 31-day tenant view always reads raw)."
 - **Why it works:** Usage/billing retention is easy to get wrong (double-count, partial purge, stale tenant view). Stating **transaction boundary**, **idempotency**, **aggregation target**, and **read path** before coding makes review and rollback obvious. Extends P-211 monetization half-shipped discipline to ops wiring.
 - **Maps to:** refine follow-procedure + policy-as-config — retention jobs: document invariants (atomic, idempotent, read path) before first migration/script edit.
+
+### P-273 - Loop continuation names protocol v2 (SENSE/EXECUTE/CLOSE) + parallel small-model delegate
+- **Observed:** /loop continue the hill-climb: execute the UX/WIRE study slate one task at a time — protocol v2 (SENSE/EXECUTE/CLOSE, delegate to small models in parallel) → v2 tick executes WIRE-203 with design-first retention (P-272) → 740f9e pushed (~2m).
+- **Why it works:** Extends P-189 (goal in continuation prompt): names **which slate** (UX/WIRE study), **cadence** (one task), **protocol phase model** (SENSE/EXECUTE/CLOSE), and **delegation policy** (small models in parallel). The loop agent knows to sense before execute and close after, not just pick the next queue ID.
+- **Maps to:** refine progress-board + sme-fanout — v2 loop prompt carries slate + SENSE/EXECUTE/CLOSE + parallel delegate policy.

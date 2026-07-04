@@ -92,6 +92,22 @@
         "consented"
       ],
       "intervalMinutes": 720
+    },
+    {
+      "id": "python-docs-tutorial",
+      "name": "Python 3 tutorial \u2014 official documentation excerpts (PSF license)",
+      "urls": [
+        "https://docs.python.org/3/tutorial/introduction.html",
+        "https://docs.python.org/3/tutorial/controlflow.html",
+        "https://docs.python.org/3/tutorial/datastructures.html",
+        "https://docs.python.org/3/tutorial/errors.html"
+      ],
+      "tags": [
+        "sample",
+        "documentation",
+        "external"
+      ],
+      "intervalMinutes": 10080
     }
   ]
 }

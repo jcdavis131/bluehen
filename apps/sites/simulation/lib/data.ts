@@ -5,7 +5,8 @@ import path from "node:path";
  * Returns null when the file/dir isn't bundled into this deploy. */
 export function resolveRepoPath(rel: string): string | null {
   const candidates = [
-    path.resolve(process.cwd(), "..", "..", rel), // cwd = apps/sites/simulation -> repo root
+    path.resolve(process.cwd(), "..", "..", "..", rel), // cwd = apps/sites/simulation -> repo root
+    path.resolve(process.cwd(), "..", "..", rel), // cwd two levels deep (Vercel variants)
     path.resolve(process.cwd(), rel), // cwd = repo root
   ];
   for (const p of candidates) {

@@ -22,7 +22,7 @@ def _active_contract(workspace_id: uuid.UUID) -> dict | None:
 
 def _filtered_text_search(workspace_id: uuid.UUID, query_text: str, k: int,
                           fsql: str, fparams: dict) -> dict:
-    from app.services.embedding import embed_texts
+    from app.services.models_svc import embed_texts
 
     q = embed_texts(workspace_id, [query_text], truncate=False)["vectors"][0]
     vec = "[" + ",".join(str(x) for x in q) + "]"

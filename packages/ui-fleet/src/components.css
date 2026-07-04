@@ -337,6 +337,12 @@
   margin: 0 auto;
 }
 
+.fleet-footer__roundel {
+  display: block;
+  margin-bottom: var(--bh-space-3);
+  color: var(--bh-accent);
+}
+
 .fleet-footer__title {
   display: block;
   font-family: var(--bh-font-mono);

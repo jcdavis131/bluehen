@@ -5,14 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getSite, getSiteCircuit, getSiteNav, listSites, RE, BRAND } from "@synthaembed/fleet";
 import { fleetNavSites, siteHref } from "./urls";
-import { HenMark, ConeMark } from "./mascots";
-
-/** Per-site logo glyph: every surface carries the Blue Hen corporate mark in
- * its own accent, except dumbmodel whose identity is the cone. The mark
- * inherits --bh-accent through currentColor so it re-tints per shell. */
-const SITE_MARK_GLYPH: Record<string, "hen" | "cone"> = {
-  dumbmodel: "cone",
-};
+import { Roundel, SiteEmblem } from "./marks";
 
 /** Runs during HTML parse, before first paint: stamps the stored theme on
  * <html> so tokens.css resolves the right palette immediately. With no
@@ -127,7 +120,7 @@ export function FleetShell({
       <header className="fleet-header">
         <Link href="/" className="fleet-brand" onClick={closeAll} aria-label={`${surface?.stop ?? site?.name ?? siteId} home`}>
           <span className="fleet-brand__mark" aria-hidden="true">
-            {SITE_MARK_GLYPH[siteId] === "cone" ? <ConeMark size={22} /> : <HenMark size={22} />}
+            <SiteEmblem siteId={siteId} size={22} />
           </span>
           <span>{surface?.stop ?? site?.name ?? siteId}</span>
           {site?.domain && <span className="fleet-brand__domain">{site.domain}</span>}
@@ -213,6 +206,9 @@ export function FleetShell({
       <footer className="fleet-footer fleet-footer--org">
         <div className="fleet-footer__grid">
           <div>
+            <span className="fleet-footer__roundel">
+              <Roundel siteId={siteId} title={surface?.stop ?? site?.name ?? siteId} size={104} />
+            </span>
             <span className="fleet-footer__title">{BRAND.name}</span>
             <p className="fleet-footer__note">
               {RE.dual}. One organization operating a governed embedding

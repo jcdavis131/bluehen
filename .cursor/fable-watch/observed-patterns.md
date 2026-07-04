@@ -1425,3 +1425,8 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** After RT-402 close-out: Agent "UX study: product sites" finished · 3m 43s while a second agent greps slasso pages for CTA links (4m+). Foreground runs shell command (~11s).
 - **Why it works:** Fleet site quality work fans out to UX-named subagents (product sites scope) parallel to narrow audits (slasso CTAs). Keeps research lane (RT-402) separate from site UX without blocking the parent loop. Elapsed time on completion (P-190).
 - **Maps to:** refine sme-fanout + use-design-system — product-site UX review as a labeled background subagent between research laps.
+
+### P-268 - UX audit: apply one-line wiring fixes inline; file the rest as consolidated tasks
+- **Observed:** UX subagent close-out: "All six home. Integrating — first the three one-line wiring fixes (cheaper to fix than to file), then the consolidated task list" → c856fc4 15 tasks filed, 3 wiring fixes applied inline from ~40 findings (~8m 45s).
+- **Why it works:** Triage rule: fixes cheaper than queue overhead ship immediately; only non-trivial findings become tasks. ~40 findings → 15 tasks avoids queue spam while preserving traceability. Extends P-237 (Cursor offload) — filed tasks can land on Cursor lane.
+- **Maps to:** refine lane-discipline + progress-board — UX audit: inline trivial fixes; consolidate remainder into numbered queue tasks.

@@ -22,7 +22,10 @@ export function CountUpStat({
 }) {
   const format = (v: number) => `${prefix}${v.toFixed(digits)}${suffix}`;
   const ref = useRef<HTMLSpanElement>(null);
-  const [display, setDisplay] = useState<number | null>(null);
+  // SSR/no-JS shows the REAL value (UX-101: '0 active/$0' pre-hydration was
+  // the org's worst first impression); the count-up is progressive polish.
+  const [display, setDisplay] = useState<number>(value);
+  const animated = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -37,13 +40,15 @@ export function CountUpStat({
     }
     let raf = 0;
     const observer = new IntersectionObserver((entries) => {
-      if (!entries[0].isIntersecting) return;
+      if (!entries[0].isIntersecting || animated.current) return;
+      animated.current = true;
       observer.disconnect();
       const start = performance.now();
+      const from = value * 0.6; // never dip to 0 after SSR showed the truth
       const tick = (now: number) => {
         const t = Math.min(1, (now - start) / durationMs);
         const eased = 1 - Math.pow(1 - t, 3);
-        setDisplay(value * eased);
+        setDisplay(from + (value - from) * eased);
         if (t < 1) raf = requestAnimationFrame(tick);
       };
       raf = requestAnimationFrame(tick);
@@ -57,7 +62,7 @@ export function CountUpStat({
 
   return (
     <span ref={ref} className={className}>
-      {display === null ? format(0) : format(display)}
+      {format(display)}
     </span>
   );
 }

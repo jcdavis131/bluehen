@@ -32,15 +32,15 @@
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
 - [ ] **RT-404** — Harder in-domain method eval: query-grounded pairs + larger negative pools on research corpus (None)
-- [ ] **UX-101** — CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration) (None)
 - [ ] **UX-102** — bhenre homepage: demote raw ledger/gate-failure internals below CTAs; one calm status line up top (None)
-- [ ] **UX-103** — arxiviq search hits have no snippet text or arxiv link (payload lacks text field) (None)
 - [ ] **UX-104** — arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section (None)
 - [ ] **UX-105** — dumbmodel /check result: add 'Get this certified' -> slasso.com/certify CTA (prove->certify handoff) (None)
 - [ ] **UX-106** — slasso: surface the automated certification (API section on /certify) + pricing/turnaround (None)
 - [ ] **UX-107** — refinery: remove dangling 'Buy full corpus' reference; strip raw hash IDs from samples; render OKF card via Markdown component (None)
 - [ ] **UX-108** — Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box (None)
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
+- [ ] **UX-110** — hq polish: dup 'Headquarters' titles, /ops aria-labels, SSR one-line health summary, observatory unblock CTA (None)
+- [ ] **UX-111** — refinery catalog: seed an externally-legible sample dataset; label internal-ops entries (None)
 
 ## In progress
 
@@ -66,14 +66,14 @@
 
 ## Recently done
 
-- [x] ~~**SITE-015** — BU team strips on all five business-unit homepages: division, offer, live proof metric (Spec 0019)~~
-- [x] ~~**HQ-OPS-1** — hq: refinery division console (sources health, tick-now, submission review) — admin-keyed, internal~~
 - [x] ~~**AR-310** — Re-measure champion under fixed-seed repeats (5x) — is baseline 1.465 reproducible?~~
 - [x] ~~**DR-108** — Wiki Refinery deterministic layer (Spec 0020)~~
 - [x] ~~**DR-109** — Wiki Refinery GLM refinement pass (Spec 0020)~~
 - [x] ~~**KIT-003** — Kit sample corpora — content/kits/* JSONL seeded for all three personas (Spec 0022)~~
 - [x] ~~**RT-403** — Promote barlow loss into prod DEFAULT_RECIPE behind tenant-corpus eval gates~~
 - [x] ~~**INFRA-101** — Git-connect the three CLI-only Vercel projects (hub, finance-lab, training-console) so pushes auto-deploy~~
+- [x] ~~**UX-101** — CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration)~~
+- [x] ~~**UX-103** — arxiviq search hits have no snippet text or arxiv link (payload lacks text field)~~
 
 ## Specs & context
 

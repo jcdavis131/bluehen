@@ -21,7 +21,14 @@ export function SearchHitList({
         return (
           <article key={hit.id} className="bh-hit">
             <div className="bh-hit__title">
-              #{i + 1} · {title}
+              #{i + 1} ·{" "}
+              {hit.payload?.url ? (
+                <a href={String(hit.payload.url)} target="_blank" rel="noopener noreferrer">
+                  {title} ↗
+                </a>
+              ) : (
+                title
+              )}
               <span className="bh-hit__score">{(hit.score * 100).toFixed(1)}%</span>
             </div>
             <div className="bh-hit__body">

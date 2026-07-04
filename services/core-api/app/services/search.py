@@ -35,6 +35,17 @@ def _cosine(a: list[float], b: list[float]) -> float:
     return dot / (na * nb)
 
 
+def _enrich_payload(payload: dict | None, text: str | None) -> dict:
+    """UX-103: hits must be judgeable — snippet + outbound link, always."""
+    p = dict(payload or {})
+    if text and not p.get("text"):
+        p["text"] = text[:280]
+    doc = str(p.get("docId") or p.get("id") or "")
+    if doc.startswith("arxiv:") and "url" not in p:
+        p["url"] = f"https://arxiv.org/abs/{doc.split(':', 1)[1].split('#')[0]}"
+    return p
+
+
 def search_chunks(
     workspace_id: uuid.UUID,
     query: str,
@@ -69,7 +80,7 @@ def search_chunks(
             {
                 "id": r["chunk_id"],
                 "score": float(r["score"]),
-                "payload": r["payload"] or {"text": r["text"]},
+                "payload": _enrich_payload(r["payload"], r["text"]),
             }
             for r in rows
         ]
@@ -108,7 +119,7 @@ def search_chunks(
                     "id": r["chunk_id"],
                     "score": _cosine(q_tier, doc_tier),
                     "fullScore": float(r["full_score"]),
-                    "payload": r["payload"] or {"text": r["text"]},
+                    "payload": _enrich_payload(r["payload"], r["text"]),
                 }
             )
 

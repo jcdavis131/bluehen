@@ -1315,11 +1315,12 @@
     {
       "id": "UX-101",
       "title": "CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "SHARED FIX clears 2 sites: packages/ui-fleet/src/CountUpStat.tsx should render the final value in SSR markup and only animate client-side from a lower bound. ACCEPT: curl bhenre.com and data.bhenre.com show real numbers in raw HTML.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "notes": "CountUpStat SSR renders real value; animates 60%->100% on intersect, never dips to 0. Clears bhenre + refinery pre-hydration zeros on their next builds.",
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "UX-102",
@@ -1333,11 +1334,12 @@
     {
       "id": "UX-103",
       "title": "arxiviq search hits have no snippet text or arxiv link (payload lacks text field)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Backend: services/core-api/app/services/indexing.py \u2014 include a truncated chunk text + arxiv URL in the pgvector payload at index time; reindex research via admin deploy. Frontend: SearchHitList renders snippet + outbound link. ACCEPT: /api/search rows carry text; hits judgeable.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "notes": "No reindex needed: search enriches every hit payload with text snippet (280c) + arxiv.org URL from the stored text column; SearchHitList links titles out. Verify live post-deploy.",
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "UX-104",

@@ -1529,11 +1529,12 @@
     {
       "id": "RECO-002",
       "title": "Recommendations API: /v1/recommend \u2014 item-to-item + text-to-item over the deployed model",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Semantic surface for the market promise. HOW: given {itemId | text, k} -> embed via deployed model -> nearest chunks/items (existing pgvector search), response shaped as recommendations with scores + reasons (matched snippet). Alias semantics documented vs /v1/search. Metered as 'recommend'. ALSO: collection-scoped indexing for uploaded corpora (siteless uploads currently index 0 chunks \u2014 EVIDENCE 3.14); /v1/recommend should serve from the tenant's latest deployed collection.",
-      "source": "Recommend Everything reframe 2026-07-04"
+      "notes": "SHIPPED + live-verified both modes (text: champion model w/ reasons; item: chained top-hit anchor). Live probe caught version-pinning bug -> fixed same tick (deployed-model join + fallback). Uploaded-corpus serving handled by the RECO-001 policy guard: dedicated tenants auto-deploy+index; site workspaces need explicit deploy.",
+      "source": "Recommend Everything reframe 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "RECO-003",

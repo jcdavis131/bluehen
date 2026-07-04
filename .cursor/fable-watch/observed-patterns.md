@@ -1415,3 +1415,13 @@ ode scripts/db-migrate.mjs | tail -3.
 - **Observed:** RT-402 subagent close-out: "Sonnet delivered to spec (smoke row in 32s, default path untouched). Reviewing the diff footprint, committing, launching the full run detached:" → push → Monitor(RT-402 full run completion or crash) (3500s).
 - **Why it works:** Three gates before the long job: (1) smoke produces one valid row quickly, (2) existing code paths unchanged, (3) diff footprint reviewed. Only then commit + **detached** full run + monitor (P-250). Prevents a 3500s bake on a broken script.
 - **Maps to:** refine validate-gate + sme-fanout — subagent script handoff requires smoke row + default-path unchanged before detached full run.
+
+### P-266 - Saturated bake-off verdict: no method winner, ceiling stated, harder protocol queued
+- **Observed:** RT-402 close-out: esearch-corpus bake-off saturated the instrument (EVIDENCE 3.13) — in-domain all methods 0.926–0.935 (ceiling ≈0.935); "No method verdict is claimable from the in-domain slice." OOD AG News barlow direction matches RT-401; follow-up **RT-404** queued for harder protocol.
+- **Why it works:** Extends P-226 (scoped verdict + no default change): when the eval **instrument** saturates, EVIDENCE says so explicitly — names ceiling, refuses a winner, cites OOD as supplementary only, queues protocol fix. Prevents false "RT-402 picked X" narratives.
+- **Maps to:** refine validate-gate + document-non-action — saturated bake-off → EVIDENCE states ceiling + no verdict + follow-up task ID.
+
+### P-267 - Product-site UX study as a named background subagent
+- **Observed:** After RT-402 close-out: Agent "UX study: product sites" finished · 3m 43s while a second agent greps slasso pages for CTA links (4m+). Foreground runs shell command (~11s).
+- **Why it works:** Fleet site quality work fans out to UX-named subagents (product sites scope) parallel to narrow audits (slasso CTAs). Keeps research lane (RT-402) separate from site UX without blocking the parent loop. Elapsed time on completion (P-190).
+- **Maps to:** refine sme-fanout + use-design-system — product-site UX review as a labeled background subagent between research laps.

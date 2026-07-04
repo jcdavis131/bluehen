@@ -5,7 +5,7 @@ import { getSiteCircuit } from "@synthaembed/fleet";
 export const revalidate = 60;
 export const metadata = { title: "Wiki" };
 
-const API = process.env.SYNTH_API_BASE_URL ?? "https://api-production-3dea.up.railway.app";
+const API = process.env.SYNTH_API_BASE_URL ?? "http://localhost:8000";
 
 const KIND_LABELS: Record<string, string> = {
   index: "Indexes",

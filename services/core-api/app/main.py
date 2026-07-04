@@ -549,7 +549,14 @@ def wiki_rebuild(_: Annotated[None, Depends(require_admin)]):
 def catalog_sync(_: Annotated[None, Depends(require_admin)]):
     from app.services import catalog
 
-    return catalog.sync_from_datalab()
+    out = catalog.sync_from_datalab()
+    try:
+        from app.services.wiki import rebuild_wiki
+
+        out["wiki"] = rebuild_wiki()
+    except Exception as exc:  # keep sync usable even if wiki fails
+        out["wiki"] = f"rebuild failed: {exc}"
+    return out
 
 
 EMBED_MAX_INPUTS = 64

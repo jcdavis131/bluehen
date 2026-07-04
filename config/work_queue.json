@@ -1311,6 +1311,141 @@
       "lane": "claude",
       "priority": "P2",
       "notes": "SLATE. RT-402 saturated at ~0.935 with 1-vs-1 pos/neg ranking. HOW: rank positive among K=16 hard negatives (retrieval_scores over a pool), and/or use real user-style queries (title->abstract pairs from arXiv metadata). ACCEPT: method separation >2x seed\u566a\u58f0 or an honest null. LANE: sonnet-delegable with this note."
+    },
+    {
+      "id": "UX-101",
+      "title": "CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "SHARED FIX clears 2 sites: packages/ui-fleet/src/CountUpStat.tsx should render the final value in SSR markup and only animate client-side from a lower bound. ACCEPT: curl bhenre.com and data.bhenre.com show real numbers in raw HTML.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-102",
+      "title": "bhenre homepage: demote raw ledger/gate-failure internals below CTAs; one calm status line up top",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "notes": "First-10s impression currently includes gates=False + 'no deployed model yet'. Reorder: hero -> org grid -> quick paths -> ops telemetry last; add single status line ('N tenants live \u00b7 model asn-head-4000090 serving'). Keep honest-data principle \u2014 demote, don't hide.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-103",
+      "title": "arxiviq search hits have no snippet text or arxiv link (payload lacks text field)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Backend: services/core-api/app/services/indexing.py \u2014 include a truncated chunk text + arxiv URL in the pgvector payload at index time; reindex research via admin deploy. Frontend: SearchHitList renders snippet + outbound link. ACCEPT: /api/search rows carry text; hits judgeable.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-104",
+      "title": "arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "notes": "First-time visitors currently meet an internal benchmark dashboard. Single query box + results above the fold; TierComparePanel + exam below with an 'engineering deep dive' heading.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-105",
+      "title": "dumbmodel /check result: add 'Get this certified' -> slasso.com/certify CTA (prove->certify handoff)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "notes": "Highest-intent moment currently routes only to bhenre store. Add secondary CTA on result card, pass erank/util as query params for prefill. Also add Get Certified to dumbmodel nav.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-106",
+      "title": "slasso: surface the automated certification (API section on /certify) + pricing/turnaround",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "notes": "POST /v1/certify exists and is invisible. Add 'Integrate directly' block w/ the texts->vectors contract + 'results in minutes'; surface tier pricing near the submit button (price value = Operator gate; use 'from $X' placeholder pending).",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-107",
+      "title": "refinery: remove dangling 'Buy full corpus' reference; strip raw hash IDs from samples; render OKF card via Markdown component",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "notes": "commerceReady:false makes /requests copy a dead end. Until checkout ships: reference 'request access' only. Dataset page: use ui-fleet Markdown for card + raw toggle; hide internal chunk IDs.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-108",
+      "title": "Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "Link citations to GitHub blob URLs; 2-3 sentence business summary before the methods jargon.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-109",
+      "title": "Legal pages say 'Template pending counsel review'",
+      "status": "ready",
+      "lane": "operator",
+      "priority": "P2",
+      "notes": "Finish counsel review or soften wording \u2014 procurement blocker on the company site.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-110",
+      "title": "hq polish: dup 'Headquarters' titles, /ops aria-labels, SSR one-line health summary, observatory unblock CTA",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Four small fixes in apps/hq + observatory empty state.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-111",
+      "title": "refinery catalog: seed an externally-legible sample dataset; label internal-ops entries",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Current entries read as internal jargon. Harvest a public, customer-shaped source (e.g., a docs site) + add an 'internal' tag rendered as a badge.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "UX-112",
+      "title": "Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "WIRE-203",
+      "title": "usage_events retention: nightly rollup + purge past N days",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Unbounded growth flagged. Add worker daily tick: aggregate into usage_daily (new table) then delete raw rows >45d. Keep Stripe-reconciliation watermark semantics.",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "WIRE-204",
+      "title": "Dead-surface endpoints + dedupe: wire hq to /v1/admin/fleet + usage/entitlements views; extract shared requeue_stale helper (jobs/harvest/certify)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P3",
+      "notes": "",
+      "source": "UX+backend deep-dive study 2026-07-04"
+    },
+    {
+      "id": "WIRE-205",
+      "title": "hq /ops: age alert for refinery submissions stuck pending",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P3",
+      "notes": "Surface pending >48h with a highlighted row.",
+      "source": "UX+backend deep-dive study 2026-07-04"
     }
   ]
 }

@@ -32,6 +32,15 @@
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
 - [ ] **RT-404** — Harder in-domain method eval: query-grounded pairs + larger negative pools on research corpus (None)
+- [ ] **UX-101** — CountUpStat SSR-zero: server-render real values (bhenre + refinery show '0 active/$0' pre-hydration) (None)
+- [ ] **UX-102** — bhenre homepage: demote raw ledger/gate-failure internals below CTAs; one calm status line up top (None)
+- [ ] **UX-103** — arxiviq search hits have no snippet text or arxiv link (payload lacks text field) (None)
+- [ ] **UX-104** — arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section (None)
+- [ ] **UX-105** — dumbmodel /check result: add 'Get this certified' -> slasso.com/certify CTA (prove->certify handoff) (None)
+- [ ] **UX-106** — slasso: surface the automated certification (API section on /certify) + pricing/turnaround (None)
+- [ ] **UX-107** — refinery: remove dangling 'Buy full corpus' reference; strip raw hash IDs from samples; render OKF card via Markdown component (None)
+- [ ] **UX-108** — Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box (None)
+- [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
 
 ## In progress
 

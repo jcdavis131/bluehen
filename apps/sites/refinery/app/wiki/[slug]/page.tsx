@@ -5,7 +5,7 @@ import { getSiteCircuit } from "@synthaembed/fleet";
 
 export const revalidate = 60;
 
-const API = process.env.SYNTH_API_BASE_URL ?? "https://api-production-3dea.up.railway.app";
+const API = process.env.SYNTH_API_BASE_URL ?? "http://localhost:8000";
 
 export default async function WikiPage({
   params,

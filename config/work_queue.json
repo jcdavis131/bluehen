@@ -1638,11 +1638,12 @@
     {
       "id": "PMF-001",
       "title": "Define ICP hypotheses v1: three candidate segments with pain, willingness-to-pay, reachability",
-      "status": "ready",
+      "status": "review",
       "lane": "operator+claude",
       "priority": "P1",
-      "notes": "Candidates to evaluate (from strategy call): (a) real-estate brokerages/teams (anchor synergy, dense data), (b) e-commerce SMBs needing 'similar items/customers also' without a data team, (c) SaaS docs/support teams (search+deflection). Claude drafts docs/PMF_ICP.md scoring each on pain intensity, budget authority, data readiness, reach; Operator picks the primary. ACCEPT: one primary + one secondary ICP named, with the disqualifiers written down.",
-      "source": "BD/PMF series 2026-07-04"
+      "notes": "Draft at docs/PMF_ICP.md: A=real estate (primary rec, warm reach + anchor synergy), C=SaaS docs (secondary, we ARE the demo), B=e-commerce parked. Interview quota 7A/3C. AWAITING OPERATOR: confirm or override the primary.",
+      "source": "BD/PMF series 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "PMF-002",

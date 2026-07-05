@@ -47,13 +47,36 @@ def job_status(workspace_id: uuid.UUID, job_id: str) -> dict:
         )
         if job is None:
             raise ValueError("job not found")
-        return {
+        out = {
             "jobId": str(job.id),
             "status": job.status,
             "modelVersion": job.model_version,
             "effectiveRank": job.effective_rank,
             "error": job.error,
+            "gates": None,
+            "deploy": None,
         }
+        # Spec 0027: the Launchpad stage rail needs the honest verdict.
+        # Gates/deploy land in the ledger after training completes.
+        if job.model_version:
+            from app.models import LedgerEntry
+
+            rows = session.scalars(
+                select(LedgerEntry)
+                .where(LedgerEntry.workspace_id == workspace_id)
+                .order_by(LedgerEntry.created_at.desc()).limit(40)).all()
+            for r in rows:
+                if r.model_version not in (None, job.model_version):
+                    continue
+                note = str(r.notes or "")
+                if r.stage == "eval" and out["gates"] is None:
+                    if "gates=True" in note:
+                        out["gates"] = {"passed": True, "notes": note}
+                    elif "gates=False" in note:
+                        out["gates"] = {"passed": False, "notes": note}
+                if r.stage == "deploy" and out["deploy"] is None and r.model_version == job.model_version:
+                    out["deploy"] = note
+        return out
 
 
 STALE_RUNNING_MINUTES = 30

@@ -1,0 +1,23 @@
+{
+  "slug": "movie-night",
+  "name": "Movie Night",
+  "tagline": "Settle the genre war once and for all.",
+  "items": [
+    {"id": "heist-thriller", "text": "A slick heist thriller where the crew's plan falls apart in the third act"},
+    {"id": "space-opera", "text": "A sprawling space opera with warring dynasties and a chosen pilot"},
+    {"id": "courtroom-drama", "text": "A tense courtroom drama that turns on one buried piece of evidence"},
+    {"id": "zombie-comedy", "text": "A zombie comedy where the survivors argue more than they run"},
+    {"id": "noir-detective", "text": "A rain-soaked noir with a detective who narrates his own bad decisions"},
+    {"id": "sports-underdog", "text": "An underdog sports story with a washed-up coach and a ragtag team"},
+    {"id": "haunted-house", "text": "A slow-burn haunted house film where the house is the least scary part"},
+    {"id": "time-loop", "text": "A time-loop story where the loop is a metaphor the hero refuses to see"},
+    {"id": "animated-epic", "text": "A hand-drawn animated epic about a kingdom at the edge of a map"},
+    {"id": "spy-cold-war", "text": "A cold-war spy film that is mostly people lying quietly in rooms"},
+    {"id": "monster-kaiju", "text": "A kaiju film where the city's insurance adjusters are the real heroes"},
+    {"id": "road-trip", "text": "A road-trip dramedy with a broken family and a breaking-down van"},
+    {"id": "martial-arts", "text": "A martial-arts revenge tale with one unbroken hallway fight"},
+    {"id": "found-footage", "text": "A found-footage horror where the camera work is suspiciously good"},
+    {"id": "musical-backstage", "text": "A backstage musical where the show must go on despite everything"},
+    {"id": "western-standoff", "text": "A slow western that is all buildup to one three-minute standoff"}
+  ]
+}

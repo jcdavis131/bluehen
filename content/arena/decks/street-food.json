@@ -1,0 +1,23 @@
+{
+  "slug": "street-food",
+  "name": "Street Food World Tour",
+  "tagline": "Your taste buds have opinions. Let's rank them.",
+  "items": [
+    {"id": "birria-tacos", "text": "Birria tacos with consommé for dipping, double tortilla"},
+    {"id": "banh-mi", "text": "A crackly banh mi stacked with pate, pickled carrot, and cilantro"},
+    {"id": "smash-burger", "text": "A smash burger with lacy edges and american cheese"},
+    {"id": "pad-thai-cart", "text": "Wok-charred pad thai from a cart with a line around the block"},
+    {"id": "doner-wrap", "text": "A late-night doner wrap with garlic sauce and too much chili"},
+    {"id": "arepa", "text": "A split arepa stuffed with shredded beef and black beans"},
+    {"id": "takoyaki", "text": "Takoyaki fresh off the griddle, bonito flakes still waving"},
+    {"id": "jerk-chicken", "text": "Drum-smoked jerk chicken with rice and peas"},
+    {"id": "falafel-pita", "text": "Falafel pita with amba, pickles, and a hard-boiled egg"},
+    {"id": "elote", "text": "Elote rolled in cotija with chile-lime crema"},
+    {"id": "dumpling-basket", "text": "A steamer basket of soup dumplings you will definitely burn yourself on"},
+    {"id": "poutine", "text": "Poutine with squeaky curds and gravy that means it"},
+    {"id": "chaat", "text": "A chaat that hits sweet, sour, crunchy, and cold in one bite"},
+    {"id": "hot-chicken", "text": "Nashville hot chicken on white bread with pickles, regret optional"},
+    {"id": "gyro", "text": "A gyro carved off the spit with tzatziki and raw onion"},
+    {"id": "churros", "text": "Churros dusted in cinnamon sugar with thick chocolate for dipping"}
+  ]
+}

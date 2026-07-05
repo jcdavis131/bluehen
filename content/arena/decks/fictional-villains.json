@@ -1,0 +1,23 @@
+{
+  "slug": "fictional-villains",
+  "name": "Villain Draft",
+  "tagline": "Build your rogues' gallery. The Commentator is judging you.",
+  "items": [
+    {"id": "chess-mastermind", "text": "The mastermind who narrates the plan while it is already working"},
+    {"id": "corporate-suit", "text": "The corporate villain whose evil is technically legal"},
+    {"id": "fallen-mentor", "text": "The mentor who turned, and still corrects the hero's form mid-fight"},
+    {"id": "cosmic-horror", "text": "The cosmic entity that does not know it is the villain"},
+    {"id": "charming-con", "text": "The charming con artist you would forgive a third time"},
+    {"id": "zealot-knight", "text": "The zealot knight who is the hero of their own tragic story"},
+    {"id": "ai-overlord", "text": "The AI that optimized exactly what it was told to optimize"},
+    {"id": "petty-bureaucrat", "text": "The petty bureaucrat whose stamp can end kingdoms"},
+    {"id": "monster-parent", "text": "The overbearing parent whose love is a cage"},
+    {"id": "trickster-god", "text": "The trickster god who causes the plot for fun and leaves"},
+    {"id": "double-agent", "text": "The double agent whose true loyalty is revealed on the last page"},
+    {"id": "vengeful-ghost", "text": "The vengeful spirit with a legitimate grievance and poor methods"},
+    {"id": "crime-matriarch", "text": "The crime family matriarch who runs everything from a kitchen table"},
+    {"id": "rival-genius", "text": "The rival genius who just wants the hero to admit they are second best"},
+    {"id": "quiet-neighbor", "text": "The quiet neighbor who was in the background of every scene"},
+    {"id": "swarm-queen", "text": "The hive queen whose children are everywhere already"}
+  ]
+}

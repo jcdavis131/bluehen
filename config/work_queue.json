@@ -2107,12 +2107,12 @@
     {
       "id": "OKF-001",
       "title": "Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge)",
-      "status": "in_progress",
+      "status": "done",
       "claimedBy": "claude",
       "lane": "claude",
       "priority": "P1",
       "source": "Operator directive 2026-07-05",
-      "notes": "KB seeded (22 papers + 6 concepts, radar-derived, lever-tagged, EVIDENCE-linked concepts); real-embedding PCA map committed; UI building. Continuous curation: capture inbox + weekly radar->okf refresh. LLM-key-gated follow-on: abstractive note synthesis."
+      "notes": "SHIPPED + live-verified: jcamd.com/knowledge \u2014 real-embedding semantic map (28 nodes/25 edges from GitHub raw), wiki-link-navigable notes, tag/search filters, honest pan/zoom. KB curates continuously: capture inbox + weekly radar -> okf_personal.py. LLM synthesis = key-gated follow-on."
     }
   ]
 }

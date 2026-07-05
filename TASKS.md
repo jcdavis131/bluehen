@@ -40,7 +40,6 @@
 ## In progress
 
 - [ ] **GAME-006** — Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance (@claude)
-- [ ] **OKF-001** — Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge) (@claude)
 
 ## Blocked on infra (work elsewhere)
 
@@ -59,7 +58,6 @@
 
 ## Recently done
 
-- [x] ~~**PKG-002** — bluehen-stack: the one-command local package (model + harness + skills + free-LLM wiring)~~
 - [x] ~~**AR-510** — Instruction-conditioned heads: does a task-prefix convention beat per-task heads on shared backbone?~~
 - [x] ~~**GAME-001** — Beat the Baseline: adversarial query game on dumbmodel (hard-triplet mining)~~
 - [x] ~~**GAME-002** — Metagame impact profile: your contributions to the model~~
@@ -67,6 +65,7 @@
 - [x] ~~**GAME-004** — RAG Gauntlet: bounty board on slasso~~
 - [x] ~~**GAME-007** — Shapley Arena: predict-first taste game + per-round Shapley + layer stack (Spec 0032)~~
 - [x] ~~**WORLD-001** — Overworld V0: tile engine + Blue Hen universe map + real-event happenings + worldbook terminals (Spec 0033)~~
+- [x] ~~**OKF-001** — Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge)~~
 
 ## Specs & context
 

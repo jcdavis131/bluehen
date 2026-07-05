@@ -1800,11 +1800,12 @@
     {
       "id": "UXR-001",
       "title": "Sandbox tenant + nightly purge for the Launchpad",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Spec 0027 \u00a73: provision 'sandbox' workspace in prod, key to Vercel env for storefront BFF only; worker daily tick purges lp-* uploads + collections >24h.",
-      "source": "Spec 0027 Launchpad"
+      "notes": "Sandbox workspace provisioned in prod (site sandbox, $2/day ceiling, key in gitignored data/workspaces/sandbox.env); worker purges lp-* uploads + >24h sandbox collections daily. Vercel env for the BFF lands with UXR-003.",
+      "source": "Spec 0027 Launchpad",
+      "claimedBy": "claude"
     },
     {
       "id": "UXR-002",

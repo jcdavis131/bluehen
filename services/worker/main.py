@@ -326,6 +326,54 @@ def _autotrain_tick(check_every_s: float = 900.0) -> None:
                     log.warning("autotrain enqueue failed site=%s: %s", site_id, exc)
 
 
+_SANDBOX_PURGE_LAST: str | None = None
+
+
+def _sandbox_purge_tick() -> None:
+    """Spec 0027: Launchpad sandbox hygiene — lp-* uploads and their
+    collections purge after 24h. Once per UTC day."""
+    import os
+    from datetime import datetime, timedelta, timezone
+    from pathlib import Path
+
+    global _SANDBOX_PURGE_LAST
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    if _SANDBOX_PURGE_LAST == today:
+        return
+    _SANDBOX_PURGE_LAST = today
+
+    from sqlalchemy import delete, select, text as _text
+
+    from app.database import db_session
+    from app.models import Collection, Workspace
+
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+    with db_session() as session:
+        ws = session.scalar(select(Workspace).where(Workspace.site_id == "sandbox"))
+        if ws is None:
+            return
+        old = session.scalars(
+            select(Collection).where(
+                Collection.workspace_id == ws.id,
+                Collection.created_at < cutoff)).all()
+        for col in old:
+            session.execute(_text(
+                "DELETE FROM document_chunks WHERE workspace_id = :wid AND collection_id = :cid"),
+                {"wid": str(ws.id), "cid": str(col.id)})
+            session.execute(delete(Collection).where(Collection.id == col.id))
+        if old:
+            log.info("sandbox purge: %d collections removed", len(old))
+
+    uploads = Path(os.getenv("DATALAB_DIR", "data/datalab")) / "uploads"
+    if uploads.exists():
+        for f in uploads.rglob("lp-*.jsonl"):
+            try:
+                if datetime.fromtimestamp(f.stat().st_mtime, tz=timezone.utc) < cutoff:
+                    f.unlink()
+            except OSError:
+                continue
+
+
 def run_forever(poll_seconds: float = 2.0) -> None:
     from app.config import ARTIFACTS_DIR, CHARTER_GATE_ENABLED, MODEL_REGISTRY_URI
 
@@ -390,6 +438,10 @@ def run_forever(poll_seconds: float = 2.0) -> None:
                 _autotrain_tick()
             except Exception as exc:
                 log.warning("autotrain tick failed: %s", exc)
+            try:
+                _sandbox_purge_tick()
+            except Exception as exc:
+                log.warning("sandbox purge tick failed: %s", exc)
             time.sleep(poll_seconds)
             continue
         try:

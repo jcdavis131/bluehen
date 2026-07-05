@@ -1971,6 +1971,69 @@
       "priority": "P1",
       "notes": "The Instructor-style claim must be measured before made: train heads w/ instruction prefixes vs plain across 2 tasks (retrieval/similarity) on research corpus; pool16 protocol. EVIDENCE row either way.",
       "source": "Spec 0030 one-model-package"
+    },
+    {
+      "id": "GAME-001",
+      "title": "Beat the Baseline: adversarial query game on dumbmodel (hard-triplet mining)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Spec 0031 P0. Anchor from the research index -> live /v1/search baseline -> player crafts a query meaning the same that FAILS to retrieve it -> measured ndcg drop = score -> triplet label to exhaust. Leaderboard (pseudonyms). Sonnet-delegable w/ Arena patterns; needs one BFF search proxy + scoring route.",
+      "source": "Spec 0031 gamified data engine"
+    },
+    {
+      "id": "GAME-002",
+      "title": "Metagame impact profile: your contributions to the model",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Public read-only page: triplets/edges contributed (exhaust label tallies via the summary endpoint pattern), attributed to pseudonym. hq admin view gets totals.",
+      "source": "Spec 0031 gamified data engine"
+    },
+    {
+      "id": "GAME-003",
+      "title": "Semantic Six Degrees spec + prototype (arxiviq)",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Needs GAME-001 learnings + path-scoring design (embedding-distance-sound paths). Spec first.",
+      "source": "Spec 0031 gamified data engine"
+    },
+    {
+      "id": "GAME-004",
+      "title": "RAG Gauntlet: bounty board on slasso",
+      "status": "blocked",
+      "lane": "operator+claude",
+      "priority": "P2",
+      "notes": "Rides cert machinery. BLOCKED on Operator: bounty economics + hidden-set curation.",
+      "source": "Spec 0031 gamified data engine"
+    },
+    {
+      "id": "GAME-005",
+      "title": "Oracle's Garden (signals)",
+      "status": "blocked",
+      "lane": "operator+claude",
+      "priority": "P3",
+      "notes": "BLOCKED on Operator legal call re prizes; paper-credit mechanics only; simulation wall absolute.",
+      "source": "Spec 0031 gamified data engine"
+    },
+    {
+      "id": "SENT-001",
+      "title": "The Hidden Layer: location-aware PWA pilot (SENTINEL)",
+      "status": "blocked",
+      "lane": "operator",
+      "priority": "P3",
+      "notes": "Operator investment gate: PWA-first scope doc on request; storybook-inspired art (no Ghibli/Pokemon IP); FastAPI spatial spawning is straightforward once greenlit.",
+      "source": "Spec 0031 gamified data engine"
+    },
+    {
+      "id": "GAME-006",
+      "title": "Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "BLOCKED on first labels accumulating (GAME-001 live). Extends the harvest/card machinery.",
+      "source": "Spec 0031 gamified data engine"
     }
   ]
 }

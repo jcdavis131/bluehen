@@ -1,0 +1,23 @@
+{
+  "slug": "news-week-2026-07",
+  "name": "News Week · July 2026",
+  "tagline": "Headlines you skimmed — ranked like they mattered.",
+  "items": [
+    {"id": "ai-regulation", "text": "A bipartisan AI safety bill that actually defines 'frontier model'"},
+    {"id": "heat-dome", "text": "A heat dome parked over the Midwest for eleven days straight"},
+    {"id": "moon-mission", "text": "A delayed lunar mission blamed on a single bad connector"},
+    {"id": "union-strike", "text": "A streaming writers' strike that reshuffles every fall premiere"},
+    {"id": "crypto-recovery", "text": "A crypto recovery story led by an exchange nobody trusts again"},
+    {"id": "vaccine-update", "text": "A updated flu vaccine matched to a strain nobody predicted"},
+    {"id": "housing-bill", "text": "A housing bill that adds units and removes a parking minimum"},
+    {"id": "chip-export", "text": "New chip export rules that split EU and US supply chains"},
+    {"id": "wildfire-season", "text": "An early wildfire season that empties three mountain towns"},
+    {"id": "sports-trade", "text": "A blockbuster trade that makes sense only on a podcast"},
+    {"id": "labour-market", "text": "A jobs report where hiring and layoffs happen in the same sector"},
+    {"id": "space-debris", "text": "A satellite near-miss that revives debris-cleanup funding"},
+    {"id": "water-treaty", "text": "A river treaty renegotiated after the driest spring on record"},
+    {"id": "election-poll", "text": "A poll swing within the margin of error, reported as earth-shaking"},
+    {"id": "fusion-milestone", "text": "A fusion milestone press release with no grid date attached"},
+    {"id": "retail-bankruptcy", "text": "A beloved retail chain closing stores but keeping the logo alive online"}
+  ]
+}

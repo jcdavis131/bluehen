@@ -1,0 +1,23 @@
+{
+  "slug": "gadgets",
+  "name": "Gadget Graveyard",
+  "tagline": "Which half-forgotten device would you actually buy again?",
+  "items": [
+    {"id": "eink-tablet", "text": "An e-ink tablet that only syncs notes when you plug it in"},
+    {"id": "mechanical-keyboard", "text": "A mechanical keyboard loud enough to summon the neighbors"},
+    {"id": "smart-fridge", "text": "A smart fridge that judges your midnight snack choices"},
+    {"id": "fitness-ring", "text": "A fitness ring that nags you about REM sleep at brunch"},
+    {"id": "retro-handheld", "text": "A retro handheld that emulates every console except the one you want"},
+    {"id": "noise-cancelling", "text": "Noise-cancelling headphones that hiss like a distant kettle"},
+    {"id": "robot-vacuum", "text": "A robot vacuum that gets stuck on the same rug daily"},
+    {"id": "action-cam", "text": "An action cam you bought for one trip and never charged again"},
+    {"id": "smart-speaker", "text": "A smart speaker that answers questions you did not ask"},
+    {"id": "drone-mini", "text": "A mini drone with a camera and a three-minute battery"},
+    {"id": "laptop-dock", "text": "A laptop dock that needs a firmware update before it docks"},
+    {"id": "portable-projector", "text": "A portable projector that only looks good after sunset"},
+    {"id": "smartwatch", "text": "A smartwatch that celebrates closing your stand ring at midnight"},
+    {"id": "usb-hub", "text": "A USB hub that disconnects when you breathe near it"},
+    {"id": "instant-camera", "text": "An instant camera with film that costs more than dinner"},
+    {"id": "sleep-tracker", "text": "A sleep tracker that wakes you up to report you slept poorly"}
+  ]
+}

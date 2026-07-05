@@ -133,7 +133,9 @@ def impact(workspace_id: uuid.UUID, user_ref: str | None = None,
 SCORE_GAMES = {"chimera": (1, 9, True),    # (min, max, lower_is_better)
                "deadline": (0, 5, False),
                "fader": (0, 5, False),
-               "arc": (0, 5, False)}
+               "arc": (0, 5, False),
+               "pivot": (0, 10, False),
+               "eratwin": (0, 10, False)}
 
 
 def record_score(workspace_id: uuid.UUID, game: str, day: str,

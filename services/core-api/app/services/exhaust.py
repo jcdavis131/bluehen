@@ -130,7 +130,7 @@ def impact(workspace_id: uuid.UUID, user_ref: str | None = None,
             "leaderboard": board}
 
 
-SCORE_GAMES = {"chimera": (1, 6, True),    # (min, max, lower_is_better)
+SCORE_GAMES = {"chimera": (1, 9, True),    # (min, max, lower_is_better)
                "deadline": (0, 5, False),
                "fader": (0, 5, False),
                "arc": (0, 5, False)}

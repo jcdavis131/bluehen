@@ -2006,20 +2006,22 @@
     {
       "id": "GAME-003",
       "title": "Semantic Six Degrees spec + prototype (arxiviq)",
-      "status": "blocked",
+      "status": "in_progress",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Needs GAME-001 learnings + path-scoring design (embedding-distance-sound paths). Spec first.",
-      "source": "Spec 0031 gamified data engine"
+      "notes": "BUILDING (Operator accelerated): Leylines on arxiviq \u2014 start/goal papers, pick-a-hop from recommend-by-item candidates, 6-hop budget, coherence scoring; edges + chosen-over preferences harvested; player human|agent.",
+      "source": "Spec 0031 gamified data engine",
+      "claimedBy": "claude"
     },
     {
       "id": "GAME-004",
       "title": "RAG Gauntlet: bounty board on slasso",
-      "status": "blocked",
+      "status": "in_progress",
       "lane": "operator+claude",
       "priority": "P2",
-      "notes": "Rides cert machinery. BLOCKED on Operator: bounty economics + hidden-set curation.",
-      "source": "Spec 0031 gamified data engine"
+      "notes": "BUILDING (Operator accelerated, mechanic simplified from bounty board): The Verdict on slasso \u2014 judge which passage better answers a query; margin-ranking pairs harvested; player human|agent. Bounty economics remain a later Operator gate.",
+      "source": "Spec 0031 gamified data engine",
+      "claimedBy": "claude"
     },
     {
       "id": "GAME-005",

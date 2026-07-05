@@ -47,3 +47,17 @@ live, never simulated). Leaderboards show pseudonyms only. Signals
 stays simulation-only regardless of prize decisions. No dark-pattern
 compulsion loops: daily mechanics are check-in rewards, not streak
 punishment.
+
+
+## 7. Amendment (Operator, 2026-07-05): the trio + agent players
+
+The three studio games are dumbmodel (Beat the Baseline + Arena:
+**triplets/taste**), arxiviq (**Leylines** — connect papers: graph
+edges + hop preferences), slasso (**The Verdict** — judge retrieval
+pairs: margin-ranking preferences). All three are playable by AGENTS
+as well as humans through the same public game BFFs: every game event
+carries `player: "human" | "agent"` in its exhaust label (default
+human; agents self-declare). Provenance is never mixed silently —
+downstream MTNN training weights human data above agent data, and the
+label makes that possible. Agent players (Eve/synthorg) become the
+volume floor; humans are the quality ceiling.

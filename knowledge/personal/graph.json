@@ -1,0 +1,419 @@
+{
+ "generated": "2026-07-05",
+ "model": "all-MiniLM-L6-v2 + PCA(2)",
+ "nodes": [
+  {
+   "slug": "adapters-and-heads",
+   "kind": "concepts",
+   "title": "Adapters, heads & MTNN",
+   "tags": [
+    "concept"
+   ],
+   "source": "curated",
+   "x": 0.8671,
+   "y": 0.6237
+  },
+  {
+   "slug": "contrastive-objectives",
+   "kind": "concepts",
+   "title": "Contrastive objectives",
+   "tags": [
+    "concept"
+   ],
+   "source": "curated",
+   "x": 0.702,
+   "y": 0.6514
+  },
+  {
+   "slug": "embedding-spaces",
+   "kind": "concepts",
+   "title": "Embedding spaces",
+   "tags": [
+    "concept"
+   ],
+   "source": "curated",
+   "x": 0.8818,
+   "y": 0.9169
+  },
+  {
+   "slug": "hard-negatives",
+   "kind": "concepts",
+   "title": "Hard negatives",
+   "tags": [
+    "concept"
+   ],
+   "source": "curated",
+   "x": 0.9456,
+   "y": 0.1836
+  },
+  {
+   "slug": "mtnn-omni-embedding",
+   "kind": "concepts",
+   "title": "The MTNN omni-embedding thesis",
+   "tags": [
+    "concept"
+   ],
+   "source": "curated",
+   "x": 0.8132,
+   "y": 0.5617
+  },
+  {
+   "slug": "retrieval-and-rag",
+   "kind": "concepts",
+   "title": "Retrieval & RAG",
+   "tags": [
+    "concept"
+   ],
+   "source": "curated",
+   "x": 0.4066,
+   "y": 0.0
+  },
+  {
+   "slug": "a-2-smaller-self-supervised-vits-localize-better-than-larger-one",
+   "kind": "papers",
+   "title": "$A^2$: Smaller Self-Supervised ViTs Localize Better than Larger Ones",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.748,
+   "y": 0.777
+  },
+  {
+   "slug": "argus-retriever-vision-llm-late-interaction-retrieval-with-regio",
+   "kind": "papers",
+   "title": "Argus-Retriever: Vision-LLM Late-Interaction Retrieval with Region-Aware Query-Conditioned MoE for Visual Document Retrieval",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.236,
+   "y": 0.6529
+  },
+  {
+   "slug": "colbertsar-sparsified-colbert-index-via-product-quantization",
+   "kind": "papers",
+   "title": "ColBERTSaR: Sparsified ColBERT Index via Product Quantization",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.3849,
+   "y": 0.6768
+  },
+  {
+   "slug": "conflict-aware-retriever-editing-for-knowledge-injection-attacks",
+   "kind": "papers",
+   "title": "Conflict-Aware Retriever Editing for Knowledge Injection Attacks on LLM-Based RAG Systems",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.3917,
+   "y": 0.3576
+  },
+  {
+   "slug": "decompose-sparsely-where-you-should-absorb-densely-where-you-sho",
+   "kind": "papers",
+   "title": "Decompose Sparsely Where You Should, Absorb Densely Where You Should No",
+   "tags": [
+    "graph"
+   ],
+   "source": "",
+   "x": 0.7254,
+   "y": 0.7384
+  },
+  {
+   "slug": "do-models-share-safety-representations-cross-model-steering-for-",
+   "kind": "papers",
+   "title": "Do Models Share Safety Representations? Cross-Model Steering for Safe Visual Generation",
+   "tags": [
+    "graph"
+   ],
+   "source": "",
+   "x": 0.8405,
+   "y": 0.5193
+  },
+  {
+   "slug": "field-order-should-not-matter-permutation-invariant-embedding-mo",
+   "kind": "papers",
+   "title": "Field Order Should Not Matter: Permutation-Invariant Embedding Model Fine-Tuning for Structured Metadata Retrieval",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.3252,
+   "y": 0.6662
+  },
+  {
+   "slug": "forte-fol-guided-optimal-refinement-for-text-audio-retrieval",
+   "kind": "papers",
+   "title": "FORTE: FOL-guided Optimal Refinement for Text-audio rEtrieval",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.2512,
+   "y": 0.8282
+  },
+  {
+   "slug": "improving-long-context-retrieval-with-multi-prefix-embedding",
+   "kind": "papers",
+   "title": "Improving Long-Context Retrieval with Multi-Prefix Embedding",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.2019,
+   "y": 0.7269
+  },
+  {
+   "slug": "kalm-reranker-v1-fast-but-not-late-interaction-for-compressed-do",
+   "kind": "papers",
+   "title": "KaLM-Reranker-V1: Fast but Not Late Interaction for Compressed Document Reranking",
+   "tags": [
+    "chunk",
+    "loss"
+   ],
+   "source": "",
+   "x": 0.1211,
+   "y": 0.8016
+  },
+  {
+   "slug": "meshtryoshka-differentiable-rendering-of-real-world-scenes-via-m",
+   "kind": "papers",
+   "title": "Meshtryoshka: Differentiable Rendering of Real-World Scenes via Mesh Rasterization",
+   "tags": [
+    "graph"
+   ],
+   "source": "",
+   "x": 0.8614,
+   "y": 0.6917
+  },
+  {
+   "slug": "mm-matryoshka-towards-budget-elastic-visual-document-retrieval-v",
+   "kind": "papers",
+   "title": "MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Training Framework",
+   "tags": [
+    "chunk",
+    "loss"
+   ],
+   "source": "",
+   "x": 0.4303,
+   "y": 0.7728
+  },
+  {
+   "slug": "monosemanticity-in-recommender-systems",
+   "kind": "papers",
+   "title": "Monosemanticity in Recommender Systems",
+   "tags": [
+    "graph"
+   ],
+   "source": "",
+   "x": 0.6704,
+   "y": 0.8887
+  },
+  {
+   "slug": "multi-vector-embeddings-are-provably-more-expressive-than-single",
+   "kind": "papers",
+   "title": "Multi-Vector Embeddings are Provably More Expressive than Single Vector Embeddings",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.4306,
+   "y": 0.866
+  },
+  {
+   "slug": "policy-regret-for-embedding-model-routing-contextual-bandits-wit",
+   "kind": "papers",
+   "title": "Policy Regret for Embedding Model Routing: Contextual Bandits with Low-Rank Experts",
+   "tags": [
+    "graph"
+   ],
+   "source": "",
+   "x": 0.5246,
+   "y": 0.7348
+  },
+  {
+   "slug": "scar-semantic-continuity-aware-retrieval-for-efficient-context-e",
+   "kind": "papers",
+   "title": "SCAR: Semantic Continuity-Aware Retrieval for Efficient Context Expansion in RAG",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.1414,
+   "y": 0.462
+  },
+  {
+   "slug": "shard-cell-keyed-residual-splitting-for-alignment-resistant-priv",
+   "kind": "papers",
+   "title": "SHARD: cell-keyed residual splitting for alignment-resistant private dense retrieval",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.48,
+   "y": 0.7137
+  },
+  {
+   "slug": "skmteb-slovak-massive-text-embedding-benchmark-and-model-adaptat",
+   "kind": "papers",
+   "title": "SkMTEB: Slovak Massive Text Embedding Benchmark and Model Adaptation",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.3382,
+   "y": 0.8537
+  },
+  {
+   "slug": "stellar-scalable-multimodal-document-retrieval-for-natural-langu",
+   "kind": "papers",
+   "title": "Stellar: Scalable Multimodal Document Retrieval for Natural Language Queries",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.0,
+   "y": 0.7601
+  },
+  {
+   "slug": "sustainable-face-recognition-on-low-power-devices-with-vq-vae-em",
+   "kind": "papers",
+   "title": "Sustainable Face Recognition on Low-Power Devices with VQ-VAE Embeddings",
+   "tags": [
+    "chunk",
+    "graph"
+   ],
+   "source": "",
+   "x": 0.8937,
+   "y": 1.0
+  },
+  {
+   "slug": "tail-aware-adaptive-k-query-adaptive-context-selection-for-retri",
+   "kind": "papers",
+   "title": "Tail-Aware Adaptive-k: Query-Adaptive Context Selection for Retrieval-Augmented Generation",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.3444,
+   "y": 0.4655
+  },
+  {
+   "slug": "tilemaxsim-io-aware-gpu-maxsim-scoring-with-dimension-tiling-and",
+   "kind": "papers",
+   "title": "TileMaxSim: IO-Aware GPU MaxSim Scoring with Dimension Tiling and Fused Product Quantization",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "x": 0.6371,
+   "y": 0.6789
+  }
+ ],
+ "edges": [
+  [
+   "a-2-smaller-self-supervised-vits-localize-better-than-larger-one",
+   "retrieval-and-rag"
+  ],
+  [
+   "argus-retriever-vision-llm-late-interaction-retrieval-with-regio",
+   "retrieval-and-rag"
+  ],
+  [
+   "colbertsar-sparsified-colbert-index-via-product-quantization",
+   "retrieval-and-rag"
+  ],
+  [
+   "conflict-aware-retriever-editing-for-knowledge-injection-attacks",
+   "retrieval-and-rag"
+  ],
+  [
+   "decompose-sparsely-where-you-should-absorb-densely-where-you-sho",
+   "embedding-spaces"
+  ],
+  [
+   "do-models-share-safety-representations-cross-model-steering-for-",
+   "embedding-spaces"
+  ],
+  [
+   "field-order-should-not-matter-permutation-invariant-embedding-mo",
+   "retrieval-and-rag"
+  ],
+  [
+   "forte-fol-guided-optimal-refinement-for-text-audio-retrieval",
+   "retrieval-and-rag"
+  ],
+  [
+   "improving-long-context-retrieval-with-multi-prefix-embedding",
+   "retrieval-and-rag"
+  ],
+  [
+   "kalm-reranker-v1-fast-but-not-late-interaction-for-compressed-do",
+   "contrastive-objectives"
+  ],
+  [
+   "kalm-reranker-v1-fast-but-not-late-interaction-for-compressed-do",
+   "retrieval-and-rag"
+  ],
+  [
+   "meshtryoshka-differentiable-rendering-of-real-world-scenes-via-m",
+   "embedding-spaces"
+  ],
+  [
+   "mm-matryoshka-towards-budget-elastic-visual-document-retrieval-v",
+   "contrastive-objectives"
+  ],
+  [
+   "mm-matryoshka-towards-budget-elastic-visual-document-retrieval-v",
+   "retrieval-and-rag"
+  ],
+  [
+   "monosemanticity-in-recommender-systems",
+   "embedding-spaces"
+  ],
+  [
+   "multi-vector-embeddings-are-provably-more-expressive-than-single",
+   "retrieval-and-rag"
+  ],
+  [
+   "policy-regret-for-embedding-model-routing-contextual-bandits-wit",
+   "embedding-spaces"
+  ],
+  [
+   "scar-semantic-continuity-aware-retrieval-for-efficient-context-e",
+   "retrieval-and-rag"
+  ],
+  [
+   "shard-cell-keyed-residual-splitting-for-alignment-resistant-priv",
+   "retrieval-and-rag"
+  ],
+  [
+   "skmteb-slovak-massive-text-embedding-benchmark-and-model-adaptat",
+   "retrieval-and-rag"
+  ],
+  [
+   "stellar-scalable-multimodal-document-retrieval-for-natural-langu",
+   "retrieval-and-rag"
+  ],
+  [
+   "sustainable-face-recognition-on-low-power-devices-with-vq-vae-em",
+   "retrieval-and-rag"
+  ],
+  [
+   "sustainable-face-recognition-on-low-power-devices-with-vq-vae-em",
+   "embedding-spaces"
+  ],
+  [
+   "tail-aware-adaptive-k-query-adaptive-context-selection-for-retri",
+   "retrieval-and-rag"
+  ],
+  [
+   "tilemaxsim-io-aware-gpu-maxsim-scoring-with-dimension-tiling-and",
+   "retrieval-and-rag"
+  ]
+ ]
+}

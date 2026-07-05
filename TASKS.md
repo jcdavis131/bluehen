@@ -41,7 +41,7 @@
 
 ## In progress
 
-_None claimed — run `pick_task.py claim <id>`_
+- [ ] **AR-510** — Instruction-conditioned heads: does a task-prefix convention beat per-task heads on shared backbone? (@claude)
 
 ## Blocked on infra (work elsewhere)
 
@@ -60,7 +60,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**BD-005** — dumbmodel result page: consented email capture so free checks become a nurture list~~
 - [x] ~~**UXR-001** — Sandbox tenant + nightly purge for the Launchpad~~
 - [x] ~~**UXR-002** — ui-fleet: ModelReportCard + FilterChips components (sonnet-delegated)~~
 - [x] ~~**UXR-004** — arxiviq research-lab adopts ModelReportCard~~
@@ -68,6 +67,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**RANK-001** — Rank Engine v1: POST /v1/rank — inline or indexed candidates, ephemeral user vector from exhaust, policy weights, factor breakdown~~
 - [x] ~~**RANK-002** — Rank playground UI: /developers gains a rank tab + docs section (sonnet-delegate batch 2)~~
 - [x] ~~**ARENA-001** — Rank Arena V1 live on dumbmodel.com/arena (Spec 0029)~~
+- [x] ~~**GAME-001** — Beat the Baseline: adversarial query game on dumbmodel (hard-triplet mining)~~
 
 ## Specs & context
 

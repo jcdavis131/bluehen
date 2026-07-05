@@ -1,0 +1,143 @@
+/**
+ * Beat the Baseline (Spec 0031 §2 GAME-001): mobile-first, same block
+ * shadow / dashed-consent-card language as the Arena (arena.css).
+ * Scoped to .beat so it never leaks into the rest of dumbmodel.
+ */
+.beat {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.beat-intro-steps {
+  margin: 0 0 var(--bh-space-4);
+  padding-left: 1.25em;
+  line-height: 1.7;
+}
+
+.beat-intro-steps li {
+  margin-bottom: 6px;
+}
+
+.beat-consent {
+  font-size: 0.875rem;
+  color: var(--bh-text-secondary, var(--bh-muted));
+  line-height: 1.6;
+  margin: 0 0 var(--bh-space-5);
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border: 1px dashed var(--bh-border, #d8d4cc);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface-2, #f6f3ec);
+}
+
+.beat-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bh-space-3);
+  margin-bottom: var(--bh-space-4);
+  font-family: var(--bh-font-mono);
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+}
+
+.beat-header span {
+  border: 1px solid var(--bh-border, #d8d4cc);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.beat-anchor-card {
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block-sm);
+  padding: var(--bh-space-4);
+  margin-bottom: var(--bh-space-4);
+}
+
+.beat-anchor-title {
+  margin: 0 0 8px;
+  font-family: var(--bh-font-display);
+}
+
+.beat-anchor-snippet {
+  margin: 0;
+  color: var(--bh-text-secondary, var(--bh-muted));
+  line-height: 1.6;
+}
+
+.beat-query-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+}
+
+.beat-query-input {
+  min-height: 84px;
+  padding: 14px 16px;
+  border: 2px solid var(--bh-ink);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.beat-query-input:disabled {
+  opacity: 0.75;
+}
+
+.beat-fire-btn {
+  align-self: flex-start;
+}
+
+.beat-result-card {
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block);
+  padding: var(--bh-space-4);
+  animation: beat-result-in 0.28s ease;
+}
+
+@keyframes beat-result-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.beat-result-headline {
+  margin: 0 0 8px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.beat-outranked {
+  margin: 0 0 8px;
+  color: var(--bh-text-secondary, var(--bh-muted));
+}
+
+.beat-score-delta {
+  margin: 0 0 var(--bh-space-3);
+  font-family: var(--bh-font-mono);
+  font-size: 0.875rem;
+  color: var(--bh-muted);
+}
+
+.beat-commentary {
+  margin: 0 0 var(--bh-space-4);
+  font-style: italic;
+  color: var(--bh-text-secondary, var(--bh-muted));
+}
+
+@media (max-width: 480px) {
+  .beat-query-input {
+    font-size: 0.9375rem;
+  }
+}

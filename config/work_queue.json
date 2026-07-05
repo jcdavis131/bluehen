@@ -1957,29 +1957,32 @@
     {
       "id": "PKG-004",
       "title": "Consulting offer: setup-engagement page + scope doc",
-      "status": "ready",
+      "status": "review",
       "lane": "operator+claude",
       "priority": "P1",
-      "notes": "Claude drafts the engagement (what we install, timeline, deliverables incl. tuned model + report card); Operator prices it. This is revenue-now \u2014 no payment rails needed (invoice).",
-      "source": "Spec 0030 one-model-package"
+      "notes": "Draft complete: docs/CONSULTING_ENGAGEMENT.md (evidence-cited, [Operator: price] placeholders) + public /services page + contact topic wired. AWAITING OPERATOR: price to go live with numbers.",
+      "source": "Spec 0030 one-model-package",
+      "claimedBy": "claude"
     },
     {
       "id": "AR-510",
       "title": "Instruction-conditioned heads: does a task-prefix convention beat per-task heads on shared backbone?",
-      "status": "ready",
+      "status": "in_progress",
       "lane": "claude",
       "priority": "P1",
-      "notes": "The Instructor-style claim must be measured before made: train heads w/ instruction prefixes vs plain across 2 tasks (retrieval/similarity) on research corpus; pool16 protocol. EVIDENCE row either way.",
-      "source": "Spec 0030 one-model-package"
+      "notes": "The Instructor-style claim must be measured before made: train heads w/ instruction prefixes vs plain across 2 tasks (retrieval/similarity) on research corpus; pool16 protocol. EVIDENCE row either way. [instrument shipped 4befce9; full instruction sweep running detached vs RT-404 plain control]",
+      "source": "Spec 0030 one-model-package",
+      "claimedBy": "claude"
     },
     {
       "id": "GAME-001",
       "title": "Beat the Baseline: adversarial query game on dumbmodel (hard-triplet mining)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Spec 0031 P0. Anchor from the research index -> live /v1/search baseline -> player crafts a query meaning the same that FAILS to retrieve it -> measured ndcg drop = score -> triplet label to exhaust. Leaderboard (pseudonyms). Sonnet-delegable w/ Arena patterns; needs one BFF search proxy + scoring route.",
-      "source": "Spec 0031 gamified data engine"
+      "notes": "SHIPPED (sonnet): dumbmodel.com/beat \u2014 live anchors from the real index, poison queries scored against production search (POISONED/wounded/resisted with exact ranks), wins emit hard-negative triplets as labeled exhaust (best-effort), 18 roast lines, anti-junk gates, session score/streak. The hard-negative mine is open.",
+      "source": "Spec 0031 gamified data engine",
+      "claimedBy": "claude"
     },
     {
       "id": "GAME-002",

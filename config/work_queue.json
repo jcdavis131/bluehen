@@ -2072,6 +2072,33 @@
       "priority": "P2",
       "source": "Operator identity refinement 2026-07-04",
       "notes": "Hero/nav framing pass: dumbmodel = the arcade, slasso = the gauntlet, arxiviq = the weaver; engine + services positioned behind the games per Spec 0031/0030. Enterprise surfaces (storefront/services) keep the measured voice."
+    },
+    {
+      "id": "WORLD-001",
+      "title": "Overworld V0: tile engine + Blue Hen universe map + real-event happenings + worldbook terminals (Spec 0033)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Launches after the Verdict builder lands (same app). Two sonnet parts: engine (canvas/tiles/movement/collision/dialog system) then content (map, districts, happenings from public feeds, wiki terminals, arcade buildings).",
+      "source": "Spec 0033 Overworld"
+    },
+    {
+      "id": "WORLD-002",
+      "title": "Roleplay engine: agentic NPC harness (reason + tools: search/worldbook/timeline/state, cited in-dialog)",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "BLOCKED on LLM key (the standing gate). agentkit-based; ships identically in bluehen-stack \u2014 the game IS the harness demo. Rule-based narrator in V0 meanwhile.",
+      "source": "Spec 0033 Overworld"
+    },
+    {
+      "id": "WORLD-003",
+      "title": "Image-gen vignettes for the Overworld",
+      "status": "blocked",
+      "lane": "operator",
+      "priority": "P3",
+      "notes": "BLOCKED on image-gen provider key + Operator art sign-off.",
+      "source": "Spec 0033 Overworld"
     }
   ]
 }

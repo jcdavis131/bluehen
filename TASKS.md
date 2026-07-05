@@ -34,8 +34,7 @@
 - [ ] **TOWER-001** — Visual tower V1: DINOv2-S + projection head offline proof w/ eval vs CLIP + text baselines (None)
 - [ ] **TOWER-004** — DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN (None)
 - [ ] **UXR-003** — Launchpad wizard at bhenre.com/launchpad (sonnet-delegated, mobile-first) (None)
-- [ ] **PKG-003** — dumbmodel = THE model demo site: copy/nav consolidation (None)
-- [ ] **BRAND-001** — Fleet copy reflects the studio identity: Blue Hen RE builds the games (arxiviq/dumbmodel/slasso as games first) (None)
+- [ ] **AUTO-102** — Self-serve surfaces: /pricing tiers from /v1/pricing + signup flow on /developers (None)
 
 ## In progress
 
@@ -58,12 +57,12 @@
 
 ## Recently done
 
-- [x] ~~**AR-510** — Instruction-conditioned heads: does a task-prefix convention beat per-task heads on shared backbone?~~
 - [x] ~~**GAME-001** — Beat the Baseline: adversarial query game on dumbmodel (hard-triplet mining)~~
 - [x] ~~**GAME-002** — Metagame impact profile: your contributions to the model~~
 - [x] ~~**GAME-003** — Semantic Six Degrees spec + prototype (arxiviq)~~
 - [x] ~~**GAME-004** — RAG Gauntlet: bounty board on slasso~~
 - [x] ~~**GAME-007** — Shapley Arena: predict-first taste game + per-round Shapley + layer stack (Spec 0032)~~
+- [x] ~~**BRAND-001** — Fleet copy reflects the studio identity: Blue Hen RE builds the games (arxiviq/dumbmodel/slasso as games first)~~
 - [x] ~~**WORLD-001** — Overworld V0: tile engine + Blue Hen universe map + real-event happenings + worldbook terminals (Spec 0033)~~
 - [x] ~~**OKF-001** — Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge)~~
 

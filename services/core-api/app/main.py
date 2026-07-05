@@ -564,6 +564,51 @@ def get_contract(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
                    "note": "no contract registered — metadata is unvalidated until one is"}
 
 
+class CheckoutIn(BaseModel):
+    sku: str
+    slug: str | None = None
+
+
+@app.post("/v1/checkout")
+def create_checkout(body: CheckoutIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                    _rl: Annotated[None, Depends(rate_limit("checkout", 12))] = None):
+    """Self-serve checkout (Spec 0034 §3): hosted payment page for a sku.
+    Honest 503 until the merchant identity connects."""
+    from app.services import billing
+
+    try:
+        return billing.create_checkout(tenant.workspace_id, body.sku, body.slug)
+    except billing.BillingNotConnected as e:
+        raise HTTPException(status_code=503, detail=str(e)) from e
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.post("/v1/webhooks/btcpay", status_code=200)
+async def btcpay_webhook(request: Request):
+    from app.services import billing
+
+    raw = await request.body()
+    try:
+        return billing.handle_webhook(raw, request.headers.get("btcpay-sig"))
+    except billing.BillingNotConnected as e:
+        raise HTTPException(status_code=503, detail=str(e)) from e
+    except PermissionError as e:
+        raise HTTPException(status_code=401, detail=str(e)) from e
+
+
+@app.get("/v1/pricing")
+def public_pricing():
+    """Published prices (Spec 0034 §1) — no human quoting."""
+    from app.services.billing import PRICES
+
+    return {"prices": PRICES,
+            "freeTier": {"meteredCallsPerMonth": 1000, "corpora": 1,
+                         "corpusDocs": 50},
+            "signup": "POST /v1/signup",
+            "paymentsLive": bool(__import__("os").getenv("BTCPAY_URL"))}
+
+
 class SignupIn(BaseModel):
     name: str | None = None
     email: str | None = None

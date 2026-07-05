@@ -1016,6 +1016,38 @@ def admin_hill_climb(body: AdminHillClimbIn, request: Request, _: Annotated[None
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
+class ScoreIn(BaseModel):
+    game: str
+    day: str
+    score: int
+    ref: str
+    name: str
+
+
+@app.post("/v1/games/score", status_code=201)
+def submit_score(body: ScoreIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                 _rl: Annotated[None, Depends(rate_limit("score", 30))] = None):
+    from app.services.exhaust import record_score
+
+    try:
+        return record_score(tenant.workspace_id, body.game, body.day,
+                            body.score, body.ref, body.name)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.get("/v1/games/leaderboard")
+def games_leaderboard(tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                      game: str, day: str, ref: str | None = None,
+                      _rl: Annotated[None, Depends(rate_limit("leaderboard", 60))] = None):
+    from app.services.exhaust import leaderboard
+
+    try:
+        return leaderboard(tenant.workspace_id, game, day, ref)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
 @app.get("/v1/games/impact")
 def games_impact(tenant: Annotated[TenantCtx, Depends(require_tenant)],
                  userRef: str | None = None,

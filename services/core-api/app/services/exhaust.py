@@ -128,3 +128,72 @@ def impact(workspace_id: uuid.UUID, user_ref: str | None = None,
             "you": dict(mine) if user_ref else None,
             "totals": dict(totals),
             "leaderboard": board}
+
+
+SCORE_GAMES = {"chimera": (1, 6, True),    # (min, max, lower_is_better)
+               "deadline": (0, 5, False),
+               "fader": (0, 5, False),
+               "arc": (0, 5, False)}
+
+
+def record_score(workspace_id: uuid.UUID, game: str, day: str,
+                 score: int, ref: str, name: str) -> dict:
+    """Leaderboard entry via the exhaust stream (self-reported, sanity-
+    capped, pseudonymous). One entry per ref/game/day (dedup on read)."""
+    if game not in SCORE_GAMES:
+        raise ValueError(f"unknown game {game!r}")
+    lo, hi, _ = SCORE_GAMES[game]
+    if not (isinstance(score, int) and lo <= score <= hi):
+        raise ValueError(f"score out of range [{lo},{hi}]")
+    if not (day and len(day) == 10 and day[4] == "-"):
+        raise ValueError("day must be YYYY-MM-DD")
+    name = "".join(c for c in str(name) if c.isalnum() or c == " ")[:28] or "Anonymous"
+    ref = str(ref)[:16]
+    return ingest(workspace_id, "vector-hoops", "interaction", True, {
+        "event": "score", "userRef": ref,
+        "label": {"kind": "score", "game": game, "day": day,
+                  "score": score, "name": name}})
+
+
+def leaderboard(workspace_id: uuid.UUID, game: str, day: str,
+                ref: str | None = None, top: int = 20) -> dict:
+    """Daily board: best entry per pseudonymous ref, ranked. Honest
+    framing is the caller's job to display."""
+    if game not in SCORE_GAMES:
+        raise ValueError(f"unknown game {game!r}")
+    _, _, lower_better = SCORE_GAMES[game]
+    best: dict[str, dict] = {}
+    inbox = DATALAB_DIR / "inbox"
+    if inbox.exists():
+        for path in sorted(inbox.glob("exhaust-vector-hoops.jsonl")):
+            for line in path.read_text(encoding="utf-8").splitlines()[-50000:]:
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if row.get("workspaceId") != str(workspace_id):
+                    continue
+                lab = (row.get("payload") or {}).get("label") or {}
+                if lab.get("kind") != "score" or lab.get("game") != game                         or lab.get("day") != day:
+                    continue
+                r = (row.get("payload") or {}).get("userRef") or "?"
+                cur = best.get(r)
+                s = lab.get("score", 0)
+                if cur is None or (s < cur["score"] if lower_better
+                                   else s > cur["score"]):
+                    best[r] = {"score": s, "name": lab.get("name", "Anonymous"),
+                               "ref": r}
+    rows = sorted(best.values(),
+                  key=lambda e: e["score"] if lower_better else -e["score"])
+    you = None
+    if ref:
+        for i, e in enumerate(rows):
+            if e["ref"] == ref:
+                you = {"rank": i + 1, "score": e["score"], "name": e["name"]}
+                break
+    board = [{"rank": i + 1, "name": e["name"],
+              "ref": e["ref"][:4] + "…", "score": e["score"]}
+             for i, e in enumerate(rows[:top])]
+    return {"game": game, "day": day, "entries": board,
+            "players": len(rows), "you": you,
+            "note": "self-reported by anonymous sessions; sanity-capped"}

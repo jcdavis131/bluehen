@@ -2198,6 +2198,15 @@
       "notes": "",
       "source": "Vector Hoops research roadmap 2026-07-05",
       "claimedBy": null
+    },
+    {
+      "id": "VH-106",
+      "title": "Re-source player positions from nba_api (BBRef terms caveat)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "source": "VH v2.3",
+      "notes": "commonplayerinfo position fields -> same name-season join; drop the BBRef cache."
     }
   ]
 }

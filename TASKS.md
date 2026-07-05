@@ -35,6 +35,7 @@
 - [ ] **VH-102** — The Deadline: midseason-move detector + before/after deltas + game mode (None)
 - [ ] **VH-103** — Fader or Finisher: early/late season splits + daily quiz mode (None)
 - [ ] **VH-105** — The Fall: expectation residuals (draft+age+prior vector; GP>=65 non-injury proxy, caveat stated) (None)
+- [ ] **VH-106** — Re-source player positions from nba_api (BBRef terms caveat) (None)
 
 ## In progress
 

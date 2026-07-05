@@ -1749,11 +1749,12 @@
     {
       "id": "BD-005",
       "title": "dumbmodel result page: consented email capture so free checks become a nurture list",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
-      "notes": "After the health-check result: optional 'email me this scorecard + what to do about it' (consent checkbox, plain language). Stores as lead w/ score context. Ties the funnel's top to an ownable channel.",
-      "source": "BD/PMF series 2026-07-04"
+      "notes": "Scorecard email capture: explicit consent checkbox, headline numbers only (never submitted text), existing /v1/leads machinery, local-dev fallback. Never blocks the scorecard.",
+      "source": "BD/PMF series 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "BD-006",
@@ -1889,12 +1890,12 @@
     {
       "id": "RANK-002",
       "title": "Rank playground UI: /developers gains a rank tab + docs section (sonnet-delegate batch 2)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Inline-items textarea + optional query/userRef + policy sliders -> factor-breakdown table. Docs the exhaust userRef/itemText convention (hashed IDs only).",
+      "notes": "Developers page: Rank Engine docs (source-verified) + interactive playground w/ weight sliders + honest unmeasured-uplift line + sandbox BFF (capped 30 items).",
       "source": "Spec 0028 Rank Engine",
-      "claimedBy": null
+      "claimedBy": "claude"
     },
     {
       "id": "RANK-003",
@@ -1915,6 +1916,16 @@
       "notes": "BLOCKED on interaction data accumulating. EVIDENCE row required before any personalization claim (docs say so meanwhile).",
       "source": "Spec 0028 Rank Engine",
       "claimedBy": null
+    },
+    {
+      "id": "ARENA-001",
+      "title": "Rank Arena V1 live on dumbmodel.com/arena (Spec 0029)",
+      "status": "done",
+      "claimedBy": "claude",
+      "lane": "claude",
+      "priority": "P1",
+      "source": "Spec 0029",
+      "notes": "Sonnet-built: 3 decks, 12-round seeded gauntlet, 15-line roast commentator w/ optional browser TTS, personalized reveal via real /v1/rank w/ factor chips + honest not-enough-signal state; picks stream as consented exhaust (the RANK-003/004 data engine). Deck-start-as-consent w/ adjacent plain copy accepted by integrator."
     }
   ]
 }

@@ -33,7 +33,6 @@
 - [ ] **SCALE-001** — HNSW indexes + encoder-cache sizing for tenant growth (None)
 - [ ] **PMF-002** — Run 10 discovery interviews with the primary ICP (None)
 - [ ] **BD-004** — 20-prospect list + outreach sequence for the primary ICP (None)
-- [ ] **BD-005** — dumbmodel result page: consented email capture so free checks become a nurture list (None)
 - [ ] **BD-006** — Weekly BD digest: funnel counts + leads + usage rolled into the hq org report (None)
 - [ ] **TOWER-001** — Visual tower V1: DINOv2-S + projection head offline proof w/ eval vs CLIP + text baselines (None)
 - [ ] **TOWER-004** — DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN (None)
@@ -60,14 +59,14 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**PMF-004** — Design-partner program: page + offer on bhenre.com~~
-- [x] ~~**PMF-005** — Competitive teardown + positioning wedge doc~~
-- [x] ~~**BD-003** — Outbound asset kit: one measured-proof one-pager per business unit~~
+- [x] ~~**BD-005** — dumbmodel result page: consented email capture so free checks become a nurture list~~
 - [x] ~~**UXR-001** — Sandbox tenant + nightly purge for the Launchpad~~
 - [x] ~~**UXR-002** — ui-fleet: ModelReportCard + FilterChips components (sonnet-delegated)~~
 - [x] ~~**UXR-004** — arxiviq research-lab adopts ModelReportCard~~
 - [x] ~~**UXR-005** — Hero reframe (RECO-003) + Launchpad CTA~~
 - [x] ~~**RANK-001** — Rank Engine v1: POST /v1/rank — inline or indexed candidates, ephemeral user vector from exhaust, policy weights, factor breakdown~~
+- [x] ~~**RANK-002** — Rank playground UI: /developers gains a rank tab + docs section (sonnet-delegate batch 2)~~
+- [x] ~~**ARENA-001** — Rank Arena V1 live on dumbmodel.com/arena (Spec 0029)~~
 
 ## Specs & context
 

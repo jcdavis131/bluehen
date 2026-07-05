@@ -1,0 +1,225 @@
+/**
+ * Rank Arena (Spec 0029): mobile-first, thumb-reach pick buttons.
+ * Scoped to .arena so it never leaks into the rest of dumbmodel.
+ */
+.arena {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.arena-consent {
+  font-size: 0.875rem;
+  color: var(--bh-text-secondary, var(--bh-muted));
+  line-height: 1.6;
+  margin: 0 0 var(--bh-space-5);
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border: 1px dashed var(--bh-border, #d8d4cc);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface-2, #f6f3ec);
+}
+
+.arena-deck-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--bh-space-4);
+}
+
+.arena-deck-card {
+  text-align: left;
+  cursor: pointer;
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block-sm);
+  padding: var(--bh-space-4);
+  font: inherit;
+  color: inherit;
+  transition: transform var(--bh-duration, 0.15s) var(--bh-ease, ease),
+    box-shadow var(--bh-duration, 0.15s) var(--bh-ease, ease);
+}
+
+.arena-deck-card:hover {
+  transform: translateY(-2px);
+}
+
+.arena-deck-card:active {
+  transform: translate(var(--bh-block-x, 2px), var(--bh-block-y, 2px));
+  box-shadow: none;
+}
+
+.arena-deck-card h3 {
+  margin: 0 0 4px;
+  font-family: var(--bh-font-display);
+}
+
+.arena-deck-card p {
+  margin: 0 0 10px;
+  color: var(--bh-muted);
+  font-size: 0.875rem;
+}
+
+.arena-deck-card .arena-deck-count {
+  font-size: 0.75rem;
+  font-family: var(--bh-font-mono);
+  color: var(--bh-muted);
+}
+
+.arena-round-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--bh-space-4);
+}
+
+.arena-round-counter {
+  font-family: var(--bh-font-mono);
+  font-size: 0.875rem;
+  color: var(--bh-muted);
+}
+
+.arena-tts-toggle {
+  border: 2px solid var(--bh-ink);
+  border-radius: 999px;
+  background: var(--bh-surface);
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.arena-tts-toggle[aria-pressed="true"] {
+  background: var(--bh-hen-blue, var(--bh-accent));
+  color: var(--bh-on-accent, #fff);
+}
+
+.arena-pair {
+  display: grid;
+  gap: var(--bh-space-3);
+  animation: arena-pair-in 0.28s ease;
+}
+
+@keyframes arena-pair-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.arena-pick-btn {
+  min-height: 84px;
+  padding: 18px 22px;
+  border: 2px solid var(--bh-ink);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--bh-duration, 0.15s) var(--bh-ease, ease),
+    box-shadow var(--bh-duration, 0.15s) var(--bh-ease, ease),
+    background var(--bh-duration, 0.15s) var(--bh-ease, ease);
+}
+
+.arena-pick-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.arena-pick-btn:active:not(:disabled),
+.arena-pick-btn.is-chosen {
+  transform: translate(var(--bh-block-x, 2px), var(--bh-block-y, 2px));
+  box-shadow: none;
+  background: var(--bh-hen-blue-dim, var(--bh-surface-2));
+}
+
+.arena-pick-btn:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.arena-vs {
+  text-align: center;
+  font-family: var(--bh-font-mono);
+  font-size: 0.75rem;
+  color: var(--bh-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arena-commentary {
+  min-height: 1.5em;
+  margin-top: var(--bh-space-3);
+  font-style: italic;
+  color: var(--bh-text-secondary, var(--bh-muted));
+  animation: arena-pair-in 0.22s ease;
+}
+
+.arena-reveal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+}
+
+.arena-reveal-item {
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  padding: var(--bh-space-3) var(--bh-space-4);
+}
+
+.arena-reveal-rank {
+  font-family: var(--bh-font-mono);
+  font-weight: 700;
+  margin-right: 8px;
+  color: var(--bh-muted);
+}
+
+.arena-reveal-factors {
+  margin-top: 10px;
+  font-size: 0.8125rem;
+}
+
+.arena-reveal-factors summary {
+  cursor: pointer;
+  color: var(--bh-hen-blue, var(--bh-accent));
+  font-weight: 600;
+}
+
+.arena-reveal-factors dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  margin: 8px 0 0;
+  font-family: var(--bh-font-mono);
+  font-size: 0.75rem;
+}
+
+.arena-reveal-factors dt {
+  color: var(--bh-muted);
+}
+
+.arena-reveal-factors dd {
+  margin: 0;
+}
+
+.arena-share-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-3);
+  margin-top: var(--bh-space-5);
+}
+
+@media (max-width: 480px) {
+  .arena-pick-btn {
+    font-size: 1rem;
+    min-height: 76px;
+  }
+}

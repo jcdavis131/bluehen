@@ -20,6 +20,40 @@ export function HealthCheckPanel() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [scorecardEmail, setScorecardEmail] = useState("");
+  const [scorecardConsent, setScorecardConsent] = useState(false);
+  const [scorecardStatus, setScorecardStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
+  const [scorecardError, setScorecardError] = useState<string | null>(null);
+
+  const scorecardEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(scorecardEmail.trim());
+
+  async function sendScorecardEmail() {
+    if (!result || !scorecardEmailValid || !scorecardConsent) return;
+    setScorecardStatus("sending");
+    setScorecardError(null);
+    try {
+      const res = await fetch("/api/scorecard-email", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email: scorecardEmail.trim(),
+          consent: scorecardConsent,
+          effectiveRank: result.effectiveRank,
+          maxPossibleRank: result.maxPossibleRank,
+          utilization: result.utilization,
+          modelVersion: result.modelVersion,
+          samples: result.samples,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? `request failed (${res.status})`);
+      setScorecardStatus("ok");
+    } catch (e) {
+      setScorecardStatus("err");
+      setScorecardError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
   const texts = raw
     .split(/\n+/)
     .map((t) => t.trim())
@@ -148,7 +182,15 @@ export function HealthCheckPanel() {
               vs. marketing copy usually score differently.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
-              <a className="bh-btn bh-btn--primary bh-btn--hero" href="https://bhenre.com/store">
+              <a
+                className="bh-btn bh-btn--primary bh-btn--hero"
+                href="https://slasso.com/certify"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Get this certified
+              </a>
+              <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/store">
                 Run a full evaluation with credits
               </a>
               <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/contact?topic=evaluation-sprint">
@@ -162,6 +204,62 @@ export function HealthCheckPanel() {
               >
                 Share card ↗
               </a>
+            </div>
+            <p className="bh-meta" style={{ marginTop: 10 }}>
+              Prove it on dumbmodel → certify on{" "}
+              <a href="https://slasso.com/certify" target="_blank" rel="noopener noreferrer">
+                slasso.com/certify
+              </a>{" "}
+              with a published scorecard.
+            </p>
+          </Reveal>
+
+          <Reveal index={5}>
+            <div className="bh-card" style={{ marginTop: 16, padding: 14 }}>
+              <p className="bh-label" style={{ marginBottom: 8 }}>
+                Email me this scorecard + what to do about it
+              </p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
+                <input
+                  type="email"
+                  className="bh-input"
+                  value={scorecardEmail}
+                  onChange={(e) => setScorecardEmail(e.target.value)}
+                  placeholder="you@company.com"
+                  aria-label="Email address"
+                  style={{ flex: "1 1 220px" }}
+                />
+                <button
+                  type="button"
+                  className="bh-btn bh-btn--primary"
+                  onClick={sendScorecardEmail}
+                  disabled={!scorecardEmailValid || !scorecardConsent || scorecardStatus === "sending"}
+                >
+                  {scorecardStatus === "sending" ? "Sending…" : "Send it"}
+                </button>
+              </div>
+              <label style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: "0.75rem" }}>
+                <input
+                  type="checkbox"
+                  checked={scorecardConsent}
+                  onChange={(e) => setScorecardConsent(e.target.checked)}
+                  style={{ marginTop: 3 }}
+                />
+                <span className="bh-muted">
+                  Store my email to send this scorecard and occasional embedding-health tips.
+                  Unsubscribe anytime.
+                </span>
+              </label>
+              {scorecardStatus === "ok" && (
+                <p className="bh-alert bh-alert--ok" style={{ marginTop: 10, marginBottom: 0 }}>
+                  Sent — check your inbox.
+                </p>
+              )}
+              {scorecardStatus === "err" && (
+                <p className="bh-alert bh-alert--error" style={{ marginTop: 10, marginBottom: 0 }}>
+                  {scorecardError}
+                </p>
+              )}
             </div>
           </Reveal>
         </div>

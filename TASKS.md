@@ -40,6 +40,7 @@
 ## In progress
 
 - [ ] **GAME-006** — Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance (@claude)
+- [ ] **OKF-001** — Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge) (@claude)
 
 ## Blocked on infra (work elsewhere)
 

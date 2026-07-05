@@ -545,7 +545,8 @@
       "title": "Weekly literature radar",
       "status": "automated",
       "spec": "0005",
-      "command": "pnpm literature:radar"
+      "command": "pnpm literature:radar",
+      "notes": " [2026-07-05: after each radar run, also run okf_personal.py (asn-engine venv) \u2014 refreshes the personal OKF KB + semantic map on jcamd.com/knowledge.]"
     },
     {
       "id": "DATA-802",
@@ -2102,6 +2103,16 @@
       "priority": "P3",
       "notes": "BLOCKED on image-gen provider key + Operator art sign-off.",
       "source": "Spec 0033 Overworld"
+    },
+    {
+      "id": "OKF-001",
+      "title": "Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge)",
+      "status": "in_progress",
+      "claimedBy": "claude",
+      "lane": "claude",
+      "priority": "P1",
+      "source": "Operator directive 2026-07-05",
+      "notes": "KB seeded (22 papers + 6 concepts, radar-derived, lever-tagged, EVIDENCE-linked concepts); real-embedding PCA map committed; UI building. Continuous curation: capture inbox + weekly radar->okf refresh. LLM-key-gated follow-on: abstractive note synthesis."
     }
   ]
 }

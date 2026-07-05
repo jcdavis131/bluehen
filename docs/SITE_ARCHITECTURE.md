@@ -24,6 +24,13 @@ the loop trains their domain model, gates it against baselines, and
 serves recommendations that improve automatically. Every business unit
 is a demonstration of that promise on a different domain.
 
+**Identity refinement (Operator, 2026-07-04 night): Blue Hen RE is the
+company that builds the games.** arxiviq, dumbmodel, and slasso are
+games first — Semantic Six Degrees, the Arena/Beat-the-Baseline
+arcade, the RAG Gauntlet — and the intelligence engine is what the
+games feed and what the services monetize. Public identity: a game
+studio whose games happen to train a frontier data engine (Spec 0031).
+
 **One-model refinement (Spec 0030, 2026-07-04):** the embedding model
 (BlueHen-Embed, instruction-adaptable, CPU-free-tier hostable) is the
 package's center of gravity — essential by integration (conventions,

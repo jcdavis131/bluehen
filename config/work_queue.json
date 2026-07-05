@@ -1354,11 +1354,14 @@
     {
       "id": "UX-104",
       "title": "arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
       "notes": "First-time visitors currently meet an internal benchmark dashboard. Single query box + results above the fold; TierComparePanel + exam below with an 'engineering deep dive' heading.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T04:42:11.259812+00:00",
+      "completedAt": "2026-07-05T04:43:32.954095+00:00"
     },
     {
       "id": "UX-105",
@@ -1399,11 +1402,14 @@
     {
       "id": "UX-108",
       "title": "Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
       "notes": "Link citations to GitHub blob URLs; 2-3 sentence business summary before the methods jargon.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T04:42:11.483385+00:00",
+      "completedAt": "2026-07-05T04:43:33.208866+00:00"
     },
     {
       "id": "UX-109",
@@ -1438,11 +1444,14 @@
     {
       "id": "UX-112",
       "title": "Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
       "notes": "",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T04:42:11.703805+00:00",
+      "completedAt": "2026-07-05T04:43:33.497811+00:00"
     },
     {
       "id": "WIRE-203",
@@ -2037,6 +2046,15 @@
       "priority": "P2",
       "notes": "BLOCKED on first labels accumulating (GAME-001 live). Extends the harvest/card machinery.",
       "source": "Spec 0031 gamified data engine"
+    },
+    {
+      "id": "BRAND-001",
+      "title": "Fleet copy reflects the studio identity: Blue Hen RE builds the games (arxiviq/dumbmodel/slasso as games first)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "source": "Operator identity refinement 2026-07-04",
+      "notes": "Hero/nav framing pass: dumbmodel = the arcade, slasso = the gauntlet, arxiviq = the weaver; engine + services positioned behind the games per Spec 0031/0030. Enterprise surfaces (storefront/services) keep the measured voice."
     }
   ]
 }

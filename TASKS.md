@@ -24,10 +24,7 @@
   - `Extend tenant_baseline.py --recipe barlow; run --all-sites`
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
-- [ ] **UX-104** — arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section (None)
-- [ ] **UX-108** — Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box (None)
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
-- [ ] **UX-112** — Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language (None)
 - [ ] **FLY-002** — Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports) (None)
 - [ ] **EXH-003** — Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema (None)
 - [ ] **SCALE-001** — HNSW indexes + encoder-cache sizing for tenant growth (None)
@@ -38,6 +35,9 @@
 - [ ] **TOWER-004** — DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN (None)
 - [ ] **UXR-003** — Launchpad wizard at bhenre.com/launchpad (sonnet-delegated, mobile-first) (None)
 - [ ] **PKG-002** — bluehen-stack: the one-command local package (model + harness + skills + free-LLM wiring) (None)
+- [ ] **PKG-003** — dumbmodel = THE model demo site: copy/nav consolidation (None)
+- [ ] **GAME-002** — Metagame impact profile: your contributions to the model (None)
+- [ ] **BRAND-001** — Fleet copy reflects the studio identity: Blue Hen RE builds the games (arxiviq/dumbmodel/slasso as games first) (None)
 
 ## In progress
 

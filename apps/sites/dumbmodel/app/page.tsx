@@ -2,6 +2,7 @@ import Link from "next/link";
 import "./arena/arena.css";
 import {
   Axis,
+  AssetStrip,
   Marginalia,
   PageHeader,
   RuledSection,
@@ -28,6 +29,12 @@ const GAMES = [
     title: "Your Impact",
     body: "Every pick and triplet you've logged — your dents in the model, honestly tallied.",
   },
+  {
+    href: "/check",
+    tag: "Diagnostics",
+    title: "Health Check",
+    body: "Paste your own text, get effective rank and collapse diagnostics on the production model. No signup.",
+  },
 ];
 
 export default function HomePage() {
@@ -39,9 +46,9 @@ export default function HomePage() {
 
       <Axis>
         <PageHeader
-          eyebrow="Rank Anything · Fantasy Everything"
-          title="Rank it blind. Break the baseline."
-          lead="The viral blind-rank format lives here: pick a category, slam through eight head-to-heads, watch your tier list drop. We call our guess before each pick — then you share the list."
+          eyebrow="The Arcade · Blue Hen RE builds the games"
+          title="Play with the model. Try to break it."
+          lead="dumbmodel is the studio's arcade — rank blind, poison a query, run a free health check, watch your dents land in a real model. We roast collapsed representations, never you, and every punchline traces to a number measured live, never staged."
         />
 
         <RuledSection label="Blind Rank">
@@ -67,7 +74,7 @@ export default function HomePage() {
           </p>
         </RuledSection>
 
-        <RuledSection label="More games">
+        <RuledSection label="More to play">
           <div className="arena-deck-grid">
             {GAMES.map((game) => (
               <Link
@@ -95,6 +102,10 @@ export default function HomePage() {
             .
           </p>
           <Marginalia>
+            Every game feeds the engine that trains the models —{" "}
+            <Link href="https://bhenre.com">bhenre.com</Link> runs the business side.
+          </Marginalia>
+          <Marginalia>
             Also playable in the{" "}
             <Link href="https://slasso.com/overworld?utm_source=dumbmodel&utm_medium=home">
               Overworld arcade
@@ -102,6 +113,8 @@ export default function HomePage() {
             .
           </Marginalia>
         </RuledSection>
+
+        <AssetStrip />
       </Axis>
     </>
   );

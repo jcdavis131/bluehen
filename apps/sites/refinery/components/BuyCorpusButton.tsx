@@ -1,6 +1,6 @@
 "use client";
 
-/** Checkout form for full-corpus dataset purchase. */
+/** Checkout form for full-corpus dataset purchase (shown only when commerce is configured). */
 export function BuyCorpusButton({
   datasetSlug,
   variantId,
@@ -10,14 +10,7 @@ export function BuyCorpusButton({
   variantId: string | null;
   commerceReady: boolean;
 }) {
-  if (!commerceReady || !variantId) {
-    return (
-      <p className="bh-meta" style={{ margin: 0 }}>
-        Self-serve checkout wiring in progress — use{" "}
-        <a href={`/requests?dataset=${encodeURIComponent(datasetSlug)}`}>request full access</a> for now.
-      </p>
-    );
-  }
+  if (!commerceReady || !variantId) return null;
 
   return (
     <form action="/api/checkout" method="POST" style={{ display: "inline" }}>

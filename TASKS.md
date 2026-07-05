@@ -25,8 +25,6 @@
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
-- [ ] **FLY-002** — Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports) (None)
-- [ ] **EXH-003** — Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema (None)
 - [ ] **SCALE-001** — HNSW indexes + encoder-cache sizing for tenant growth (None)
 - [ ] **PMF-002** — Run 10 discovery interviews with the primary ICP (None)
 - [ ] **BD-004** — 20-prospect list + outreach sequence for the primary ICP (None)
@@ -34,11 +32,10 @@
 - [ ] **TOWER-001** — Visual tower V1: DINOv2-S + projection head offline proof w/ eval vs CLIP + text baselines (None)
 - [ ] **TOWER-004** — DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN (None)
 - [ ] **UXR-003** — Launchpad wizard at bhenre.com/launchpad (sonnet-delegated, mobile-first) (None)
-- [ ] **AUTO-102** — Self-serve surfaces: /pricing tiers from /v1/pricing + signup flow on /developers (None)
 
 ## In progress
 
-- [ ] **GAME-006** — Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance (@claude)
+_None claimed — run `pick_task.py claim <id>`_
 
 ## Blocked on infra (work elsewhere)
 
@@ -57,14 +54,14 @@
 
 ## Recently done
 
-- [x] ~~**GAME-001** — Beat the Baseline: adversarial query game on dumbmodel (hard-triplet mining)~~
-- [x] ~~**GAME-002** — Metagame impact profile: your contributions to the model~~
 - [x] ~~**GAME-003** — Semantic Six Degrees spec + prototype (arxiviq)~~
 - [x] ~~**GAME-004** — RAG Gauntlet: bounty board on slasso~~
+- [x] ~~**GAME-006** — Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance~~
 - [x] ~~**GAME-007** — Shapley Arena: predict-first taste game + per-round Shapley + layer stack (Spec 0032)~~
 - [x] ~~**BRAND-001** — Fleet copy reflects the studio identity: Blue Hen RE builds the games (arxiviq/dumbmodel/slasso as games first)~~
 - [x] ~~**WORLD-001** — Overworld V0: tile engine + Blue Hen universe map + real-event happenings + worldbook terminals (Spec 0033)~~
 - [x] ~~**OKF-001** — Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge)~~
+- [x] ~~**AUTO-102** — Self-serve surfaces: /pricing tiers from /v1/pricing + signup flow on /developers~~
 
 ## Specs & context
 

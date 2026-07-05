@@ -118,13 +118,17 @@ export default function FinanceLabPage() {
                   <div className="bh-card__title">{p.name}</div>
                   <div className="bh-card__body" style={{ color: "var(--bh-muted)" }}>
                     {CATEGORY_LABEL[p.category] ?? p.category}
+                    {p.domain ? <> · {p.domain}</> : null}
                     {sim && (
                       <>
                         {" "}
-                        · {sim.tradeCount} paper trade{sim.tradeCount === 1 ? "" : "s"} logged
+                        · {sim.tradeCount} paper trade{sim.tradeCount === 1 ? "" : "s"} in latest fixture
                       </>
                     )}
                   </div>
+                  <p className="bh-meta" style={{ marginTop: 6 }}>
+                    Paper-trading simulation only — platform rules from RootMem, no live capital.
+                  </p>
                   <div style={{ marginTop: "var(--bh-space-2)", display: "flex", gap: "var(--bh-space-3)" }}>
                     <Link href={`/platforms/${p.id}`} className="bh-link">
                       Rules →

@@ -1,6 +1,9 @@
 import Link from "next/link";
 import data from "../../data/methods.json";
-import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";import { ProductionCaseStudy } from "../../components/ProductionCaseStudy";
+import { PageHeader } from "@synthaembed/ui-fleet";
+import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
+import { ProductionCaseStudy } from "../../components/ProductionCaseStudy";
+import { EvidenceLink } from "../../lib/evidenceLinks";
 
 export const metadata = {
   title: "Method — Applied Research · arxiviq.com",
@@ -30,12 +33,26 @@ export default function MethodsPage() {
         lead={
           <>
             The org recipe behind arxiviq.com, with the dated evidence that supports each choice. Every
-            claim traces to a row in <code>EVIDENCE.md</code>. {RE.tech} is not shipped on a hypothesis.
+            claim traces to a row in{" "}
+            <a href="https://github.com/jcdavis131/bluehenre/blob/main/EVIDENCE.md" target="_blank" rel="noopener noreferrer">
+              EVIDENCE.md
+            </a>
+            . {RE.tech} is not shipped on a hypothesis.
             See the <Link href="/research-lab">Research Registry</Link> for the full method table.
           </>
         }
         badge={<span className="fleet-badge ok">R&amp;D · Evidence-backed</span>}
       />
+
+      <section className="bh-card bh-card--organic" style={{ marginBottom: 24 }}>
+        <div className="bh-card__title">Plain-language takeaway</div>
+        <p className="bh-card__body">
+          arxiviq.com runs a domain-tuned embedding model on a harvested arXiv corpus. We only ship changes
+          that pass measured deploy gates (nDCG, effective rank, edge-tier drop). Methods that looked good
+          in synthetic sweeps but failed real-pair eval or edge stress were rejected — the timeline below is
+          the audit trail, not marketing copy.
+        </p>
+      </section>
 
       <ProductionCaseStudy />
 
@@ -126,7 +143,7 @@ export default function MethodsPage() {
                     <li key={v.name} style={{ marginBottom: 8 }}>
                       <div style={{ fontWeight: 600 }}>{v.name}</div>
                       <div style={{ opacity: 0.7 }}>
-                        {v.metric} · {v.evidence}
+                        {v.metric} · <EvidenceLink ref={v.evidence} />
                       </div>
                     </li>
                   ))}

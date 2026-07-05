@@ -374,6 +374,30 @@ def _sandbox_purge_tick() -> None:
                 continue
 
 
+_GAME_LABELS_LAST: str | None = None
+
+
+def _game_labels_tick() -> None:
+    """Spec 0031 §3 (GAME-006): roll harvested studio-game labels into
+    refinery datasets once per ISO week — same guard-file dedup pattern
+    as `_sandbox_purge_tick`, just weekly since labels accrue slower than
+    daily sandbox churn."""
+    from datetime import datetime, timezone
+
+    global _GAME_LABELS_LAST
+    iso = datetime.now(timezone.utc).isocalendar()
+    week_key = f"{iso.year}-W{iso.week:02d}"
+    if _GAME_LABELS_LAST == week_key:
+        return
+    _GAME_LABELS_LAST = week_key
+
+    from app.services.game_labels import roll_game_labels
+
+    out = roll_game_labels()
+    if out.get("written"):
+        log.info("game-label roll: %s", out)
+
+
 def run_forever(poll_seconds: float = 2.0) -> None:
     from app.config import ARTIFACTS_DIR, CHARTER_GATE_ENABLED, MODEL_REGISTRY_URI
 
@@ -442,6 +466,10 @@ def run_forever(poll_seconds: float = 2.0) -> None:
                 _sandbox_purge_tick()
             except Exception as exc:
                 log.warning("sandbox purge tick failed: %s", exc)
+            try:
+                _game_labels_tick()
+            except Exception as exc:
+                log.warning("game labels tick failed: %s", exc)
             time.sleep(poll_seconds)
             continue
         try:

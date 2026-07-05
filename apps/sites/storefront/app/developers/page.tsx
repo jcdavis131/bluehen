@@ -3,6 +3,7 @@ import { PageHeader, RuledSection } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { CodeBlock } from "./CodeBlock";
 import { RankPlayground } from "./RankPlayground";
+import { SignupPanel } from "./SignupPanel";
 
 export const metadata = {
   title: "Developers — Blue Hen RE",
@@ -241,6 +242,14 @@ export default function DevelopersPage() {
           self-serve key creation yet. <Link href="/contact?topic=api-access">Request one via a briefing</Link>,
           and we provision the workspace and hand you the key directly.
         </p>
+      </RuledSection>
+
+      <RuledSection label="Get a key — instantly">
+        <p className="bh-card__body">
+          Self-serve signup (Spec 0034): a Free-tier workspace and API key,
+          issued in one call, no briefing required.
+        </p>
+        <SignupPanel />
       </RuledSection>
 
       <RuledSection label="Quickstart">

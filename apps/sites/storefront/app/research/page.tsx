@@ -5,6 +5,13 @@ export const metadata = {
   title: `${GLOSSARY.experimentMuseum} — Storefront`,
 };
 
+const EVIDENCE_BASE = "https://github.com/jcdavis131/bluehenre/blob/main/EVIDENCE.md";
+
+function evidenceRefHref(ref: string): string {
+  const hash = ref.includes("#") ? ref.split("#")[1] : ref.replace(/^EVIDENCE\.md#?/, "");
+  return hash ? `${EVIDENCE_BASE}#${hash.replace(/\./g, "-")}` : EVIDENCE_BASE;
+}
+
 export default function ResearchPage() {
   const surface = getSiteCircuit("storefront");
   const researchRag = getSite("research");
@@ -33,7 +40,10 @@ export default function ResearchPage() {
             <h3 className="bh-card__title">{e.title}</h3>
             <p className="bh-card__body">{e.verdict}</p>
             <div className="bh-meta">
-              {e.runs} runs · {e.ref}
+              {e.runs} runs ·{" "}
+              <a href={evidenceRefHref(e.ref)} target="_blank" rel="noopener noreferrer">
+                {e.ref}
+              </a>
             </div>
           </article>
         ))}

@@ -1498,10 +1498,11 @@
     {
       "id": "FLY-002",
       "title": "Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports)",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
-      "notes": "Makes the factory visible at every storefront. Registry-driven component (ui-fleet) reading /v1/catalog/stats + /v1/models via each site's BFF; honest empty states. Reinforces 'the loop produces while you watch'."
+      "notes": "SHIPPED: AssetStrip on dumbmodel/validation/refinery homepages \u2014 renders only on live stats, null on failure (no zeros).",
+      "claimedBy": "claude"
     },
     {
       "id": "EXH-001",
@@ -1526,11 +1527,11 @@
     {
       "id": "EXH-003",
       "title": "Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
-      "claimedBy": null,
+      "claimedBy": "claude",
       "priority": "P1",
-      "notes": "Re-document existing intakes as exhaust specializations OR route through the unified endpoint via each BFF; consent copy unchanged. ACCEPT: exhaust events visible in /v1/admin/usage under 'exhaust'.",
+      "notes": "Satisfied by PMF-003 + the games: all consumer intakes emit through /v1/exhaust w/ event names; closed.",
       "source": "Spec 0025 intelligence engine"
     },
     {
@@ -2050,10 +2051,10 @@
     {
       "id": "GAME-006",
       "title": "Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance",
-      "status": "in_progress",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "BLOCKED on first labels accumulating (GAME-001 live). Extends the harvest/card machinery.",
+      "notes": "SHIPPED: roll_game_labels \u2014 inbox label events (>=5/kind) append into real datalab-format datasets w/ provenance cards + player-provenance preserved; admin endpoint + weekly worker tick; offsets-state idempotent.",
       "source": "Spec 0031 gamified data engine",
       "claimedBy": "claude",
       "claimedAt": "2026-07-05T05:04:13.200166+00:00"
@@ -2077,7 +2078,7 @@
       "lane": "cursor",
       "priority": "P2",
       "source": "Operator identity refinement 2026-07-04",
-      "notes": "Hero/nav framing pass: dumbmodel = the arcade, slasso = the gauntlet, arxiviq = the weaver; engine + services positioned behind the games per Spec 0031/0030. Enterprise surfaces (storefront/services) keep the measured voice.",
+      "notes": "SHIPPED: The Arcade (dumbmodel) + The Proving Grounds (slasso) heroes; all game doors prominent; quiet engine tie-in line both.",
       "claimedBy": "cursor",
       "claimedAt": "2026-07-05T07:08:24.369127+00:00",
       "completedAt": "2026-07-05T07:11:09.801442+00:00"
@@ -2132,11 +2133,12 @@
     {
       "id": "AUTO-102",
       "title": "Self-serve surfaces: /pricing tiers from /v1/pricing + signup flow on /developers",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
-      "notes": "Instant-key signup UI (calls /v1/signup, shows the key once w/ copy button + save warning), tier cards from the public pricing endpoint, checkout buttons that surface the honest 503 line until AUTO-101.",
-      "source": "Spec 0034 autonomous business"
+      "notes": "SHIPPED: instant-key SignupPanel on /developers (key shown once, verbatim honesty), /pricing reworked to published tiers w/ honest payments-pending lines, consulting demoted to add-on.",
+      "source": "Spec 0034 autonomous business",
+      "claimedBy": "claude"
     },
     {
       "id": "AUTO-103",

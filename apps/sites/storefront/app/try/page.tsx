@@ -47,7 +47,15 @@ export default async function HubTryPage() {
           {typeof deployed?.ndcg10 === "number" ? <>; currently {deployed.ndcg10.toFixed(3)}</> : null}).
           Both must clear the deploy gate (Spec 0008) before a model serves this
           page. Method details in the <Link href="/research">experiment museum</Link>;
-          measured results in EVIDENCE.md.
+          measured results in{" "}
+          <a
+            href="https://github.com/jcdavis131/bluehenre/blob/main/EVIDENCE.md"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            EVIDENCE.md
+          </a>
+          .
         </p>
       </div>
     </>

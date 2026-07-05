@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CountUpStat, PageHeader, Reveal, TeamStrip } from "@synthaembed/ui-fleet";
+import { AssetStrip, CountUpStat, PageHeader, Reveal, TeamStrip } from "@synthaembed/ui-fleet";
 import { getSiteCircuit } from "@synthaembed/fleet";
 import { getStats, listDatasets } from "../lib/catalog";
 
@@ -93,6 +93,8 @@ export default async function Home() {
           </Link>
         </div>
       </Reveal>
+
+      <AssetStrip />
     </>
   );
 }

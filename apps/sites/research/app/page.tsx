@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ArxivExamDemo } from "../components/ArxivExamDemo";
+import { ArxivSearchHero } from "../components/ArxivSearchHero";
 import {
   Axis,
   Marginalia,
@@ -9,6 +9,7 @@ import {
   TeamStrip,
 } from "@synthaembed/ui-fleet";
 import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
+import Link from "next/link";
 
 export const metadata = {
   title: "Applied Research — arxiviq.com",
@@ -33,17 +34,21 @@ export default function ResearchRagPage() {
           marginalia={`${RE.tech} in production · live search`}
         >
           <p className="bh-title-card__copy">
-            A research retrieval assistant, live below. The same production stack we run for
-            customers, pointed at arXiv. {RE.tech} in production ·{" "}
+            Type a question — get ranked paper chunks from our production arXiv index. Same stack we run
+            for customers.{" "}
             <Link href="/research-lab">
-              browse the {GLOSSARY.experimentMuseum.toLowerCase()} →
+              Browse the {GLOSSARY.experimentMuseum.toLowerCase()} →
             </Link>
           </p>
         </TitleCard>
 
-      <TeamStrip siteId="research" />
+        <TeamStrip siteId="research" />
 
-        <RuledSection label="Live arXiv search">
+        <RuledSection label="Try it">
+          <ArxivSearchHero />
+        </RuledSection>
+
+        <RuledSection label="Engineering deep dive">
           <ArxivExamDemo />
         </RuledSection>
 

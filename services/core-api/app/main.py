@@ -1034,6 +1034,14 @@ def admin_exhaust_summary(_: Annotated[None, Depends(require_admin)], days: int 
     return summary(days=min(days, 90))
 
 
+@app.post("/v1/admin/games/roll-labels")
+def admin_games_roll_labels(_: Annotated[None, Depends(require_admin)]):
+    """Roll harvested game labels into refinery datasets (Spec 0031 §3, GAME-006)."""
+    from app.services.game_labels import roll_game_labels
+
+    return roll_game_labels()
+
+
 @app.post("/v1/admin/deploy")
 def admin_deploy(body: dict, _: Annotated[None, Depends(require_admin)]):
     """Deploy after charter issued — operator promotion path."""

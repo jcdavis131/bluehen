@@ -21,6 +21,7 @@ export { LiveSearchPanel } from "./LiveSearchPanel";
 export { FeedbackForm } from "./FeedbackForm";
 export { SearchHitList } from "./SearchHitList";
 export { ApiStatusBanner } from "./ApiStatusBanner";
+export { AssetStrip } from "./AssetStrip";
 export { PageHeader } from "./PageHeader";
 export type {
   SearchHit,

@@ -10,8 +10,8 @@ export default function FeedbackPage() {
     <>
       <PageHeader
         eyebrow="Applied Research · arxiviq.com"
-        title={GLOSSARY.feedback}
-        lead={`Signals are recorded in the ${GLOSSARY.raceLog} for cross-division lifecycle planning.`}
+        title="Tell us what missed"
+        lead="If a search result was wrong or unhelpful, leave a note here. We read every submission when prioritizing the next corpus refresh and model run."
       />
       <FeedbackForm siteId="research" division="research" />
     </>

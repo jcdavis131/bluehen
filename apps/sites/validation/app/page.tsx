@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BENCHMARK_EXAMS, RAG_TIERS, hallOfCone } from "@synthaembed/eval-public";
 import {
   Axis,
+  AssetStrip,
   Marginalia,
   ProgressMeter,
   RuledSection,
@@ -13,9 +14,31 @@ import { siteModels } from "@synthaembed/ui-fleet/site-api";
 import { getSiteCircuit, GLOSSARY, RE } from "@synthaembed/fleet";
 
 export const metadata = {
-  title: "Validation Lab — slasso.com",
-  description: "Certified RAG benchmarks · Silver Lasso lineage",
+  title: "The Proving Grounds — slasso.com",
+  description:
+    "Walk the lab: the Overworld, the Verdict, and certified RAG benchmarks · Silver Lasso lineage",
 };
+
+const PROVING_GROUNDS = [
+  {
+    href: "/overworld",
+    tag: "The world",
+    title: "The Overworld",
+    body: "Walk six real districts — a tile world built from the same engine the fleet runs on. Nothing staged.",
+  },
+  {
+    href: "/verdict",
+    tag: "The judge",
+    title: "The Verdict",
+    body: "Judge a query against two retrieved passages, rapid-fire. The engine's live ranking is revealed after your call.",
+  },
+  {
+    href: "/certify",
+    tag: "The bench",
+    title: "Get Certified",
+    body: "The serious bench underneath the games: a paid, reproducible benchmark run with a published, linkable scorecard.",
+  },
+];
 
 type LiveModel = {
   version: string;
@@ -54,17 +77,38 @@ export default async function BenchmarkHome() {
       <Axis wide>
         <TitleCard
           eyebrow={surface?.eyebrow}
-          title="Validation Lab"
+          title="The Proving Grounds"
           marginalia={`Certification · ${RE.tech} harness`}
         >
           <p className="bh-title-card__copy">
-            Get your RAG stack certified: a paid, reproducible benchmark run with a published,
-            linkable scorecard. Evidence-backed, same harness that gates our own deploys.{" "}
-            <Link href="/certify">How certification works →</Link>
+            A lab you can walk through: the Overworld is the world, the Verdict is the judge, and
+            certification is the serious bench underneath both. Evidence-backed, same harness that
+            gates our own deploys. <Link href="/certify">How certification works →</Link>
           </p>
         </TitleCard>
 
       <TeamStrip siteId="validation" />
+
+        <RuledSection label="Walk the lab">
+          <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
+            {PROVING_GROUNDS.map((g) => (
+              <Link
+                key={g.href}
+                href={g.href}
+                className="bh-card"
+                style={{ display: "block", textDecoration: "none", color: "inherit" }}
+              >
+                <div className="bh-meta">{g.tag}</div>
+                <div className="bh-card__title" style={{ marginTop: "var(--bh-space-1)" }}>
+                  {g.title}
+                </div>
+                <p className="bh-card__body" style={{ marginTop: "var(--bh-space-2)" }}>
+                  {g.body}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </RuledSection>
 
         <RuledSection label="Evaluation tiers">
           <div className="bh-grid" style={{ marginBottom: "var(--bh-space-8)" }}>
@@ -177,8 +221,14 @@ export default async function BenchmarkHome() {
           <Marginalia>
             {GLOSSARY.deployedModel} rows are the same evidence the worker records. Measured gates, not marketing claims.
           </Marginalia>
+          <Marginalia>
+            Every game feeds the engine that trains the models —{" "}
+            <Link href="https://bhenre.com">bhenre.com</Link> runs the business side.
+          </Marginalia>
           <Link href="https://dumbmodel.com">Baseline comparison on dumbmodel.com →</Link>
         </RuledSection>
+
+        <AssetStrip />
       </Axis>
     </>
   );

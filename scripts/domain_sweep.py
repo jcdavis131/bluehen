@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -71,10 +72,11 @@ def main() -> int:
     raw_ood = evaluate(encode_texts(BACKBONE, ood_texts), ood_labels)
     print(f"raw MiniLM: in-domain kNN {raw_id['knnAcc']:.3f}, OOD kNN {raw_ood['knnAcc']:.3f}", flush=True)
 
+    vic_axis = (False,) if args.arm == "barlow" else (False, True)
     grid = [(size, ep, vic, seed)
             for size in (300, 1200)
             for ep in (2,)
-            for vic in (False, True)
+            for vic in vic_axis
             for seed in (0, 1)]
 
     out = REPO / "data" / "domain_sweep_ckpts"
@@ -98,6 +100,10 @@ def main() -> int:
                    "forgetting": round(raw_ood["knnAcc"] - ood_m["knnAcc"], 4),
                    "indomain_gain": round(id_m["knnAcc"] - raw_id["knnAcc"], 4)}
             fh.write(json.dumps(row) + "\n")
+            if os.environ.get("CLEAN_CKPTS") == "1":
+                import shutil
+
+                shutil.rmtree(out / f"{size}_{ep}_{vic}_{seed}", ignore_errors=True)
             fh.flush()
             print(f"  size{size} ep{ep} {'vic' if vic else 'inf'} s{seed}: "
                   f"ID {row['knn_indomain']} (+{row['indomain_gain']}) "

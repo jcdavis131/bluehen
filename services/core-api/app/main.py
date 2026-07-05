@@ -949,6 +949,16 @@ def admin_hill_climb(body: AdminHillClimbIn, request: Request, _: Annotated[None
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
+@app.get("/v1/games/impact")
+def games_impact(tenant: Annotated[TenantCtx, Depends(require_tenant)],
+                 userRef: str | None = None,
+                 _rl: Annotated[None, Depends(rate_limit("impact", 30))] = None):
+    """Player impact + pseudonymous leaderboard (GAME-002)."""
+    from app.services.exhaust import impact
+
+    return impact(tenant.workspace_id, userRef)
+
+
 @app.get("/v1/admin/exhaust/summary")
 def admin_exhaust_summary(_: Annotated[None, Depends(require_admin)], days: int = 31):
     """Funnel counts by source+event (PMF-003 dogfood)."""

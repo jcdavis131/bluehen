@@ -77,3 +77,54 @@ def summary(days: int = 31) -> dict:
                 continue
     return {"sinceDays": days,
             "events": [{"key": k, "count": v} for k, v in counts.most_common(50)]}
+
+
+GAME_EVENTS = {"beat-baseline": "triplets", "arena-pick": "picks",
+               "verdict": "verdicts", "leyline-hop": "edges",
+               "leyline-path": "paths", "overworld-visit": "visits"}
+
+
+def impact(workspace_id: uuid.UUID, user_ref: str | None = None,
+           days: int = 90) -> dict:
+    """Player impact (GAME-002): label counts by contribution type for a
+    userRef, plus a pseudonymous top-10 leaderboard for the tenant's
+    sources. File-scan bounded like summary(); honest zeros."""
+    from collections import Counter
+    from datetime import timedelta
+
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+    mine: Counter = Counter()
+    totals: Counter = Counter()
+    by_player: Counter = Counter()
+    inbox = DATALAB_DIR / "inbox"
+    if inbox.exists():
+        for path in sorted(inbox.glob("exhaust-*.jsonl")):
+            try:
+                lines = path.read_text(encoding="utf-8").splitlines()
+            except OSError:
+                continue
+            for line in lines[-20000:]:
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if row.get("workspaceId") != str(workspace_id):
+                    continue
+                if (row.get("ts") or "") < cutoff:
+                    continue
+                payload = row.get("payload") or {}
+                kind = GAME_EVENTS.get(payload.get("event") or "")
+                if kind is None:
+                    continue
+                ref = payload.get("userRef")
+                totals[kind] += 1
+                if ref:
+                    by_player[ref] += 1
+                if user_ref and ref == user_ref:
+                    mine[kind] += 1
+    board = [{"ref": (r[:4] + "…" + r[-2:]) if len(r) > 8 else r, "contributions": c}
+             for r, c in by_player.most_common(10)]
+    return {"sinceDays": days,
+            "you": dict(mine) if user_ref else None,
+            "totals": dict(totals),
+            "leaderboard": board}

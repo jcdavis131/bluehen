@@ -1,7 +1,7 @@
 import "./arena.css";
 import { PageHeader } from "@synthaembed/ui-fleet";
 import { listDecks } from "./decks";
-import { ArenaClient } from "./ArenaClient";
+import { ArenaClientShell } from "./ArenaClientShell";
 
 export const metadata = {
   title: "Shapley Arena — dumbmodel.com",
@@ -19,7 +19,7 @@ export default function ArenaPage() {
         title="Can we guess your taste?"
         lead="Eight rounds: model predicts, you pick, Shapley explains. Real rank math — no decorative numbers."
       />
-      <ArenaClient decks={decks} />
+      <ArenaClientShell decks={decks} />
     </>
   );
 }

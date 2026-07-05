@@ -1,0 +1,34 @@
+{
+  "package": "bluehen-stack",
+  "version": "0.1.0-v1",
+  "spec": "specs/0030-one-model-package.md §3",
+  "tokenEconomicsContract": "specs/0033-overworld.md §token-economics-contract (normative for this harness)",
+  "status": "v1 = manifest + installer skeleton; extraction from the monorepo in progress",
+  "components": {
+    "embeddingServer": {
+      "source": "packages/asn-engine (encoder/train_loop/model) + services/core-api/app/services/models_svc.py (embed/quantize/Matryoshka-truncate serving path)",
+      "status": "extractable",
+      "note": "Runs today inside the monorepo; core-api owns the HTTP serving surface, asn-engine owns the encoder. Not yet cut into a standalone server."
+    },
+    "evalHarness": {
+      "source": "packages/eval-harness (eval_harness/metrics.py, gates.py, runner.py)",
+      "status": "extractable",
+      "note": "Module imports cleanly and is exercised transitively by scripts/realtext_methods.py (verified). pyproject.toml declares testpaths=[\"tests\"] but no tests/ directory exists yet in this package — no bundled unit test suite today."
+    },
+    "tuningLoop": {
+      "source": "scripts/autoresearch_*.py (prepare/run/orchestrate/train/utils) driving packages/asn-engine/asn_engine/train_loop.py",
+      "status": "curation-needed",
+      "note": "Runs today (verified: scripts/realtext_methods.py --smoke completes end-to-end) but is coupled to monorepo-only state: config/work_queue.json, TASKS.md, data/autoresearch/champion_train.py auto-revert. Needs decoupling from those conventions before it is a clean standalone extract."
+    },
+    "skills": {
+      "source": "config/omni-skills + apps/synthorg/agent/skills",
+      "status": "curation-needed",
+      "note": "config/omni-skills/best_skill.md (Omni-Market trading skill, simulation-only) + apps/synthorg/agent/skills/{deploy-checklist,eval-gates,lifecycle,omni-market}.md exist and are readable today, but reference monorepo-specific paths (config/market-platforms.json, data/omni/trajectories.jsonl, /WHITEPAPER.md) that need generalizing for a standalone package."
+    },
+    "llmWiring": {
+      "targets": ["ollama", "vllm", "glm-class"],
+      "status": "planned",
+      "note": "No ollama/vllm/GLM integration code exists in the repo yet (verified: no matches under scripts/). Token-economics contract (cacheable static prefix, RAG-minimal context, BYOK per-turn metering, free/open models default) is specified in specs/0033-overworld.md but unimplemented."
+    }
+  }
+}

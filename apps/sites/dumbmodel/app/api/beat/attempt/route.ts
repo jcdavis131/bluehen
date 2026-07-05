@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     const data = (await coreApiFetch("/v1/search", {
       method: "POST",
       body: JSON.stringify({ query, k: 5 }),
-    })) as SearchResponse;
+    }, { useSearchKey: true })) as SearchResponse;
 
     const hits = Array.isArray(data.hits) ? data.hits : [];
     const anchorIndex = hits.findIndex((h) => String(h.id ?? "") === anchorId);

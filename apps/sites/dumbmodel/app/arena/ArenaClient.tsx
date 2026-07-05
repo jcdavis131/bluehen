@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { ArenaDeck } from "./decks";
+import { getDeck } from "./decks";
 import { DeckSelect } from "./DeckSelect";
 import { Gauntlet } from "./Gauntlet";
 import { RevealScreen } from "./RevealScreen";
+import type { SessionStats } from "./types";
 
 const USER_REF_KEY = "arena-user-ref";
 
@@ -22,30 +25,46 @@ function readOrCreateUserRef(): string {
 }
 
 type Screen = "select" | "gauntlet" | "reveal";
-type SessionPick = { round: number; id: string; text: string };
 
 /** Shapley Arena orchestrator (Spec 0032): deck → 8-round gauntlet → reveal. */
 export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
+  const searchParams = useSearchParams();
+  const deckParam = searchParams.get("deck");
+
   const [userRef, setUserRef] = useState("");
   const [screen, setScreen] = useState<Screen>("select");
   const [deck, setDeck] = useState<ArenaDeck | null>(null);
   const [playCount, setPlayCount] = useState(0);
-  const [sessionPicks, setSessionPicks] = useState<SessionPick[]>([]);
+  const [sessionStats, setSessionStats] = useState<SessionStats | null>(null);
+  const [autoStarted, setAutoStarted] = useState(false);
 
   useEffect(() => {
     setUserRef(readOrCreateUserRef());
   }, []);
 
+  useEffect(() => {
+    if (autoStarted || !deckParam) return;
+    const picked = getDeck(deckParam);
+    if (picked) {
+      setDeck(picked);
+      setPlayCount((n) => n + 1);
+      setSessionStats(null);
+      setScreen("gauntlet");
+      setAutoStarted(true);
+    }
+  }, [autoStarted, deckParam]);
+
   function startDeck(d: ArenaDeck) {
     setDeck(d);
     setPlayCount((n) => n + 1);
-    setSessionPicks([]);
+    setSessionStats(null);
     setScreen("gauntlet");
   }
 
   function backToSelect() {
     setScreen("select");
     setDeck(null);
+    setSessionStats(null);
   }
 
   return (
@@ -62,18 +81,18 @@ export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
           key={`${deck.slug}-${playCount}`}
           deck={deck}
           userRef={userRef}
-          onDone={(picks) => {
-            setSessionPicks(picks);
+          onDone={(stats) => {
+            setSessionStats(stats);
             setScreen("reveal");
           }}
         />
       )}
 
-      {screen === "reveal" && deck && (
+      {screen === "reveal" && deck && sessionStats && (
         <RevealScreen
           deck={deck}
           userRef={userRef}
-          sessionPicks={sessionPicks}
+          sessionStats={sessionStats}
           onReplay={backToSelect}
         />
       )}

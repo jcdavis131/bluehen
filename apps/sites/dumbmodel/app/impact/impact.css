@@ -1,0 +1,150 @@
+/**
+ * Player Impact (Spec GAME-002): same block-shadow card language as the
+ * Arena (arena.css) and Beat the Baseline (beat.css). Scoped to .impact
+ * so it never leaks into the rest of dumbmodel.
+ */
+.impact {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.impact-card {
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block-sm);
+  padding: var(--bh-space-4);
+  margin-bottom: var(--bh-space-4);
+}
+
+.impact-card-title {
+  margin: 0 0 var(--bh-space-3);
+  font-family: var(--bh-font-display);
+}
+
+.impact-since {
+  margin: -8px 0 var(--bh-space-3);
+  font-family: var(--bh-font-mono);
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+}
+
+.impact-empty {
+  margin: 0;
+  color: var(--bh-text-secondary, var(--bh-muted));
+}
+
+.impact-count-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-3);
+}
+
+.impact-count-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.impact-count-value {
+  font-family: var(--bh-font-mono);
+  font-weight: 700;
+  font-size: 1.125rem;
+  min-width: 2ch;
+}
+
+.impact-count-label {
+  color: var(--bh-text-secondary, var(--bh-muted));
+  line-height: 1.5;
+}
+
+.impact-count-explain {
+  color: var(--bh-muted);
+}
+
+.impact-leaderboard {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.impact-leaderboard-row {
+  display: grid;
+  grid-template-columns: 2ch 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--bh-border, #d8d4cc);
+}
+
+.impact-leaderboard-row:last-child {
+  border-bottom: none;
+}
+
+.impact-leaderboard-rank {
+  font-family: var(--bh-font-mono);
+  color: var(--bh-muted);
+}
+
+.impact-leaderboard-ref {
+  font-family: var(--bh-font-mono);
+  font-size: 0.9375rem;
+}
+
+.impact-leaderboard-count {
+  font-family: var(--bh-font-mono);
+  font-weight: 700;
+}
+
+.impact-caption {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--bh-muted);
+  margin: var(--bh-space-2) 0 var(--bh-space-5);
+}
+
+.impact-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--bh-space-4);
+}
+
+.impact-tile {
+  display: block;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block-sm);
+  padding: var(--bh-space-4);
+  transition: transform var(--bh-duration, 0.15s) var(--bh-ease, ease),
+    box-shadow var(--bh-duration, 0.15s) var(--bh-ease, ease);
+}
+
+.impact-tile:hover {
+  transform: translateY(-2px);
+}
+
+.impact-tile:active {
+  transform: translate(var(--bh-block-x, 2px), var(--bh-block-y, 2px));
+  box-shadow: none;
+}
+
+.impact-tile h4 {
+  margin: 0 0 4px;
+  font-family: var(--bh-font-display);
+}
+
+.impact-tile p {
+  margin: 0;
+  color: var(--bh-muted);
+  font-size: 0.875rem;
+}

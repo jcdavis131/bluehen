@@ -21,7 +21,7 @@ export async function GET() {
     const data = (await coreApiFetch("/v1/search", {
       method: "POST",
       body: JSON.stringify({ query: randomProbe(), k: 8 }),
-    })) as SearchResponse;
+    }, { useSearchKey: true })) as SearchResponse;
 
     const hits = Array.isArray(data.hits) ? data.hits : [];
     if (hits.length === 0) {

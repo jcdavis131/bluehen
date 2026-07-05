@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProgressMeter } from "@synthaembed/ui-fleet";
 import type { ArenaDeck } from "./decks";
+import { SessionScoreCard } from "./SessionScoreCard";
+import type { SessionStats } from "./types";
 
 type RankFactors = {
   personal: number | null;
@@ -24,17 +26,16 @@ type RankResponse = {
   candidateCount: number;
 };
 
-/** The Reveal (Spec 0029 §1.3): a real /v1/rank response, never
- * fabricated — the honest note appears whenever personalized is false. */
+/** The Reveal (Spec 0029 §1.3 + 0032): full-deck rank + session score. */
 export function RevealScreen({
   deck,
   userRef,
-  sessionPicks = [],
+  sessionStats,
   onReplay,
 }: {
   deck: ArenaDeck;
   userRef: string;
-  sessionPicks?: { round: number; id: string; text: string }[];
+  sessionStats: SessionStats;
   onReplay: () => void;
 }) {
   const [result, setResult] = useState<RankResponse | null>(null);
@@ -42,6 +43,11 @@ export function RevealScreen({
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [shareSupported, setShareSupported] = useState(false);
+
+  const pickedIds = useMemo(
+    () => new Set(sessionStats.picks.map((p) => p.id)),
+    [sessionStats.picks],
+  );
 
   useEffect(() => {
     setShareSupported(typeof navigator !== "undefined" && "share" in navigator);
@@ -56,7 +62,11 @@ export function RevealScreen({
         const res = await fetch("/api/arena/reveal", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ userRef, items: deck.items }),
+          body: JSON.stringify({
+            userRef,
+            query: deck.name,
+            items: deck.items,
+          }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error ?? `reveal failed (${res.status})`);
@@ -75,16 +85,17 @@ export function RevealScreen({
   }, [deck.slug, userRef]);
 
   async function share() {
+    const pct = Math.round((sessionStats.matches / sessionStats.total) * 100);
     const shareData = {
-      title: `${deck.name} — Rank Arena`,
-      text: `I just ranked ${deck.name} in dumbmodel's Rank Arena. Your turn.`,
-      url: typeof window !== "undefined" ? window.location.href : "",
+      title: `${deck.name} — Shapley Arena`,
+      text: `I matched the model ${sessionStats.matches}/${sessionStats.total} (${pct}%) on ${deck.name}. Your turn.`,
+      url: typeof window !== "undefined" ? `${window.location.origin}/arena?deck=${deck.slug}` : "",
     };
     if (shareSupported) {
       try {
         await navigator.share(shareData);
       } catch {
-        // user cancelled the share sheet — not an error worth surfacing
+        // user cancelled
       }
       return;
     }
@@ -98,12 +109,18 @@ export function RevealScreen({
   }
 
   if (loading) {
-    return <p className="bh-muted">Ranking your picks…</p>;
+    return (
+      <div>
+        <SessionScoreCard stats={sessionStats} />
+        <p className="bh-muted">Ranking your picks…</p>
+      </div>
+    );
   }
 
   if (error) {
     return (
       <div>
+        <SessionScoreCard stats={sessionStats} />
         <div className="bh-alert bh-alert--error">{error}</div>
         <div className="arena-share-row">
           <button type="button" className="bh-btn bh-btn--ghost" onClick={onReplay}>
@@ -118,29 +135,41 @@ export function RevealScreen({
 
   return (
     <div>
+      <SessionScoreCard stats={sessionStats} />
+
       <p className="bh-meta">
         {result.personalized
           ? "Built from your 8 picks just now — play another deck and watch it sharpen."
           : "Not enough signal yet — the more you pick, the sharper this gets."}
       </p>
 
-      {sessionPicks.length > 0 && (
-        <ol className="arena-pick-timeline">
-          {sessionPicks.map((p) => (
-            <li key={`${p.round}-${p.id}`}>
-              <span className="arena-reveal-rank">R{p.round}</span>
-              {p.text}
-            </li>
-          ))}
-        </ol>
+      {sessionStats.picks.length > 0 && (
+        <details className="arena-pick-timeline-wrap" open>
+          <summary>Your 8 picks</summary>
+          <ol className="arena-pick-timeline">
+            {sessionStats.picks.map((p) => (
+              <li key={`${p.round}-${p.id}`}>
+                <span className="arena-reveal-rank">R{p.round}</span>
+                {p.text}
+              </li>
+            ))}
+          </ol>
+        </details>
       )}
 
+      <h3 className="arena-reveal-heading">Full deck ranking</h3>
       <ol className="arena-reveal-list">
         {result.ranked.map((item, i) => (
-          <li key={item.id} className="arena-reveal-item">
+          <li
+            key={item.id}
+            className={`arena-reveal-item${pickedIds.has(item.id) ? " is-picked" : ""}`}
+          >
             <div>
               <span className="arena-reveal-rank">#{i + 1}</span>
               {item.text}
+              {pickedIds.has(item.id) && (
+                <span className="arena-picked-badge">you picked</span>
+              )}
             </div>
             <ProgressMeter
               label="Score"
@@ -186,10 +215,10 @@ export function RevealScreen({
 
       <div className="arena-share-row">
         <button type="button" className="bh-btn bh-btn--primary" onClick={onReplay}>
-          Replay
+          Play another deck
         </button>
         <button type="button" className="bh-btn bh-btn--ghost" onClick={share}>
-          {copied ? "Link copied!" : shareSupported ? "Share" : "Copy link"}
+          {copied ? "Link copied!" : shareSupported ? "Share score" : "Copy link"}
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "./arena/arena.css";
 import {
   Axis,
   PageHeader,

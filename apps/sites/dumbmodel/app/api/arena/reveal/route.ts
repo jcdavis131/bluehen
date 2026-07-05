@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
   }
 
   const userRef = String(body.userRef ?? "").trim();
+  const query = body.query != null ? String(body.query).trim() : undefined;
   const items = Array.isArray(body.items)
     ? (body.items as RevealItem[])
         .map((it) => ({ id: String(it.id ?? ""), text: String(it.text ?? "") }))
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
   try {
     const data = await coreApiFetch("/v1/rank", {
       method: "POST",
-      body: JSON.stringify({ items, userRef, k: 24 }),
+      body: JSON.stringify({ items, userRef, query, k: 24 }),
     });
     return NextResponse.json(data);
   } catch (e) {

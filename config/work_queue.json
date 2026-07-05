@@ -1949,11 +1949,12 @@
     {
       "id": "PKG-002",
       "title": "bluehen-stack: the one-command local package (model + harness + skills + free-LLM wiring)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Spec 0030 \u00a73. Define the repo cut: eval-harness + head-serving + skills + GLM-class wiring + quickstart. Target laptop-CPU, zero cloud. Start: package manifest + install script in-monorepo (packages/bluehen-stack), extract later.",
-      "source": "Spec 0030 one-model-package"
+      "notes": "v1 SHIPPED (sonnet, command-verified): packages/bluehen-stack \u2014 README w/ token contract, honest-status manifest (extractable/curation-needed/planned), install skeletons that promise only what runs, SKILLS index. Extraction = follow-on.",
+      "source": "Spec 0030 one-model-package",
+      "claimedBy": "claude"
     },
     {
       "id": "PKG-003",
@@ -1997,11 +1998,12 @@
     {
       "id": "GAME-002",
       "title": "Metagame impact profile: your contributions to the model",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "RESCOPED to dumbmodel per focus: /impact page \u2014 your triplets/picks contributed, streaks, pseudonymous leaderboard from exhaust label tallies.",
-      "source": "Spec 0031 gamified data engine"
+      "notes": "SHIPPED: dumbmodel.com/impact \u2014 your dents in the model (merged multi-game refs), fleet totals, pseudonymous top-10; /v1/games/impact backend.",
+      "source": "Spec 0031 gamified data engine",
+      "claimedBy": "claude"
     },
     {
       "id": "GAME-003",

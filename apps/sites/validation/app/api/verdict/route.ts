@@ -18,6 +18,20 @@ type SearchResponse = { hits?: SearchHit[] };
  * self-declare "agent" — never mixed silently, since downstream MTNN
  * training weights human data above agent data.
  */
+const SEARCH_BASE = process.env.SYNTH_API_BASE_URL ?? "http://localhost:8000";
+
+async function searchFetch(body: unknown): Promise<unknown> {
+  const key = process.env.SEARCH_API_KEY ?? process.env.SYNTH_API_KEY;
+  if (!key) throw new Error("no API key configured");
+  const res = await fetch(`${SEARCH_BASE}/v1/search`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`search failed (${res.status})`);
+  return res.json();
+}
+
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>;
   try {
@@ -49,10 +63,7 @@ export async function POST(req: NextRequest) {
   // this BFF stays stateless across serverless instances.
   let engineAgreed = false;
   try {
-    const data = (await apiFetch("/v1/search", {
-      method: "POST",
-      body: JSON.stringify({ query, k: 8 }),
-    })) as SearchResponse;
+    const data = (await searchFetch({ query, k: 8 })) as SearchResponse;
     const hits = Array.isArray(data.hits) ? data.hits : [];
     const winnerIndex = hits.findIndex((h) => String(h.id ?? "") === winnerId);
     const loserIndex = hits.findIndex((h) => String(h.id ?? "") === loserId);

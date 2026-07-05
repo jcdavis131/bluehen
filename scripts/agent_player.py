@@ -18,8 +18,8 @@ import sys
 import time
 import urllib.request
 
-VERDICT_BASE = "https://slasso.com"
-BEAT_BASE = "https://dumbmodel.com"
+VERDICT_BASE = "https://www.slasso.com"
+BEAT_BASE = "https://www.dumbmodel.com"
 UA = {"User-Agent": "bluehen-agent-player/1.0", "Content-Type": "application/json"}
 SWAPS = [("retrieval", "search over documents"), ("embedding", "vector representation"),
          ("benchmark", "evaluation suite"), ("training", "model fitting"),

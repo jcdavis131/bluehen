@@ -3,6 +3,12 @@
 type FactorShapley = Record<string, number>;
 type PickShapley = { round: number | null; id: string; phi: number };
 
+const FACTOR_LABELS: Record<string, string> = {
+  personal: "Personal taste",
+  query: "Deck theme",
+  boosts: "Boosts",
+};
+
 /** Shapley panel (Spec 0032 §5): marginal contribution to prediction. */
 export function ShapleyPanel({
   factors,
@@ -20,7 +26,7 @@ export function ShapleyPanel({
       <div className="arena-shapley-factors">
         {factorEntries.map(([key, phi]) => (
           <div key={key} className="arena-shapley-row">
-            <span className="arena-shapley-label">{key}</span>
+            <span className="arena-shapley-label">{FACTOR_LABELS[key] ?? key}</span>
             <div className="arena-shapley-bar-wrap" aria-hidden>
               <div
                 className="arena-shapley-bar"

@@ -2,11 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { coreApiFetch, CoreApiError } from "../_lib/core-api";
 
 /**
- * Rank Arena pick BFF (Spec 0029 §1.2, §3): every pick is a consented
- * exhaust event with userRef + itemText — the interaction data the
- * Rank Engine (and RANK-003/RANK-004) need. Awaited, not truly
- * fire-and-forget: game pacing tolerates the ~100ms round trip and we
- * want a real error surfaced if it fails.
+ * @deprecated Spec 0032 — picks are recorded via POST /api/arena/round (resolve).
+ * Kept for backward compatibility; prefer /api/arena/round.
  */
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>;

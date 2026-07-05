@@ -13,8 +13,14 @@ export class CoreApiError extends Error {
   }
 }
 
-export async function coreApiFetch(path: string, init?: RequestInit): Promise<unknown> {
-  const apiKey = process.env.SYNTH_API_KEY;
+export async function coreApiFetch(
+  path: string,
+  init?: RequestInit,
+  opts?: { useSearchKey?: boolean },
+): Promise<unknown> {
+  const apiKey = opts?.useSearchKey
+    ? (process.env.SEARCH_API_KEY ?? process.env.SYNTH_API_KEY)
+    : process.env.SYNTH_API_KEY;
   if (!apiKey) {
     throw new CoreApiError("SYNTH_API_KEY not set for dumbmodel's workspace", 503);
   }

@@ -32,7 +32,7 @@
     {
       "id": "hq",
       "name": "Headquarters",
-      "domain": "jcamd.com",
+      "domain": "bluehenre-control.vercel.app",
       "phase": "all",
       "role": "operator-control-plane",
       "orgDivision": "orchestration",
@@ -54,7 +54,8 @@
       "status": "active",
       "legacyRepo": null,
       "description": "Headquarters - the org hub: fleet directory, live operating loop, lifecycle controls, cross-tenant status.",
-      "orgRole": "internal"
+      "orgRole": "internal",
+      "notes": " jcamd.com repurposed to the Operator personal site 2026-07-04; hq needs a new domain (suggest hq.bhenre.com \u2014 Operator DNS)."
     },
     {
       "id": "storefront",

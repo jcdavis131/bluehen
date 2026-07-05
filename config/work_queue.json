@@ -2148,6 +2148,56 @@
       "priority": "P2",
       "notes": "BLOCKED on first paid tier existing (AUTO-101). Free caps enforced today via budget ceiling + limits.",
       "source": "Spec 0034 autonomous business"
+    },
+    {
+      "id": "VH-101",
+      "title": "Vector Hoops: game-log dataset (2015-2026 slice, then backfill)",
+      "status": "in_progress",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Fetcher running; unlocks temporal/relational questions. Raw gitignored; derived aggregates commit.",
+      "source": "Vector Hoops research roadmap 2026-07-05",
+      "claimedBy": "claude"
+    },
+    {
+      "id": "VH-102",
+      "title": "The Deadline: midseason-move detector + before/after deltas + game mode",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "TEAM_ID switches within a season = honest \"midseason move\" (true trade metadata not freely clean \u2014 labeled). Findings page states method.",
+      "source": "Vector Hoops research roadmap 2026-07-05",
+      "claimedBy": null
+    },
+    {
+      "id": "VH-103",
+      "title": "Fader or Finisher: early/late season splits + daily quiz mode",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "",
+      "source": "Vector Hoops research roadmap 2026-07-05",
+      "claimedBy": null
+    },
+    {
+      "id": "VH-104",
+      "title": "Chemistry: teammate share-graph + lift estimates -> graph embedding (the sports tower)",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "Approx tier from logs first; lineup on/off heavier fetch later. Graph NN only when volume earns it.",
+      "source": "Vector Hoops research roadmap 2026-07-05",
+      "claimedBy": null
+    },
+    {
+      "id": "VH-105",
+      "title": "The Fall: expectation residuals (draft+age+prior vector; GP>=65 non-injury proxy, caveat stated)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P3",
+      "notes": "",
+      "source": "Vector Hoops research roadmap 2026-07-05",
+      "claimedBy": null
     }
   ]
 }

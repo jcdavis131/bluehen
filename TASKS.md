@@ -32,10 +32,13 @@
 - [ ] **TOWER-001** — Visual tower V1: DINOv2-S + projection head offline proof w/ eval vs CLIP + text baselines (None)
 - [ ] **TOWER-004** — DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN (None)
 - [ ] **UXR-003** — Launchpad wizard at bhenre.com/launchpad (sonnet-delegated, mobile-first) (None)
+- [ ] **VH-102** — The Deadline: midseason-move detector + before/after deltas + game mode (None)
+- [ ] **VH-103** — Fader or Finisher: early/late season splits + daily quiz mode (None)
+- [ ] **VH-105** — The Fall: expectation residuals (draft+age+prior vector; GP>=65 non-injury proxy, caveat stated) (None)
 
 ## In progress
 
-_None claimed — run `pick_task.py claim <id>`_
+- [ ] **VH-101** — Vector Hoops: game-log dataset (2015-2026 slice, then backfill) (@claude)
 
 ## Blocked on infra (work elsewhere)
 

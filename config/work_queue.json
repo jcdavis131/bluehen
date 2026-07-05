@@ -1760,6 +1760,42 @@
       "priority": "P3",
       "notes": "Automated from PMF-003 events + leads + usage_daily: one section in the weekly report (existing report machinery) \u2014 new checks, submissions, briefings, entitlements, MRR-when-live. The Operator reads one page Monday morning.",
       "source": "BD/PMF series 2026-07-04"
+    },
+    {
+      "id": "TOWER-001",
+      "title": "Visual tower V1: DINOv2-S + projection head offline proof w/ eval vs CLIP + text baselines",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Spec 0026. Corpus: need a paired image/text set \u2014 candidate: scrape-free option is an open product-images dataset OR anchor-tenant listing photos when ANCHOR-001 lands. Local: uv pip install timm into asn-engine venv (opt-in, no lockfile change); frozen dinov2_vits14; head trained w/ barlow on pairs; eval recall@k photo->same-item. ACCEPT: EVIDENCE row w/ honest verdict vs both baselines.",
+      "source": "Spec 0026 visual tower"
+    },
+    {
+      "id": "TOWER-002",
+      "title": "Visual tower V2: /v1/recommend image input + corpus imageUrl ingestion",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "BLOCKED on TOWER-001 gate pass. SSRF-guarded fetch, metered recommend-visual, payload-side vectors.",
+      "source": "Spec 0026 visual tower"
+    },
+    {
+      "id": "TOWER-003",
+      "title": "Visual Comps product surface: photo-upload demo on kits + anchor comps page",
+      "status": "blocked",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "BLOCKED on TOWER-002. Mobile-first (camera capture), honest empty/error states.",
+      "source": "Spec 0026 visual tower"
+    },
+    {
+      "id": "TOWER-004",
+      "title": "DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN",
+      "status": "ready",
+      "lane": "operator",
+      "priority": "P3",
+      "notes": "Backbone swap is config-only once accepted (Spec 0026 \u00a72). Same token unblocks MON-008 model publishing.",
+      "source": "Spec 0026 visual tower"
     }
   ]
 }

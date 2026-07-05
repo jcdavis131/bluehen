@@ -1334,11 +1334,12 @@
     {
       "id": "UX-102",
       "title": "bhenre homepage: demote raw ledger/gate-failure internals below CTAs; one calm status line up top",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
-      "notes": "First-10s impression currently includes gates=False + 'no deployed model yet'. Reorder: hero -> org grid -> quick paths -> ops telemetry last; add single status line ('N tenants live \u00b7 model asn-head-4000090 serving'). Keep honest-data principle \u2014 demote, don't hide.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "notes": "Folded into UXR-005 (ops demoted, calm status line).",
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "UX-103",
@@ -1525,11 +1526,11 @@
     {
       "id": "MON-009",
       "title": "Developer surface (Spec 0022 C): bhenre.com/developers \u2014 tiered APIs, exhaust integration guide, certification API docs",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
-      "claimedBy": null,
+      "claimedBy": "claude",
       "priority": "P1",
-      "notes": "Packaging only: document metered API, /v1/certify contract, /v1/exhaust schema, dataset access; honest pending-gate labels on payment. No new backend.",
+      "notes": "bhenre.com/developers: auth, quickstart trio, exhaust schema + consent rule, certification contract, real rate-limit table, honest payments-pending line. Shapes verified against source.",
       "source": "Spec 0025 intelligence engine"
     },
     {
@@ -1555,11 +1556,12 @@
     {
       "id": "RECO-003",
       "title": "Company site hero carries the market promise: 'Recommend Everything' pitch + out-of-the-box story",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
-      "notes": "Use RE.pitch token (shipped). Hero rewrite: promise -> how it works (corpus + exhaust in, recommendations out, improves itself) -> proof (EVIDENCE panel numbers) -> CTA. Enterprise voice.",
-      "source": "Recommend Everything reframe 2026-07-04"
+      "notes": "Folded into UXR-005 (same hero).",
+      "source": "Recommend Everything reframe 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "RDPIPE-001",
@@ -1681,11 +1683,12 @@
     {
       "id": "PMF-004",
       "title": "Design-partner program: page + offer on bhenre.com",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
-      "notes": "Offer: 3 design partners get a custom recommender built free (their corpus, our loop) in exchange for case-study rights + biweekly feedback. Page states what they give/get, honest 'measured results published as-is' clause. CTA -> briefing form with 'design partner' flag.",
-      "source": "BD/PMF series 2026-07-04"
+      "notes": "bhenre.com/design-partners: 3-partner offer, honesty clause verbatim, ICP fit, CTA to contact w/ design-partner topic (integrator added the select options).",
+      "source": "BD/PMF series 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "PMF-005",
@@ -1829,20 +1832,22 @@
     {
       "id": "UXR-004",
       "title": "arxiviq research-lab adopts ModelReportCard",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
-      "notes": "Replaces the raw model table; addresses UX study P2 (lowest-ndcg-deployed confusion) w/ slice context.",
-      "source": "Spec 0027 Launchpad"
+      "notes": "Deployed model renders as full ModelReportCard; other versions captioned as cross-slice-incomparable (fixes UX study P2). Typecheck+build green.",
+      "source": "Spec 0027 Launchpad",
+      "claimedBy": "claude"
     },
     {
       "id": "UXR-005",
       "title": "Hero reframe (RECO-003) + Launchpad CTA",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P2",
-      "notes": "Promise -> 3-step how-it-works -> live proof -> 'Try the Launchpad'.",
-      "source": "Spec 0027 Launchpad"
+      "notes": "Hero leads with RE.pitch, Launchpad primary CTA, 3-step how-it-works strip, honest model status line; ops sections demoted below commercial fold. Also closes RECO-003 + UX-102.",
+      "source": "Spec 0027 Launchpad",
+      "claimedBy": "claude"
     },
     {
       "id": "UXR-006",

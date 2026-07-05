@@ -93,19 +93,73 @@ export default async function HubPage() {
       <Axis>
         <TitleCard
           eyebrow={circuit?.eyebrow}
-          title={BRAND.name}
+          title={RE.pitch}
           marginalia={`${RE.relay} · ${RE.tech}`}
         >
           <span className="bh-title-card__mascot">
             <MascotBeacon size={40} restingGaze={gaze} />
           </span>
           <p className="bh-title-card__copy">
-            {RE.relay} coordinates your organization · {RE.tech} in production.{" "}
-            {BRAND.tagline} <Link href="/try">Try live search</Link>,{" "}
-            <Link href="/pricing">see pricing</Link>, or{" "}
-            <Link href="/contact">start a briefing</Link>.
+            You bring the documents and the interactions; {BRAND.name} trains, gates,
+            and serves a recommender that keeps improving with use.
           </p>
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              flexWrap: "wrap",
+              alignItems: "center",
+              marginTop: 4,
+            }}
+          >
+            <Link href="/launchpad" className="bh-btn bh-btn--primary bh-btn--hero">
+              Try the Launchpad
+            </Link>
+            <Link href="/contact" className="bh-btn bh-btn--ghost">
+              Request a briefing
+            </Link>
+          </div>
+          {deployed?.version && (
+            <p className="bh-meta" style={{ marginTop: 10 }}>
+              Current production model: {deployed.version}
+            </p>
+          )}
         </TitleCard>
+
+        <RuledSection label="How it works">
+          <div className="bh-grid">
+            <div className="bh-card">
+              <p className="bh-meta" style={{ marginBottom: 6 }}>
+                Step 1
+              </p>
+              <p className="bh-card__title">Upload your corpus</p>
+              <p className="bh-card__body">
+                Bring your documents and customer interaction history — the raw
+                material the loop trains on.
+              </p>
+            </div>
+            <div className="bh-card">
+              <p className="bh-meta" style={{ marginBottom: 6 }}>
+                Step 2
+              </p>
+              <p className="bh-card__title">The loop trains and gates</p>
+              <p className="bh-card__body">
+                A domain model trains on your data and must clear published
+                evaluation gates before it ships.
+              </p>
+            </div>
+            <div className="bh-card">
+              <p className="bh-meta" style={{ marginBottom: 6 }}>
+                Step 3
+              </p>
+              <p className="bh-card__title">Recommendations improve with use</p>
+              <p className="bh-card__body">
+                Every interaction feeds back into the loop, so recommendations
+                keep improving automatically.
+              </p>
+            </div>
+          </div>
+        </RuledSection>
 
         <ReturnGreeting ledger={ledger} />
 

@@ -24,20 +24,20 @@
   - `Extend tenant_baseline.py --recipe barlow; run --all-sites`
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
-- [ ] **UX-102** — bhenre homepage: demote raw ledger/gate-failure internals below CTAs; one calm status line up top (None)
 - [ ] **UX-104** — arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section (None)
 - [ ] **UX-108** — Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box (None)
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
 - [ ] **UX-112** — Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language (None)
 - [ ] **FLY-002** — Cross-site asset strip: every BU homepage shows the org's LIVE asset counters (models trained, datasets, scorecards, reports) (None)
 - [ ] **EXH-003** — Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema (None)
-- [ ] **MON-009** — Developer surface (Spec 0022 C): bhenre.com/developers — tiered APIs, exhaust integration guide, certification API docs (None)
-- [ ] **RECO-003** — Company site hero carries the market promise: 'Recommend Everything' pitch + out-of-the-box story (None)
 - [ ] **SCALE-001** — HNSW indexes + encoder-cache sizing for tenant growth (None)
 - [ ] **PMF-002** — Run 10 discovery interviews with the primary ICP (None)
-- [ ] **PMF-004** — Design-partner program: page + offer on bhenre.com (None)
 - [ ] **BD-004** — 20-prospect list + outreach sequence for the primary ICP (None)
 - [ ] **BD-005** — dumbmodel result page: consented email capture so free checks become a nurture list (None)
+- [ ] **BD-006** — Weekly BD digest: funnel counts + leads + usage rolled into the hq org report (None)
+- [ ] **TOWER-001** — Visual tower V1: DINOv2-S + projection head offline proof w/ eval vs CLIP + text baselines (None)
+- [ ] **TOWER-004** — DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN (None)
+- [ ] **UXR-003** — Launchpad wizard at bhenre.com/launchpad (sonnet-delegated, mobile-first) (None)
 
 ## In progress
 
@@ -60,14 +60,14 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**RECO-004** — Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)~~
-- [x] ~~**RECO-005** — /v1/recommend filter DSL compiled from contracts~~
-- [x] ~~**AR-502** — [radar] MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Train~~
 - [x] ~~**PMF-003** — Instrument the funnel with our own exhaust API (dogfood): conversion events across all BU sites~~
+- [x] ~~**PMF-004** — Design-partner program: page + offer on bhenre.com~~
 - [x] ~~**PMF-005** — Competitive teardown + positioning wedge doc~~
 - [x] ~~**BD-003** — Outbound asset kit: one measured-proof one-pager per business unit~~
 - [x] ~~**UXR-001** — Sandbox tenant + nightly purge for the Launchpad~~
 - [x] ~~**UXR-002** — ui-fleet: ModelReportCard + FilterChips components (sonnet-delegated)~~
+- [x] ~~**UXR-004** — arxiviq research-lab adopts ModelReportCard~~
+- [x] ~~**UXR-005** — Hero reframe (RECO-003) + Launchpad CTA~~
 
 ## Specs & context
 

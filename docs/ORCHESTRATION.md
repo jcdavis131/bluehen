@@ -89,3 +89,16 @@ knowledge/teams/operations.md. Escalate: any LIVE surface down.
 1. `GLM_API_KEY` → sub-agents go full-mode (set in local env + Railway).
 2. Spec 0016 sign-off (dumbmodel game layer) + consent copy reviews.
 3. Certification price (Medusa Admin) · Stripe key when commerce goes live.
+
+
+## Loop protocol v3 (Operator-directed 2026-07-04): batch fan-out
+
+Supersedes v2's one-task-at-a-time. Each tick: **PLAN** a dependency-
+aware batch (3-6 tasks; no two agents share a file — shared-file edits
+[nav, fleet config, queue] are integrator-only) -> **FAN-OUT** all
+parallelizable items to sonnet/haiku agents simultaneously ->
+**INTEGRATE** returns (review, batched commit, single deploy) ->
+**CLOSE** (verdicts to queue/EVIDENCE, next batch pre-planned).
+Integrator (Claude) handles: secrets, prod deploys, queue writes,
+cross-cutting files, verification. Heartbeat 900-1200s; agent
+completions wake the loop anyway.

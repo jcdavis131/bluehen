@@ -1,5 +1,7 @@
 import data from "../../data/research_lab.json";
-import { PageHeader } from "@synthaembed/ui-fleet";import { siteModels } from "@synthaembed/ui-fleet/site-api";
+import { PageHeader, ModelReportCard } from "@synthaembed/ui-fleet";
+import type { ModelReport } from "@synthaembed/ui-fleet";
+import { siteModels } from "@synthaembed/ui-fleet/site-api";
 
 export const metadata = {
   title: "Research Lab — Blue Hen RE",
@@ -76,6 +78,27 @@ export default async function ResearchLabPage() {
   }
   const hasLive = liveModels.length > 0;
 
+  // Feature the deployed model (if any) as a full ModelReportCard; the rest
+  // stay a compact list. /v1/models doesn't return createdAt/gates/baselines
+  // today, so those props are simply omitted — ModelReportCard renders its
+  // own honest empty state rather than us faking placeholder data.
+  const deployedModel = liveModels.find((m) => m.deployed);
+  const otherModels = [...liveModels]
+    .filter((m) => m !== deployedModel)
+    .sort((a, b) => (b.effectiveRank ?? 0) - (a.effectiveRank ?? 0));
+
+  let deployedReport: ModelReport | null = null;
+  if (deployedModel) {
+    const metrics: Record<string, number> = {};
+    if (deployedModel.ndcg10 != null) metrics["nDCG@10"] = deployedModel.ndcg10;
+    if (deployedModel.effectiveRank != null) metrics["Effective rank"] = deployedModel.effectiveRank;
+    deployedReport = {
+      version: deployedModel.version ?? "(version unknown)",
+      deployed: true,
+      metrics,
+    };
+  }
+
   return (
     <>
       <PageHeader
@@ -96,45 +119,52 @@ export default async function ResearchLabPage() {
           {hasLive ? (
             <>
               <p style={{ fontSize: 12.5, color: "var(--fleet-muted)", margin: 0, lineHeight: 1.5 }}>
-                Measured model versions from this workspace&apos;s core-api{" "}
-                <code>/v1/models</code>, ranked by effective rank.
+                Measured model versions from this workspace&apos;s core-api <code>/v1/models</code>.
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {[...liveModels]
-                  .sort((a, b) => (b.effectiveRank ?? 0) - (a.effectiveRank ?? 0))
-                  .map((m, i) => (
-                    <div
-                      key={m.version ?? i}
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 10,
-                        alignItems: "baseline",
-                        fontSize: 13,
-                        padding: "6px 10px",
-                        borderRadius: 8,
-                        background: "var(--fleet-bg)",
-                        border: "1px solid var(--fleet-border)",
-                      }}
-                    >
-                      <span style={{ fontWeight: 600 }}>{m.version ?? "—"}</span>
-                      {m.deployed && (
-                        <span className="fleet-badge ok" style={{ fontSize: 11 }}>
-                          deployed
-                        </span>
-                      )}
-                      <span style={{ fontFamily: "ui-monospace", opacity: 0.85 }}>
-                        erank {(m.effectiveRank ?? 0).toFixed(1)}
-                        {m.truncateDims ? ` · trunc ${m.truncateDims}` : ""}
-                      </span>
-                      {m.ndcg10 != null && (
+
+              {deployedReport && (
+                <div style={{ marginTop: 2 }}>
+                  <ModelReportCard model={deployedReport} />
+                </div>
+              )}
+
+              {otherModels.length > 0 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: deployedReport ? 4 : 0 }}>
+                  <p style={{ fontSize: 12, color: "var(--fleet-muted)", margin: 0, fontStyle: "italic" }}>
+                    Other versions are measured on different difficulty slices — the numbers below
+                    are not directly comparable to each other or to the deployed model above.
+                  </p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    {otherModels.map((m, i) => (
+                      <div
+                        key={m.version ?? i}
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: 10,
+                          alignItems: "baseline",
+                          fontSize: 13,
+                          padding: "6px 10px",
+                          borderRadius: 8,
+                          background: "var(--fleet-bg)",
+                          border: "1px solid var(--fleet-border)",
+                        }}
+                      >
+                        <span style={{ fontWeight: 600 }}>{m.version ?? "—"}</span>
                         <span style={{ fontFamily: "ui-monospace", opacity: 0.85 }}>
-                          nDCG@10 {m.ndcg10.toFixed(3)}
+                          erank {m.effectiveRank != null ? m.effectiveRank.toFixed(1) : "—"}
+                          {m.truncateDims ? ` · trunc ${m.truncateDims}` : ""}
                         </span>
-                      )}
-                    </div>
-                  ))}
-              </div>
+                        {m.ndcg10 != null && (
+                          <span style={{ fontFamily: "ui-monospace", opacity: 0.85 }}>
+                            nDCG@10 {m.ndcg10.toFixed(3)}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <p style={{ fontSize: 12.5, color: "var(--fleet-muted)", margin: 0, lineHeight: 1.5 }}>

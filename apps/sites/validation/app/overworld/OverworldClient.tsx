@@ -32,8 +32,9 @@ import {
 import { DialogBox, type DialogView, type WikiPageDetail, type WikiPageSummary } from "./DialogBox";
 import { DPad } from "./DPad";
 
-const LOGICAL_W = VIEW_W * TILE_SIZE;
-const LOGICAL_H = VIEW_H * TILE_SIZE;
+export const LOGICAL_W = VIEW_W * TILE_SIZE;
+export const LOGICAL_H = VIEW_H * TILE_SIZE;
+
 const KEY_TO_DIR: Record<string, Direction> = {
   ArrowUp: "up",
   ArrowDown: "down",
@@ -53,10 +54,21 @@ type WikiListResponse = { pages?: WikiPageSummary[]; error?: string };
 type WikiPageResponse = WikiPageDetail & { error?: string };
 type EventsResponse = { events?: { text: string }[] };
 
+function useCoarsePointer(): boolean {
+  const [coarse, setCoarse] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    const update = () => setCoarse(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return coarse;
+}
+
 export function OverworldClient() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [scale, setScale] = useState(2);
+  const coarsePointer = useCoarsePointer();
 
   const playerRef = useRef<PlayerState>(initialPlayerState(19, 10, "down"));
   const heldDirs = useRef<Direction[]>([]);
@@ -73,29 +85,11 @@ export function OverworldClient() {
     dialogOpenRef.current = dialogView !== null;
   }, [dialogView]);
 
-  // Load saved position, mint a session user ref, and open the intro.
   useEffect(() => {
     const saved = loadPosition();
     playerRef.current = initialPlayerState(saved.x, saved.y, saved.facing);
     userRefRef.current = readOrCreateUserRef();
     setDialogView({ kind: "intro", body: INTRO_LINES.join("\n\n") });
-  }, []);
-
-  // Integer-scale the canvas to fit its container, capped so it never
-  // dwarfs the viewport on very large screens.
-  useEffect(() => {
-    function computeScale() {
-      const el = containerRef.current;
-      if (!el) return;
-      const availW = el.clientWidth;
-      const availH = Math.min(window.innerHeight * 0.6, 560);
-      const byWidth = Math.floor(availW / LOGICAL_W);
-      const byHeight = Math.floor(availH / LOGICAL_H);
-      setScale(Math.max(1, Math.min(byWidth, byHeight, 4)));
-    }
-    computeScale();
-    window.addEventListener("resize", computeScale);
-    return () => window.removeEventListener("resize", computeScale);
   }, []);
 
   const postVisit = useCallback(async () => {
@@ -215,7 +209,6 @@ export function OverworldClient() {
     if (it) openInteractable(it);
   }, [dialogView, closeDialog, openInteractable]);
 
-  // Keyboard input.
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.code === "Space") {
@@ -242,7 +235,6 @@ export function OverworldClient() {
     };
   }, [handleAction]);
 
-  // Game loop.
   useEffect(() => {
     function loop(ts: number) {
       const last = lastTsRef.current ?? ts;
@@ -302,6 +294,7 @@ export function OverworldClient() {
   }, []);
 
   function onDirStart(dir: Direction) {
+    if (dialogOpenRef.current) return;
     if (!heldDirs.current.includes(dir)) heldDirs.current.push(dir);
   }
   function onDirEnd(dir: Direction) {
@@ -309,30 +302,37 @@ export function OverworldClient() {
   }
 
   return (
-    <div className="ow-wrap" ref={containerRef}>
-      <div className="ow-screen" style={{ width: LOGICAL_W * scale, height: LOGICAL_H * scale }}>
-        <canvas
-          ref={canvasRef}
-          width={LOGICAL_W}
-          height={LOGICAL_H}
-          style={{ width: LOGICAL_W * scale, height: LOGICAL_H * scale }}
-          className="ow-canvas"
-        />
-        {dialogView && (
-          <DialogBox
-            view={dialogView}
-            onClose={closeDialog}
-            onSelectWikiPage={(slug) => void openWikiPage(slug)}
-            onBackToWikiList={() =>
-              setDialogView({ kind: "wiki-list", loading: false, error: null, pages: lastWikiPagesRef.current })
-            }
+    <div className="ow-play-shell">
+      <div className="ow-stage">
+        <div className="ow-screen">
+          <canvas
+            ref={canvasRef}
+            width={LOGICAL_W}
+            height={LOGICAL_H}
+            className="ow-canvas"
+            aria-label="Overworld map viewport"
           />
-        )}
+          {dialogView && (
+            <DialogBox
+              view={dialogView}
+              onClose={closeDialog}
+              onSelectWikiPage={(slug) => void openWikiPage(slug)}
+              onBackToWikiList={() =>
+                setDialogView({ kind: "wiki-list", loading: false, error: null, pages: lastWikiPagesRef.current })
+              }
+            />
+          )}
+        </div>
       </div>
-      <DPad onDirStart={onDirStart} onDirEnd={onDirEnd} onAction={handleAction} />
-      <p className="ow-hint bh-muted">
-        Arrows / WASD to walk · Space or A to interact with a sign, terminal, or door.
-      </p>
+
+      <div className="ow-play-bar">
+        <DPad onDirStart={onDirStart} onDirEnd={onDirEnd} onAction={handleAction} />
+        <p className="ow-hint bh-muted">
+          {coarsePointer
+            ? "D-pad to walk · A to interact with signs, terminals, and doors."
+            : "Arrows / WASD to walk · Space or A to interact."}
+        </p>
+      </div>
     </div>
   );
 }

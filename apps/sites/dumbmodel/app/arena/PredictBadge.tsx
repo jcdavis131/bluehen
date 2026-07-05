@@ -1,31 +1,28 @@
 "use client";
 
-/** Model prediction badge (Spec 0032 §5). */
+/** Co-host guess — blind-rank video energy, not a dashboard widget. */
 export function PredictBadge({
   predictedText,
   confidence,
   note,
+  showMeter = true,
 }: {
   predictedText: string;
   confidence: number;
   note?: string | null;
+  showMeter?: boolean;
 }) {
+  const pct = Math.round(confidence * 100);
   return (
-    <div className="arena-predict">
-      <p className="arena-predict-label">Model picks</p>
-      <p className="arena-predict-choice">{predictedText}</p>
-      <div
-        className="arena-predict-confidence"
-        role="meter"
-        aria-valuenow={Math.round(confidence * 100)}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={`Confidence ${Math.round(confidence * 100)} percent`}
-      >
-        <div className="arena-predict-bar" style={{ width: `${confidence * 100}%` }} />
-      </div>
-      <p className="arena-predict-confidence-label">{Math.round(confidence * 100)}% confident</p>
-      {note && <p className="arena-predict-note">{note}</p>}
+    <div className="arena-host-guess" aria-label={`We would pick ${predictedText}`}>
+      <span className="arena-host-guess-label">We&apos;d pick</span>
+      <p className="arena-host-guess-text">{predictedText}</p>
+      {showMeter && (
+        <div className="arena-host-guess-meter" aria-hidden>
+          <div className="arena-host-guess-fill" style={{ width: `${pct}%` }} />
+        </div>
+      )}
+      {note && <p className="arena-host-guess-note">{note}</p>}
     </div>
   );
 }

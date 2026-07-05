@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { commentaryLine, type BeatResult } from "./commentary";
 
@@ -7,6 +8,8 @@ const USER_REF_KEY = "beat-user-ref";
 const SCORE_KEY = "beat-score";
 const STREAK_KEY = "beat-streak";
 const ATTEMPTS_KEY = "beat-attempts";
+const COACH_KEY = "beat-coach-seen";
+const MAX_QUERY_CHARS = 200;
 
 function readOrCreateUserRef(): string {
   if (typeof window === "undefined") return "";
@@ -17,8 +20,6 @@ function readOrCreateUserRef(): string {
     window.sessionStorage.setItem(USER_REF_KEY, fresh);
     return fresh;
   } catch {
-    // sessionStorage unavailable (private mode, etc.) — still play, just
-    // without the score/streak surviving a refresh this tab session.
     return crypto.randomUUID().slice(0, 12);
   }
 }
@@ -38,7 +39,24 @@ function writeSessionInt(key: string, value: number) {
   try {
     window.sessionStorage.setItem(key, String(value));
   } catch {
-    // sessionStorage unavailable — score just won't survive a refresh
+    /* sessionStorage unavailable */
+  }
+}
+
+function readCoachSeen(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(COACH_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function writeCoachSeen() {
+  try {
+    window.localStorage.setItem(COACH_KEY, "1");
+  } catch {
+    /* private mode */
   }
 }
 
@@ -55,18 +73,21 @@ type Screen = "intro" | "round" | "error-anchor";
 
 function rankSentence(anchorRank: number | null, result: BeatResult): string {
   if (anchorRank === null) {
-    return "the baseline never found your anchor in its top 5 — POISONED.";
+    return "POISONED — baseline never found your anchor in the top 5.";
   }
   if (result === "wounded") {
-    return `the baseline ranked your anchor #${anchorRank} — wounded, not dead.`;
+    return `Wounded — anchor landed #${anchorRank}, not dead yet.`;
   }
-  return `the baseline ranked your anchor #${anchorRank} — it held. resisted.`;
+  return `Resisted — anchor held at #${anchorRank}.`;
 }
 
-/** Beat the Baseline orchestrator (Spec 0031 §2 GAME-001): intro -> round
- * (fetch a real anchor, fire a poison query) -> honest reveal -> next
- * anchor. Session score/streak persist in sessionStorage, same
- * anonymous-userRef convention as the Arena (Spec 0029). */
+function resultClass(result: BeatResult): string {
+  if (result === "POISONED") return "is-poisoned";
+  if (result === "wounded") return "is-wounded";
+  return "is-resisted";
+}
+
+/** Beat the Baseline — dark-shell parity with Blind Rank (Spec 0031 GAME-001). */
 export function BeatClient() {
   const [userRef, setUserRef] = useState("");
   const [screen, setScreen] = useState<Screen>("intro");
@@ -80,6 +101,9 @@ export function BeatClient() {
   const [streak, setStreak] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [line, setLine] = useState<string | null>(null);
+  const [shareSupported, setShareSupported] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [showCoach, setShowCoach] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -87,6 +111,8 @@ export function BeatClient() {
     setScore(readSessionInt(SCORE_KEY));
     setStreak(readSessionInt(STREAK_KEY));
     setAttempts(readSessionInt(ATTEMPTS_KEY));
+    setShowCoach(!readCoachSeen());
+    setShareSupported(typeof navigator !== "undefined" && "share" in navigator);
   }, []);
 
   useEffect(() => {
@@ -99,6 +125,7 @@ export function BeatClient() {
     setAttempt(null);
     setLine(null);
     setQuery("");
+    setCopied(false);
     try {
       const res = await fetch("/api/beat/anchor");
       const data = await res.json().catch(() => ({}));
@@ -113,11 +140,21 @@ export function BeatClient() {
     }
   }
 
+  function startGame() {
+    writeCoachSeen();
+    setShowCoach(false);
+    void fetchAnchor();
+  }
+
   async function fire() {
     if (submitting || !anchor) return;
     const trimmed = query.trim();
     if (!trimmed) {
-      setError("type a query first — the baseline can't be poisoned by silence");
+      setError("Type a query first — the baseline can't be poisoned by silence.");
+      return;
+    }
+    if (trimmed.length > MAX_QUERY_CHARS) {
+      setError(`Keep it under ${MAX_QUERY_CHARS} characters.`);
       return;
     }
     setSubmitting(true);
@@ -163,19 +200,42 @@ export function BeatClient() {
     }
   }
 
+  async function shareResult() {
+    if (!attempt || !anchor) return;
+    const text = `Beat the Baseline: ${rankSentence(attempt.anchorRank, attempt.result)} Query: "${query.trim()}". Score ${score + attempt.score}.`;
+    const url = typeof window !== "undefined" ? `${window.location.origin}/beat` : "";
+    if (shareSupported) {
+      try {
+        await navigator.share({ title: "Beat the Baseline", text, url });
+      } catch {
+        /* cancelled */
+      }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(`${text}\n${url}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError("Couldn't copy — grab the link from the address bar.");
+    }
+  }
+
   if (screen === "intro") {
     return (
-      <div className="beat">
-        <ol className="beat-intro-steps">
-          <li>You get an anchor: a real chunk from the research index.</li>
-          <li>Write a query a human would agree means it — but the baseline shouldn&rsquo;t find it.</li>
-          <li>Fire. The rank is live, honest, and yours to poison.</li>
-        </ol>
+      <div className="arena-blind-run beat-run">
+        <p className="beat-kicker">Adversarial query game</p>
+        {showCoach && (
+          <ol className="beat-intro-steps">
+            <li>You get an anchor — a real chunk from the research index.</li>
+            <li>Write a query a human would agree means it — but the baseline shouldn&apos;t find it.</li>
+            <li>Fire. The rank is live, honest, and yours to poison.</li>
+          </ol>
+        )}
         <p className="beat-consent">
-          Your queries are stored anonymously (a random session id, no account)
-          to improve the platform. Skip the game if that&rsquo;s not cool.
+          Queries stored anonymously (session id, no account) to improve the platform.
         </p>
-        <button type="button" className="bh-btn bh-btn--primary" onClick={() => void fetchAnchor()}>
+        <button type="button" className="beat-primary-btn" onClick={startGame}>
           {anchorLoading ? "Loading anchor…" : "Start"}
         </button>
       </div>
@@ -184,14 +244,9 @@ export function BeatClient() {
 
   if (screen === "error-anchor") {
     return (
-      <div className="beat">
-        <div className="bh-alert bh-alert--error">{error}</div>
-        <button
-          type="button"
-          className="bh-btn bh-btn--ghost"
-          style={{ marginTop: 16 }}
-          onClick={() => void fetchAnchor()}
-        >
+      <div className="arena-blind-run beat-run">
+        <div className="beat-error">{error}</div>
+        <button type="button" className="beat-ghost-btn" onClick={() => void fetchAnchor()}>
           Try again
         </button>
       </div>
@@ -199,45 +254,59 @@ export function BeatClient() {
   }
 
   return (
-    <div className="beat">
-      <div className="beat-header">
+    <div className="arena-blind-run beat-run">
+      <header className="beat-header">
         <span>Score {score}</span>
         <span>Streak {streak}</span>
         <span>Played {attempts}</span>
-      </div>
+      </header>
 
-      {anchor && (
+      {anchorLoading && (
+        <div className="arena-blind-skeleton" aria-live="polite">
+          <div className="arena-blind-skeleton-card" />
+        </div>
+      )}
+
+      {anchor && !anchorLoading && (
         <div className="beat-anchor-card">
+          <span className="beat-anchor-label">Your anchor</span>
           <h3 className="beat-anchor-title">{anchor.title}</h3>
           <p className="beat-anchor-snippet">{anchor.snippet}</p>
         </div>
       )}
 
-      {!attempt && (
+      {!attempt && anchor && (
         <div className="beat-query-form">
+          <p className="arena-blind-prompt beat-prompt">Poison it</p>
           <textarea
             ref={inputRef}
             className="beat-query-input"
-            placeholder="Write a poison query — same meaning, different words…"
+            placeholder="Same meaning, different words — make the baseline miss…"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e.target.value.slice(0, MAX_QUERY_CHARS))}
             disabled={submitting}
             rows={3}
+            maxLength={MAX_QUERY_CHARS}
           />
-          <button
-            type="button"
-            className="bh-btn bh-btn--primary beat-fire-btn"
-            disabled={submitting}
-            onClick={() => void fire()}
-          >
-            {submitting ? "Firing…" : "Fire"}
-          </button>
-          {error && <div className="bh-alert bh-alert--error">{error}</div>}
+          <div className="beat-query-meta">
+            <span className="beat-char-count">
+              {query.length}/{MAX_QUERY_CHARS}
+            </span>
+            <button
+              type="button"
+              className="beat-primary-btn"
+              disabled={submitting || !query.trim()}
+              onClick={() => void fire()}
+            >
+              {submitting ? "Firing…" : "Fire"}
+            </button>
+          </div>
+          {error && <div className="beat-error">{error}</div>}
         </div>
       )}
 
       {attempt && (
-        <div className="beat-result-card">
+        <div className={`beat-result-card ${resultClass(attempt.result)}`}>
           <p className="beat-result-headline">{rankSentence(attempt.anchorRank, attempt.result)}</p>
           {attempt.topHit && (
             <p className="beat-outranked">
@@ -246,9 +315,22 @@ export function BeatClient() {
           )}
           <p className="beat-score-delta">+{attempt.score} points</p>
           {line && <p className="beat-commentary">{line}</p>}
-          <button type="button" className="bh-btn bh-btn--primary" onClick={() => void fetchAnchor()}>
-            Next anchor
-          </button>
+          <div className="beat-actions">
+            <button type="button" className="beat-primary-btn" onClick={() => void fetchAnchor()}>
+              Next anchor
+            </button>
+            {attempt.result === "POISONED" && (
+              <button type="button" className="beat-ghost-btn" onClick={() => void shareResult()}>
+                {copied ? "Copied!" : shareSupported ? "Share poison" : "Copy score"}
+              </button>
+            )}
+            <Link href="/impact" className="beat-ghost-btn beat-link-btn">
+              Your impact
+            </Link>
+            <Link href="/arena" className="beat-ghost-btn beat-link-btn">
+              Blind Rank
+            </Link>
+          </div>
         </div>
       )}
     </div>

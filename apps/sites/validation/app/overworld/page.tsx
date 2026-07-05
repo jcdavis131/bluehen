@@ -1,4 +1,5 @@
 import "./overworld.css";
+import "../game-page.css";
 import { PageHeader } from "@synthaembed/ui-fleet";
 import { OverworldClient } from "./OverworldClient";
 
@@ -13,7 +14,7 @@ export const metadata = {
  * to a real API response. */
 export default function OverworldPage() {
   return (
-    <>
+    <div className="game-page">
       <PageHeader
         eyebrow="Validation Lab · The Overworld"
         title="Walk the map."
@@ -21,6 +22,6 @@ export default function OverworldPage() {
         badge={<span className="bh-badge bh-badge--accent">Original art · real data</span>}
       />
       <OverworldClient />
-    </>
+    </div>
   );
 }

@@ -2,19 +2,23 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ArenaDeck, ArenaItem } from "./decks";
-import { LayerStackViz } from "./LayerStackViz";
+import { commentaryLine } from "./commentary";
+import {
+  readHostVoiceEnabled,
+  speakHostLine,
+  writeHostVoiceEnabled,
+} from "./hostVoice";
 import { PredictBadge } from "./PredictBadge";
 import { RoundProgress } from "./RoundProgress";
-import { ShapleyPanel } from "./ShapleyPanel";
 import { ROUNDS, buildPlan, hashSeed, pairForRound } from "./pairing";
-import type { PriorPick, RoundResponse, SessionStats } from "./types";
+import type { PriorPick, RoundInsight, RoundResponse, SessionStats } from "./types";
 
-const EXPLAIN_MS = 1500;
-const PREDICT_MS = 850;
+const EXPLAIN_MS = 480;
+const PREDICT_MS = 700;
 
-type Phase = "loading" | "predict" | "pick" | "explain";
+type Phase = "loading" | "predict" | "pick" | "flash";
 
-/** Shapley Gauntlet (Spec 0032): predict → pick → explain × 8 rounds. */
+/** Blind-rank gauntlet: rapid this-or-that, host guess, tier list at the end. */
 export function Gauntlet({
   deck,
   userRef,
@@ -27,15 +31,22 @@ export function Gauntlet({
   const [round, setRound] = useState(1);
   const [lastWinner, setLastWinner] = useState<ArenaItem | null>(null);
   const [priorPicks, setPriorPicks] = useState<PriorPick[]>([]);
+  const [roundInsights, setRoundInsights] = useState<RoundInsight[]>([]);
   const [matchCount, setMatchCount] = useState(0);
   const [phase, setPhase] = useState<Phase>("loading");
   const [roundData, setRoundData] = useState<RoundResponse | null>(null);
   const [resolveData, setResolveData] = useState<RoundResponse | null>(null);
   const [chosenId, setChosenId] = useState<string | null>(null);
+  const [flashCopy, setFlashCopy] = useState<string | null>(null);
+  const [commentary, setCommentary] = useState<string | null>(null);
+  const [hostVoice, setHostVoice] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const predictTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const skipExplainRef = useRef(false);
+
+  useEffect(() => {
+    setHostVoice(readHostVoiceEnabled());
+  }, []);
 
   const seed = useMemo(
     () => hashSeed(`${userRef || "anon"}:${deck.slug}:${Date.now()}`),
@@ -55,6 +66,8 @@ export function Gauntlet({
     setPhase("loading");
     setRoundData(null);
     setResolveData(null);
+    setFlashCopy(null);
+    setCommentary(null);
     setError(null);
     try {
       const res = await fetch("/api/arena/round", {
@@ -89,33 +102,47 @@ export function Gauntlet({
     return clearTimers;
   }, [loadPredict, clearTimers]);
 
-  function finishRound(nextPrior: PriorPick[], winner: ArenaItem, matched: boolean) {
+  function finishRound(
+    nextPrior: PriorPick[],
+    nextInsights: RoundInsight[],
+    winner: ArenaItem,
+    matched: boolean,
+  ) {
     setLastWinner(winner);
     setChosenId(null);
     setResolveData(null);
+    setFlashCopy(null);
+    setCommentary(null);
     setPriorPicks(nextPrior);
+    setRoundInsights(nextInsights);
     setMatchCount((m) => m + (matched ? 1 : 0));
-    skipExplainRef.current = false;
     if (round >= ROUNDS) {
       onDone({
         matches: matchCount + (matched ? 1 : 0),
         total: ROUNDS,
         picks: nextPrior,
+        rounds: nextInsights,
       });
     } else {
       setRound((r) => r + 1);
     }
   }
 
-  function advanceAfterExplain(nextPrior: PriorPick[], winner: ArenaItem, matched: boolean) {
+  function advanceAfterFlash(
+    nextPrior: PriorPick[],
+    nextInsights: RoundInsight[],
+    winner: ArenaItem,
+    matched: boolean,
+  ) {
     clearTimers();
     timerRef.current = setTimeout(() => {
-      finishRound(nextPrior, winner, matched);
-    }, skipExplainRef.current ? 0 : EXPLAIN_MS);
+      finishRound(nextPrior, nextInsights, winner, matched);
+    }, EXPLAIN_MS);
   }
 
   async function pick(winner: ArenaItem) {
     if (phase !== "pick" && phase !== "predict") return;
+    const loser = winner.id === left.id ? right : left;
     setChosenId(winner.id);
     setPhase("loading");
     setError(null);
@@ -146,9 +173,30 @@ export function Gauntlet({
         { round, id: winner.id, text: winner.text },
       ];
       const matched = Boolean(data.correct);
+      const line = commentaryLine({
+        round,
+        winnerId: winner.id,
+        winnerText: winner.text,
+        loserId: loser.id,
+        loserText: loser.text,
+      });
+      const insight: RoundInsight = {
+        round,
+        winnerText: winner.text,
+        correct: matched,
+        commentary: line,
+        shapley: roundData?.shapley ?? data.shapley,
+        layerStackBefore: data.layerStackBefore,
+        layerStackAfter: data.layerStackAfter,
+      };
+      const nextInsights = [...roundInsights, insight];
+
       setResolveData(data);
-      setPhase("explain");
-      advanceAfterExplain(nextPrior, winner, matched);
+      setFlashCopy(matched ? "Called it." : "Plot twist.");
+      setCommentary(line);
+      speakHostLine(line);
+      setPhase("flash");
+      advanceAfterFlash(nextPrior, nextInsights, winner, matched);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       setPhase("pick");
@@ -156,42 +204,43 @@ export function Gauntlet({
     }
   }
 
-  function skipExplain() {
-    if (!chosenId || !resolveData) return;
-    skipExplainRef.current = true;
-    clearTimers();
-    const winner = chosenId === left.id ? left : right;
-    const nextPrior: PriorPick[] = [
-      ...priorPicks,
-      { round, id: winner.id, text: winner.text },
-    ];
-    finishRound(nextPrior, winner, Boolean(resolveData.correct));
+  function toggleHostVoice() {
+    const next = !hostVoice;
+    setHostVoice(next);
+    writeHostVoiceEnabled(next);
+    if (!next && typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
   }
 
   const predictedId = roundData?.predictedId;
   const predictedItem =
     predictedId === left.id ? left : predictedId === right.id ? right : null;
 
-  return (
-    <div>
-      <div className="arena-round-head">
-        <div>
-          <span className="arena-deck-name">{deck.name}</span>
-          <span className="arena-round-counter">
-            Round {round} / {ROUNDS}
-          </span>
-        </div>
-        {phase === "explain" && (
-          <button type="button" className="arena-tts-toggle" onClick={skipExplain}>
-            Skip →
-          </button>
-        )}
-      </div>
+  const showPair = phase === "pick" || phase === "predict";
 
-      <RoundProgress round={round} />
+  return (
+    <div className="arena-blind-run">
+      <header className="arena-blind-head">
+        <div className="arena-blind-head-row">
+          <span className="arena-blind-category">{deck.name}</span>
+          <button
+            type="button"
+            className={`arena-host-voice-toggle${hostVoice ? " is-on" : ""}`}
+            onClick={toggleHostVoice}
+            aria-pressed={hostVoice}
+          >
+            {hostVoice ? "Host voice on" : "Host voice off"}
+          </button>
+        </div>
+        <RoundProgress round={round} />
+      </header>
 
       {phase === "loading" && !roundData && (
-        <p className="bh-muted arena-loading">Model is guessing…</p>
+        <div className="arena-blind-skeleton" aria-live="polite">
+          <div className="arena-blind-skeleton-card" />
+          <div className="arena-blind-skeleton-card" />
+        </div>
       )}
 
       {roundData && predictedItem && (phase === "predict" || phase === "pick") && (
@@ -199,76 +248,64 @@ export function Gauntlet({
           predictedText={predictedItem.text}
           confidence={roundData.confidence}
           note={roundData.note}
+          showMeter={phase === "pick"}
         />
       )}
 
-      {roundData && (phase === "predict" || phase === "pick") && (
-        <LayerStackViz stack={roundData.layerStack} title="Rank engine weights" />
-      )}
-
-      {(phase === "pick" || phase === "predict") && (
-        <div className="arena-pair" key={`${round}-${left.id}-${right.id}`}>
-          <button
-            type="button"
-            className={[
-              "arena-pick-btn",
-              chosenId === left.id ? "is-chosen" : "",
-              predictedId === left.id ? "is-predicted" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            disabled={phase !== "pick"}
-            onClick={() => pick(left)}
-          >
-            {left.text}
-            {roundData && (
-              <span className="arena-pick-score">
-                score {roundData.scores[left.id]?.toFixed(2) ?? "—"}
-              </span>
-            )}
-          </button>
-          <div className="arena-vs">your pick</div>
-          <button
-            type="button"
-            className={[
-              "arena-pick-btn",
-              chosenId === right.id ? "is-chosen" : "",
-              predictedId === right.id ? "is-predicted" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            disabled={phase !== "pick"}
-            onClick={() => pick(right)}
-          >
-            {right.text}
-            {roundData && (
-              <span className="arena-pick-score">
-                score {roundData.scores[right.id]?.toFixed(2) ?? "—"}
-              </span>
-            )}
-          </button>
-        </div>
-      )}
-
-      {phase === "explain" && resolveData && roundData && (
-        <div className="arena-explain">
-          <p
-            className={`arena-explain-verdict${resolveData.correct ? " is-match" : " is-surprise"}`}
-          >
-            {resolveData.correct
-              ? "You matched the model."
-              : "You surprised the model."}
+      {showPair && (
+        <>
+          <p className="arena-blind-prompt" aria-live="polite">
+            Pick one
           </p>
-          <ShapleyPanel
-            factors={roundData.shapley.factors}
-            picks={roundData.shapley.picks}
-          />
-          {resolveData.layerStackBefore && (
-            <LayerStackViz stack={resolveData.layerStackBefore} title="Before your pick" />
-          )}
-          {resolveData.layerStackAfter && (
-            <LayerStackViz stack={resolveData.layerStackAfter} title="After your pick" />
-          )}
+          <div className="arena-blind-pair" key={`${round}-${left.id}-${right.id}`}>
+            <button
+              type="button"
+              className={[
+                "arena-blind-card",
+                chosenId === left.id ? "is-chosen" : "",
+                predictedId === left.id ? "is-guessed" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              disabled={phase !== "pick"}
+              onClick={() => pick(left)}
+            >
+              <span className="arena-blind-slot">A</span>
+              <span className="arena-blind-card-text">{left.text}</span>
+            </button>
+
+            <div className="arena-blind-or" aria-hidden>
+              or
+            </div>
+
+            <button
+              type="button"
+              className={[
+                "arena-blind-card",
+                chosenId === right.id ? "is-chosen" : "",
+                predictedId === right.id ? "is-guessed" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              disabled={phase !== "pick"}
+              onClick={() => pick(right)}
+            >
+              <span className="arena-blind-slot">B</span>
+              <span className="arena-blind-card-text">{right.text}</span>
+            </button>
+          </div>
+        </>
+      )}
+
+      {phase === "flash" && flashCopy && (
+        <div className="arena-blind-flash-wrap">
+          <p
+            className={`arena-blind-flash${resolveData?.correct ? " is-match" : " is-twist"}`}
+            aria-live="assertive"
+          >
+            {flashCopy}
+          </p>
+          {commentary && <p className="arena-commentary">{commentary}</p>}
         </div>
       )}
 
@@ -276,7 +313,7 @@ export function Gauntlet({
         <div className="arena-error-row">
           <div className="bh-alert bh-alert--error">{error}</div>
           <button type="button" className="bh-btn bh-btn--ghost" onClick={() => void loadPredict()}>
-            Retry round
+            Retry
           </button>
         </div>
       )}

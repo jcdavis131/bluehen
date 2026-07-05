@@ -23,8 +23,19 @@ export type RoundResponse = {
   layerStackAfter?: LayerStack;
 };
 
+export type RoundInsight = {
+  round: number;
+  winnerText: string;
+  correct: boolean;
+  commentary?: string;
+  shapley?: RoundResponse["shapley"];
+  layerStackBefore?: LayerStack;
+  layerStackAfter?: LayerStack;
+};
+
 export type SessionStats = {
   matches: number;
   total: number;
   picks: PriorPick[];
+  rounds: RoundInsight[];
 };

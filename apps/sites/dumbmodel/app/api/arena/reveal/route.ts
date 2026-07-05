@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { arenaRateLimit } from "../../_lib/rate-limit";
 import { coreApiFetch, CoreApiError } from "../_lib/core-api";
 
 type RevealItem = { id?: unknown; text?: unknown };
@@ -19,6 +20,14 @@ export async function POST(req: NextRequest) {
   }
 
   const userRef = String(body.userRef ?? "").trim();
+  const limit = arenaRateLimit(req, userRef || undefined);
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: "rate_limited", retryAfter: limit.retryAfter },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfter) } },
+    );
+  }
+
   const query = body.query != null ? String(body.query).trim() : undefined;
   const items = Array.isArray(body.items)
     ? (body.items as RevealItem[])

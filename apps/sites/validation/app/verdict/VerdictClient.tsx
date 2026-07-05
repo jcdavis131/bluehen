@@ -185,6 +185,9 @@ export function VerdictClient() {
             <span className="verdict-exhibit-label">Exhibit A</span>
             <span className="verdict-exhibit-text">{current.a.text}</span>
           </button>
+          <span className="verdict-pair-or" aria-hidden>
+            or
+          </span>
           <button
             type="button"
             className={`verdict-exhibit${chosenId === current.b.id ? " is-chosen" : ""}`}

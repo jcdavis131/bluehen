@@ -10,6 +10,9 @@ import streetFood from "../../../../../content/arena/decks/street-food.json";
 import fictionalVillains from "../../../../../content/arena/decks/fictional-villains.json";
 import gadgets from "../../../../../content/arena/decks/gadgets.json";
 import newsWeek from "../../../../../content/arena/decks/news-week-2026-07.json";
+import comfortFood from "../../../../../content/arena/decks/comfort-food.json";
+import animeOpenings from "../../../../../content/arena/decks/anime-openings.json";
+import travelDestinations from "../../../../../content/arena/decks/travel-destinations.json";
 
 export type ArenaItem = {
   id: string;
@@ -29,6 +32,9 @@ const DECKS: ArenaDeck[] = [
   fictionalVillains,
   gadgets,
   newsWeek,
+  comfortFood,
+  animeOpenings,
+  travelDestinations,
 ] as ArenaDeck[];
 
 export function listDecks(): ArenaDeck[] {

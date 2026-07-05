@@ -1,9 +1,9 @@
 import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import { HealthCheckPanel } from "../../components/HealthCheckPanel";
 
 export const metadata = {
-  title: "Embedding health check — dumbmodel.com",
+  title: "Health Check",
   description:
-    "Free measured diagnostics: paste your text, get the effective rank and space utilization of your content under a production embedding model.",
+    "Free measured diagnostics: paste your text, get effective rank and space utilization under a production embedding model.",
 };
 
 export default function CheckPage() {

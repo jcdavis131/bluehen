@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Axis, PageHeader, RuledSection, StatusLine } from "@synthaembed/ui-fleet";
 
 export const metadata = {
-  title: "Proof Lab",
-  description: "Embedding diagnostics and baseline proof tools on dumbmodel.com.",
+  title: "Lab",
+  description: "Measured embedding diagnostics and baseline proof tools on dumbmodel.com.",
 };
 
 const TOOLS = [
@@ -15,7 +15,7 @@ const TOOLS = [
   {
     href: "/compare",
     title: "Compare models",
-    body: "Same query, same corpus — side-by-side RAG retrieval against a baseline.",
+    body: "Same query, same corpus — side-by-side RAG retrieval against commercial baselines.",
   },
   {
     href: "/hall",
@@ -32,13 +32,13 @@ const TOOLS = [
 export default function LabPage() {
   return (
     <>
-      <StatusLine site="dumbmodel.com" section="Proof Lab" status="Diagnostics" />
+      <StatusLine site="dumbmodel.com" section="Lab" status="Proof tools" />
 
       <Axis>
         <PageHeader
-          eyebrow="Proof tools"
+          eyebrow="The engine"
           title="Lab"
-          lead="The arena is the game. These are the measured diagnostics behind dumbmodel.com — same eval gates, no marketing scores."
+          lead="The arcade is the game. These are the measured diagnostics behind dumbmodel.com — same eval gates, no marketing scores."
         />
 
         <RuledSection label="Tools">
@@ -53,7 +53,7 @@ export default function LabPage() {
         </RuledSection>
 
         <p className="bh-muted">
-          <Link href="/">← Back to Arena</Link>
+          <Link href="/">← Back to Arcade</Link>
         </p>
       </Axis>
     </>

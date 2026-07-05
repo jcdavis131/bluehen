@@ -149,15 +149,15 @@
       "vercelPreview": null,
       "status": "active",
       "legacyRepo": null,
-      "description": "Baseline Comparison \u2014 transparent embedder benchmarks with measured effective rank and nDCG.",
+      "description": "The arcade — Blind Rank, Beat the Baseline, and measured embedding proof tools.",
       "venture": {
-        "valueProp": "Free embedding health check \u2014 paste text, get measured collapse diagnostics",
+        "valueProp": "Rank anything blind — eight picks, tier list reveal, real rank engine underneath",
         "cta": {
-          "label": "Run the free health check",
-          "href": "/check"
+          "label": "Start blind rank",
+          "href": "/arena"
         },
-        "monetization": "Evaluation Credits via bhenre.com/store; briefings via /contact",
-        "dataConsent": "Opt-in checkbox on /check; consented samples \u2192 data/datalab/inbox (datalab source: dumbmodel-health-checks)"
+        "monetization": "Evaluation Credits via bhenre.com/store; certification via slasso.com",
+        "dataConsent": "Arena picks stored anonymously per session (sessionStorage userRef); /check opt-in → data/datalab/inbox"
       },
       "orgRole": "business-unit"
     },

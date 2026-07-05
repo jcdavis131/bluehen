@@ -26,7 +26,7 @@ function readOrCreateUserRef(): string {
 
 type Screen = "select" | "gauntlet" | "reveal";
 
-/** Shapley Arena orchestrator (Spec 0032): deck → 8-round gauntlet → reveal. */
+/** Blind Rank orchestrator: deck → 8 picks → tier list reveal. */
 export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
   const searchParams = useSearchParams();
   const deckParam = searchParams.get("deck");
@@ -70,7 +70,7 @@ export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
   return (
     <div className="arena">
       <p className="arena-consent">
-        Anonymous picks are stored to improve rankings. No accounts.{" "}
+        Picks are anonymous and stored to sharpen rankings. No accounts.{" "}
         <a href="/legal/privacy">Privacy</a>.
       </p>
 

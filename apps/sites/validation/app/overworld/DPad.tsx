@@ -1,9 +1,7 @@
 import type { Direction } from "./engine/game";
 
-/** Mobile touch controls (Spec 0033 V0): a four-way d-pad plus a single
- * action button, both well over the 44px tap-target minimum. Keyboard
- * (arrows/WASD + Space) covers desktop; this is the parallel input path,
- * not a replacement. */
+/** Mobile touch controls (Spec 0033 V0): fluid d-pad + action button.
+ * Pointer capture keeps diagonals from dropping when the finger drifts. */
 export function DPad({
   onDirStart,
   onDirEnd,
@@ -15,13 +13,24 @@ export function DPad({
 }) {
   function dirProps(dir: Direction) {
     return {
-      onPointerDown: (e: React.PointerEvent) => {
+      onPointerDown: (e: React.PointerEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        e.currentTarget.setPointerCapture(e.pointerId);
         onDirStart(dir);
       },
-      onPointerUp: () => onDirEnd(dir),
-      onPointerLeave: () => onDirEnd(dir),
-      onPointerCancel: () => onDirEnd(dir),
+      onPointerUp: (e: React.PointerEvent<HTMLButtonElement>) => {
+        if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+          e.currentTarget.releasePointerCapture(e.pointerId);
+        }
+        onDirEnd(dir);
+      },
+      onPointerCancel: (e: React.PointerEvent<HTMLButtonElement>) => {
+        if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+          e.currentTarget.releasePointerCapture(e.pointerId);
+        }
+        onDirEnd(dir);
+      },
+      onLostPointerCapture: () => onDirEnd(dir),
     };
   }
 
@@ -56,7 +65,13 @@ export function DPad({
           ▼
         </button>
       </div>
-      <button type="button" className="ow-action-btn" aria-label="Interact" onClick={onAction}>
+      <button
+        type="button"
+        className="ow-action-btn"
+        aria-label="Interact"
+        onPointerDown={(e) => e.preventDefault()}
+        onClick={onAction}
+      >
         A
       </button>
     </div>

@@ -19,7 +19,7 @@ export default function PrivacyPage() {
 
         <div className="bh-stack" style={{ gap: 16, maxWidth: 640 }}>
           <p>
-            <strong>Shapley Arena.</strong> When you play the taste game at /arena, we store
+            <strong>Blind Rank.</strong> When you play the tier-list game at /arena, we store
             anonymous pick events tied to a random session identifier in your browser
             (sessionStorage). No account is created. Picks help improve ranking quality across
             sessions. We do not ask for opt-in on each pick — the banner on the arena explains

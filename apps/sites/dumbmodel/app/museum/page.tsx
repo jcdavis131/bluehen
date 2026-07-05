@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ConeMascot } from "@/components/site";
 import { PageHeader } from "@synthaembed/ui-fleet";
 export const metadata = {
-  title: "Museum of Collapse — Baseline Comparison",
+  title: "Museum of Collapse",
   description:
     "A reference catalog of embedding-collapse failure modes and how each is detected.",
 };

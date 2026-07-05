@@ -1,0 +1,23 @@
+{
+  "slug": "comfort-food",
+  "name": "Comfort Food Confessional",
+  "tagline": "Rank the dishes you'd eat on a bad day — no judgment, mostly.",
+  "items": [
+    {"id": "mac-cheese", "text": "Stovetop mac and cheese eaten straight from the pot at 11pm"},
+    {"id": "grilled-cheese", "text": "Grilled cheese with tomato soup — the rainy-day trinity"},
+    {"id": "mashed-potatoes", "text": "A mountain of mashed potatoes with a crater of gravy"},
+    {"id": "ramen-pack", "text": "Instant ramen upgraded with an egg and whatever's in the fridge"},
+    {"id": "chicken-noodle", "text": "Chicken noodle soup that steams up the whole kitchen"},
+    {"id": "fried-rice", "text": "Leftover fried rice with too much soy sauce and zero regrets"},
+    {"id": "pbj", "text": "A PB&J cut diagonally because geometry matters"},
+    {"id": "cereal-bowl", "text": "Cereal for dinner — the bowl is bigger than your head"},
+    {"id": "frozen-pizza", "text": "Frozen pizza with the slightly burnt edges you pretend to hate"},
+    {"id": "meatloaf", "text": "Meatloaf with ketchup stripes like a edible barcode"},
+    {"id": "pot-pie", "text": "A pot pie where the crust is the whole point"},
+    {"id": "tater-tots", "text": "A sheet pan of tater tots shared with nobody"},
+    {"id": "rice-pudding", "text": "Rice pudding with cinnamon — nursery food for adults"},
+    {"id": "toast-butter", "text": "Toast with too much butter and a light dusting of salt"},
+    {"id": "chili-bowl", "text": "A deep bowl of chili with shredded cheese that never fully melts"},
+    {"id": "brownie-pan", "text": "Corner piece brownie from the pan — still warm, still gooey"}
+  ]
+}

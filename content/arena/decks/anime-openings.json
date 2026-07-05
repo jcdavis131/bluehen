@@ -1,0 +1,23 @@
+{
+  "slug": "anime-openings",
+  "name": "Anime Opening Energy",
+  "tagline": "Which OP would you skip the skip button for?",
+  "items": [
+    {"id": "sports-montage", "text": "A sports anime OP — sweat, sunset sprints, and a key change at 0:47"},
+    {"id": "mecha-launch", "text": "A mecha OP with a choir and a launch sequence that never gets old"},
+    {"id": "slice-of-life", "text": "A slice-of-life OP — pastel bikes, convenience store lights, soft piano"},
+    {"id": "shonen-yell", "text": "A shonen OP where the singer screams the title three times"},
+    {"id": "mystery-glitch", "text": "A mystery OP with glitch visuals and a bass drop that feels illegal"},
+    {"id": "rom-com-walk", "text": "A rom-com OP — umbrella scene, puddle reflections, accidental hand touch"},
+    {"id": "isekai-portal", "text": "An isekai OP with a portal, a sword, and unreasonably good animation"},
+    {"id": "idol-sparkle", "text": "An idol OP with enough lens flare to power a small town"},
+    {"id": "horror-whisper", "text": "A horror OP that's too catchy for the show's body count"},
+    {"id": "samurai-wind", "text": "A samurai OP — wind through bamboo, lone figure, taiko drums"},
+    {"id": "school-festival", "text": "A school festival OP with fireworks and a confession that doesn't land yet"},
+    {"id": "villain-reveal", "text": "A villain reveal OP with a smirk and a minor key twist"},
+    {"id": "training-arc", "text": "A training arc OP — montage, bruises, one new move at the end"},
+    {"id": "space-opera", "text": "A space opera OP with a galaxy map and a vow whispered to the stars"},
+    {"id": "credits-bop", "text": "An OP so good you never hear the episode start"},
+    {"id": "legacy-sequel", "text": "A sequel OP that nods to the original melody and makes you cry anyway"}
+  ]
+}

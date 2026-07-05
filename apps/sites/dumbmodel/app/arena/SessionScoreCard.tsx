@@ -1,12 +1,12 @@
 import type { SessionStats } from "./types";
 
-/** End-of-run score — how often the player matched the model. */
+/** Host scorecard after the gauntlet — how often we guessed right. */
 export function SessionScoreCard({ stats }: { stats: SessionStats }) {
   const pct = stats.total > 0 ? Math.round((stats.matches / stats.total) * 100) : 0;
   return (
     <div className="arena-score-card">
       <p className="arena-score-headline">
-        You matched the model{" "}
+        We guessed you{" "}
         <strong>
           {stats.matches}/{stats.total}
         </strong>{" "}
@@ -14,10 +14,10 @@ export function SessionScoreCard({ stats }: { stats: SessionStats }) {
       </p>
       <p className="bh-muted arena-score-sub">
         {pct >= 75
-          ? "The rank engine is reading you clearly."
+          ? "We basically know you. Send this to someone who'll disagree."
           : pct >= 40
-            ? "Mixed signals — your taste has edges the model is still learning."
-            : "You kept the model guessing. Play again and watch the layer stack shift."}
+            ? "Mixed signals — your taste has edges."
+            : "You kept us guessing. Respect."}
       </p>
     </div>
   );

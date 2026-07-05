@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { arenaRateLimit } from "../../_lib/rate-limit";
 import { coreApiFetch, CoreApiError } from "../_lib/core-api";
 
 /**
- * Shapley Arena round BFF (Spec 0032): predict + resolve via /v1/rank/round.
+ * Blind Rank round BFF: predict + resolve via /v1/rank/round.
  * Resolve always stores anonymous exhaust (no consent checkbox).
  */
 export async function POST(req: NextRequest) {
@@ -14,6 +15,13 @@ export async function POST(req: NextRequest) {
   }
 
   const userRef = String(body.userRef ?? "").trim();
+  const limit = arenaRateLimit(req, userRef || undefined);
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: "rate_limited", retryAfter: limit.retryAfter },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfter) } },
+    );
+  }
   const pair = body.pair;
   const query = body.query != null ? String(body.query) : undefined;
   const priorPicks = body.priorPicks;

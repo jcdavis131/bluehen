@@ -1,4 +1,5 @@
 import "./verdict.css";
+import "../game-page.css";
 import { PageHeader } from "@synthaembed/ui-fleet";
 import { VerdictClient } from "./VerdictClient";
 
@@ -12,7 +13,7 @@ export const metadata = {
  * harvested one judged pair at a time. */
 export default function VerdictPage() {
   return (
-    <>
+    <div className="game-page">
       <PageHeader
         eyebrow="Validation Lab · The Verdict"
         title="Order in the lab."
@@ -20,6 +21,6 @@ export default function VerdictPage() {
         badge={<span className="bh-badge bh-badge--accent">Real retrieval, real ranks</span>}
       />
       <VerdictClient />
-    </>
+    </div>
   );
 }

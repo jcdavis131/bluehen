@@ -21,7 +21,7 @@ type ImpactResponse = {
  * hardcoded here. */
 const FIELD_EXPLANATIONS: Record<string, string> = {
   triplets: "hard negatives you mined by poisoning the baseline",
-  picks: "this-or-that calls you made in the Shapley Arena",
+  picks: "this-or-that calls you made in Blind Rank",
   verdicts: "times the model predicted your pick, right or wrong, and you found out",
 };
 
@@ -206,8 +206,8 @@ export function ImpactClient() {
           <p>Poison a query, mine a hard negative.</p>
         </Link>
         <Link href="/arena" className="impact-tile">
-          <h4>Shapley Arena</h4>
-          <p>Predict-first taste game, eight rounds.</p>
+          <h4>Blind Rank</h4>
+          <p>Eight picks, tier list reveal — shareable like the videos.</p>
         </Link>
       </div>
     </div>

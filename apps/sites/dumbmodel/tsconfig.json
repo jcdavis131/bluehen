@@ -36,6 +36,7 @@
   ],
   "exclude": [
     "node_modules",
-    "app/arena/pairing.test.ts"
+    "app/arena/pairing.test.ts",
+    "app/arena/tierBuckets.test.ts"
   ]
 }

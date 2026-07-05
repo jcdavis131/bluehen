@@ -23,7 +23,7 @@ const LINES: Array<(c: CommentaryContext) => string> = [
   (c) => `Round ${c.round} and you've already betrayed everything you picked in round one.`,
   (c) => `That pick has main-character energy. Concerning.`,
   (c) => `The ${shortLabel(c.loserId)} camp is filing a complaint. It has a case.`,
-  (c) => `Confident tap. Let's see if that holds by round twelve.`,
+  (c) => `Confident tap. Let's see if that holds by round eight.`,
   (c) => `Decisive. The Rank Engine is taking notes.`,
   (c) => `That's the kind of pick that starts a rivalry two rounds from now.`,
   (c) => `No hesitation there. Respect, and a little concern.`,

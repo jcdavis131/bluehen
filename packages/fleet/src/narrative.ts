@@ -87,19 +87,19 @@ export const SITE_CIRCUIT: Record<
     eyebrow: "Headquarters · jcamd.com",
   },
   dumbmodel: {
-    stop: "Baseline Comparison",
-    role: "Diagnostics unit at dumbmodel.com. Free embedder health checks; funnel and consented data.",
-    eyebrow: "Baseline Comparison · dumbmodel.com",
+    stop: "The Arcade",
+    role: "Studio game at dumbmodel.com. Blind Rank, Beat the Baseline, and measured proof tools — games that feed the data engine.",
+    eyebrow: "The Arcade · dumbmodel.com",
   },
   validation: {
-    stop: "Validation Lab",
-    role: "Certification unit at slasso.com. Paid RAG certification with published scorecards.",
-    eyebrow: "Validation Lab · slasso.com",
+    stop: "The Gauntlet",
+    role: "Studio game at slasso.com. The Verdict and The Overworld — retrieval games with live labels and certification underneath.",
+    eyebrow: "The Gauntlet · slasso.com",
   },
   research: {
-    stop: "Applied Research",
-    role: "Applied Research unit at arxiviq.com. Live retrieval assistant, method registry, case studies.",
-    eyebrow: "Applied Research · arxiviq.com",
+    stop: "The Weaver",
+    role: "Studio game at arxiviq.com. Leylines connects papers through the corpus (parked per Operator focus).",
+    eyebrow: "The Weaver · arxiviq.com",
   },
   simulation: {
     stop: "Simulation Lab",
@@ -173,9 +173,15 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/feedback", label: "Feedback" },
   ],
   dumbmodel: [
-    { href: "/", label: "Arena" },
-    { href: "/arena", label: "Play" },
+    { href: "/", label: "Arcade" },
+    { href: "/arena", label: "Blind Rank" },
+    { href: "/beat", label: "Beat It" },
+    { href: "/impact", label: "Impact" },
     { href: "/lab", label: "Lab" },
+    {
+      href: "https://slasso.com/certify?utm_source=dumbmodel&utm_medium=nav",
+      label: "Get Certified",
+    },
   ],
   validation: [
     { href: "/overworld", label: "The Overworld" },

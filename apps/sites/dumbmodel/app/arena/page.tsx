@@ -4,9 +4,9 @@ import { listDecks } from "./decks";
 import { ArenaClientShell } from "./ArenaClientShell";
 
 export const metadata = {
-  title: "Shapley Arena — dumbmodel.com",
+  title: "Blind Rank",
   description:
-    "Predict-first taste game: eight rounds of this-or-that with honest Shapley explanations from the real Rank Engine.",
+    "Rank anything blind: eight rapid head-to-heads, then your S-tier list drops. Real rank engine — shareable like the videos.",
 };
 
 export default function ArenaPage() {
@@ -15,9 +15,9 @@ export default function ArenaPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Shapley Arena"
-        title="Can we guess your taste?"
-        lead="Eight rounds: model predicts, you pick, Shapley explains. Real rank math — no decorative numbers."
+        eyebrow="Blind Rank"
+        title="Rank it blind. See the tier list."
+        lead="Pick a deck, slam through eight this-or-that picks, watch your S→D tier list drop at the end. We guess each pick out loud — then you send the list to someone who'll fight you on #1."
       />
       <ArenaClientShell decks={decks} />
     </>

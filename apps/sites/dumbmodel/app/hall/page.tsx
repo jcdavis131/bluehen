@@ -2,7 +2,7 @@ import Link from "next/link";
 import { HallOfConeTable } from "@/components/HallOfCone";
 import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";
 export const metadata = {
-  title: "Hall of Cone — Baseline Comparison",
+  title: "Hall of Cone",
   description: "Reference baselines ranked by effective rank.",
 };
 

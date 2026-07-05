@@ -1,0 +1,23 @@
+{
+  "slug": "travel-destinations",
+  "name": "Travel Daydream Tier List",
+  "tagline": "Where your passport would go if money and PTO were imaginary.",
+  "items": [
+    {"id": "tokyo-neon", "text": "Tokyo at night — neon alleys, vending machines, and a ramen shop with six seats"},
+    {"id": "lisbon-tiles", "text": "Lisbon — azulejo tiles, tram hills, and pasteis that ruin all others"},
+    {"id": "patagonia-wind", "text": "Patagonia — wind that rewrites your hair and peaks that humiliate your photos"},
+    {"id": "marrakech-souks", "text": "Marrakech souks — spice air, bargaining, and mint tea on a rooftop"},
+    {"id": "iceland-waterfall", "text": "Iceland — a waterfall you can walk behind and black sand that sticks to everything"},
+    {"id": "new-orleans-jazz", "text": "New Orleans — jazz on a porch, beignets, and humidity as a personality"},
+    {"id": "banff-lake", "text": "Banff — a lake so blue it looks filtered in real life"},
+    {"id": "amalfi-cliff", "text": "The Amalfi Coast — a cliffside lemon spritz and a bus ride that tests faith"},
+    {"id": "kyoto-temple", "text": "Kyoto in autumn — a temple garden and silence that feels expensive"},
+    {"id": "safari-dawn", "text": "An East African safari at dawn — coffee in a tin cup and dust in your teeth"},
+    {"id": "bali-rice", "text": "Bali rice terraces — green steps, scooter traffic, and a massage you didn't schedule"},
+    {"id": "prague-fog", "text": "Prague in fog — cobblestones, castle silhouettes, and trdelník guilt"},
+    {"id": "santorini-sunset", "text": "Santorini sunset — crowded, cliché, and somehow still worth it"},
+    {"id": "cusco-altitude", "text": "Cusco — altitude headache, alpaca selfies, and history under your boots"},
+    {"id": "vietnam-street", "text": "Hanoi street food crawl — plastic stools, motorbikes, and broth that fixes you"},
+    {"id": "norway-fjord", "text": "A Norwegian fjord — ferry ride, wool sweater, and quiet that scares you a little"}
+  ]
+}

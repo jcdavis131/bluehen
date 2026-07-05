@@ -22,6 +22,19 @@ from app.services.search import search_chunks
 from sqlalchemy import select
 
 app = FastAPI(title="SynthaEmbed Core API", version="0.3.0")
+
+# jcamd.com personal homepage reads public GET endpoints client-side
+# (catalog stats, wiki). Everything else stays server-side/BFF.
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://jcamd.com", "https://www.jcamd.com"],
+    allow_methods=["GET"],
+    allow_headers=["*"],
+    max_age=3600,
+)
+
 app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 

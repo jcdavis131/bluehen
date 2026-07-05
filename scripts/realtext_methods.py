@@ -25,9 +25,18 @@ ndcg_pool{K} (nDCG@10 over the K+1 candidate ranking) alongside the existing ndc
 K=16 in a full run, K=4 under --smoke. Pool construction is seeded off CORPUS_POOL_SEED so the
 same corpus always yields the same pools regardless of which model/method is being scored.
 
+AR-510 (instruction-conditioned heads, Spec 0030 §2): --instructions (corpus mode only) prefixes
+every text with an Instructor-style task instruction — anchors/queries get "Represent this
+research passage for retrieval: ", candidates (positive/negative/pool) get "Represent this
+research passage: ", and the OOD AG News slice gets "Represent this news passage for
+classification: ". Prefixing is applied symmetrically at train time (pair building fed to
+train_asn) and eval time (corpus_metrics_for + pool ranking) so a with/without run isolates the
+instruction-prefix effect on the SAME backbone+method. Rows gain "instructions": true|false.
+
 Run:  packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py --out data/sweeps/methods.jsonl
       packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py --corpus data/corpora/research/corpus.jsonl
       packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py --corpus data/corpora/research/corpus.jsonl --smoke
+      packages/asn-engine/.venv/Scripts/python.exe scripts/realtext_methods.py --corpus data/corpora/research/corpus.jsonl --smoke --instructions
 """
 
 from __future__ import annotations
@@ -67,6 +76,12 @@ OOD_AGNEWS_N_SMOKE = 20
 CORPUS_POOL_K_FULL = 16
 CORPUS_POOL_K_SMOKE = 4
 CORPUS_POOL_SEED = 0
+
+# AR-510 instruction-conditioned-heads prefixes (Instructor-style). Query/anchor prefix differs
+# from the candidate (positive/negative/pool) prefix; OOD (AG News) gets its own task framing.
+INSTR_QUERY = "Represent this research passage for retrieval: "
+INSTR_CANDIDATE = "Represent this research passage: "
+INSTR_NEWS = "Represent this news passage for classification: "
 
 METHODS = {
     "infonce": {"loss": {"infoNceTemp": 0.05}},
@@ -180,15 +195,32 @@ def build_hard_neg_pool(chunked: list[tuple[str, str]], token_sets: list[frozens
     return [chunked[idx][1] for idx in chosen]
 
 
+def _prefix(texts: list[str], prefix: str) -> list[str]:
+    """AR-510: prepend an Instructor-style task instruction to each text."""
+    return [prefix + t for t in texts]
+
+
 def corpus_metrics_for(state_or_name, pairs: list[dict], chunked: list[tuple[str, str]],
-                        token_sets: list[frozenset], pool_k: int, seed: int) -> dict:
-    """Pair-based retrieval nDCG + effective rank, plus RT-404's harder pool-ranked nDCG."""
+                        token_sets: list[frozenset], pool_k: int, seed: int,
+                        instructions: bool = False) -> dict:
+    """Pair-based retrieval nDCG + effective rank, plus RT-404's harder pool-ranked nDCG.
+
+    AR-510: when `instructions` is set, anchors (queries) and positives/negatives/pool
+    candidates are prefixed before encoding — symmetric with the train-time prefixing applied
+    to the pairs handed to train_asn. `chunked`/`token_sets` and the pair dicts themselves stay
+    raw (unprefixed): they're also used for jaccard scoring and exact-text dedup in
+    build_hard_neg_pool, which must keep matching on the corpus's original text.
+    """
     pool_key = f"ndcg_pool{pool_k}"
     if not pairs:
         return {"ndcg_pairs": 0.0, "effRank": 0.0, pool_key: 0.0}
     anchors = [p["anchor"] for p in pairs]
     positives = [p["positive"] for p in pairs]
     negatives = [p["negative"] for p in pairs]
+    if instructions:
+        anchors = _prefix(anchors, INSTR_QUERY)
+        positives = _prefix(positives, INSTR_CANDIDATE)
+        negatives = _prefix(negatives, INSTR_CANDIDATE)
     Za = encode_texts(state_or_name, anchors)
     Zp = encode_texts(state_or_name, positives)
     Zn = encode_texts(state_or_name, negatives)
@@ -208,7 +240,10 @@ def corpus_metrics_for(state_or_name, pairs: list[dict], chunked: list[tuple[str
     uniq_negs = sorted({t for pool in pools for t in pool})
     neg_vecs = {}
     if uniq_negs:
-        Zneg = encode_texts(state_or_name, uniq_negs)
+        # Encode with the candidate prefix (if instructions is on) but key neg_vecs by the raw
+        # text `t` — pools are built from raw chunk text, so lookups by pool entries still hit.
+        enc_negs = _prefix(uniq_negs, INSTR_CANDIDATE) if instructions else uniq_negs
+        Zneg = encode_texts(state_or_name, enc_negs)
         neg_vecs = {t: Zneg[j].tolist() for j, t in enumerate(uniq_negs)}
     pool_ndcgs = []
     for i, pool in enumerate(pools):
@@ -244,6 +279,14 @@ def main() -> int:
     ap.add_argument("--smoke", action="store_true",
                      help="RT-402: tiny run — 1 method (infonce), 1 seed, tiny steps, no "
                           "zero-shot panel. For fast sanity checks of --corpus mode.")
+    ap.add_argument("--instructions", action="store_true",
+                     help="AR-510 (corpus mode only): prefix every text with an Instructor-style "
+                          "task instruction — queries get 'Represent this research passage for "
+                          "retrieval: ', candidates get 'Represent this research passage: ', and "
+                          "the OOD AG News slice gets 'Represent this news passage for "
+                          "classification: '. Applied symmetrically at train time and eval time "
+                          "so the comparison vs plain text isolates the prefix effect on the "
+                          "same backbone+method.")
     args = ap.parse_args()
     args.out.parent.mkdir(parents=True, exist_ok=True)
 
@@ -294,28 +337,45 @@ def main() -> int:
             eval_corpus_pairs = train_corpus_pairs
 
         ood_texts, ood_labels = load_agnews_ood(0, ood_n)
+        # AR-510: OOD (AG News) gets its own task-framing prefix, applied once up front so
+        # both the zero-shot and trained loops encode the identical (prefixed) OOD text.
+        ood_texts_enc = _prefix(ood_texts, INSTR_NEWS) if args.instructions else ood_texts
+
+        # AR-510: train-time prefixing mirrors corpus_metrics_for's eval-time prefixing —
+        # anchor -> query prefix, positive -> candidate prefix. train_asn only reads
+        # "anchor"/"positive" off each pair dict, so this is the sole train-side hook needed;
+        # train_corpus_pairs itself (and its anchor_idx/negative fields) stays raw for eval reuse.
+        train_pairs_for_fit = train_corpus_pairs
+        if args.instructions:
+            train_pairs_for_fit = [
+                {**p, "anchor": INSTR_QUERY + p["anchor"], "positive": INSTR_CANDIDATE + p["positive"]}
+                for p in train_corpus_pairs
+            ]
 
         if run_zeroshot:
             print("=== zero-shot SOTA panel (corpus mode) ===", flush=True)
             for name, hf in SOTA.items():
                 try:
                     idm = corpus_metrics_for(hf, eval_corpus_pairs, eval_chunked, eval_tokens,
-                                              pool_k, CORPUS_POOL_SEED)
-                    oodm = metrics_for(encode_texts(hf, ood_texts), ood_labels)
-                    emit({"kind": "zeroshot", "model": name, "indomain": idm, "ood_knn": oodm["knn_full"]})
+                                              pool_k, CORPUS_POOL_SEED, instructions=args.instructions)
+                    oodm = metrics_for(encode_texts(hf, ood_texts_enc), ood_labels)
+                    emit({"kind": "zeroshot", "model": name, "instructions": args.instructions,
+                          "indomain": idm, "ood_knn": oodm["knn_full"]})
                 except Exception as e:
-                    emit({"kind": "zeroshot", "model": name, "error": f"{type(e).__name__}: {e}"})
+                    emit({"kind": "zeroshot", "model": name, "instructions": args.instructions,
+                          "error": f"{type(e).__name__}: {e}"})
 
         print("=== trained methods (corpus fine-tune) ===", flush=True)
         for method, extra in methods.items():
             for seed in seeds:
                 recipe = {"baseModel": BACKBONE, "epochs": epochs, "batchSize": 32, "lr": 2e-5,
                           "asn": {"enabled": False}, **extra}
-                ck = Path(train_asn(train_corpus_pairs, recipe, ckdir / f"{method}_{seed}_corpus").checkpoint_path)
+                ck_name = f"{method}_{seed}_corpus" + ("_instr" if args.instructions else "")
+                ck = Path(train_asn(train_pairs_for_fit, recipe, ckdir / ck_name).checkpoint_path)
                 idm = corpus_metrics_for(ck, eval_corpus_pairs, eval_chunked, eval_tokens,
-                                          pool_k, CORPUS_POOL_SEED)
-                oodm = metrics_for(encode_texts(ck, ood_texts), ood_labels)
-                emit({"kind": "trained", "method": method, "seed": seed,
+                                          pool_k, CORPUS_POOL_SEED, instructions=args.instructions)
+                oodm = metrics_for(encode_texts(ck, ood_texts_enc), ood_labels)
+                emit({"kind": "trained", "method": method, "seed": seed, "instructions": args.instructions,
                       "indomain": idm, "ood_knn": oodm["knn_full"]})
                 if os.environ.get("CLEAN_CKPTS") == "1":
                     # checkpoints are ~500MB each and re-derivable; metrics

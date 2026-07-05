@@ -2000,7 +2000,7 @@
       "status": "ready",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Public read-only page: triplets/edges contributed (exhaust label tallies via the summary endpoint pattern), attributed to pseudonym. hq admin view gets totals.",
+      "notes": "RESCOPED to dumbmodel per focus: /impact page \u2014 your triplets/picks contributed, streaks, pseudonymous leaderboard from exhaust label tallies.",
       "source": "Spec 0031 gamified data engine"
     },
     {
@@ -2009,7 +2009,7 @@
       "status": "in_progress",
       "lane": "claude",
       "priority": "P2",
-      "notes": "BUILDING (Operator accelerated): Leylines on arxiviq \u2014 start/goal papers, pick-a-hop from recommend-by-item candidates, 6-hop budget, coherence scoring; edges + chosen-over preferences harvested; player human|agent.",
+      "notes": "BUILDING (Operator accelerated): Leylines on arxiviq \u2014 start/goal papers, pick-a-hop from recommend-by-item candidates, 6-hop budget, coherence scoring; edges + chosen-over preferences harvested; player human|agent. [OPERATOR FOCUS 2026-07-05: arxiviq parked \u2014 land the in-flight build, then freeze until recalled.]",
       "source": "Spec 0031 gamified data engine",
       "claimedBy": "claude"
     },
@@ -2078,8 +2078,8 @@
       "title": "Overworld V0: tile engine + Blue Hen universe map + real-event happenings + worldbook terminals (Spec 0033)",
       "status": "ready",
       "lane": "claude",
-      "priority": "P1",
-      "notes": "Launches after the Verdict builder lands (same app). Two sonnet parts: engine (canvas/tiles/movement/collision/dialog system) then content (map, districts, happenings from public feeds, wiki terminals, arcade buildings).",
+      "priority": "P0",
+      "notes": "Launches after the Verdict builder lands (same app). Two sonnet parts: engine (canvas/tiles/movement/collision/dialog system) then content (map, districts, happenings from public feeds, wiki terminals, arcade buildings). [P0 per Operator focus \u2014 launches the moment the Verdict builder clears the validation app.]",
       "source": "Spec 0033 Overworld"
     },
     {

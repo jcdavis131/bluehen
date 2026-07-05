@@ -41,7 +41,6 @@
 
 ## In progress
 
-- [ ] **GAME-003** — Semantic Six Degrees spec + prototype (arxiviq) (@claude)
 - [ ] **GAME-006** — Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance (@claude)
 
 ## Blocked on infra (work elsewhere)
@@ -61,12 +60,12 @@
 
 ## Recently done
 
-- [x] ~~**UXR-006** — Launchpad E2E in prod + EVIDENCE row~~
 - [x] ~~**RANK-001** — Rank Engine v1: POST /v1/rank — inline or indexed candidates, ephemeral user vector from exhaust, policy weights, factor breakdown~~
 - [x] ~~**RANK-002** — Rank playground UI: /developers gains a rank tab + docs section (sonnet-delegate batch 2)~~
 - [x] ~~**ARENA-001** — Rank Arena V1 live on dumbmodel.com/arena (Spec 0029)~~
 - [x] ~~**AR-510** — Instruction-conditioned heads: does a task-prefix convention beat per-task heads on shared backbone?~~
 - [x] ~~**GAME-001** — Beat the Baseline: adversarial query game on dumbmodel (hard-triplet mining)~~
+- [x] ~~**GAME-003** — Semantic Six Degrees spec + prototype (arxiviq)~~
 - [x] ~~**GAME-004** — RAG Gauntlet: bounty board on slasso~~
 - [x] ~~**GAME-007** — Shapley Arena: predict-first taste game + per-round Shapley + layer stack (Spec 0032)~~
 

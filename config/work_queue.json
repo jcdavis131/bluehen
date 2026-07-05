@@ -2006,10 +2006,10 @@
     {
       "id": "GAME-003",
       "title": "Semantic Six Degrees spec + prototype (arxiviq)",
-      "status": "in_progress",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "BUILDING (Operator accelerated): Leylines on arxiviq \u2014 start/goal papers, pick-a-hop from recommend-by-item candidates, 6-hop budget, coherence scoring; edges + chosen-over preferences harvested; player human|agent. [OPERATOR FOCUS 2026-07-05: arxiviq parked \u2014 land the in-flight build, then freeze until recalled.]",
+      "notes": "LANDED then FROZEN per focus: arxiviq.com/leylines \u2014 two papers, 4-candidate hops from recommend-by-item, engine-scored paths (0.3 floor honest), edge + chosen-over labels w/ player provenance. Typecheck clean; nav link + polish deferred until arxiviq recalled. NOTE: Cursor has an uncommitted broken methods/page.tsx edit (ref prop in RSC) in the tree \u2014 theirs to finish.",
       "source": "Spec 0031 gamified data engine",
       "claimedBy": "claude"
     },

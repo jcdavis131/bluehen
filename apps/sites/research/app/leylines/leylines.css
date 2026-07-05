@@ -1,0 +1,269 @@
+/**
+ * Leylines (Spec 0031 §2/§7, GAME-003) — arxiviq's serene, scholarly voice:
+ * quiet ink-on-parchment, no blocky press-down (that's dumbmodel's arena).
+ * Scoped to .leylines so it never leaks into the rest of the research site.
+ */
+.leylines {
+  max-width: var(--bh-axis, 720px);
+  margin: 0 auto;
+}
+
+.leylines-consent {
+  font-size: 0.875rem;
+  color: var(--bh-text-secondary, var(--bh-muted));
+  line-height: 1.6;
+  margin: 0 0 var(--bh-space-5);
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border: 1px dashed var(--bh-border);
+  border-radius: var(--bh-radius-lg);
+  background: var(--bh-surface-2, var(--bh-inset));
+}
+
+.leylines-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-4);
+}
+
+.leylines-intro-lede {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--bh-text-secondary);
+}
+
+/* ── The chain ──────────────────────────────────────────── */
+
+.leylines-chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  margin-bottom: var(--bh-space-6);
+  padding: var(--bh-space-4);
+  border: var(--bh-rule);
+  border-radius: var(--bh-radius-lg);
+  background: var(--bh-surface);
+}
+
+.leylines-chain-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.leylines-node {
+  display: inline-flex;
+  align-items: center;
+  max-width: 220px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--bh-accent-dim);
+  background: var(--bh-accent-muted);
+  color: var(--bh-text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leylines-node.is-start {
+  border-color: var(--bh-border-strong);
+  background: var(--bh-inset);
+  color: var(--bh-text-secondary);
+}
+
+.leylines-node.is-goal {
+  border-style: dashed;
+  border-color: var(--bh-border-strong);
+  background: transparent;
+  color: var(--bh-muted);
+}
+
+.leylines-node.is-goal.is-reached {
+  border-style: solid;
+  border-color: var(--bh-moss-dim);
+  background: rgba(107, 143, 113, 0.12);
+  color: var(--bh-moss);
+}
+
+.leylines-chain.is-frayed .leylines-node.is-goal {
+  border-color: var(--bh-danger-dim);
+  color: var(--bh-danger);
+  opacity: 0.7;
+}
+
+.leylines-connector {
+  display: inline-block;
+  width: 28px;
+  height: 1.5px;
+  margin: 0 4px;
+  background: var(--bh-accent-dim);
+  flex-shrink: 0;
+}
+
+.leylines-connector--open {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--bh-border-strong) 0 4px,
+    transparent 4px 8px
+  );
+}
+
+.leylines-chain.is-frayed .leylines-connector--open {
+  background: repeating-linear-gradient(90deg, var(--bh-danger-dim) 0 4px, transparent 4px 8px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .leylines-node {
+    animation: leylines-node-in 0.32s var(--bh-ease-out, ease);
+  }
+  @keyframes leylines-node-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+/* ── Round head + candidates ────────────────────────────── */
+
+.leylines-round-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--bh-space-3);
+}
+
+.leylines-round-counter {
+  font-family: var(--bh-font-mono);
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+}
+
+.leylines-loading {
+  font-size: 0.875rem;
+  color: var(--bh-muted);
+  font-style: italic;
+}
+
+.leylines-candidates {
+  display: grid;
+  gap: var(--bh-space-3);
+}
+
+.leylines-candidate {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  border: 1.5px solid var(--bh-border);
+  border-radius: var(--bh-radius-lg);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-sm);
+  padding: var(--bh-space-4);
+  font: inherit;
+  color: inherit;
+  transition: border-color var(--bh-duration) var(--bh-ease),
+    box-shadow var(--bh-duration) var(--bh-ease), transform var(--bh-duration) var(--bh-ease-out);
+}
+
+.leylines-candidate:hover:not(:disabled) {
+  border-color: var(--bh-accent-dim);
+  box-shadow: var(--bh-shadow-md);
+  transform: translateY(-1px);
+}
+
+.leylines-candidate:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.leylines-candidate-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.leylines-candidate-reason {
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+  line-height: 1.5;
+}
+
+/* ── Result screen ──────────────────────────────────────── */
+
+.leylines-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bh-space-4);
+}
+
+.leylines-result-headline {
+  margin: 0;
+  font-family: var(--bh-font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.leylines-scores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-3);
+}
+
+.leylines-perhop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leylines-perhop li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--bh-space-3);
+  padding: 8px 12px;
+  border-radius: var(--bh-radius-md);
+  background: var(--bh-inset);
+  border: 1px solid var(--bh-border);
+  font-size: 0.8125rem;
+}
+
+.leylines-perhop-idx {
+  font-family: var(--bh-font-mono);
+  color: var(--bh-muted);
+  min-width: 60px;
+}
+
+.leylines-perhop-score {
+  font-family: var(--bh-font-mono);
+  font-weight: 600;
+}
+
+.leylines-perhop-floor {
+  font-family: var(--bh-font-mono);
+  font-size: 0.6875rem;
+  color: var(--bh-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 480px) {
+  .leylines-node {
+    max-width: 140px;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+  .leylines-connector {
+    width: 16px;
+  }
+}

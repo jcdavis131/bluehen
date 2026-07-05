@@ -1926,6 +1926,51 @@
       "priority": "P1",
       "source": "Spec 0029",
       "notes": "Sonnet-built: 3 decks, 12-round seeded gauntlet, 15-line roast commentator w/ optional browser TTS, personalized reveal via real /v1/rank w/ factor chips + honest not-enough-signal state; picks stream as consented exhaust (the RANK-003/004 data engine). Deck-start-as-consent w/ adjacent plain copy accepted by integrator."
+    },
+    {
+      "id": "PKG-001",
+      "title": "BlueHen-Embed: name sign-off + model card + HF publish",
+      "status": "blocked",
+      "lane": "operator+claude",
+      "priority": "P1",
+      "notes": "Operator: confirm the name + HF_TOKEN (same token as MON-008/TOWER-004). Claude: card w/ EVIDENCE-linked receipts, instruction conventions documented, publish via existing machinery.",
+      "source": "Spec 0030 one-model-package"
+    },
+    {
+      "id": "PKG-002",
+      "title": "bluehen-stack: the one-command local package (model + harness + skills + free-LLM wiring)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Spec 0030 \u00a73. Define the repo cut: eval-harness + head-serving + skills + GLM-class wiring + quickstart. Target laptop-CPU, zero cloud. Start: package manifest + install script in-monorepo (packages/bluehen-stack), extract later.",
+      "source": "Spec 0030 one-model-package"
+    },
+    {
+      "id": "PKG-003",
+      "title": "dumbmodel = THE model demo site: copy/nav consolidation",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "Reframe home: 'the model demo site' \u2014 compare/check/arena/museum as the four demos; compare page gains ours-vs-panel framing w/ EVIDENCE row cites.",
+      "source": "Spec 0030 one-model-package"
+    },
+    {
+      "id": "PKG-004",
+      "title": "Consulting offer: setup-engagement page + scope doc",
+      "status": "ready",
+      "lane": "operator+claude",
+      "priority": "P1",
+      "notes": "Claude drafts the engagement (what we install, timeline, deliverables incl. tuned model + report card); Operator prices it. This is revenue-now \u2014 no payment rails needed (invoice).",
+      "source": "Spec 0030 one-model-package"
+    },
+    {
+      "id": "AR-510",
+      "title": "Instruction-conditioned heads: does a task-prefix convention beat per-task heads on shared backbone?",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "The Instructor-style claim must be measured before made: train heads w/ instruction prefixes vs plain across 2 tasks (retrieval/similarity) on research corpus; pool16 protocol. EVIDENCE row either way.",
+      "source": "Spec 0030 one-model-package"
     }
   ]
 }

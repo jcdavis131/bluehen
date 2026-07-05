@@ -37,6 +37,7 @@
 - [ ] **TOWER-001** — Visual tower V1: DINOv2-S + projection head offline proof w/ eval vs CLIP + text baselines (None)
 - [ ] **TOWER-004** — DINOv3 upgrade gate: accept Meta license on HF + provide HF_TOKEN (None)
 - [ ] **UXR-003** — Launchpad wizard at bhenre.com/launchpad (sonnet-delegated, mobile-first) (None)
+- [ ] **PKG-002** — bluehen-stack: the one-command local package (model + harness + skills + free-LLM wiring) (None)
 
 ## In progress
 

@@ -24,6 +24,13 @@ the loop trains their domain model, gates it against baselines, and
 serves recommendations that improve automatically. Every business unit
 is a demonstration of that promise on a different domain.
 
+**One-model refinement (Spec 0030, 2026-07-04):** the embedding model
+(BlueHen-Embed, instruction-adaptable, CPU-free-tier hostable) is the
+package's center of gravity — essential by integration (conventions,
+skills, harness configs), not by benchmark bravado. Revenue sequence:
+consulting NOW (invoiced), managed tuning + re-certification RECURRING,
+model + package FREE (distribution). dumbmodel.com is THE demo site.
+
 **Strategic roles (Spec 0023):** Blue Hen = the horizontal product ·
 ArXivIQ = the R&D pipeline · DumbModel = the automated evaluator ·
 Jcamd = the orchestration core. Verticals (real estate first) are

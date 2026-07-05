@@ -564,6 +564,28 @@ def get_contract(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
                    "note": "no contract registered — metadata is unvalidated until one is"}
 
 
+class SignupIn(BaseModel):
+    name: str | None = None
+    email: str | None = None
+
+
+@app.post("/v1/signup", status_code=201)
+def self_serve_signup(body: SignupIn, request: Request,
+                      _rl: Annotated[None, Depends(rate_limit("signup", 10))] = None):
+    """Zero-involvement front door (Spec 0034): instant Free-tier
+    workspace + API key. Caps enforced by metering + budget ceilings."""
+    from app.services.signup import create_free_workspace
+
+    ip = (request.headers.get("x-forwarded-for") or
+          (request.client.host if request.client else "?")).split(",")[0].strip()
+    try:
+        return create_free_workspace(body.name, body.email, ip)
+    except PermissionError as e:
+        raise HTTPException(status_code=429, detail=str(e)) from e
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
 class RankIn(BaseModel):
     items: list[dict] | None = None
     useIndex: bool = False

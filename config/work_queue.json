@@ -1862,11 +1862,12 @@
     {
       "id": "UXR-006",
       "title": "Launchpad E2E in prod + EVIDENCE row",
-      "status": "blocked",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "BLOCKED on UXR-001..003 deployed. Scripted stranger-run incl. deliberate gate-fail path.",
-      "source": "Spec 0027 Launchpad"
+      "notes": "EVIDENCE 3.18: full loop via public BFF, gates refused both runs honestly, deploy guard held. Sandbox env rebind via hub redeploy.",
+      "source": "Spec 0027 Launchpad",
+      "claimedBy": "claude"
     },
     {
       "id": "WIKI-101",
@@ -2041,11 +2042,25 @@
     {
       "id": "GAME-006",
       "title": "Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance",
-      "status": "blocked",
+      "status": "in_progress",
       "lane": "claude",
       "priority": "P2",
       "notes": "BLOCKED on first labels accumulating (GAME-001 live). Extends the harvest/card machinery.",
-      "source": "Spec 0031 gamified data engine"
+      "source": "Spec 0031 gamified data engine",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-05T05:04:13.200166+00:00"
+    },
+    {
+      "id": "GAME-007",
+      "title": "Shapley Arena: predict-first taste game + per-round Shapley + layer stack (Spec 0032)",
+      "status": "done",
+      "lane": "cursor",
+      "priority": "P1",
+      "spec": "0032",
+      "notes": "Extends Rank Arena 0029 v2: POST /v1/rank/round, 8-round gauntlet, arena-first dumbmodel IA.",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T05:10:00.000000+00:00",
+      "completedAt": "2026-07-05T05:07:39.556435+00:00"
     },
     {
       "id": "BRAND-001",

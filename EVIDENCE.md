@@ -503,6 +503,17 @@ scale the prefix costs in-domain retrieval more than it buys. The
 one-model spec (0030) does not claim instruction adaptation until a
 variant passes; the OOD nuance is noted for future robustness work.
 
+### 3.18 UXR-006 — Launchpad E2E: the gates refused, honestly, twice — 2026-07-05
+
+Prod wizard runs via public BFF: 30-doc upload -> collect (120 pairs)
+-> train asn-head-5115818 (ER 23.13) -> **gates=False
+[mrlWithinTolerance] -> deploy skipped**; 3-doc upload -> train
+asn-head-2074536 (ER 2.72, collapsed) -> **gates=False
+[rankAboveBaseline] -> skipped**. Zero fabricated UI state; the
+refusal path IS the demo. Infra note: runs landed in the storefront
+workspace (sandbox env var required a redeploy to bind — fixed);
+charter guard protected serving regardless — defense in depth held.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

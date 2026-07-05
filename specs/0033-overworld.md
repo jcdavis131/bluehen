@@ -41,6 +41,28 @@ UI: you can see WHY the NPC said it). Built on agentkit; the SAME
 harness ships in bluehen-stack (Spec 0030) — the game is the demo.
 Rule-based narrator placeholder ships in V0 so the world isn't mute.
 
+**Token-economics contract (Operator, 2026-07-05 — normative for the
+harness here AND in bluehen-stack):**
+1. **Cacheable static prefix** — system prompt + world setup + tool
+   schemas are one immutable prefix block, structured for prompt
+   caching on every backend: `cache_control: ephemeral` (Anthropic),
+   `cachedContent` (Vertex), and automatic prefix/KV caching on
+   vLLM/SGLang for the free/open-model path. Dynamic turn content
+   (state delta, RAG passages, user line) appends AFTER the prefix,
+   never interleaves. Biggest saver on long sessions.
+2. **RAG-minimal context** — tools return only top-k relevant passages
+   (k small, budgeted chars), never whole documents; the worldbook tool
+   returns one page description, not the wiki.
+3. **BYOK, metered per run** — the harness takes the player's/user's
+   own key; every turn records prompt/completion token counts from the
+   provider's usage response into the run log (and usage_events kind
+   `llm-turn`) — exact per-turn cost visible, no black box.
+4. **Free & open source only by default** — GLM-class / open-weights
+   via Ollama/vLLM are the default targets; OSS libraries only in the
+   harness. A tool-heavy turn still costs more than a one-shot — the
+   design accepts that and shows it, rather than hiding tools to fake
+   cheapness.
+
 **V2 (gated):** image-gen vignettes (key), multiplayer presence,
 SENT-001 location-layer convergence.
 

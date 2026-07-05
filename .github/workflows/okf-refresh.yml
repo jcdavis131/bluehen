@@ -43,7 +43,8 @@ jobs:
         run: |
           git config user.name "okf-curator[bot]"
           git config user.email "okf-curator@users.noreply.github.com"
-          git add knowledge/personal data/literature
+          git add knowledge/personal
+          git add -f data/literature/radar_latest.json data/literature/radar_latest.md 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "no growth this week — honest no-op"
           else

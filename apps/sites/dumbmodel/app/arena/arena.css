@@ -217,6 +217,163 @@
   margin-top: var(--bh-space-5);
 }
 
+.arena-predict {
+  margin-bottom: var(--bh-space-4);
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border: 2px dashed var(--bh-border, #d8d4cc);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface-2, #f6f3ec);
+}
+
+.arena-predict-label {
+  margin: 0 0 4px;
+  font-family: var(--bh-font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bh-muted);
+}
+
+.arena-predict-choice {
+  margin: 0 0 10px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.arena-predict-confidence {
+  height: 6px;
+  background: var(--bh-border, #d8d4cc);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.arena-predict-bar {
+  height: 100%;
+  background: var(--bh-hen-blue, var(--bh-accent));
+  border-radius: 999px;
+}
+
+.arena-predict-note {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+}
+
+.arena-layer-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: var(--bh-space-4);
+}
+
+.arena-layer-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+}
+
+.arena-layer-weight {
+  font-family: var(--bh-font-mono);
+  color: var(--bh-muted);
+}
+
+.arena-layer-bar {
+  height: 8px;
+  background: var(--bh-border, #d8d4cc);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.arena-layer-fill {
+  height: 100%;
+  background: var(--bh-muted);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.arena-layer.is-lit .arena-layer-fill {
+  background: var(--bh-hen-blue, var(--bh-accent));
+}
+
+.arena-shapley {
+  margin-top: var(--bh-space-3);
+  padding: var(--bh-space-3);
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+}
+
+.arena-shapley-lead {
+  margin: 0 0 10px;
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+}
+
+.arena-shapley-row {
+  display: grid;
+  grid-template-columns: 72px 1fr 56px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 0.8125rem;
+}
+
+.arena-shapley-bar-wrap {
+  height: 6px;
+  background: var(--bh-border, #d8d4cc);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.arena-shapley-bar {
+  height: 100%;
+  background: var(--bh-hen-blue, var(--bh-accent));
+}
+
+.arena-shapley-val {
+  font-family: var(--bh-font-mono);
+  text-align: right;
+}
+
+.arena-shapley-picks {
+  margin-top: 12px;
+}
+
+.arena-shapley-picks-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--bh-muted);
+  margin-bottom: 6px;
+}
+
+.arena-shapley-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.arena-shapley-chip {
+  font-family: var(--bh-font-mono);
+  font-size: 0.6875rem;
+  padding: 4px 8px;
+  border: 1px solid var(--bh-border, #d8d4cc);
+  border-radius: 999px;
+}
+
+.arena-explain-verdict {
+  font-weight: 700;
+  margin: 0 0 var(--bh-space-3);
+}
+
+.arena-pick-timeline {
+  list-style: none;
+  margin: 0 0 var(--bh-space-4);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+
 @media (max-width: 480px) {
   .arena-pick-btn {
     font-size: 1rem;

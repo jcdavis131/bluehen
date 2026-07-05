@@ -8,6 +8,8 @@
 import movieNight from "../../../../../content/arena/decks/movie-night.json";
 import streetFood from "../../../../../content/arena/decks/street-food.json";
 import fictionalVillains from "../../../../../content/arena/decks/fictional-villains.json";
+import gadgets from "../../../../../content/arena/decks/gadgets.json";
+import newsWeek from "../../../../../content/arena/decks/news-week-2026-07.json";
 
 export type ArenaItem = {
   id: string;
@@ -21,7 +23,13 @@ export type ArenaDeck = {
   items: ArenaItem[];
 };
 
-const DECKS: ArenaDeck[] = [movieNight, streetFood, fictionalVillains] as ArenaDeck[];
+const DECKS: ArenaDeck[] = [
+  movieNight,
+  streetFood,
+  fictionalVillains,
+  gadgets,
+  newsWeek,
+] as ArenaDeck[];
 
 export function listDecks(): ArenaDeck[] {
   return DECKS;

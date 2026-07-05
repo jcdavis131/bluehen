@@ -4,9 +4,9 @@ import { listDecks } from "./decks";
 import { ArenaClient } from "./ArenaClient";
 
 export const metadata = {
-  title: "Rank Arena — dumbmodel.com",
+  title: "Shapley Arena — dumbmodel.com",
   description:
-    "Rank Anything. Fantasy Everything. Pick a deck, play twelve rounds of this-or-that, and get your personalized ranking from the real Rank Engine.",
+    "Predict-first taste game: eight rounds of this-or-that with honest Shapley explanations from the real Rank Engine.",
 };
 
 export default function ArenaPage() {
@@ -15,9 +15,9 @@ export default function ArenaPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Rank Anything. Fantasy Everything."
-        title="Rank Arena"
-        lead="Pick a deck, play twelve rounds of this-or-that, and the Rank Engine builds your personalized ranking — with the factors behind every position. Real machinery, no pretend."
+        eyebrow="Shapley Arena"
+        title="Can we guess your taste?"
+        lead="Eight rounds: model predicts, you pick, Shapley explains. Real rank math — no decorative numbers."
       />
       <ArenaClient decks={decks} />
     </>

@@ -17,22 +17,20 @@ function readOrCreateUserRef(): string {
     window.sessionStorage.setItem(USER_REF_KEY, fresh);
     return fresh;
   } catch {
-    // sessionStorage unavailable (private mode, etc.) — still play, just
-    // without cross-deck compounding this tab session.
     return crypto.randomUUID().slice(0, 12);
   }
 }
 
 type Screen = "select" | "gauntlet" | "reveal";
+type SessionPick = { round: number; id: string; text: string };
 
-/** Rank Arena orchestrator (Spec 0029): deck select -> gauntlet -> reveal,
- * with a session-scoped anonymous userRef that persists across replays so
- * the taste vector compounds (spec §1.4 — "the compounding is the game"). */
+/** Shapley Arena orchestrator (Spec 0032): deck → 8-round gauntlet → reveal. */
 export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
   const [userRef, setUserRef] = useState("");
   const [screen, setScreen] = useState<Screen>("select");
   const [deck, setDeck] = useState<ArenaDeck | null>(null);
   const [playCount, setPlayCount] = useState(0);
+  const [sessionPicks, setSessionPicks] = useState<SessionPick[]>([]);
 
   useEffect(() => {
     setUserRef(readOrCreateUserRef());
@@ -41,6 +39,7 @@ export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
   function startDeck(d: ArenaDeck) {
     setDeck(d);
     setPlayCount((n) => n + 1);
+    setSessionPicks([]);
     setScreen("gauntlet");
   }
 
@@ -51,6 +50,11 @@ export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
 
   return (
     <div className="arena">
+      <p className="arena-consent">
+        Anonymous picks are stored to improve rankings. No accounts.{" "}
+        <a href="/legal/privacy">Privacy</a>.
+      </p>
+
       {screen === "select" && <DeckSelect decks={decks} onSelect={startDeck} />}
 
       {screen === "gauntlet" && deck && (
@@ -58,12 +62,20 @@ export function ArenaClient({ decks }: { decks: ArenaDeck[] }) {
           key={`${deck.slug}-${playCount}`}
           deck={deck}
           userRef={userRef}
-          onDone={() => setScreen("reveal")}
+          onDone={(picks) => {
+            setSessionPicks(picks);
+            setScreen("reveal");
+          }}
         />
       )}
 
       {screen === "reveal" && deck && (
-        <RevealScreen deck={deck} userRef={userRef} onReplay={backToSelect} />
+        <RevealScreen
+          deck={deck}
+          userRef={userRef}
+          sessionPicks={sessionPicks}
+          onReplay={backToSelect}
+        />
       )}
     </div>
   );

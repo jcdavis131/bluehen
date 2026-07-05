@@ -1,121 +1,57 @@
 import Link from "next/link";
-import { ConeMascot, HenMascot } from "@/components/site";
 import {
   Axis,
-  Marginalia,
+  PageHeader,
   RuledSection,
   StatusLine,
-  TitleCard,
-  TeamStrip,
 } from "@synthaembed/ui-fleet";
-import { BRAND, getSiteCircuit, RE } from "@synthaembed/fleet";
+import { listDecks } from "./arena/decks";
 
 export const metadata = {
-  title: "Dumb Model — how dumb is your embedding?",
+  title: "Can we guess your taste?",
   description:
-    "Paste your text, get measured diagnostics: effective rank, space utilization, redundancy. Free, no signup.",
+    "Shapley Arena on dumbmodel.com — predict-first taste game with honest Shapley explanations after every round.",
 };
 
 export default function HomePage() {
-  const surface = getSiteCircuit("dumbmodel");
+  const decks = listDecks();
 
   return (
     <>
-      <StatusLine
-        site="dumbmodel.com"
-        section="Public proof"
-        status="Anti-hype diagnostics"
-      />
+      <StatusLine site="dumbmodel.com" section="Shapley Arena" status="Play now" />
 
       <Axis>
-        <TitleCard
-          eyebrow={surface?.eyebrow}
-          title="How dumb is your model?"
-          marginalia={`${RE.relay} proof · ${RE.tech} measured`}
-        >
-          <span className="bh-title-card__mascot" style={{ display: "flex", gap: 16, alignItems: "center" }}>
-            <ConeMascot size={40} />
-            <span className="bh-muted">vs</span>
-            <HenMascot size={40} />
-          </span>
-          <p className="bh-title-card__copy">
-            Paste your text and get measured diagnostics in seconds: effective rank, space
-            utilization, redundancy, all under a production embedding model. Free, no signup.
-            Benchmarks measured on {BRAND.name} eval gates, not marketing claims.
-          </p>
-        </TitleCard>
+        <PageHeader
+          eyebrow="Rank Anything · Fantasy Everything"
+          title="Can we guess your taste?"
+          lead="Pick a deck, play eight rounds of this-or-that. Before each pick the model predicts your choice — then shows exactly why, with Shapley values from the real Rank Engine."
+        />
 
-      <TeamStrip siteId="dumbmodel" />
-
-        <RuledSection label="Run the diagnostics">
-          <div className="bh-stack" style={{ gap: 16 }}>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-              <Link href="/check" className="bh-btn bh-btn--primary bh-btn--hero">
-                Run the free health check
-              </Link>
-              <Link href="/compare" className="bh-btn bh-btn--ghost">
-                Compare models
-              </Link>
-              <Link href="/hall" className="bh-btn bh-btn--ghost">
-                Hall of Cone
-              </Link>
-              <Link href="/museum" className="bh-btn bh-btn--ghost">
-                Museum of Collapse
-              </Link>
-              <a
-                href="https://jcamd.com"
-                className="bh-btn bh-btn--hen"
-                target="_blank"
-                rel="noopener noreferrer"
+        <RuledSection label="Decks">
+          <div className="arena-deck-grid">
+            {decks.map((deck) => (
+              <Link
+                key={deck.slug}
+                href={`/arena?deck=${deck.slug}`}
+                className="arena-deck-card"
+                style={{ display: "block", textDecoration: "none", color: "inherit" }}
               >
-                Headquarters →
-              </a>
-            </div>
-            <Marginalia>
-              Every score traces to a reproducible eval gate: nDCG, effective rank, rotating slice.
-            </Marginalia>
+                <h3>{deck.name}</h3>
+                <p>{deck.tagline}</p>
+                <span className="arena-deck-count">{deck.items.length} items · 8 rounds</span>
+              </Link>
+            ))}
           </div>
         </RuledSection>
 
-        <RuledSection label="What you get">
-          <div className="bh-grid bh-grid--2">
-            <div className="bh-card">
-              <h2 className="bh-card__title bh-card__title--lg">Collapse score</h2>
-              <p className="bh-card__body">
-                Effective rank and retrieval on a rotating slice, summarized for sharing. Higher
-                collapse = lower effective rank. Org-trained models typically score better.
-              </p>
-            </div>
-            <div className="bh-card">
-              <h2 className="bh-card__title bh-card__title--lg">Side-by-side RAG</h2>
-              <p className="bh-card__body">
-                Same query, same corpus. Compare a commercial baseline against an org-trained model
-                on multi-hop retrieval tasks.
-              </p>
-            </div>
-            <div className="bh-card">
-              <h2 className="bh-card__title bh-card__title--lg">Hall of Cone</h2>
-              <p className="bh-card__body">
-                Reference panel of baseline embedders ranked by effective rank. Validate improvements
-                on the Validation Lab (slasso.com).
-              </p>
-            </div>
-            <div className="bh-card">
-              <h2 className="bh-card__title bh-card__title--lg">Museum of Collapse</h2>
-              <p className="bh-card__body">
-                The failure modes we measure against: anisotropy, dimension starvation, MRL
-                truncation cliffs. Each one has a diagnostic or gate that catches it before a model
-                ships.
-              </p>
-            </div>
-            <div className="bh-card">
-              <h2 className="bh-card__title bh-card__title--lg">{BRAND.name}</h2>
-              <p className="bh-card__body">
-                {RE.relay} for governed embedding operations · {RE.tech} in production. Enterprise
-                lifecycle: measure, validate, deploy, improve.
-              </p>
-            </div>
-          </div>
+        <RuledSection label="Play">
+          <Link href="/arena" className="bh-btn bh-btn--primary bh-btn--hero">
+            Play now
+          </Link>
+          <p className="bh-muted" style={{ marginTop: 12 }}>
+            Proof tools — health check, compare, museum — live under{" "}
+            <Link href="/lab">/lab</Link>.
+          </p>
         </RuledSection>
       </Axis>
     </>

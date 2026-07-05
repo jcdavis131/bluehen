@@ -2059,7 +2059,7 @@
       "lane": "cursor",
       "priority": "P1",
       "spec": "0032",
-      "notes": "Extends Rank Arena 0029 v2: POST /v1/rank/round, 8-round gauntlet, arena-first dumbmodel IA.",
+      "notes": "Shapley Arena (Spec 0032, Cursor-built, Claude-integrated): predict-first rounds, Shapley factor attribution (sum-to-delta invariant tested), layer stack from real policy weights, /v1/rank/round + rank_explain.py (4 tests). Deployed.",
       "claimedBy": "cursor",
       "claimedAt": "2026-07-05T05:10:00.000000+00:00",
       "completedAt": "2026-07-05T05:07:39.556435+00:00"

@@ -41,6 +41,8 @@
 
 ## In progress
 
+- [ ] **GAME-003** — Semantic Six Degrees spec + prototype (arxiviq) (@claude)
+- [ ] **GAME-004** — RAG Gauntlet: bounty board on slasso (@claude)
 - [ ] **GAME-006** — Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance (@claude)
 
 ## Blocked on infra (work elsewhere)

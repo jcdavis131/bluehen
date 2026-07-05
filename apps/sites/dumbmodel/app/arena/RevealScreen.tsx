@@ -29,10 +29,12 @@ type RankResponse = {
 export function RevealScreen({
   deck,
   userRef,
+  sessionPicks = [],
   onReplay,
 }: {
   deck: ArenaDeck;
   userRef: string;
+  sessionPicks?: { round: number; id: string; text: string }[];
   onReplay: () => void;
 }) {
   const [result, setResult] = useState<RankResponse | null>(null);
@@ -118,9 +120,20 @@ export function RevealScreen({
     <div>
       <p className="bh-meta">
         {result.personalized
-          ? "Built from your 12 picks just now — play another deck and watch it sharpen."
+          ? "Built from your 8 picks just now — play another deck and watch it sharpen."
           : "Not enough signal yet — the more you pick, the sharper this gets."}
       </p>
+
+      {sessionPicks.length > 0 && (
+        <ol className="arena-pick-timeline">
+          {sessionPicks.map((p) => (
+            <li key={`${p.round}-${p.id}`}>
+              <span className="arena-reveal-rank">R{p.round}</span>
+              {p.text}
+            </li>
+          ))}
+        </ol>
+      )}
 
       <ol className="arena-reveal-list">
         {result.ranked.map((item, i) => (

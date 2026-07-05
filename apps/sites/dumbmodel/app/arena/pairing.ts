@@ -1,8 +1,7 @@
 /**
- * The Gauntlet pairing (Spec 0029 §1.2): 12 rounds, deterministic from a
- * session seed. Phase 1 (rounds 1-6): shuffle the deck, pair sequentially
- * — 12 distinct items get a fair fresh look. Phase 2 (rounds 7-12): the
- * previous round's pick faces an item it hasn't seen yet, drawn from the
+ * The Gauntlet pairing (Spec 0029 §1.2, refined Spec 0032): 8 rounds,
+ * session seed. Phase 1 (rounds 1-4): shuffle the deck, pair sequentially.
+ * Phase 2 (rounds 5-8): the previous round's pick faces an item it hasn't
  * remaining unseen pool (wrapping if the pool is smaller than the round
  * count — true for 16-item decks, where the pool is 4 items).
  *
@@ -11,8 +10,8 @@
  */
 import type { ArenaItem } from "./decks";
 
-export const ROUNDS = 12;
-const PHASE1_ROUNDS = 6;
+export const ROUNDS = 8;
+const PHASE1_ROUNDS = 4;
 
 /** mulberry32 — small, fast, deterministic PRNG from a numeric seed. */
 function mulberry32(seed: number): () => number {

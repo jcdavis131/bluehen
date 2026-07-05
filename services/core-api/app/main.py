@@ -573,6 +573,41 @@ class RankIn(BaseModel):
     policy: dict | None = None
 
 
+class RankRoundIn(BaseModel):
+    userRef: str | None = None
+    pair: list[dict]
+    query: str | None = None
+    priorPicks: list[dict] | None = None
+    chosenId: str | None = None
+    deckSlug: str | None = None
+    round: int | None = None
+    policy: dict | None = None
+
+
+@app.post("/v1/rank/round")
+def rank_round(body: RankRoundIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+               _rl: Annotated[None, Depends(rate_limit("rank", 60))] = None):
+    """Shapley Arena round (Spec 0032): predict, explain, resolve with exhaust."""
+    from app.services import rank_explain as explain_svc
+    from app.services.usage import record as record_usage
+
+    record_usage(tenant.workspace_id, "rank")
+    try:
+        return explain_svc.rank_round(
+            tenant.workspace_id,
+            user_ref=body.userRef,
+            pair=body.pair,
+            query=body.query,
+            prior_picks=body.priorPicks,
+            chosen_id=body.chosenId,
+            deck_slug=body.deckSlug,
+            round_num=body.round,
+            policy=body.policy,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
 @app.post("/v1/rank")
 def rank_items(body: RankIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
                _rl: Annotated[None, Depends(rate_limit("rank", 60))] = None):

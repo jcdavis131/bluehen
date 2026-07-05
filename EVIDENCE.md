@@ -493,6 +493,16 @@ infonce gains more in-domain (0.8967 @1200) with ~zero OOD change.
 generalizes. Supports the multi-domain thesis and de-risks Spec 0023's
 gated cross-domain foundational tuning. Same-protocol, seed-consistent.
 
+### 3.17 AR-510 — instruction prefixes REJECTED at our scale — 2026-07-04
+
+Instructor-style task prefixes (symmetric train/eval) vs plain, same
+grid as RT-404: in-domain pool16 WORSE in 8/8 configs (−0.015 to
+−0.054; all methods, both seeds); OOD slightly better in 8/8 (+0.007
+to +0.017). Verdict: DISCARD for the default recipe — at MiniLM-class
+scale the prefix costs in-domain retrieval more than it buys. The
+one-model spec (0030) does not claim instruction adaptation until a
+variant passes; the OOD nuance is noted for future robustness work.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

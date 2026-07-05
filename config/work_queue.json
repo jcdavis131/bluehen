@@ -1967,10 +1967,10 @@
     {
       "id": "AR-510",
       "title": "Instruction-conditioned heads: does a task-prefix convention beat per-task heads on shared backbone?",
-      "status": "in_progress",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "The Instructor-style claim must be measured before made: train heads w/ instruction prefixes vs plain across 2 tasks (retrieval/similarity) on research corpus; pool16 protocol. EVIDENCE row either way. [instrument shipped 4befce9; full instruction sweep running detached vs RT-404 plain control]",
+      "notes": "EVIDENCE 3.17: REJECTED \u2014 prefixes hurt in-domain 8/8 (-0.015 to -0.054 pool16), small consistent OOD gain noted. Spec 0030 de-claims instruction adaptation; heads remain the adaptation story.",
       "source": "Spec 0030 one-model-package",
       "claimedBy": "claude"
     },

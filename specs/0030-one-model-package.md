@@ -25,9 +25,9 @@ small beats general big, in-domain, 4/4).
 ## 2. The model: BlueHen-Embed (name = Operator gate)
 
 - Base: proven MiniLM-class backbone + our head architecture; ships
-  with domain heads + an **instruction-conditioning convention**
-  (task-prefix strings; AR-510 tests instruction-conditioned heads in
-  the harness before we claim it).
+  with domain heads + adaptation via tuned heads (instruction-prefix
+  conditioning MEASURED AND REJECTED at this scale — EVIDENCE 3.17;
+  8/8 configs worse in-domain. No Instructor-style claims on the card).
 - Published on HF w/ model card + eval receipts (MON-008 machinery
   ready; HF_TOKEN gate).
 - Claim discipline: "SOTA" only per-domain with EVIDENCE rows; the

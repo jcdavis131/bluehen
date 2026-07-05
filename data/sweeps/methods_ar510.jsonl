@@ -1,0 +1,11 @@
+{"kind": "zeroshot", "model": "raw-MiniLM", "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.94, "ndcg_pool16": 0.7936}, "ood_knn": 0.8767}
+{"kind": "zeroshot", "model": "BGE-small", "instructions": true, "indomain": {"ndcg_pairs": 0.917, "effRank": 29.84, "ndcg_pool16": 0.7654}, "ood_knn": 0.8583}
+{"kind": "zeroshot", "model": "e5-small", "instructions": true, "indomain": {"ndcg_pairs": 0.9354, "effRank": 25.02, "ndcg_pool16": 0.7908}, "ood_knn": 0.885}
+{"kind": "trained", "method": "infonce", "seed": 0, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.63, "ndcg_pool16": 0.7857}, "ood_knn": 0.8733}
+{"kind": "trained", "method": "infonce", "seed": 1, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.85, "ndcg_pool16": 0.8082}, "ood_knn": 0.875}
+{"kind": "trained", "method": "vicreg", "seed": 0, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.9, "ndcg_pool16": 0.8256}, "ood_knn": 0.8767}
+{"kind": "trained", "method": "vicreg", "seed": 1, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.75, "ndcg_pool16": 0.8116}, "ood_knn": 0.875}
+{"kind": "trained", "method": "barlow", "seed": 0, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.76, "ndcg_pool16": 0.8012}, "ood_knn": 0.8733}
+{"kind": "trained", "method": "barlow", "seed": 1, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.78, "ndcg_pool16": 0.8011}, "ood_knn": 0.8717}
+{"kind": "trained", "method": "mrl", "seed": 0, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.58, "ndcg_pool16": 0.8096}, "ood_knn": 0.875}
+{"kind": "trained", "method": "mrl", "seed": 1, "instructions": true, "indomain": {"ndcg_pairs": 0.9262, "effRank": 33.9, "ndcg_pool16": 0.8278}, "ood_knn": 0.8767}

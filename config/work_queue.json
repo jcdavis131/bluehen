@@ -1875,6 +1875,46 @@
       "priority": "P2",
       "notes": "BLOCKED on same LLM key. Query -> start at index/link-map -> walk relevant pages (bounded hops) -> compose an answer citing the pages walked. Contrast surface vs /v1/search documented; metered as 'wiki-ask'. The Qodo retrieval-as-memory pattern productized.",
       "source": "Karpathy LLM-wiki audit 2026-07-04"
+    },
+    {
+      "id": "RANK-001",
+      "title": "Rank Engine v1: POST /v1/rank \u2014 inline or indexed candidates, ephemeral user vector from exhaust, policy weights, factor breakdown",
+      "status": "done",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "SHIPPED (Spec 0028): profile-free personalization (decayed-mean of consented interactions, 60s cache, honest None when no history \u2014 weights redistribute, never fabricate), contract-validated boosts, 200-item cap, metered 'rank'. 5 pure-logic tests.",
+      "source": "Spec 0028 Rank Engine",
+      "claimedBy": "claude"
+    },
+    {
+      "id": "RANK-002",
+      "title": "Rank playground UI: /developers gains a rank tab + docs section (sonnet-delegate batch 2)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Inline-items textarea + optional query/userRef + policy sliders -> factor-breakdown table. Docs the exhaust userRef/itemText convention (hashed IDs only).",
+      "source": "Spec 0028 Rank Engine",
+      "claimedBy": null
+    },
+    {
+      "id": "RANK-003",
+      "title": "Learned two-tower user encoder (V2)",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "BLOCKED on real exhaust volume. Trains on (user-history, next-item) pairs through the standard gates.",
+      "source": "Spec 0028 Rank Engine",
+      "claimedBy": null
+    },
+    {
+      "id": "RANK-004",
+      "title": "Rank replay eval: leave-one-out uplift@k vs unpersonalized baseline",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P2",
+      "notes": "BLOCKED on interaction data accumulating. EVIDENCE row required before any personalization claim (docs say so meanwhile).",
+      "source": "Spec 0028 Rank Engine",
+      "claimedBy": null
     }
   ]
 }

@@ -551,6 +551,33 @@ def get_contract(tenant: Annotated[TenantCtx, Depends(require_tenant)]):
                    "note": "no contract registered — metadata is unvalidated until one is"}
 
 
+class RankIn(BaseModel):
+    items: list[dict] | None = None
+    useIndex: bool = False
+    query: str | None = None
+    userRef: str | None = None
+    k: int = 10
+    policy: dict | None = None
+
+
+@app.post("/v1/rank")
+def rank_items(body: RankIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+               _rl: Annotated[None, Depends(rate_limit("rank", 60))] = None):
+    """The Rank Engine (Spec 0028): rank anything, personalized in real
+    time from consented exhaust, every position explained."""
+    from app.services import rank as rank_svc
+    from app.services.usage import record as record_usage
+
+    record_usage(tenant.workspace_id, "rank")
+    try:
+        return rank_svc.rank(
+            tenant.workspace_id, items=body.items, use_index=body.useIndex,
+            query=body.query, user_ref=body.userRef,
+            k=max(1, min(body.k, 100)), policy=body.policy)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
 class RecommendIn(BaseModel):
     text: str | None = None
     itemId: str | None = None

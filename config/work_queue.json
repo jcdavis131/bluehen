@@ -1796,6 +1796,60 @@
       "priority": "P3",
       "notes": "Backbone swap is config-only once accepted (Spec 0026 \u00a72). Same token unblocks MON-008 model publishing.",
       "source": "Spec 0026 visual tower"
+    },
+    {
+      "id": "UXR-001",
+      "title": "Sandbox tenant + nightly purge for the Launchpad",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Spec 0027 \u00a73: provision 'sandbox' workspace in prod, key to Vercel env for storefront BFF only; worker daily tick purges lp-* uploads + collections >24h.",
+      "source": "Spec 0027 Launchpad"
+    },
+    {
+      "id": "UXR-002",
+      "title": "ui-fleet: ModelReportCard + FilterChips components (sonnet-delegated)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "Report card: gates w/ thresholds, metrics vs baselines, lineage, honest empties. FilterChips: contract JSON -> legal chips (keyword eq/in, number/date ranges).",
+      "source": "Spec 0027 Launchpad"
+    },
+    {
+      "id": "UXR-003",
+      "title": "Launchpad wizard at bhenre.com/launchpad (sonnet-delegated, mobile-first)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "4 steps per Spec 0027 \u00a72; BFF proxies w/ sandbox key; per-session concurrency cookie; honest stage rail incl. gate-fail-as-feature.",
+      "source": "Spec 0027 Launchpad"
+    },
+    {
+      "id": "UXR-004",
+      "title": "arxiviq research-lab adopts ModelReportCard",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "Replaces the raw model table; addresses UX study P2 (lowest-ndcg-deployed confusion) w/ slice context.",
+      "source": "Spec 0027 Launchpad"
+    },
+    {
+      "id": "UXR-005",
+      "title": "Hero reframe (RECO-003) + Launchpad CTA",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "notes": "Promise -> 3-step how-it-works -> live proof -> 'Try the Launchpad'.",
+      "source": "Spec 0027 Launchpad"
+    },
+    {
+      "id": "UXR-006",
+      "title": "Launchpad E2E in prod + EVIDENCE row",
+      "status": "blocked",
+      "lane": "claude",
+      "priority": "P1",
+      "notes": "BLOCKED on UXR-001..003 deployed. Scripted stranger-run incl. deliberate gate-fail path.",
+      "source": "Spec 0027 Launchpad"
     }
   ]
 }

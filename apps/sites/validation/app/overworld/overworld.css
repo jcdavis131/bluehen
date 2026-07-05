@@ -1,0 +1,199 @@
+/**
+ * The Overworld (Spec 0033 V0) — scoped to .ow-* so it never leaks into
+ * the rest of Validation Lab. Retro tile-game chrome around an
+ * original, procedurally-drawn canvas world.
+ */
+.ow-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--bh-space-4);
+}
+
+.ow-screen {
+  position: relative;
+  max-width: 100%;
+  border: 3px solid var(--bh-ink);
+  border-radius: var(--bh-radius-md);
+  box-shadow: var(--bh-shadow-block);
+  background: #000;
+  overflow: hidden;
+}
+
+.ow-canvas {
+  display: block;
+  max-width: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ── Dialog box ─────────────────────────────────────────────── */
+.ow-dialog {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--bh-space-3);
+  background: rgba(20, 22, 18, 0.94);
+  border: 2px solid var(--bh-accent, var(--bh-moss));
+  border-radius: var(--bh-radius-sm);
+  font-family: var(--bh-font-mono);
+  color: #eef6e4;
+  max-height: 78%;
+  overflow-y: auto;
+}
+
+.ow-dialog-title {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bh-accent, var(--bh-moss));
+}
+
+.ow-dialog-body {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  min-height: 1.6em;
+}
+
+.ow-dialog-list {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ow-dialog-list--buttons {
+  padding-left: 0;
+  list-style: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ow-dialog-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.ow-dialog-close {
+  align-self: flex-end;
+  margin-top: 2px;
+  padding: 6px 10px;
+  font-family: var(--bh-font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #eef6e4;
+  background: transparent;
+  border: 1px solid rgba(238, 246, 228, 0.4);
+  border-radius: var(--bh-radius-sm);
+  cursor: pointer;
+}
+
+.ow-dialog-close:hover {
+  border-color: #eef6e4;
+}
+
+/* ── Controls ───────────────────────────────────────────────── */
+.ow-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 420px;
+  gap: var(--bh-space-6);
+}
+
+.ow-dpad {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(3, 44px);
+  gap: 2px;
+}
+
+.ow-dpad-btn {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--bh-text);
+  background: var(--bh-surface);
+  border: 2px solid var(--bh-ink);
+  border-radius: var(--bh-radius-sm);
+  box-shadow: var(--bh-shadow-block-sm);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.ow-dpad-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.ow-dpad-up {
+  grid-column: 2;
+  grid-row: 1;
+}
+.ow-dpad-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+.ow-dpad-right {
+  grid-column: 3;
+  grid-row: 2;
+}
+.ow-dpad-down {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.ow-action-btn {
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 50%;
+  font-family: var(--bh-font-mono);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--bh-on-accent);
+  background: var(--bh-accent, var(--bh-moss));
+  border: 2px solid var(--bh-ink);
+  box-shadow: var(--bh-shadow-block-sm);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.ow-action-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.ow-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ow-dpad-btn:active,
+  .ow-action-btn:active {
+    transform: none;
+  }
+}

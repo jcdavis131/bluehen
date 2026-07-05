@@ -178,6 +178,7 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/lab", label: "Lab" },
   ],
   validation: [
+    { href: "/overworld", label: "The Overworld" },
     { href: "/verdict", label: "The Verdict" },
     { href: "/", label: "Overview" },
     { href: "/certify", label: "Get Certified" },

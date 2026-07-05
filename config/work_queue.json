@@ -2076,11 +2076,12 @@
     {
       "id": "WORLD-001",
       "title": "Overworld V0: tile engine + Blue Hen universe map + real-event happenings + worldbook terminals (Spec 0033)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P0",
-      "notes": "Launches after the Verdict builder lands (same app). Two sonnet parts: engine (canvas/tiles/movement/collision/dialog system) then content (map, districts, happenings from public feeds, wiki terminals, arcade buildings). [P0 per Operator focus \u2014 launches the moment the Verdict builder clears the validation app.]",
-      "source": "Spec 0033 Overworld"
+      "notes": "SHIPPED (sonnet): slasso.com/overworld \u2014 procedural 4-tone tile world (zero image assets, original palette from the site accent), six districts + HQ, BFS-verified connectivity, real happenings board (commits + catalog stats, honest empty), worldbook terminals (live wiki), arcade cabinets -> dumbmodel games, courthouse -> /verdict, d-pad mobile. V1 roleplay harness awaits the LLM key w/ the token contract baked.",
+      "source": "Spec 0033 Overworld",
+      "claimedBy": "claude"
     },
     {
       "id": "WORLD-002",

@@ -1712,11 +1712,12 @@
     {
       "id": "BD-003",
       "title": "Outbound asset kit: one measured-proof one-pager per business unit",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Per BU: what it does, one real number (EVIDENCE-cited), one screenshot, one CTA. docs/exports/ + linked from hq. No claim above measured gates. Serves PMF-002 interviews + BD-004 outreach.",
-      "source": "BD/PMF series 2026-07-04"
+      "notes": "Six one-pagers in docs/exports/ (platform + 5 BUs): every number EVIDENCE-cited (3.7/3.9/3.12/3.14/3.15, REV-905), consent/simulation walls stated as features, one CTA each. Feeds PMF-002 interviews + BD-004 outreach.",
+      "source": "BD/PMF series 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "BD-004",

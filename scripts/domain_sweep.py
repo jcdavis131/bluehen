@@ -60,6 +60,8 @@ def main() -> int:
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=REPO / "data" / "sweeps" / "C0.jsonl")
+    ap.add_argument("--arm", choices=["legacy", "barlow"], default="legacy",
+                    help="legacy = infonce+vicreg grid; barlow = DATA-802 champion arm")
     args = ap.parse_args()
     args.out.parent.mkdir(parents=True, exist_ok=True)
 
@@ -85,15 +87,22 @@ def main() -> int:
         fh.write(json.dumps({"family": "C", "arm": "raw", "knn_indomain": raw_id["knnAcc"],
                              "knn_ood": raw_ood["knnAcc"]}) + "\n")
         for size, ep, vic, seed in grid:
-            recipe = {"baseModel": BACKBONE, "epochs": ep, "batchSize": 32, "lr": 2e-5,
-                      "asn": {"enabled": False},
-                      "loss": {"infoNceTemp": 0.05,
-                               **({"vicregVar": 1.0, "vicregCov": 0.04} if vic else {})}}
+            if args.arm == "barlow":
+                recipe = {"baseModel": BACKBONE, "epochs": ep, "batchSize": 32, "lr": 2e-5,
+                          "asn": {"enabled": False},
+                          "loss": {"method": "barlow", "barlowLambda": 0.0215,
+                                   "infoNceTemp": 0.05}}
+            else:
+                recipe = {"baseModel": BACKBONE, "epochs": ep, "batchSize": 32, "lr": 2e-5,
+                          "asn": {"enabled": False},
+                          "loss": {"infoNceTemp": 0.05,
+                                   **({"vicregVar": 1.0, "vicregCov": 0.04} if vic else {})}}
             pairs = build_pairs(ag, size, seed)
             ckpt = Path(train_asn(pairs, recipe, out / f"{size}_{ep}_{vic}_{seed}").checkpoint_path)
             id_m = evaluate(encode_texts(ckpt, id_texts), id_labels)
             ood_m = evaluate(encode_texts(ckpt, ood_texts), ood_labels)
-            row = {"family": "C", "arm": "vicreg" if vic else "infonce",
+            row = {"family": "C",
+                   "arm": "barlow" if args.arm == "barlow" else ("vicreg" if vic else "infonce"),
                    "train_pairs": size, "epochs": ep, "seed": seed,
                    "knn_indomain": round(id_m["knnAcc"], 4), "knn_ood": round(ood_m["knnAcc"], 4),
                    "ndcg_indomain": round(id_m["ndcg10"], 4),

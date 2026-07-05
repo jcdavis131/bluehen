@@ -482,6 +482,17 @@ variance — watch, don't promote; (4) mrl in the pack → AR-502's
 Matryoshka-pooling hypothesis yields no in-domain gain at this scale
 (closed, measured). Instrument adopted for future method evals.
 
+### 3.16 DATA-802 — Barlow shows negative forgetting (OOD improves) — 2026-07-04
+
+Family C sweep, barlow arm (champion recipe, lambda=0.0215): training on
+AG News improved DBpedia OOD kNN in **4/4 configs** (raw 0.8950 ->
+0.9267–0.9400; forgetting −0.032 to −0.045, larger at 1200 pairs),
+while gaining in-domain (+0.007 to +0.020). Legacy comparison (C0):
+infonce gains more in-domain (0.8967 @1200) with ~zero OOD change.
+**Trade identified:** infonce = sharper specialist; barlow = adapts AND
+generalizes. Supports the multi-domain thesis and de-risks Spec 0023's
+gated cross-domain foundational tuning. Same-protocol, seed-consistent.
+
 ## 4. Enterprise RAG (extrinsic — target)
 
 | Benchmark | Baseline | ASN org model | Status |

@@ -105,3 +105,11 @@ deterministic). Baseline 1.465 is stale (recorded under different
 conditions). Round-3 verdicts hold qualitatively: 306-308 truly regress
 vs 1.411; 309 is a true no-op. Correct baseline going forward: 1.411
 under the current harness. No re-runs warranted.
+
+
+## 2026-07-04 — DATA-802: barlow negative forgetting
+
+One-line verdict: the champion barlow recipe adapts in-domain (+0.7–2.0
+kNN pts) while IMPROVING out-of-domain accuracy (+3.2–4.5 pts, 4/4
+configs) — no forgetting tax; infonce remains the sharper pure
+specialist. Full rows: data/sweeps/C_barlow.jsonl · EVIDENCE 3.16.

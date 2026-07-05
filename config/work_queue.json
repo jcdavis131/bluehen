@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-04",
+  "updated": "2026-07-05",
   "protocol": "Any agent: read blockers \u2192 pick_task.py list \u2192 claim \u2192 work \u2192 done \u2192 render. Specs in specs/; fleet in config/fleet.json.",
   "blockers": [
     {
@@ -552,11 +552,13 @@
       "division": "research",
       "priority": 81,
       "title": "Domain sweep Family C \u2014 Barlow arm",
-      "status": "ready",
+      "status": "done",
       "spec": "0003",
       "command": "Add --loss barlow to domain_sweep.py; run sweep",
       "note": "Implement flag without Docker; run needs INF-001",
-      "notes": "NEXT SLATE #2 (runnable now). Domain sweep Family C Barlow arm: scripts/domain_sweep.py exists \u2014 run with family C config per specs/0003; detached; results to data/sweeps/. ACCEPT: jsonl rows + one-line verdict in knowledge/teams/rnd.md dated heading. LANE: sonnet subagent ok."
+      "notes": "EVIDENCE 3.16: barlow arm shows negative forgetting (OOD +3.2-4.5pts, 4/4 configs) while gaining in-domain; infonce = sharper specialist. De-risks Spec 0023 foundational tuning.",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-05T01:28:16.882335+00:00"
     },
     {
       "id": "DONE-001",
@@ -1117,12 +1119,15 @@
     {
       "id": "MON-007",
       "title": "Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5)",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P3",
       "division": "comms",
       "spec": "0020",
-      "notes": "Simulation-only (Spec 0013 wall). Free preview = first report; paid = full feed. omni_loop.py already generates reports. Paywall copy: paper-trading simulation reports, not investment advice."
+      "notes": "Simulation-only (Spec 0013 wall). Free preview = first report; paid = full feed. omni_loop.py already generates reports. Paywall copy: paper-trading simulation reports, not investment advice.",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T01:32:48.785779+00:00",
+      "completedAt": "2026-07-05T01:34:10.025014+00:00"
     },
     {
       "id": "MON-008",
@@ -1357,29 +1362,38 @@
     {
       "id": "UX-105",
       "title": "dumbmodel /check result: add 'Get this certified' -> slasso.com/certify CTA (prove->certify handoff)",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
       "notes": "Highest-intent moment currently routes only to bhenre store. Add secondary CTA on result card, pass erank/util as query params for prefill. Also add Get Certified to dumbmodel nav.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T01:32:48.629321+00:00",
+      "completedAt": "2026-07-05T01:34:09.804918+00:00"
     },
     {
       "id": "UX-106",
       "title": "slasso: surface the automated certification (API section on /certify) + pricing/turnaround",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
       "notes": "POST /v1/certify exists and is invisible. Add 'Integrate directly' block w/ the texts->vectors contract + 'results in minutes'; surface tier pricing near the submit button (price value = Operator gate; use 'from $X' placeholder pending).",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T01:32:48.300551+00:00",
+      "completedAt": "2026-07-05T01:34:09.505668+00:00"
     },
     {
       "id": "UX-107",
       "title": "refinery: remove dangling 'Buy full corpus' reference; strip raw hash IDs from samples; render OKF card via Markdown component",
-      "status": "ready",
+      "status": "done",
       "lane": "cursor",
       "priority": "P1",
       "notes": "commerceReady:false makes /requests copy a dead end. Until checkout ships: reference 'request access' only. Dataset page: use ui-fleet Markdown for card + raw toggle; hide internal chunk IDs.",
-      "source": "UX+backend deep-dive study 2026-07-04"
+      "source": "UX+backend deep-dive study 2026-07-04",
+      "claimedBy": "cursor",
+      "claimedAt": "2026-07-05T01:32:48.462455+00:00",
+      "completedAt": "2026-07-05T01:34:09.635249+00:00"
     },
     {
       "id": "UX-108",

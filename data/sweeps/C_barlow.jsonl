@@ -1,0 +1,5 @@
+{"family": "C", "arm": "raw", "knn_indomain": 0.8633333444595337, "knn_ood": 0.8949999809265137}
+{"family": "C", "arm": "barlow", "train_pairs": 300, "epochs": 2, "seed": 0, "knn_indomain": 0.8833, "knn_ood": 0.93, "ndcg_indomain": 0.8104, "forgetting": -0.035, "indomain_gain": 0.02}
+{"family": "C", "arm": "barlow", "train_pairs": 300, "epochs": 2, "seed": 1, "knn_indomain": 0.87, "knn_ood": 0.9267, "ndcg_indomain": 0.8137, "forgetting": -0.0317, "indomain_gain": 0.0067}
+{"family": "C", "arm": "barlow", "train_pairs": 1200, "epochs": 2, "seed": 0, "knn_indomain": 0.875, "knn_ood": 0.94, "ndcg_indomain": 0.8375, "forgetting": -0.045, "indomain_gain": 0.0117}
+{"family": "C", "arm": "barlow", "train_pairs": 1200, "epochs": 2, "seed": 1, "knn_indomain": 0.8733, "knn_ood": 0.93, "ndcg_indomain": 0.8315, "forgetting": -0.035, "indomain_gain": 0.01}

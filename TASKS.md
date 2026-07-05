@@ -1,6 +1,6 @@
 # Tasks
 
-> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-07-04
+> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-07-05
 
 **Any agent:** `uv run python scripts/pick_task.py list` → `claim` → work → `done`
 
@@ -22,16 +22,10 @@
 - [ ] **AR-305** — Weight decay 5e-5 (research) · spec [0003](./specs/0003-*.md)
 - [ ] **RT-406** — Tenant Barlow recipe — all Phase A sites (research) · spec [0008](./specs/0008-*.md)
   - `Extend tenant_baseline.py --recipe barlow; run --all-sites`
-- [ ] **DATA-802** — Domain sweep Family C — Barlow arm (research) · spec [0003](./specs/0003-*.md)
-  - `Add --loss barlow to domain_sweep.py; run sweep`
-- [ ] **MON-007** — Signals premium notes: paywall gate on strategy report pages; Stripe subscription (Spec 0021 P5) (comms) · spec [0020](./specs/0020-*.md)
 - [ ] **KIT-001** — Kits registry: config/kits.json schema + @synthaembed/fleet loader (Spec 0022) (comms) · spec [0022](./specs/0022-*.md)
   - `Add KitsConfig types + loadKits() in packages/fleet; JSON schema validation script; export kit ids, plainName, sampleQueries from barrel.`
 - [ ] **UX-102** — bhenre homepage: demote raw ledger/gate-failure internals below CTAs; one calm status line up top (None)
 - [ ] **UX-104** — arxiviq homepage: plain search box hero; tier-compare demoted to deep-dive section (None)
-- [ ] **UX-105** — dumbmodel /check result: add 'Get this certified' -> slasso.com/certify CTA (prove->certify handoff) (None)
-- [ ] **UX-106** — slasso: surface the automated certification (API section on /certify) + pricing/turnaround (None)
-- [ ] **UX-107** — refinery: remove dangling 'Buy full corpus' reference; strip raw hash IDs from samples; render OKF card via Markdown component (None)
 - [ ] **UX-108** — Evidence citations unlinked (bhenre /try,/research) + arxiviq /methods needs plain-English takeaway box (None)
 - [ ] **UX-109** — Legal pages say 'Template pending counsel review' (None)
 - [ ] **UX-112** — Small copy/nav set: slasso /queue label ('Operating Loop'), credits upsell on slasso, signals platform-card subcopy, arxiviq /feedback customer language (None)
@@ -39,6 +33,11 @@
 - [ ] **EXH-003** — Consumer nodes emit exhaust: wire dumbmodel check + arxiviq queries + refinery contribute through /v1/exhaust schema (None)
 - [ ] **MON-009** — Developer surface (Spec 0022 C): bhenre.com/developers — tiered APIs, exhaust integration guide, certification API docs (None)
 - [ ] **RECO-003** — Company site hero carries the market promise: 'Recommend Everything' pitch + out-of-the-box story (None)
+- [ ] **SCALE-001** — HNSW indexes + encoder-cache sizing for tenant growth (None)
+- [ ] **PMF-002** — Run 10 discovery interviews with the primary ICP (None)
+- [ ] **PMF-004** — Design-partner program: page + offer on bhenre.com (None)
+- [ ] **BD-004** — 20-prospect list + outreach sequence for the primary ICP (None)
+- [ ] **BD-005** — dumbmodel result page: consented email capture so free checks become a nurture list (None)
 
 ## In progress
 

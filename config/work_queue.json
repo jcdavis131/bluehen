@@ -2207,6 +2207,106 @@
       "priority": "P2",
       "source": "VH v2.3",
       "notes": "commonplayerinfo position fields -> same name-season join; drop the BBRef cache."
+    },
+    {
+      "id": "VH-107",
+      "title": "Team-season context tower (pace, net rating, win%, SOS join)",
+      "status": "done",
+      "lane": "cursor",
+      "priority": "P1",
+      "source": "vector-hoops/docs/DATA_EXPANSION_WORKFLOW.md Phase 0.4",
+      "notes": "30/30 team_season_*.json; TM_* wired in integrate_context.py; recall 0.784"
+    },
+    {
+      "id": "VH-108",
+      "title": "Salary history merge + market tower (salaries_history.csv drop-in)",
+      "status": "done",
+      "lane": "cursor",
+      "priority": "P1",
+      "source": "vector-hoops/docs/DATA_EXPANSION_WORKFLOW.md Phase 0.3",
+      "notes": "12,728 rows salaries_history.csv; SALARY_LOG in integrate_context; recall 0.764\u21920.784 with team"
+    },
+    {
+      "id": "VH-109",
+      "title": "Roster composition features (VH-104 unblock)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "source": "vector-hoops/docs/DATA_EXPANSION_WORKFLOW.md Phase 1.1",
+      "notes": "roster_context.py; roster-season honesty not lineup on/off"
+    },
+    {
+      "id": "VH-110",
+      "title": "Career arc + Fall expectation residuals",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "source": "vector-hoops/docs/DATA_EXPANSION_WORKFLOW.md Phase 1.3 + 2.3",
+      "notes": "career_arc.py + fall_analysis.py; GP>=65 caveat"
+    },
+    {
+      "id": "VH-111",
+      "title": "Competition context (SOS, B2B, rest, conference strength)",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P2",
+      "source": "vector-hoops/docs/DATA_EXPANSION_WORKFLOW.md Phase 1.4",
+      "notes": "competition_context.py from game logs + team schedules"
+    },
+    {
+      "id": "VH-112",
+      "title": "BBRef advanced deep tower (PER, WS, BPM)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P3",
+      "source": "vector-hoops/docs/DATA_SOURCES_DEEP.md Track A",
+      "notes": "fetch_bbref_advanced.py; rate-limit + terms; masked pre-coverage"
+    },
+    {
+      "id": "VH-113",
+      "title": "Tier B shared-game stint parser (not lineup minutes)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "source": "vector-hoops/docs/DATA_EXPANSION_WORKFLOW.md Track F",
+      "notes": "tier_b_stint_parser.py; requires VH-101 game logs"
+    },
+    {
+      "id": "VH-114",
+      "title": "Tier C lineup on/off (PBP gated \u2014 Methods update required)",
+      "status": "proposed",
+      "lane": "claude",
+      "priority": "P4",
+      "source": "vector-hoops/docs/DATA_EXPANSION_WORKFLOW.md Track G",
+      "notes": "Operator sign-off on limitations before any game UI uses lineup data"
+    },
+    {
+      "id": "VH-115",
+      "title": "MTNN v4 integrate + train + promotion gate vs v3",
+      "status": "in_progress",
+      "lane": "cursor",
+      "priority": "P1",
+      "source": "vector-hoops/pipeline/mtnn_v4_plan.md",
+      "notes": "R0 done recall 0.784; R1 held-out eval in train_mtnn.py; see mtnn_hill_climb.md",
+      "claimedBy": "cursor"
+    },
+    {
+      "id": "VH-116",
+      "title": "MTNN hill-climb R3: legacy cache converter for build_vectors --offline",
+      "status": "ready",
+      "lane": "cursor",
+      "priority": "P1",
+      "source": "vector-hoops/pipeline/mtnn_hill_climb.md Phase A1",
+      "notes": "Unblocks wide matrix (shotmix, tracking, form); biggest recall ceiling"
+    },
+    {
+      "id": "PLAT-201",
+      "title": "Tenant model-drift report via Procrustes (customer trust artifact)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "source": "Procrustes integration (validated on hoops: lockouts/COVID recovered from geometry)",
+      "notes": "Align tenant head version N vs N+1 on shared corpus embeddings; report rotation deg + residual + most-rotated dims after each retrain; endpoint /v1/models/drift. Reuse pipeline math from vector-hoops/pipeline/procrustes_drift.py."
     }
   ]
 }

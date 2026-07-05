@@ -36,10 +36,13 @@
 - [ ] **VH-103** — Fader or Finisher: early/late season splits + daily quiz mode (None)
 - [ ] **VH-105** — The Fall: expectation residuals (draft+age+prior vector; GP>=65 non-injury proxy, caveat stated) (None)
 - [ ] **VH-106** — Re-source player positions from nba_api (BBRef terms caveat) (None)
+- [ ] **VH-109** — Roster composition features (VH-104 unblock) (None)
+- [ ] **VH-110** — Career arc + Fall expectation residuals (None)
 
 ## In progress
 
 - [ ] **VH-101** — Vector Hoops: game-log dataset (2015-2026 slice, then backfill) (@claude)
+- [ ] **VH-115** — MTNN v4 integrate + train + promotion gate vs v3 (@cursor)
 
 ## Blocked on infra (work elsewhere)
 
@@ -58,14 +61,14 @@
 
 ## Recently done
 
-- [x] ~~**GAME-003** — Semantic Six Degrees spec + prototype (arxiviq)~~
-- [x] ~~**GAME-004** — RAG Gauntlet: bounty board on slasso~~
 - [x] ~~**GAME-006** — Label-to-dataset drafter: nightly roll of game labels into refinery datasets w/ provenance~~
 - [x] ~~**GAME-007** — Shapley Arena: predict-first taste game + per-round Shapley + layer stack (Spec 0032)~~
 - [x] ~~**BRAND-001** — Fleet copy reflects the studio identity: Blue Hen RE builds the games (arxiviq/dumbmodel/slasso as games first)~~
 - [x] ~~**WORLD-001** — Overworld V0: tile engine + Blue Hen universe map + real-event happenings + worldbook terminals (Spec 0033)~~
 - [x] ~~**OKF-001** — Personal Agent OS: OKF KB + semantic map (jcamd.com/knowledge)~~
 - [x] ~~**AUTO-102** — Self-serve surfaces: /pricing tiers from /v1/pricing + signup flow on /developers~~
+- [x] ~~**VH-107** — Team-season context tower (pace, net rating, win%, SOS join)~~
+- [x] ~~**VH-108** — Salary history merge + market tower (salaries_history.csv drop-in)~~
 
 ## Specs & context
 

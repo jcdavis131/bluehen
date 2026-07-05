@@ -37,7 +37,7 @@ small beats general big, in-domain, 4/4).
 
 One-command local install: embedding server (CPU), harness (open-
 sourced from our eval/tuning machinery), skills library, GLM-5.2-class
-free-LLM wiring, quickstart corpora. Target: runs on a laptop, zero
+free-LLM wiring, quickstart corpora. Target: runs on a laptop, zero Harness follows the token-economics contract (Spec 0033 V1): cacheable static prefix, RAG-minimal context, BYOK per-turn metering, free/open models default.
 cloud costs. (PKG-002 defines the repo cut from the monorepo.)
 
 ## 4. One demo site: dumbmodel.com IS it

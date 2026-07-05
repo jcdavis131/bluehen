@@ -4,7 +4,10 @@ Everything else is live. Pick a path, ~15 min, revenue follows.
 
 ## Path A — Stripe (fastest)
 1. stripe.com -> create account -> Developers -> API keys.
-2. Hand Claude the secret key (test first is fine).
+2. EITHER hand Claude the key in chat OR fully self-serve: write one
+   line  into data/workspaces/stripe.env
+   (gitignored) and run no credentials dropped yet (data/workspaces/stripe.env) —
+   it sets Railway env, redeploys, and reports paymentsLive.
 3. Claude then: adds STRIPE_SECRET_KEY to Railway, ships the Stripe
    adapter beside the BTCPay one (same billing interface), runs one
    test checkout -> entitlement grant verified -> flips paymentsLive.

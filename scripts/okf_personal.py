@@ -143,8 +143,22 @@ def seed_fable_watch() -> int:
 
 
 def build_graph() -> dict:
-    sys.path.insert(0, str(REPO / "scripts"))
-    from realtext_validation import encode_texts  # local backbone, free
+    def encode_texts(name: str, texts: list[str]):
+        # self-contained mean-pool encode (CI-friendly: torch+transformers only)
+        import torch
+        from transformers import AutoModel, AutoTokenizer
+
+        tok = AutoTokenizer.from_pretrained(name)
+        model = AutoModel.from_pretrained(name).eval()
+        out = []
+        with torch.no_grad():
+            for k in range(0, len(texts), 32):
+                b = tok(texts[k:k + 32], padding=True, truncation=True,
+                        max_length=128, return_tensors="pt")
+                h = model(**b).last_hidden_state
+                mask = b["attention_mask"].unsqueeze(-1)
+                out.append((h * mask).sum(1) / mask.sum(1).clamp(min=1))
+        return torch.cat(out).numpy()
 
     notes = []
     for path in sorted(KB.rglob("*.md")):

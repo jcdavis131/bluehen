@@ -173,13 +173,12 @@ export const SITE_NAV: Record<string, { href: string; label: string }[]> = {
     { href: "/feedback", label: "Feedback" },
   ],
   dumbmodel: [
-    { href: "/", label: "Overview" },
-    { href: "/check", label: "Health Check" },
-    { href: "/compare", label: "Compare" },
-    { href: "/hall", label: "Hall of Cone" },
-    { href: "/museum", label: "Museum" },
+    { href: "/", label: "Arena" },
+    { href: "/arena", label: "Play" },
+    { href: "/lab", label: "Lab" },
   ],
   validation: [
+    { href: "/verdict", label: "The Verdict" },
     { href: "/", label: "Overview" },
     { href: "/certify", label: "Get Certified" },
     { href: "/try", label: "Run Benchmark" },

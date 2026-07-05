@@ -48,6 +48,17 @@ export default function TryPage() {
           "Hallucination-resistant RAG grounding",
         ]}
       />
+
+      <div className="bh-card bh-card--organic" style={{ marginTop: "var(--bh-space-5)" }}>
+        <div className="bh-card__title">Need more benchmark runs?</div>
+        <p className="bh-card__body">
+          Evaluation credits on the storefront fund additional harness runs and certification submissions.
+          Self-serve certification is on <Link href="/certify">/certify</Link>.
+        </p>
+        <a className="bh-btn bh-btn--ghost" href="https://bhenre.com/store">
+          Buy evaluation credits →
+        </a>
+      </div>
     </>
   );
 }

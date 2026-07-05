@@ -2016,10 +2016,10 @@
     {
       "id": "GAME-004",
       "title": "RAG Gauntlet: bounty board on slasso",
-      "status": "in_progress",
+      "status": "done",
       "lane": "operator+claude",
       "priority": "P2",
-      "notes": "BUILDING (Operator accelerated, mechanic simplified from bounty board): The Verdict on slasso \u2014 judge which passage better answers a query; margin-ranking pairs harvested; player human|agent. Bounty economics remain a later Operator gate.",
+      "notes": "SHIPPED (sonnet): slasso.com/verdict \u2014 judge retrieval pairs, live stateless engineAgreed re-query (never simulated), margin-ranking labels harvested w/ player provenance, lab voice, nav wired. Bounty economics remain a later Operator gate.",
       "source": "Spec 0031 gamified data engine",
       "claimedBy": "claude"
     },

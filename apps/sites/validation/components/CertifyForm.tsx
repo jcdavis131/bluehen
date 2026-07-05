@@ -107,8 +107,13 @@ export function CertifyForm() {
         onChange={(e) => setEndpointUrl(e.target.value)}
         required
         disabled={phase === "submitting" || phase === "polling"}
-        style={{ marginBottom: "var(--bh-space-3)", width: "100%" }}
+        style={{ marginBottom: "var(--bh-space-2)", width: "100%" }}
       />
+
+      <p className="bh-meta" style={{ marginBottom: "var(--bh-space-3)" }}>
+        Standard tier · from <strong>$1,500</strong> per run (Operator pricing gate) · results typically in
+        minutes once the worker picks up your submission
+      </p>
 
       <button
         type="submit"

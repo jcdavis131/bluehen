@@ -50,7 +50,7 @@ export default function QueuePage() {
     <>
       <PageHeader
         eyebrow="Validation Lab · slasso.com"
-        title={GLOSSARY.bdQueue}
+        title="Operating Loop"
         lead={`R&D submits candidates · Validation runs pilots · Production deploys on charter.${
           updated ? ` Updated ${updated}.` : ""
         }`}

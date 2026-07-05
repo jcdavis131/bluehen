@@ -1,0 +1,184 @@
+/**
+ * The Verdict (Spec 0031 §2/§7 GAME-004): measured lab voice, big tap
+ * targets, side-by-side desktop / stacked mobile. Scoped to .verdict so
+ * it never leaks into the rest of Validation Lab.
+ */
+.verdict {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.verdict-consent {
+  font-size: 0.875rem;
+  color: var(--bh-text-secondary, var(--bh-muted));
+  line-height: 1.6;
+  margin: 0 0 var(--bh-space-5);
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border: 1px dashed var(--bh-border, #d8d4cc);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface-2, #f6f3ec);
+}
+
+.verdict-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bh-space-4);
+  margin: 0 0 var(--bh-space-5);
+}
+
+.verdict-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.verdict-stat-value {
+  font-family: var(--bh-font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.verdict-stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bh-muted);
+}
+
+.verdict-docket {
+  margin: 0 0 var(--bh-space-4);
+  animation: verdict-case-in 0.28s ease;
+}
+
+.verdict-docket-label {
+  display: block;
+  font-family: var(--bh-font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bh-muted);
+  margin-bottom: 6px;
+}
+
+.verdict-query {
+  margin: 0;
+  padding: var(--bh-space-3) var(--bh-space-4);
+  border: 2px solid var(--bh-ink);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+@keyframes verdict-case-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.verdict-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bh-space-3);
+  animation: verdict-case-in 0.28s ease;
+}
+
+@media (min-width: 640px) {
+  .verdict-pair {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+}
+
+.verdict-exhibit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 140px;
+  padding: var(--bh-space-4);
+  border: 2px solid var(--bh-ink);
+  border-radius: var(--bh-radius-lg, 12px);
+  background: var(--bh-surface);
+  box-shadow: var(--bh-shadow-block);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--bh-duration, 0.15s) var(--bh-ease, ease),
+    box-shadow var(--bh-duration, 0.15s) var(--bh-ease, ease),
+    background var(--bh-duration, 0.15s) var(--bh-ease, ease);
+}
+
+.verdict-exhibit:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.verdict-exhibit:active:not(:disabled),
+.verdict-exhibit.is-chosen {
+  transform: translate(var(--bh-block-x, 2px), var(--bh-block-y, 2px));
+  box-shadow: none;
+  background: var(--bh-hen-blue-dim, var(--bh-surface-2));
+}
+
+.verdict-exhibit:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.verdict-exhibit-label {
+  font-family: var(--bh-font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bh-muted);
+}
+
+.verdict-exhibit-text {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.verdict-reveal {
+  margin-top: var(--bh-space-4);
+  padding: var(--bh-space-4);
+  border: 2px solid var(--bh-card-border, var(--bh-ink));
+  border-radius: var(--bh-radius-lg, 12px);
+  animation: verdict-case-in 0.22s ease;
+}
+
+.verdict-reveal-headline {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 1.0625rem;
+}
+
+.verdict-reveal-line {
+  margin: 0;
+  font-style: italic;
+  color: var(--bh-text-secondary, var(--bh-muted));
+}
+
+.verdict-reveal-caption {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  color: var(--bh-muted);
+}
+
+.verdict-next-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--bh-space-3);
+}
+
+@media (max-width: 480px) {
+  .verdict-exhibit {
+    min-height: 120px;
+  }
+}

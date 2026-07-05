@@ -37,6 +37,28 @@ export default function CertifyPage() {
 
       <CertifyForm />
 
+      <section className="bh-card" style={{ marginBottom: "var(--bh-space-6)" }}>
+        <div className="bh-card__title">Integrate directly</div>
+        <p className="bh-card__body" style={{ marginTop: "var(--bh-space-2)" }}>
+          Call the certification API from your CI or staging environment. Submit an HTTPS endpoint; the worker
+          embeds a fixed public catalog slice through your service and grades it with the same metric code that
+          gates our own deploys. Typical turnaround: minutes.
+        </p>
+        <pre className="bh-pre-result" style={{ marginTop: 12, fontSize: "0.8125rem" }}>
+{`POST /v1/certify
+Authorization: Bearer <workspace-api-key>
+{"endpointUrl": "https://your-service.com/embed"}
+
+# Your endpoint contract (required):
+POST {"texts": ["...", "..."]}
+→ {"vectors": [[...], [...]]}`}
+        </pre>
+        <p className="bh-meta" style={{ marginTop: 12 }}>
+          Poll <code className="bh-mono">GET /v1/certify/{"{submissionId}"}</code> for status and scorecard.
+          Payment checkout attaches at the Operator gate; the measured scorecard is independent of billing state.
+        </p>
+      </section>
+
       <div className="bh-grid" style={{ marginBottom: "var(--bh-space-6)" }}>
         {STEPS.map((s, i) => (
           <Reveal key={s.title} index={i}>

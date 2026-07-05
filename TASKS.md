@@ -60,7 +60,6 @@ _None claimed — run `pick_task.py claim <id>`_
 
 ## Recently done
 
-- [x] ~~**RDPIPE-002** — R&D pipe segment 2: auto-labeled AR items trigger idle-time harness runs~~
 - [x] ~~**RECO-004** — Metadata contracts: tenant_meta_contracts + ingest validation + _bh.* reserved namespace (Spec 0024)~~
 - [x] ~~**RECO-005** — /v1/recommend filter DSL compiled from contracts~~
 - [x] ~~**AR-502** — [radar] MM-Matryoshka: Towards Budget-Elastic Visual Document Retrieval via a 2D Multimodal Matryoshka Train~~
@@ -68,6 +67,7 @@ _None claimed — run `pick_task.py claim <id>`_
 - [x] ~~**PMF-005** — Competitive teardown + positioning wedge doc~~
 - [x] ~~**BD-003** — Outbound asset kit: one measured-proof one-pager per business unit~~
 - [x] ~~**UXR-001** — Sandbox tenant + nightly purge for the Launchpad~~
+- [x] ~~**UXR-002** — ui-fleet: ModelReportCard + FilterChips components (sonnet-delegated)~~
 
 ## Specs & context
 

@@ -1810,11 +1810,12 @@
     {
       "id": "UXR-002",
       "title": "ui-fleet: ModelReportCard + FilterChips components (sonnet-delegated)",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P1",
-      "notes": "Report card: gates w/ thresholds, metrics vs baselines, lineage, honest empties. FilterChips: contract JSON -> legal chips (keyword eq/in, number/date ranges).",
-      "source": "Spec 0027 Launchpad"
+      "notes": "Sonnet-delegated: ModelReportCard (gate-fail as working-as-designed, honest empties) + FilterChips (exact DSL shape, 44px targets) + css; both typechecks clean.",
+      "source": "Spec 0027 Launchpad",
+      "claimedBy": "claude"
     },
     {
       "id": "UXR-003",

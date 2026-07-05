@@ -41,3 +41,9 @@ export { TTYFrame } from "./TTYFrame";
 export { Marginalia } from "./Marginalia";
 export { TeamStrip } from "./TeamStrip";
 export { Markdown } from "./Markdown";
+
+/* Launchpad UX (Spec 0027) — model report card + contract-driven filter chips */
+export { ModelReportCard } from "./ModelReportCard";
+export type { ModelReport, ModelGate, ModelBaseline } from "./ModelReportCard";
+export { FilterChips } from "./FilterChips";
+export type { FilterableField, FilterValue } from "./FilterChips";

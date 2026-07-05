@@ -4,7 +4,7 @@
 > Queue detail: [TASKS.md](../TASKS.md) · Session context: [HANDOFF.md](../HANDOFF.md) ·
 > Deep review: [docs/reviews/deep-review-2026-07-02.md](./reviews/deep-review-2026-07-02.md)
 
-**Last updated: 2026-07-03 ~17:40 UTC**
+**Last updated: 2026-07-04 ~21:05 CT**
 
 ## Production surfaces
 
@@ -19,11 +19,19 @@
 
 | Work | Owner | State |
 |---|---|---|
-| Prod training — research | worker | **CLOSED: asn-head-8282654 DEPLOYED under charter** — gates passed (nDCG@10 0.9077, ER 26.03), 702 chunks indexed, /v1/search serving it live; EVIDENCE §3.9; arxiviq /methods case study shows live numbers. dumbmodel/storefront/validation trained + honestly gate-blocked (tiny corpora) |
-| 3 queued training jobs (dumbmodel, storefront, validation) | worker | Pending behind research; tiny corpora — expect `insufficient pairs` fails or fail-closed gates (honest outcomes) |
-| REV-904 durable leads (`Lead` model + migration 007 landed; endpoint WIP) | cursor | In progress in working tree; tests green with it |
-| REV-907/911 hardening (weights_only, embed caps) | claude | Committed; **deploys on next Railway restart window** (not worth killing training) |
-| Spec 0016 dumbmodel game layer | operator gate | Draft — awaiting game-set + consent sign-off; phase 3 blocked on rate limiting |
+| DATA-802 barlow domain sweep | claude (detached) | Running locally; verdict -> knowledge/teams/rnd.md |
+| Cursor P1 lane | cursor | Groomed + waiting: UX-102/104/105/106/107, RECO-003 hero, MON-009 /developers, EXH-003, FLY-002, PMF-004, BD-005 |
+| Operator gates | operator | BD-001 Stripe key · PMF-001 ICP confirm · PMF-002 interviews · BD-004 prospects · ANCHOR-001 corpus · UX-109 legal |
+
+## Today's ledger (2026-07-04)
+
+- **Recommend Everything API complete**: /v1/corpus (upload->train->gate->deploy, zero-touch proven, EVIDENCE 3.14) · /v1/recommend (text+item modes, contract-compiled filters) · /v1/contracts (metadata contracts, mig 019) · /v1/exhaust + autotrain self-trigger (Spec 0025 A+B)
+- **R&D pipe closed end to end** (Spec 0023 blueprint 2): radar -> hypothesis drafter -> daily auto-probe -> gates; first cycle drafted AR-501..503, probed AR-502, closed it measured (RT-404: no mrl gain)
+- **RT-404 instrument** (pool-16 hard negatives): trained heads beat commercial zero-shots in-domain; honest null on method separation (EVIDENCE 3.15)
+- **BD/PMF sprint armed**: ICP doc (review), positioning teardown, six evidence-cited one-pagers, funnel dogfooded through our own exhaust API (hq /org Funnel card)
+- **Repo public + professional baseline**: secrets audit CLEAN, LICENSE/SECURITY/CONTRIBUTING, README rewrite, renamed slug jcdavis131/bluehen
+- **Governance**: siteless uploads can no longer displace site serving (RECO-001 postmortem); usage retention (45d archive-purge); shared queue machinery
+- Simulation Lab build-out merged (PR #2); spec 0022 collision resolved (engine spec -> 0025)
 
 ## Data Refinery (Spec 0018 — LAUNCHED, all phases complete)
 

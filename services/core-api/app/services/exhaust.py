@@ -50,3 +50,30 @@ def ingest(workspace_id: uuid.UUID, source: str, kind: str,
             "ts": datetime.now(timezone.utc).isoformat(),
         }, ensure_ascii=False) + "\n")
     return {"stored": True, "receipt": str(receipt)}
+
+
+def summary(days: int = 31) -> dict:
+    """Funnel tally (PMF-003): counts by source+event from the inbox
+    exhaust files. Bounded read; honest zeros when files are absent."""
+    from collections import Counter
+    from datetime import timedelta
+
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    counts: Counter = Counter()
+    inbox = DATALAB_DIR / "inbox"
+    if inbox.exists():
+        for path in sorted(inbox.glob("exhaust-*.jsonl")):
+            try:
+                for line in path.read_text(encoding="utf-8").splitlines():
+                    if not line.strip():
+                        continue
+                    row = json.loads(line)
+                    ts = row.get("ts") or ""
+                    if ts and ts < cutoff.isoformat():
+                        continue
+                    event = (row.get("payload") or {}).get("event") or row.get("kind")
+                    counts[f"{row.get('source')}:{event}"] += 1
+            except Exception:
+                continue
+    return {"sinceDays": days,
+            "events": [{"key": k, "count": v} for k, v in counts.most_common(50)]}

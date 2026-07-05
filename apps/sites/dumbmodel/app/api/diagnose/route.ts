@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { POST_diagnose } from "@synthaembed/ui-fleet/routes";
+import { emitFunnelEvent } from "@synthaembed/ui-fleet/exhaust";
 
 // REV-903 follow-up: soft per-IP rate limit on the public diagnose BFF so the
 // loud front door can be promoted without being a free compute firehose. This
@@ -47,5 +48,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       { status: 429, headers: { "Retry-After": String(retryAfter) } },
     );
   }
-  return POST_diagnose(req);
+  const res = await POST_diagnose(req);
+  if (res.ok) {
+    void emitFunnelEvent("dumbmodel", "health-check");
+  }
+  return res;
 }

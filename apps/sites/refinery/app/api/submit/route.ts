@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { apiFetch } from "@synthaembed/ui-fleet/site-api";
+import { emitFunnelEvent } from "@synthaembed/ui-fleet/exhaust";
 
 /** BFF: consented contribution → core-api /v1/datalab/submit.
  * The workspace key stays server-side; consent is enforced upstream too. */
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
         tags: (body.tags ?? []).slice(0, 8),
       }),
     });
+    void emitFunnelEvent("refinery", "contribution");
     return NextResponse.json(out, { status: 201 });
   } catch (e) {
     return NextResponse.json(

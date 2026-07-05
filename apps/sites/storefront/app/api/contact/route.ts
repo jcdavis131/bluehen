@@ -2,6 +2,7 @@ import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import { hasCoreApi, siteLead } from "@synthaembed/ui-fleet/site-api";
+import { emitFunnelEvent } from "@synthaembed/ui-fleet/exhaust";
 
 /** Lead capture (REV-904): validate, then persist durably.
  *
@@ -85,5 +86,7 @@ export async function POST(req: NextRequest) {
       // webhook is best-effort; the lead is already persisted
     }
   }
+
+  void emitFunnelEvent("storefront", "briefing-request");
   return NextResponse.json({ ok: true }, { status: 201 });
 }

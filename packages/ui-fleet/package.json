@@ -9,6 +9,7 @@
     "./routes": "./src/routes/index.ts",
     "./admin-api": "./src/admin-api.ts",
     "./site-api": "./src/site-api.ts",
+    "./exhaust": "./src/exhaust.ts",
     "./styles.css": "./src/styles.css"
   },
   "scripts": { "typecheck": "tsc --noEmit" },

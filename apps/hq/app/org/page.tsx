@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PageHeader } from "@synthaembed/ui-fleet";import { getSiteCircuit } from "@synthaembed/fleet";import { Markdown } from "@synthaembed/ui-fleet";
+import { adminExhaustSummary, type ExhaustSummary } from "@synthaembed/ui-fleet/admin-api";
 
 export const dynamic = "force-dynamic";
 
@@ -65,6 +66,14 @@ export default async function OrgPage() {
   });
   const anyMissing = !status || teams.some((t) => !t.parsed);
 
+  let funnel: ExhaustSummary | null = null;
+  let funnelError: string | null = null;
+  try {
+    funnel = await adminExhaustSummary(31);
+  } catch (e) {
+    funnelError = e instanceof Error ? e.message : String(e);
+  }
+
   return (
     <>
       <PageHeader
@@ -97,6 +106,34 @@ export default async function OrgPage() {
         ) : (
           <div className="bh-card__body" style={{ padding: "var(--bh-space-4)" }}>
             <code>docs/STATUS.md</code> not found in this deploy.
+          </div>
+        )}
+      </div>
+
+      <h2 className="bh-section-title">Funnel (31d)</h2>
+      <div className="bh-card bh-card--flush" style={{ marginBottom: "var(--bh-space-8)" }}>
+        {funnelError ? (
+          <div className="bh-card__body" style={{ padding: "var(--bh-space-4)" }}>
+            Funnel data unavailable: {funnelError} — requires <code>API_SECRET_KEY</code>{" "}
+            on this deployment.
+          </div>
+        ) : !funnel || funnel.events.length === 0 ? (
+          <div className="bh-card__body" style={{ padding: "var(--bh-space-4)" }}>
+            No funnel events yet — sites emit on submissions.
+          </div>
+        ) : (
+          <div className="bh-table-wrap" style={{ border: 0 }}>
+            <table className="bh-table">
+              <tbody>
+                <tr><th>Key</th><th>Count</th></tr>
+                {funnel.events.map((e) => (
+                  <tr key={e.key}>
+                    <td><code>{e.key}</code></td>
+                    <td>{e.count}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

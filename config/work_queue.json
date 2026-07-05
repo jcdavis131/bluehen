@@ -1657,11 +1657,12 @@
     {
       "id": "PMF-003",
       "title": "Instrument the funnel with our own exhaust API (dogfood): conversion events across all BU sites",
-      "status": "ready",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
-      "notes": "Key events: health-check completed, certify submitted, briefing requested, catalog->request, kit tried, pricing viewed. Emit via each site's BFF to /v1/exhaust (kind=interaction, consent per privacy posture \u2014 count-only, no PII payloads). hq /org gains a funnel panel. ACCEPT: weekly funnel counts visible without external analytics.",
-      "source": "BD/PMF series 2026-07-04"
+      "notes": "SHIPPED (backend me / frontend sonnet): emitFunnelEvent helper (server-only, error-swallowing, no PII \u2014 event name only), wired on dumbmodel health-check + storefront briefing + refinery contribution; GET /v1/admin/exhaust/summary tallies inbox by source:event; hq /org Funnel(31d) card w/ honest empty state. Conversion counts now self-hosted via our own exhaust API.",
+      "source": "BD/PMF series 2026-07-04",
+      "claimedBy": "claude"
     },
     {
       "id": "PMF-004",

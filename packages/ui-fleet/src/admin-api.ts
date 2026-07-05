@@ -106,3 +106,13 @@ export async function adminCatalogSync() {
 export async function adminUsage(days = 31) {
   return adminFetch(`/v1/admin/usage?days=${days}`);
 }
+
+export type ExhaustSummary = {
+  sinceDays: number;
+  events: { key: string; count: number }[];
+};
+
+/** Funnel counts by source+event (PMF-003 dogfood). */
+export async function adminExhaustSummary(days = 31): Promise<ExhaustSummary> {
+  return adminFetch(`/v1/admin/exhaust/summary?days=${days}`) as Promise<ExhaustSummary>;
+}

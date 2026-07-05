@@ -874,6 +874,14 @@ def admin_hill_climb(body: AdminHillClimbIn, request: Request, _: Annotated[None
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
+@app.get("/v1/admin/exhaust/summary")
+def admin_exhaust_summary(_: Annotated[None, Depends(require_admin)], days: int = 31):
+    """Funnel counts by source+event (PMF-003 dogfood)."""
+    from app.services.exhaust import summary
+
+    return summary(days=min(days, 90))
+
+
 @app.post("/v1/admin/deploy")
 def admin_deploy(body: dict, _: Annotated[None, Depends(require_admin)]):
     """Deploy after charter issued — operator promotion path."""

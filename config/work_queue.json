@@ -2127,7 +2127,7 @@
       "status": "blocked",
       "lane": "operator",
       "priority": "P0",
-      "notes": "Spec 0034 \u00a75 \u2014 the ONE remaining human step to live revenue. Path A: create a BTCPay wallet, I host BTCPay on Railway + wire BTCPAY_URL/STORE_ID/API_KEY/WEBHOOK_SECRET. Path B: Stripe account, one key. ~15 min, once, ever.",
+      "notes": "Spec 0034 \u00a75 \u2014 the ONE remaining human step to live revenue. Path A: create a BTCPay wallet, I host BTCPay on Railway + wire BTCPAY_URL/STORE_ID/API_KEY/WEBHOOK_SECRET. Path B: Stripe account, one key. ~15 min, once, ever. [2026-07-05 ~03:30: Operator chose to complete this TOMORROW \u2014 goal parked at revenue-ready; runbook at docs/AUTO-101-RUNBOOK.md.]",
       "source": "Spec 0034 autonomous business"
     },
     {

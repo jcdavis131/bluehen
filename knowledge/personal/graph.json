@@ -10,8 +10,9 @@
     "concept"
    ],
    "source": "curated",
-   "x": 0.8671,
-   "y": 0.6237
+   "added": "2026-07-05",
+   "x": 0.3124,
+   "y": 0.8024
   },
   {
    "slug": "contrastive-objectives",
@@ -21,8 +22,9 @@
     "concept"
    ],
    "source": "curated",
-   "x": 0.702,
-   "y": 0.6514
+   "added": "2026-07-05",
+   "x": 0.2492,
+   "y": 0.6671
   },
   {
    "slug": "embedding-spaces",
@@ -32,8 +34,9 @@
     "concept"
    ],
    "source": "curated",
-   "x": 0.8818,
-   "y": 0.9169
+   "added": "2026-07-05",
+   "x": 0.1272,
+   "y": 0.8797
   },
   {
    "slug": "hard-negatives",
@@ -43,8 +46,9 @@
     "concept"
    ],
    "source": "curated",
-   "x": 0.9456,
-   "y": 0.1836
+   "added": "2026-07-05",
+   "x": 0.4317,
+   "y": 0.8619
   },
   {
    "slug": "mtnn-omni-embedding",
@@ -54,8 +58,9 @@
     "concept"
    ],
    "source": "curated",
-   "x": 0.8132,
-   "y": 0.5617
+   "added": "2026-07-05",
+   "x": 0.4016,
+   "y": 0.7263
   },
   {
    "slug": "retrieval-and-rag",
@@ -65,8 +70,65 @@
     "concept"
    ],
    "source": "curated",
-   "x": 0.4066,
-   "y": 0.0
+   "added": "2026-07-05",
+   "x": 0.4279,
+   "y": 0.2596
+  },
+  {
+   "slug": "games-that-pay-in-data",
+   "kind": "journal",
+   "title": "Games that pay in data",
+   "tags": [
+    "journal",
+    "games",
+    "data-engine"
+   ],
+   "source": "specs/0031-gamified-data-engine.md",
+   "added": "2026-07-05",
+   "x": 0.449,
+   "y": 0.6009
+  },
+  {
+   "slug": "the-day-the-gates-said-no",
+   "kind": "journal",
+   "title": "The day the gates said no (and that was the demo)",
+   "tags": [
+    "journal",
+    "evaluation",
+    "honesty"
+   ],
+   "source": "EVIDENCE.md",
+   "added": "2026-07-04",
+   "x": 0.3912,
+   "y": 0.5961
+  },
+  {
+   "slug": "the-homepage-that-watches-back",
+   "kind": "journal",
+   "title": "The homepage that watches back",
+   "tags": [
+    "journal",
+    "okf",
+    "knowledge-system"
+   ],
+   "source": "jcamd.com",
+   "added": "2026-07-05",
+   "x": 0.4713,
+   "y": 0.5241
+  },
+  {
+   "slug": "the-watcher-and-the-watched",
+   "kind": "journal",
+   "title": "The watcher and the watched",
+   "tags": [
+    "journal",
+    "fable-watch",
+    "agents"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-03",
+   "x": 0.8334,
+   "y": 0.4754
   },
   {
    "slug": "a-2-smaller-self-supervised-vits-localize-better-than-larger-one",
@@ -76,8 +138,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.748,
-   "y": 0.777
+   "added": "2026-07-05",
+   "x": 0.2555,
+   "y": 0.7163
   },
   {
    "slug": "argus-retriever-vision-llm-late-interaction-retrieval-with-regio",
@@ -87,8 +150,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.236,
-   "y": 0.6529
+   "added": "2026-07-05",
+   "x": 0.167,
+   "y": 0.1991
   },
   {
    "slug": "colbertsar-sparsified-colbert-index-via-product-quantization",
@@ -98,8 +162,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.3849,
-   "y": 0.6768
+   "added": "2026-07-05",
+   "x": 0.1736,
+   "y": 0.3625
   },
   {
    "slug": "conflict-aware-retriever-editing-for-knowledge-injection-attacks",
@@ -109,8 +174,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.3917,
-   "y": 0.3576
+   "added": "2026-07-05",
+   "x": 0.239,
+   "y": 0.3415
   },
   {
    "slug": "decompose-sparsely-where-you-should-absorb-densely-where-you-sho",
@@ -120,8 +186,9 @@
     "graph"
    ],
    "source": "",
-   "x": 0.7254,
-   "y": 0.7384
+   "added": "2026-07-05",
+   "x": 0.3141,
+   "y": 0.6803
   },
   {
    "slug": "do-models-share-safety-representations-cross-model-steering-for-",
@@ -131,8 +198,9 @@
     "graph"
    ],
    "source": "",
-   "x": 0.8405,
-   "y": 0.5193
+   "added": "2026-07-05",
+   "x": 0.351,
+   "y": 0.7724
   },
   {
    "slug": "field-order-should-not-matter-permutation-invariant-embedding-mo",
@@ -142,8 +210,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.3252,
-   "y": 0.6662
+   "added": "2026-07-05",
+   "x": 0.1798,
+   "y": 0.2991
   },
   {
    "slug": "forte-fol-guided-optimal-refinement-for-text-audio-retrieval",
@@ -153,8 +222,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.2512,
-   "y": 0.8282
+   "added": "2026-07-05",
+   "x": 0.1536,
+   "y": 0.2375
   },
   {
    "slug": "improving-long-context-retrieval-with-multi-prefix-embedding",
@@ -164,8 +234,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.2019,
-   "y": 0.7269
+   "added": "2026-07-05",
+   "x": 0.0916,
+   "y": 0.1919
   },
   {
    "slug": "kalm-reranker-v1-fast-but-not-late-interaction-for-compressed-do",
@@ -176,8 +247,9 @@
     "loss"
    ],
    "source": "",
-   "x": 0.1211,
-   "y": 0.8016
+   "added": "2026-07-05",
+   "x": 0.0252,
+   "y": 0.1383
   },
   {
    "slug": "meshtryoshka-differentiable-rendering-of-real-world-scenes-via-m",
@@ -187,8 +259,9 @@
     "graph"
    ],
    "source": "",
-   "x": 0.8614,
-   "y": 0.6917
+   "added": "2026-07-05",
+   "x": 0.2937,
+   "y": 0.8127
   },
   {
    "slug": "mm-matryoshka-towards-budget-elastic-visual-document-retrieval-v",
@@ -199,8 +272,9 @@
     "loss"
    ],
    "source": "",
-   "x": 0.4303,
-   "y": 0.7728
+   "added": "2026-07-05",
+   "x": 0.0882,
+   "y": 0.4289
   },
   {
    "slug": "monosemanticity-in-recommender-systems",
@@ -210,8 +284,9 @@
     "graph"
    ],
    "source": "",
-   "x": 0.6704,
-   "y": 0.8887
+   "added": "2026-07-05",
+   "x": 0.1806,
+   "y": 0.6677
   },
   {
    "slug": "multi-vector-embeddings-are-provably-more-expressive-than-single",
@@ -221,8 +296,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.4306,
-   "y": 0.866
+   "added": "2026-07-05",
+   "x": 0.0507,
+   "y": 0.4463
   },
   {
    "slug": "policy-regret-for-embedding-model-routing-contextual-bandits-wit",
@@ -232,8 +308,9 @@
     "graph"
    ],
    "source": "",
-   "x": 0.5246,
-   "y": 0.7348
+   "added": "2026-07-05",
+   "x": 0.1847,
+   "y": 0.5114
   },
   {
    "slug": "scar-semantic-continuity-aware-retrieval-for-efficient-context-e",
@@ -243,8 +320,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.1414,
-   "y": 0.462
+   "added": "2026-07-05",
+   "x": 0.2138,
+   "y": 0.0714
   },
   {
    "slug": "shard-cell-keyed-residual-splitting-for-alignment-resistant-priv",
@@ -254,8 +332,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.48,
-   "y": 0.7137
+   "added": "2026-07-05",
+   "x": 0.1072,
+   "y": 0.4774
   },
   {
    "slug": "skmteb-slovak-massive-text-embedding-benchmark-and-model-adaptat",
@@ -265,8 +344,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.3382,
-   "y": 0.8537
+   "added": "2026-07-05",
+   "x": 0.0097,
+   "y": 0.3634
   },
   {
    "slug": "stellar-scalable-multimodal-document-retrieval-for-natural-langu",
@@ -276,8 +356,9 @@
     "chunk"
    ],
    "source": "",
+   "added": "2026-07-05",
    "x": 0.0,
-   "y": 0.7601
+   "y": 0.0
   },
   {
    "slug": "sustainable-face-recognition-on-low-power-devices-with-vq-vae-em",
@@ -288,8 +369,9 @@
     "graph"
    ],
    "source": "",
-   "x": 0.8937,
-   "y": 1.0
+   "added": "2026-07-05",
+   "x": 0.0962,
+   "y": 0.9172
   },
   {
    "slug": "tail-aware-adaptive-k-query-adaptive-context-selection-for-retri",
@@ -299,8 +381,9 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.3444,
-   "y": 0.4655
+   "added": "2026-07-05",
+   "x": 0.2494,
+   "y": 0.2873
   },
   {
    "slug": "tilemaxsim-io-aware-gpu-maxsim-scoring-with-dimension-tiling-and",
@@ -310,11 +393,578 @@
     "chunk"
    ],
    "source": "",
-   "x": 0.6371,
-   "y": 0.6789
+   "added": "2026-07-05",
+   "x": 0.2729,
+   "y": 0.5956
+  },
+  {
+   "slug": "a11y-gate",
+   "kind": "skills",
+   "title": "skill: a11y-gate",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8902,
+   "y": 0.5163
+  },
+  {
+   "slug": "abstract-the-provider",
+   "kind": "skills",
+   "title": "skill: abstract-the-provider",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9134,
+   "y": 0.4871
+  },
+  {
+   "slug": "affected-tests",
+   "kind": "skills",
+   "title": "skill: affected-tests",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8987,
+   "y": 0.4534
+  },
+  {
+   "slug": "agent-guardrails",
+   "kind": "skills",
+   "title": "skill: agent-guardrails",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9319,
+   "y": 0.493
+  },
+  {
+   "slug": "auto-mode",
+   "kind": "skills",
+   "title": "skill: auto-mode",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9565,
+   "y": 0.5059
+  },
+  {
+   "slug": "background-failure-triage",
+   "kind": "skills",
+   "title": "skill: background-failure-triage",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.911,
+   "y": 0.4816
+  },
+  {
+   "slug": "close-the-loop",
+   "kind": "skills",
+   "title": "skill: close-the-loop",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.803,
+   "y": 0.4335
+  },
+  {
+   "slug": "conservative-rename",
+   "kind": "skills",
+   "title": "skill: conservative-rename",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8196,
+   "y": 0.4782
+  },
+  {
+   "slug": "correct-assumptions",
+   "kind": "skills",
+   "title": "skill: correct-assumptions",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9828,
+   "y": 0.4966
+  },
+  {
+   "slug": "cost-transparency",
+   "kind": "skills",
+   "title": "skill: cost-transparency",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9215,
+   "y": 0.4833
+  },
+  {
+   "slug": "dependency-hygiene",
+   "kind": "skills",
+   "title": "skill: dependency-hygiene",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8996,
+   "y": 0.4757
+  },
+  {
+   "slug": "deterministic-core-llm-judgment",
+   "kind": "skills",
+   "title": "skill: deterministic-core-llm-judgment",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.892,
+   "y": 0.517
+  },
+  {
+   "slug": "diagnose-before-retry",
+   "kind": "skills",
+   "title": "skill: diagnose-before-retry",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8345,
+   "y": 0.4109
+  },
+  {
+   "slug": "disk-pressure-proactive",
+   "kind": "skills",
+   "title": "skill: disk-pressure-proactive",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.7929,
+   "y": 0.4993
+  },
+  {
+   "slug": "document-non-action",
+   "kind": "skills",
+   "title": "skill: document-non-action",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9481,
+   "y": 0.4235
+  },
+  {
+   "slug": "event-driven-wait",
+   "kind": "skills",
+   "title": "skill: event-driven-wait",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9461,
+   "y": 0.3941
+  },
+  {
+   "slug": "fill-the-wait",
+   "kind": "skills",
+   "title": "skill: fill-the-wait",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9343,
+   "y": 0.407
+  },
+  {
+   "slug": "follow-procedure",
+   "kind": "skills",
+   "title": "skill: follow-procedure",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 1.0,
+   "y": 0.401
+  },
+  {
+   "slug": "idempotent-seed-script",
+   "kind": "skills",
+   "title": "skill: idempotent-seed-script",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8678,
+   "y": 0.4361
+  },
+  {
+   "slug": "lane-discipline",
+   "kind": "skills",
+   "title": "skill: lane-discipline",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9635,
+   "y": 0.4458
+  },
+  {
+   "slug": "logical-commit-split",
+   "kind": "skills",
+   "title": "skill: logical-commit-split",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8931,
+   "y": 0.4429
+  },
+  {
+   "slug": "match-conventions",
+   "kind": "skills",
+   "title": "skill: match-conventions",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8943,
+   "y": 0.4341
+  },
+  {
+   "slug": "metadata-align",
+   "kind": "skills",
+   "title": "skill: metadata-align",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8663,
+   "y": 0.4014
+  },
+  {
+   "slug": "monorepo-review-loop",
+   "kind": "skills",
+   "title": "skill: monorepo-review-loop",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8777,
+   "y": 0.4976
+  },
+  {
+   "slug": "persist-learnings",
+   "kind": "skills",
+   "title": "skill: persist-learnings",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9043,
+   "y": 0.4476
+  },
+  {
+   "slug": "policy-as-config",
+   "kind": "skills",
+   "title": "skill: policy-as-config",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9096,
+   "y": 0.5009
+  },
+  {
+   "slug": "post-deploy-smoke",
+   "kind": "skills",
+   "title": "skill: post-deploy-smoke",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8244,
+   "y": 0.4592
+  },
+  {
+   "slug": "pre-commit-hygiene",
+   "kind": "skills",
+   "title": "skill: pre-commit-hygiene",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8913,
+   "y": 0.4549
+  },
+  {
+   "slug": "progress-board",
+   "kind": "skills",
+   "title": "skill: progress-board",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9352,
+   "y": 0.4375
+  },
+  {
+   "slug": "prompt-caching",
+   "kind": "skills",
+   "title": "skill: prompt-caching",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.987,
+   "y": 0.3982
+  },
+  {
+   "slug": "readiness-report",
+   "kind": "skills",
+   "title": "skill: readiness-report",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8026,
+   "y": 0.4532
+  },
+  {
+   "slug": "recap-on-long-session",
+   "kind": "skills",
+   "title": "skill: recap-on-long-session",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9322,
+   "y": 0.3779
+  },
+  {
+   "slug": "respect-the-guard",
+   "kind": "skills",
+   "title": "skill: respect-the-guard",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9351,
+   "y": 0.5003
+  },
+  {
+   "slug": "session-orient",
+   "kind": "skills",
+   "title": "skill: session-orient",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9428,
+   "y": 0.4574
+  },
+  {
+   "slug": "shell-confirm-hygiene",
+   "kind": "skills",
+   "title": "skill: shell-confirm-hygiene",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9075,
+   "y": 0.4555
+  },
+  {
+   "slug": "silent-op-recovery",
+   "kind": "skills",
+   "title": "skill: silent-op-recovery",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8162,
+   "y": 0.4734
+  },
+  {
+   "slug": "sme-fanout",
+   "kind": "skills",
+   "title": "skill: sme-fanout",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8386,
+   "y": 0.5262
+  },
+  {
+   "slug": "smoke-import",
+   "kind": "skills",
+   "title": "skill: smoke-import",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9219,
+   "y": 0.4596
+  },
+  {
+   "slug": "use-available-integrations",
+   "kind": "skills",
+   "title": "skill: use-available-integrations",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8079,
+   "y": 0.4841
+  },
+  {
+   "slug": "use-design-system",
+   "kind": "skills",
+   "title": "skill: use-design-system",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8358,
+   "y": 0.48
+  },
+  {
+   "slug": "validate-gate",
+   "kind": "skills",
+   "title": "skill: validate-gate",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.9105,
+   "y": 0.5119
+  },
+  {
+   "slug": "verify-subagent-output",
+   "kind": "skills",
+   "title": "skill: verify-subagent-output",
+   "tags": [
+    "skill",
+    "fable-watch"
+   ],
+   "source": ".cursor/fable-watch",
+   "added": "2026-07-05",
+   "x": 0.8961,
+   "y": 0.5034
   }
  ],
  "edges": [
+  [
+   "games-that-pay-in-data",
+   "hard-negatives"
+  ],
+  [
+   "games-that-pay-in-data",
+   "mtnn-omni-embedding"
+  ],
+  [
+   "the-day-the-gates-said-no",
+   "contrastive-objectives"
+  ],
+  [
+   "the-homepage-that-watches-back",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "the-watcher-and-the-watched",
+   "embedding-spaces"
+  ],
   [
    "a-2-smaller-self-supervised-vits-localize-better-than-larger-one",
    "retrieval-and-rag"
@@ -414,6 +1064,174 @@
   [
    "tilemaxsim-io-aware-gpu-maxsim-scoring-with-dimension-tiling-and",
    "retrieval-and-rag"
+  ],
+  [
+   "a11y-gate",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "abstract-the-provider",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "affected-tests",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "agent-guardrails",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "auto-mode",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "background-failure-triage",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "close-the-loop",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "conservative-rename",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "correct-assumptions",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "cost-transparency",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "dependency-hygiene",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "deterministic-core-llm-judgment",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "diagnose-before-retry",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "disk-pressure-proactive",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "document-non-action",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "event-driven-wait",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "fill-the-wait",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "follow-procedure",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "idempotent-seed-script",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "lane-discipline",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "logical-commit-split",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "match-conventions",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "metadata-align",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "monorepo-review-loop",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "persist-learnings",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "policy-as-config",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "post-deploy-smoke",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "pre-commit-hygiene",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "progress-board",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "prompt-caching",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "readiness-report",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "recap-on-long-session",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "respect-the-guard",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "session-orient",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "shell-confirm-hygiene",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "silent-op-recovery",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "sme-fanout",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "smoke-import",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "use-available-integrations",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "use-design-system",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "validate-gate",
+   "the-watcher-and-the-watched"
+  ],
+  [
+   "verify-subagent-output",
+   "the-watcher-and-the-watched"
   ]
  ]
 }

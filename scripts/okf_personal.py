@@ -105,6 +105,43 @@ def seed_papers() -> int:
     return n
 
 
+def seed_fable_watch() -> int:
+    """Skills Cursor built by watching Fable work -> one OKF note each,
+    with the observed patterns that motivated them. Deterministic; the
+    story entries in journal/ give the narrative."""
+    src_index = REPO / ".cursor" / "fable-watch" / "skills-built.md"
+    src_patterns = REPO / ".cursor" / "fable-watch" / "observed-patterns.md"
+    if not src_index.exists():
+        return 0
+    (KB / "skills").mkdir(parents=True, exist_ok=True)
+
+    pattern_lines: dict[str, str] = {}
+    if src_patterns.exists():
+        for m in re.finditer(r"##+ (P-\d+)[ —:-]*(.*)", src_patterns.read_text(encoding="utf-8")):
+            pattern_lines[m.group(1)] = m.group(2).strip()[:140]
+
+    n = 0
+    seen: set[str] = set()
+    for m in re.finditer(r"\| `([\w-]+)`[^|]*\| ([^|]+) \|", src_index.read_text(encoding="utf-8")):
+        skill = m.group(1)
+        if skill in seen:
+            continue
+        seen.add(skill)
+        prefs = re.findall(r"P-\d+", m.group(2))
+        why = [f"- **{p}** — {pattern_lines[p]}" for p in prefs if p in pattern_lines]
+        body = (f"A Cursor skill distilled from watching Fable work "
+                f"(the fable-watch project). Motivating patterns:\n\n"
+                + ("\n".join(why) if why else "- patterns logged in observed-patterns.md")
+                + "\n\nPart of the 42-skill set audited against Anthropic's "
+                  "skill best practices (42/42 passing). "
+                  "Story: [[the-watcher-and-the-watched]]")
+        write_note(KB / "skills" / f"{skill}.md",
+                   f"skill: {skill}", ["skill", "fable-watch"],
+                   ".cursor/fable-watch", body)
+        n += 1
+    return n
+
+
 def build_graph() -> dict:
     sys.path.insert(0, str(REPO / "scripts"))
     from realtext_validation import encode_texts  # local backbone, free
@@ -113,6 +150,7 @@ def build_graph() -> dict:
     for path in sorted(KB.rglob("*.md")):
         text = path.read_text(encoding="utf-8")
         m = re.search(r'title: "(.*?)"', text)
+        added = re.search(r"added: ([0-9-]+)", text)
         tags = re.search(r"tags: \[(.*?)\]", text)
         src = re.search(r'source: "(.*?)"', text)
         body = text.split("---", 2)[-1].strip()
@@ -122,6 +160,7 @@ def build_graph() -> dict:
             "title": m.group(1) if m else path.stem,
             "tags": [t.strip() for t in tags.group(1).split(",")] if tags else [],
             "source": src.group(1) if src else "",
+            "added": added.group(1) if added else "",
             "text": (notes and body or body)[:800],
             "links": re.findall(r"\[\[(.+?)\]\]", body),
         })
@@ -156,6 +195,8 @@ if __name__ == "__main__":
     KB.mkdir(parents=True, exist_ok=True)
     seed_concepts()
     n = seed_papers()
+    k = seed_fable_watch()
+    print(f"fable-watch skills: {k} notes")
     graph = build_graph()
     (KB / "graph.json").write_text(json.dumps(graph, indent=1), encoding="utf-8")
     print(f"OKF personal KB: +{n} paper notes, {len(graph['nodes'])} nodes, "

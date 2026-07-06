@@ -1048,6 +1048,34 @@ def games_leaderboard(tenant: Annotated[TenantCtx, Depends(require_tenant)],
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
+class WikiAskIn(BaseModel):
+    query: str
+
+
+@app.post("/v1/wiki/ask")
+def wiki_ask(body: WikiAskIn, tenant: Annotated[TenantCtx, Depends(require_tenant)],
+             _rl: Annotated[None, Depends(rate_limit("wiki_ask", 10))] = None):
+    import os
+
+    from app.services.wiki_ask import ask
+
+    key = os.environ.get("GROQ_API_KEY", "")
+    if not key:
+        raise HTTPException(status_code=503,
+                            detail="wiki answerer not configured")
+    try:
+        result = ask(body.query, key)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except Exception as e:
+        raise HTTPException(status_code=502,
+                            detail=f"upstream inference failed: {e}") from e
+    from app.services.usage import record as _record_usage
+
+    _record_usage(tenant.workspace_id, "wiki_ask", units=1)
+    return result
+
+
 @app.get("/v1/games/impact")
 def games_impact(tenant: Annotated[TenantCtx, Depends(require_tenant)],
                  userRef: str | None = None,

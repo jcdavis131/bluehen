@@ -2307,6 +2307,24 @@
       "priority": "P2",
       "source": "Procrustes integration (validated on hoops: lockouts/COVID recovered from geometry)",
       "notes": "Align tenant head version N vs N+1 on shared corpus embeddings; report rotation deg + residual + most-rotated dims after each retrain; endpoint /v1/models/drift. Reuse pipeline math from vector-hoops/pipeline/procrustes_drift.py."
+    },
+    {
+      "id": "TOWER-005",
+      "title": "MTNN aux features: role + tenure channels (ablation-passed)",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "source": "feature lab 2026-07-05",
+      "notes": "feature_lab.py verdict: role feats (minShare/usageShare/scoreRank) as tower inputs + tier labels as aux targets; tenure aux-only never cosine space; wire into train_towers.py next bake-off."
+    },
+    {
+      "id": "DATA-810",
+      "title": "Source coach tenure (nba_api commonteamroster/coaches) for MTNN aux",
+      "status": "ready",
+      "lane": "claude",
+      "priority": "P2",
+      "source": "feature lab 2026-07-05",
+      "notes": "Operator wants coach-tenure signal; needs endpoint probe + cache-resumable fetch; BBRef off-limits."
     }
   ]
 }

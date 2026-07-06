@@ -1,6 +1,6 @@
 # Tasks
 
-> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-07-05
+> Blue Hen RE · **Source of truth:** [`config/work_queue.json`](./config/work_queue.json) · Updated: 2026-07-06
 
 **Any agent:** `uv run python scripts/pick_task.py list` → `claim` → work → `done`
 

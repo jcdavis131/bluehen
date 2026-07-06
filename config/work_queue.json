@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-05",
+  "updated": "2026-07-06",
   "protocol": "Any agent: read blockers \u2192 pick_task.py list \u2192 claim \u2192 work \u2192 done \u2192 render. Specs in specs/; fleet in config/fleet.json.",
   "blockers": [
     {
@@ -1874,11 +1874,14 @@
     {
       "id": "WIKI-101",
       "title": "Concept pages compiled from raw chunk content (Karpathy LLM-wiki layer)",
-      "status": "blocked",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
       "notes": "BLOCKED on LLM key (GLM or alternative \u2014 Operator chose 'another provider', values never provided). Extend wiki refine pass: per topic, synthesize a concept page FROM the actual chunks (not just catalog stats), [[wiki-link]] style cross-references resolved to /wiki/<slug>, dated + labeled sections, deterministic skeleton preserved. Compounds on every harvest.",
-      "source": "Karpathy LLM-wiki audit 2026-07-04"
+      "source": "Karpathy LLM-wiki audit 2026-07-04",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-06T04:07:40.942418+00:00",
+      "completedAt": "2026-07-06T04:14:52.958474+00:00"
     },
     {
       "id": "WIKI-102",

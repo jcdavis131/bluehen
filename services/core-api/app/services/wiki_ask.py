@@ -57,26 +57,26 @@ def ask(query: str, llm_key: str, max_pages: int = 5) -> dict:
                 "note": "no wiki node matches the query — the graph is the "
                         "boundary of what this endpoint knows"}
 
-    # walk: seeds + 1 hop along link edges
-    ids = {n["id"] for n in seeds}
-    edges = g.get("edges", [])
-    for e in edges:
-        a, b = e.get("source"), e.get("target")
+    # walk: seeds + 1 hop along link edges (graph schema: nodes keyed by
+    # slug; edges are [slugA, slugB] pairs)
+    ids = {n["slug"] for n in seeds}
+    for e in g.get("edges", []):
+        a, b = (e[0], e[1]) if isinstance(e, list) else (e.get("source"), e.get("target"))
         for s in list(ids):
             if a == s:
                 ids.add(b)
             elif b == s:
                 ids.add(a)
-    by_id = {n["id"]: n for n in nodes}
+    by_id = {n["slug"]: n for n in nodes}
     walk = [by_id[i] for i in ids if i in by_id][:max_pages]
 
     pages = []
     for n in walk:
         kind = n.get("kind", "concepts")
-        slug = n.get("slug") or n["id"].split("/")[-1]
+        slug = n["slug"]
         try:
             md = _fetch(f"{RAW}{kind}/{slug}.md")
-            pages.append({"id": n["id"], "title": n.get("title", slug),
+            pages.append({"id": slug, "title": n.get("title", slug),
                           "text": md[:4000]})
         except Exception:
             continue

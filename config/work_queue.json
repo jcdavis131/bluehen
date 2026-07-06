@@ -1886,11 +1886,14 @@
     {
       "id": "WIKI-102",
       "title": "/v1/wiki/ask \u2014 graph-navigating answerer (wiki as memory, not chunk-RAG)",
-      "status": "blocked",
+      "status": "done",
       "lane": "claude",
       "priority": "P2",
       "notes": "BLOCKED on same LLM key. Query -> start at index/link-map -> walk relevant pages (bounded hops) -> compose an answer citing the pages walked. Contrast surface vs /v1/search documented; metered as 'wiki-ask'. The Qodo retrieval-as-memory pattern productized.",
-      "source": "Karpathy LLM-wiki audit 2026-07-04"
+      "source": "Karpathy LLM-wiki audit 2026-07-04",
+      "claimedBy": "claude",
+      "claimedAt": "2026-07-06T04:50:19.146937+00:00",
+      "completedAt": "2026-07-06T04:50:19.298213+00:00"
     },
     {
       "id": "RANK-001",

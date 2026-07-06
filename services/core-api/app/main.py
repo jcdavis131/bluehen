@@ -1059,7 +1059,7 @@ def wiki_ask(body: WikiAskIn, tenant: Annotated[TenantCtx, Depends(require_tenan
 
     from app.services.wiki_ask import ask
 
-    key = os.environ.get("GROQ_API_KEY", "")
+    key = os.environ.get("MISTRAL_API_KEY", "")
     if not key:
         raise HTTPException(status_code=503,
                             detail="wiki answerer not configured")

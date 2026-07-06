@@ -15,8 +15,8 @@ import time
 import urllib.request
 
 RAW = "https://raw.githubusercontent.com/jcdavis131/bluehen/main/knowledge/personal/"
-FREE_TIER_MODELS = {"llama-3.3-70b-versatile", "llama-3.1-8b-instant"}
-MODEL = "llama-3.3-70b-versatile"
+FREE_TIER_MODELS = {"mistral-small-latest", "open-mistral-nemo"}
+MODEL = "mistral-small-latest"
 assert MODEL in FREE_TIER_MODELS, "free-tier models only"
 
 _cache: dict[str, tuple[float, str]] = {}
@@ -44,7 +44,7 @@ def _score(node: dict, terms: list[str]) -> int:
     return sum(blob.count(t) for t in terms)
 
 
-def ask(query: str, groq_key: str, max_pages: int = 5) -> dict:
+def ask(query: str, llm_key: str, max_pages: int = 5) -> dict:
     if not query or len(query) > 500:
         raise ValueError("query must be 1-500 chars")
     g = _graph()
@@ -94,8 +94,8 @@ def ask(query: str, groq_key: str, max_pages: int = 5) -> dict:
                        "messages": [{"role": "user", "content": prompt}],
                        "temperature": 0.2, "max_tokens": 900}).encode()
     req = urllib.request.Request(
-        "https://api.groq.com/openai/v1/chat/completions", data=body,
-        headers={"Authorization": f"Bearer {groq_key}",
+        "https://api.mistral.ai/v1/chat/completions", data=body,
+        headers={"Authorization": f"Bearer {llm_key}",
                  "Content-Type": "application/json",
                  "User-Agent": "bluehenre-wiki/1.0"})
     with urllib.request.urlopen(req, timeout=90) as r:

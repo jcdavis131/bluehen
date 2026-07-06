@@ -23,8 +23,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CORPUS = ROOT / "data" / "corpora" / "research" / "corpus.jsonl"
 CONCEPTS = ROOT / "knowledge" / "personal" / "concepts"
 
-FREE_TIER_MODELS = {"llama-3.3-70b-versatile", "llama-3.1-8b-instant"}
-MODEL = "llama-3.3-70b-versatile"
+FREE_TIER_MODELS = {"mistral-small-latest", "open-mistral-nemo"}
+MODEL = "mistral-small-latest"
 assert MODEL in FREE_TIER_MODELS, "free-tier models only"
 
 TOPICS = {
@@ -48,12 +48,12 @@ AUTO_END = "<!-- okf:auto:end -->"
 def load_key() -> str:
     env = (ROOT / "data" / "workspaces" / "llm.env").read_text(encoding="utf-8")
     for line in env.splitlines():
-        if line.startswith("GROQ_API_KEY="):
+        if line.startswith("MISTRAL_API_KEY="):
             return line.split("=", 1)[1].strip()
-    raise SystemExit("no GROQ_API_KEY in llm.env")
+    raise SystemExit("no MISTRAL_API_KEY in llm.env")
 
 
-def groq(key: str, prompt: str, retries: int = 3) -> str:
+def llm(key: str, prompt: str, retries: int = 3) -> str:
     body = json.dumps({
         "model": MODEL,
         "messages": [{"role": "user", "content": prompt}],
@@ -61,7 +61,7 @@ def groq(key: str, prompt: str, retries: int = 3) -> str:
     }).encode()
     for attempt in range(retries):
         req = urllib.request.Request(
-            "https://api.groq.com/openai/v1/chat/completions", data=body,
+            "https://api.mistral.ai/v1/chat/completions", data=body,
             headers={"Authorization": f"Bearer {key}",
                      "Content-Type": "application/json",
                      "User-Agent": "bluehenre-wiki/1.0"})
@@ -118,7 +118,7 @@ def main() -> None:
         print(f"  {topic}: synthesizing from {len(ctx)} papers…")
         out = None
         for attempt in range(2):
-            cand = groq(key, prompt)
+            cand = llm(key, prompt)
             cited = set(re.findall(r"\[(arxiv:[^\]\s]+)\]", cand))
             bogus = cited - ids
             if not bogus and cited:

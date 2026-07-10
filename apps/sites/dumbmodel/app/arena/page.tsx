@@ -1,5 +1,5 @@
 import "./arena.css";
-import { StatusLine, TitleCard } from "@synthaembed/ui-fleet";
+import { PageHeader } from "@synthaembed/ui-fleet";
 import { listDecks } from "./decks";
 import { ArenaClientShell } from "./ArenaClientShell";
 
@@ -14,20 +14,11 @@ export default function ArenaPage() {
 
   return (
     <>
-      <StatusLine site="dumbmodel.com" section="Blind Rank" status="Season open" />
-
-      <TitleCard
-        eyebrow="Blind Rank · the signature mode"
+      <PageHeader
+        eyebrow="Blind Rank"
         title="Rank it blind. See the tier list."
-        marginalia="Eight picks · one S-tier drop · scored by the Rank Engine"
-      >
-        <p className="bh-title-card__copy">
-          Pick a deck, slam through eight this-or-that picks, watch your S→D tier list
-          drop at the end. We guess each pick out loud — then you send the list to someone
-          who'll fight you on #1.
-        </p>
-      </TitleCard>
-
+        lead="Pick a deck, slam through eight this-or-that picks, watch your S→D tier list drop at the end. We guess each pick out loud — then you send the list to someone who'll fight you on #1."
+      />
       <ArenaClientShell decks={decks} />
     </>
   );

@@ -7,20 +7,21 @@ const REPO =
 const EVIDENCE_BLOB = `${REPO}/blob/main/EVIDENCE.md`;
 
 /** Turn "EVIDENCE.md §3.1" or "EVIDENCE §3.7 (B)" into a GitHub URL. */
-export function evidenceHref(ref: string): string {
-  const m = ref.match(/(?:EVIDENCE(?:\.md)?)\s*(?:§|#)\s*([\d.]+)/i);
+export function evidenceHref(refStr: string): string {
+  const m = refStr.match(/(?:EVIDENCE(?:\.md)?)\s*(?:§|#)\s*([\d.]+)/i);
   if (m) {
     const anchor = m[1]!.replace(/\./g, "-");
     return `${EVIDENCE_BLOB}#${anchor}`;
   }
-  if (/EVIDENCE/i.test(ref)) return EVIDENCE_BLOB;
-  return `${REPO}/blob/main/${ref.replace(/\s+/g, "")}`;
+  if (/EVIDENCE/i.test(refStr)) return EVIDENCE_BLOB;
+  return `${REPO}/blob/main/${refStr.replace(/\s+/g, "")}`;
 }
 
-export function EvidenceLink({ ref }: { ref: string }) {
+export function EvidenceLink({ evidenceRef, refStr }: { evidenceRef?: string; refStr?: string }) {
+  const value = evidenceRef ?? refStr ?? "";
   return (
-    <a href={evidenceHref(ref)} target="_blank" rel="noopener noreferrer">
-      {ref}
+    <a href={evidenceHref(value)} target="_blank" rel="noopener noreferrer">
+      {value}
     </a>
   );
 }

@@ -143,7 +143,7 @@ export default function MethodsPage() {
                     <li key={v.name} style={{ marginBottom: 8 }}>
                       <div style={{ fontWeight: 600 }}>{v.name}</div>
                       <div style={{ opacity: 0.7 }}>
-                        {v.metric} · <EvidenceLink ref={v.evidence} />
+                        {v.metric} · <EvidenceLink evidenceRef={v.evidence} />
                       </div>
                     </li>
                   ))}

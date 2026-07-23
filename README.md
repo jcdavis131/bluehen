@@ -1,8 +1,7 @@
-# Blue Hen RE — a self-sustaining intelligence engine
+# Blue Hen RE
 
-**One operating loop, seven live surfaces, zero-touch transactions.**
 Blue Hen RE (RE = *Relay Engine* / *RAG Embeddings*) is a closed-loop ML
-organization: consumer-facing sites provide passive value and emit
+organization run as one monorepo: consumer-facing sites provide passive value and emit
 consented data exhaust; a FastAPI/Postgres backbone routes it; an
 evaluation-gated training pipeline turns it into stronger embedding
 models that deploy back to the same surfaces. Assets the loop produces —
@@ -10,7 +9,7 @@ models, datasets, scorecards, reports, knowledge — are the product line.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 
-| Live surface | What it is |
+| Surface | What it is |
 |---|---|
 | [bhenre.com](https://bhenre.com) | The company: org story, store, metered API |
 | [dumbmodel.com](https://dumbmodel.com) | Free embedding health checks (the funnel) |

@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-20",
+ "generated": "2026-07-27",
  "model": "all-MiniLM-L6-v2 + PCA(2)",
  "nodes": [
   {
@@ -11,8 +11,8 @@
    ],
    "source": "curated",
    "added": "2026-07-05",
-   "x": 0.3289,
-   "y": 0.5603
+   "x": 0.337,
+   "y": 0.5786
   },
   {
    "slug": "contrastive-objectives",
@@ -23,8 +23,8 @@
    ],
    "source": "curated",
    "added": "2026-07-05",
-   "x": 0.2643,
-   "y": 0.4769
+   "x": 0.2732,
+   "y": 0.4979
   },
   {
    "slug": "embedding-spaces",
@@ -35,8 +35,8 @@
    ],
    "source": "curated",
    "added": "2026-07-05",
-   "x": 0.2149,
-   "y": 0.5818
+   "x": 0.2272,
+   "y": 0.6072
   },
   {
    "slug": "hard-negatives",
@@ -47,8 +47,8 @@
    ],
    "source": "curated",
    "added": "2026-07-05",
-   "x": 0.2976,
-   "y": 0.3923
+   "x": 0.2981,
+   "y": 0.384
   },
   {
    "slug": "mtnn-omni-embedding",
@@ -59,8 +59,8 @@
    ],
    "source": "curated",
    "added": "2026-07-05",
-   "x": 0.4055,
-   "y": 0.5232
+   "x": 0.4122,
+   "y": 0.5216
   },
   {
    "slug": "retrieval-and-rag",
@@ -71,8 +71,8 @@
    ],
    "source": "curated",
    "added": "2026-07-05",
-   "x": 0.3232,
-   "y": 0.2159
+   "x": 0.3187,
+   "y": 0.2119
   },
   {
    "slug": "games-that-pay-in-data",
@@ -85,8 +85,8 @@
    ],
    "source": "specs/0031-gamified-data-engine.md",
    "added": "2026-07-05",
-   "x": 0.4708,
-   "y": 0.4796
+   "x": 0.4726,
+   "y": 0.4566
   },
   {
    "slug": "the-day-the-gates-said-no",
@@ -99,8 +99,8 @@
    ],
    "source": "EVIDENCE.md",
    "added": "2026-07-04",
-   "x": 0.4047,
-   "y": 0.5578
+   "x": 0.4089,
+   "y": 0.5451
   },
   {
    "slug": "the-homepage-that-watches-back",
@@ -113,8 +113,8 @@
    ],
    "source": "jcamd.com",
    "added": "2026-07-05",
-   "x": 0.4911,
-   "y": 0.4614
+   "x": 0.4941,
+   "y": 0.442
   },
   {
    "slug": "the-watcher-and-the-watched",
@@ -127,8 +127,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-03",
-   "x": 0.839,
-   "y": 0.4511
+   "x": 0.8441,
+   "y": 0.4426
   },
   {
    "slug": "a-2-smaller-self-supervised-vits-localize-better-than-larger-one",
@@ -139,8 +139,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.2605,
-   "y": 0.6953
+   "x": 0.2741,
+   "y": 0.6975
   },
   {
    "slug": "argus-retriever-vision-llm-late-interaction-retrieval-with-regio",
@@ -151,8 +151,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1762,
-   "y": 0.1834
+   "x": 0.1788,
+   "y": 0.1963
   },
   {
    "slug": "beyond-multilingual-averages-mteb-pt-a-benchmark-for-portuguese-",
@@ -163,8 +163,8 @@
    ],
    "source": "",
    "added": "2026-07-13",
-   "x": 0.0919,
-   "y": 0.2213
+   "x": 0.0991,
+   "y": 0.2998
   },
   {
    "slug": "cammar-culture-aware-matryoshka-for-metaphorical-arabic-represen",
@@ -175,8 +175,20 @@
    ],
    "source": "",
    "added": "2026-07-20",
-   "x": 0.3712,
-   "y": 0.4041
+   "x": 0.3775,
+   "y": 0.4143
+  },
+  {
+   "slug": "chronofy-a-temporal-logical-decay-architecture-for-information-v",
+   "kind": "papers",
+   "title": "Chronofy: A Temporal-Logical Decay Architecture for Information Validity in Time-Aware Retrieval-Augmented Generation",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "added": "2026-07-27",
+   "x": 0.3953,
+   "y": 0.2811
   },
   {
    "slug": "clustering-embedded-model-predictive-path-integral-control-avoid",
@@ -187,8 +199,8 @@
    ],
    "source": "",
    "added": "2026-07-13",
-   "x": 0.4316,
-   "y": 0.7768
+   "x": 0.4483,
+   "y": 0.7414
   },
   {
    "slug": "colbertsar-sparsified-colbert-index-via-product-quantization",
@@ -199,8 +211,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1864,
-   "y": 0.2966
+   "x": 0.1776,
+   "y": 0.2715
   },
   {
    "slug": "conflict-aware-retriever-editing-for-knowledge-injection-attacks",
@@ -211,8 +223,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.2497,
-   "y": 0.2776
+   "x": 0.2479,
+   "y": 0.2775
   },
   {
    "slug": "decompose-sparsely-where-you-should-absorb-densely-where-you-sho",
@@ -223,8 +235,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.3145,
-   "y": 0.6507
+   "x": 0.3262,
+   "y": 0.6626
   },
   {
    "slug": "do-all-visual-tokens-matter-equally-object-evidence-preserving-t",
@@ -235,8 +247,8 @@
    ],
    "source": "",
    "added": "2026-07-13",
-   "x": 0.1617,
-   "y": 0.4101
+   "x": 0.1665,
+   "y": 0.4096
   },
   {
    "slug": "do-models-share-safety-representations-cross-model-steering-for-",
@@ -247,8 +259,20 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.3658,
-   "y": 0.7378
+   "x": 0.3871,
+   "y": 0.7526
+  },
+  {
+   "slug": "eddy-vl-1-9b-structural-pruning-and-layered-distillation-for-edg",
+   "kind": "papers",
+   "title": "Eddy-VL 1.9B: Structural Pruning and Layered Distillation for Edge-Deployable Multimodal Embedding",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "added": "2026-07-27",
+   "x": 0.1504,
+   "y": 0.5281
   },
   {
    "slug": "field-order-should-not-matter-permutation-invariant-embedding-mo",
@@ -259,8 +283,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1906,
-   "y": 0.2161
+   "x": 0.185,
+   "y": 0.2222
   },
   {
    "slug": "forte-fol-guided-optimal-refinement-for-text-audio-retrieval",
@@ -271,8 +295,20 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1566,
-   "y": 0.2173
+   "x": 0.1521,
+   "y": 0.266
+  },
+  {
+   "slug": "how-meta-learning-shapes-lora-adapter-geometry-in-speech-deepfak",
+   "kind": "papers",
+   "title": "How Meta-Learning Shapes LoRA Adapter Geometry in Speech Deepfake Detection",
+   "tags": [
+    "head"
+   ],
+   "source": "",
+   "added": "2026-07-27",
+   "x": 0.306,
+   "y": 0.6673
   },
   {
    "slug": "improving-long-context-retrieval-with-multi-prefix-embedding",
@@ -283,8 +319,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.09,
-   "y": 0.1756
+   "x": 0.0883,
+   "y": 0.1951
   },
   {
    "slug": "kalm-reranker-v1-fast-but-not-late-interaction-for-compressed-do",
@@ -296,8 +332,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.0269,
-   "y": 0.0813
+   "x": 0.0173,
+   "y": 0.0931
   },
   {
    "slug": "lcpnet-latent-consistent-proximal-unfolding-network-for-infrared",
@@ -308,8 +344,8 @@
    ],
    "source": "",
    "added": "2026-07-13",
-   "x": 0.2356,
-   "y": 0.8611
+   "x": 0.2482,
+   "y": 0.8605
   },
   {
    "slug": "learn-to-pool-lightweight-fine-tuning-for-flexible-multi-vector-",
@@ -320,8 +356,20 @@
    ],
    "source": "",
    "added": "2026-07-13",
-   "x": 0.0727,
-   "y": 0.3405
+   "x": 0.0799,
+   "y": 0.3761
+  },
+  {
+   "slug": "legal-nugget-extraction-for-granular-retrieval-over-long-jurispr",
+   "kind": "papers",
+   "title": "Legal Nugget Extraction for Granular Retrieval over Long Jurisprudential Texts",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "added": "2026-07-27",
+   "x": 0.228,
+   "y": 0.0
   },
   {
    "slug": "meshtryoshka-differentiable-rendering-of-real-world-scenes-via-m",
@@ -332,8 +380,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.3151,
-   "y": 0.8433
+   "x": 0.3329,
+   "y": 0.8142
   },
   {
    "slug": "mm-matryoshka-towards-budget-elastic-visual-document-retrieval-v",
@@ -345,8 +393,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.0925,
-   "y": 0.413
+   "x": 0.0974,
+   "y": 0.4333
   },
   {
    "slug": "monosemanticity-in-recommender-systems",
@@ -357,8 +405,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1785,
-   "y": 0.592
+   "x": 0.1956,
+   "y": 0.62
   },
   {
    "slug": "multi-vector-embeddings-are-provably-more-expressive-than-single",
@@ -369,8 +417,20 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.0545,
-   "y": 0.3499
+   "x": 0.0585,
+   "y": 0.3712
+  },
+  {
+   "slug": "nowj-coliee-2026-adaptive-pipelines-for-legal-retrieval-and-reas",
+   "kind": "papers",
+   "title": "NOWJ@COLIEE 2026: Adaptive Pipelines for Legal Retrieval and Reasoning",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "added": "2026-07-27",
+   "x": 0.1396,
+   "y": 0.1813
   },
   {
    "slug": "on-the-modality-gap-and-the-contrastive-loss-in-multi-modal-repr",
@@ -381,8 +441,20 @@
    ],
    "source": "",
    "added": "2026-07-20",
-   "x": 0.2058,
-   "y": 0.6139
+   "x": 0.2239,
+   "y": 0.6659
+  },
+  {
+   "slug": "plaid-prf-pseudo-relevance-feedback-with-centroid-like-tokens-in",
+   "kind": "papers",
+   "title": "PLAID-PRF: Pseudo-Relevance Feedback with Centroid-like Tokens in PLAID",
+   "tags": [
+    "chunk"
+   ],
+   "source": "",
+   "added": "2026-07-27",
+   "x": 0.0893,
+   "y": 0.044
   },
   {
    "slug": "policy-regret-for-embedding-model-routing-contextual-bandits-wit",
@@ -393,8 +465,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1943,
-   "y": 0.4277
+   "x": 0.2076,
+   "y": 0.4614
   },
   {
    "slug": "quantifying-and-expanding-the-theoretical-capacity-of-late-inter",
@@ -406,8 +478,8 @@
    ],
    "source": "",
    "added": "2026-07-13",
-   "x": 0.1652,
-   "y": 0.2753
+   "x": 0.1698,
+   "y": 0.2926
   },
   {
    "slug": "recrec-latent-interests-recursive-reasoning-for-sequential-recom",
@@ -418,8 +490,8 @@
    ],
    "source": "",
    "added": "2026-07-20",
-   "x": 0.2525,
-   "y": 0.5012
+   "x": 0.2657,
+   "y": 0.5105
   },
   {
    "slug": "scar-semantic-continuity-aware-retrieval-for-efficient-context-e",
@@ -430,8 +502,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.219,
-   "y": 0.1045
+   "x": 0.2158,
+   "y": 0.1142
   },
   {
    "slug": "score-only-distillation-for-compact-dense-retrieval",
@@ -443,8 +515,8 @@
    ],
    "source": "",
    "added": "2026-07-20",
-   "x": 0.1697,
-   "y": 0.3221
+   "x": 0.1724,
+   "y": 0.3306
   },
   {
    "slug": "shard-cell-keyed-residual-splitting-for-alignment-resistant-priv",
@@ -455,8 +527,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1276,
-   "y": 0.4089
+   "x": 0.1287,
+   "y": 0.4005
   },
   {
    "slug": "skmteb-slovak-massive-text-embedding-benchmark-and-model-adaptat",
@@ -467,8 +539,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.0065,
-   "y": 0.2518
+   "x": 0.0147,
+   "y": 0.3338
   },
   {
    "slug": "stellar-scalable-multimodal-document-retrieval-for-natural-langu",
@@ -480,7 +552,7 @@
    "source": "",
    "added": "2026-07-05",
    "x": 0.0,
-   "y": 0.0
+   "y": 0.0509
   },
   {
    "slug": "stream-aware-side-adaptation-for-large-pre-trained-multimodal-em",
@@ -491,8 +563,8 @@
    ],
    "source": "",
    "added": "2026-07-20",
-   "x": 0.1214,
-   "y": 0.4616
+   "x": 0.1352,
+   "y": 0.5212
   },
   {
    "slug": "sustainable-face-recognition-on-low-power-devices-with-vq-vae-em",
@@ -504,8 +576,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.1179,
-   "y": 0.8982
+   "x": 0.1315,
+   "y": 0.8947
   },
   {
    "slug": "svd-rag-efficient-tree-organized-retrieval-augmented-generation-",
@@ -516,8 +588,8 @@
    ],
    "source": "",
    "added": "2026-07-20",
-   "x": 0.1126,
-   "y": 0.1855
+   "x": 0.1115,
+   "y": 0.1872
   },
   {
    "slug": "tail-aware-adaptive-k-query-adaptive-context-selection-for-retri",
@@ -528,8 +600,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.2557,
-   "y": 0.2487
+   "x": 0.2577,
+   "y": 0.2581
   },
   {
    "slug": "tessera-v2-scaling-pixel-wise-earth-foundation-models",
@@ -540,8 +612,21 @@
    ],
    "source": "",
    "added": "2026-07-13",
-   "x": 0.3238,
-   "y": 0.8647
+   "x": 0.3431,
+   "y": 0.8612
+  },
+  {
+   "slug": "the-matryoshka-hypencoder",
+   "kind": "papers",
+   "title": "The Matryoshka Hypencoder",
+   "tags": [
+    "chunk",
+    "loss"
+   ],
+   "source": "",
+   "added": "2026-07-27",
+   "x": 0.1317,
+   "y": 0.3079
   },
   {
    "slug": "tilemaxsim-io-aware-gpu-maxsim-scoring-with-dimension-tiling-and",
@@ -552,8 +637,8 @@
    ],
    "source": "",
    "added": "2026-07-05",
-   "x": 0.2906,
-   "y": 0.5933
+   "x": 0.2968,
+   "y": 0.5741
   },
   {
    "slug": "a11y-gate",
@@ -565,8 +650,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8973,
-   "y": 0.4308
+   "x": 0.8995,
+   "y": 0.4184
   },
   {
    "slug": "abstract-the-provider",
@@ -578,8 +663,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9207,
-   "y": 0.3948
+   "x": 0.9239,
+   "y": 0.3864
   },
   {
    "slug": "affected-tests",
@@ -591,8 +676,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9021,
-   "y": 0.3867
+   "x": 0.9041,
+   "y": 0.3761
   },
   {
    "slug": "agent-guardrails",
@@ -604,8 +689,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9355,
-   "y": 0.4316
+   "x": 0.9378,
+   "y": 0.4131
   },
   {
    "slug": "auto-mode",
@@ -617,8 +702,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9626,
-   "y": 0.4214
+   "x": 0.9658,
+   "y": 0.4105
   },
   {
    "slug": "background-failure-triage",
@@ -630,8 +715,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9184,
-   "y": 0.4306
+   "x": 0.9198,
+   "y": 0.4121
   },
   {
    "slug": "close-the-loop",
@@ -643,8 +728,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8062,
-   "y": 0.3804
+   "x": 0.8066,
+   "y": 0.3649
   },
   {
    "slug": "conservative-rename",
@@ -656,8 +741,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.825,
-   "y": 0.4021
+   "x": 0.8274,
+   "y": 0.394
   },
   {
    "slug": "correct-assumptions",
@@ -669,8 +754,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9857,
-   "y": 0.4331
+   "x": 0.9874,
+   "y": 0.4132
   },
   {
    "slug": "cost-transparency",
@@ -682,8 +767,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9278,
-   "y": 0.4188
+   "x": 0.9316,
+   "y": 0.411
   },
   {
    "slug": "dependency-hygiene",
@@ -695,8 +780,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9041,
-   "y": 0.3997
+   "x": 0.9098,
+   "y": 0.4054
   },
   {
    "slug": "deterministic-core-llm-judgment",
@@ -708,8 +793,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8969,
-   "y": 0.417
+   "x": 0.8999,
+   "y": 0.4123
   },
   {
    "slug": "diagnose-before-retry",
@@ -721,8 +806,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8387,
-   "y": 0.3729
+   "x": 0.8397,
+   "y": 0.375
   },
   {
    "slug": "disk-pressure-proactive",
@@ -734,8 +819,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8007,
-   "y": 0.4484
+   "x": 0.8033,
+   "y": 0.4381
   },
   {
    "slug": "document-non-action",
@@ -747,8 +832,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9514,
-   "y": 0.3426
+   "x": 0.9517,
+   "y": 0.3302
   },
   {
    "slug": "event-driven-wait",
@@ -760,8 +845,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9523,
-   "y": 0.3479
+   "x": 0.9551,
+   "y": 0.3456
   },
   {
    "slug": "fill-the-wait",
@@ -773,8 +858,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9372,
-   "y": 0.3642
+   "x": 0.9402,
+   "y": 0.3572
   },
   {
    "slug": "follow-procedure",
@@ -787,7 +872,7 @@
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
    "x": 1.0,
-   "y": 0.3596
+   "y": 0.3418
   },
   {
    "slug": "idempotent-seed-script",
@@ -799,8 +884,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8721,
-   "y": 0.3645
+   "x": 0.8736,
+   "y": 0.3568
   },
   {
    "slug": "lane-discipline",
@@ -812,8 +897,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9702,
-   "y": 0.3923
+   "x": 0.973,
+   "y": 0.3736
   },
   {
    "slug": "logical-commit-split",
@@ -825,8 +910,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8957,
-   "y": 0.3663
+   "x": 0.8947,
+   "y": 0.3481
   },
   {
    "slug": "match-conventions",
@@ -838,8 +923,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8977,
-   "y": 0.3575
+   "x": 0.898,
+   "y": 0.3484
   },
   {
    "slug": "metadata-align",
@@ -851,8 +936,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8771,
-   "y": 0.3099
+   "x": 0.8748,
+   "y": 0.2994
   },
   {
    "slug": "monorepo-review-loop",
@@ -864,8 +949,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8822,
-   "y": 0.44
+   "x": 0.8875,
+   "y": 0.4328
   },
   {
    "slug": "persist-learnings",
@@ -877,8 +962,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9078,
-   "y": 0.3782
+   "x": 0.9121,
+   "y": 0.3791
   },
   {
    "slug": "policy-as-config",
@@ -890,8 +975,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9134,
-   "y": 0.4409
+   "x": 0.9168,
+   "y": 0.428
   },
   {
    "slug": "post-deploy-smoke",
@@ -904,7 +989,7 @@
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
    "x": 0.8309,
-   "y": 0.4059
+   "y": 0.3939
   },
   {
    "slug": "pre-commit-hygiene",
@@ -916,8 +1001,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8944,
-   "y": 0.3829
+   "x": 0.8971,
+   "y": 0.3734
   },
   {
    "slug": "progress-board",
@@ -929,8 +1014,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9395,
-   "y": 0.3724
+   "x": 0.9399,
+   "y": 0.3596
   },
   {
    "slug": "prompt-caching",
@@ -942,8 +1027,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.992,
-   "y": 0.3336
+   "x": 0.9925,
+   "y": 0.3225
   },
   {
    "slug": "readiness-report",
@@ -955,8 +1040,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8043,
-   "y": 0.3954
+   "x": 0.8048,
+   "y": 0.3846
   },
   {
    "slug": "recap-on-long-session",
@@ -968,8 +1053,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9368,
-   "y": 0.3057
+   "x": 0.9381,
+   "y": 0.3077
   },
   {
    "slug": "respect-the-guard",
@@ -981,8 +1066,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9416,
-   "y": 0.4224
+   "x": 0.9447,
+   "y": 0.4087
   },
   {
    "slug": "session-orient",
@@ -994,8 +1079,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9483,
-   "y": 0.3746
+   "x": 0.951,
+   "y": 0.3666
   },
   {
    "slug": "shell-confirm-hygiene",
@@ -1007,8 +1092,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9107,
-   "y": 0.4215
+   "x": 0.913,
+   "y": 0.4049
   },
   {
    "slug": "silent-op-recovery",
@@ -1020,8 +1105,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8219,
-   "y": 0.4213
+   "x": 0.8239,
+   "y": 0.412
   },
   {
    "slug": "sme-fanout",
@@ -1033,8 +1118,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8466,
-   "y": 0.4488
+   "x": 0.8494,
+   "y": 0.4357
   },
   {
    "slug": "smoke-import",
@@ -1046,8 +1131,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9263,
-   "y": 0.3837
+   "x": 0.9265,
+   "y": 0.3765
   },
   {
    "slug": "use-available-integrations",
@@ -1059,8 +1144,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8137,
-   "y": 0.4332
+   "x": 0.817,
+   "y": 0.4239
   },
   {
    "slug": "use-design-system",
@@ -1072,8 +1157,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.8422,
-   "y": 0.4124
+   "x": 0.8446,
+   "y": 0.4007
   },
   {
    "slug": "validate-gate",
@@ -1085,8 +1170,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9172,
-   "y": 0.4297
+   "x": 0.9168,
+   "y": 0.4073
   },
   {
    "slug": "verify-subagent-output",
@@ -1098,8 +1183,8 @@
    ],
    "source": ".cursor/fable-watch",
    "added": "2026-07-05",
-   "x": 0.9042,
-   "y": 0.4158
+   "x": 0.9054,
+   "y": 0.4003
   }
  ],
  "edges": [
@@ -1140,6 +1225,10 @@
    "contrastive-objectives"
   ],
   [
+   "chronofy-a-temporal-logical-decay-architecture-for-information-v",
+   "retrieval-and-rag"
+  ],
+  [
    "clustering-embedded-model-predictive-path-integral-control-avoid",
    "retrieval-and-rag"
   ],
@@ -1164,12 +1253,20 @@
    "embedding-spaces"
   ],
   [
+   "eddy-vl-1-9b-structural-pruning-and-layered-distillation-for-edg",
+   "retrieval-and-rag"
+  ],
+  [
    "field-order-should-not-matter-permutation-invariant-embedding-mo",
    "retrieval-and-rag"
   ],
   [
    "forte-fol-guided-optimal-refinement-for-text-audio-retrieval",
    "retrieval-and-rag"
+  ],
+  [
+   "how-meta-learning-shapes-lora-adapter-geometry-in-speech-deepfak",
+   "adapters-and-heads"
   ],
   [
    "improving-long-context-retrieval-with-multi-prefix-embedding",
@@ -1189,6 +1286,10 @@
   ],
   [
    "learn-to-pool-lightweight-fine-tuning-for-flexible-multi-vector-",
+   "retrieval-and-rag"
+  ],
+  [
+   "legal-nugget-extraction-for-granular-retrieval-over-long-jurispr",
    "retrieval-and-rag"
   ],
   [
@@ -1212,8 +1313,16 @@
    "retrieval-and-rag"
   ],
   [
+   "nowj-coliee-2026-adaptive-pipelines-for-legal-retrieval-and-reas",
+   "retrieval-and-rag"
+  ],
+  [
    "on-the-modality-gap-and-the-contrastive-loss-in-multi-modal-repr",
    "contrastive-objectives"
+  ],
+  [
+   "plaid-prf-pseudo-relevance-feedback-with-centroid-like-tokens-in",
+   "retrieval-and-rag"
   ],
   [
    "policy-regret-for-embedding-model-routing-contextual-bandits-wit",
@@ -1278,6 +1387,14 @@
   [
    "tessera-v2-scaling-pixel-wise-earth-foundation-models",
    "contrastive-objectives"
+  ],
+  [
+   "the-matryoshka-hypencoder",
+   "contrastive-objectives"
+  ],
+  [
+   "the-matryoshka-hypencoder",
+   "retrieval-and-rag"
   ],
   [
    "tilemaxsim-io-aware-gpu-maxsim-scoring-with-dimension-tiling-and",

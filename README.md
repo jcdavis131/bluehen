@@ -1,3 +1,8 @@
+> **Deprecated (2026-08-09).** This monorepo is no longer under active development; work has consolidated into the [dottie monorepo](https://github.com/jcdavis131/dottie).
+> The bhenre.com surfaces are retired; slasso.com carries validation and training progress forward.
+> arxiviq.com, dumbmodel.com, and jcamd.com remain live and unaffected.
+> See [DEPRECATED.md](./DEPRECATED.md) for the salvage manifest and per-site status.
+
 # Blue Hen RE
 
 Blue Hen RE (RE = *Relay Engine* / *RAG Embeddings*) is a closed-loop ML

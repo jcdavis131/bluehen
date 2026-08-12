@@ -46,6 +46,17 @@ Prioritized backlog from cross-agent audits (2026-06-29; SME review pass
 | Zero frontend tests | 14 | Playwright smoke per site |
 | Doc drift (test counts) | 20 | Keep HANDOFF §9 in sync |
 
+## Paid down (2026-08-12)
+
+- **SEC-005** — `rate_limit()` and `/v1/signup` derived caller identity from the
+  left-most (client-settable) entry of `X-Forwarded-For`, letting any caller
+  spoof a fresh IP per request and bypass every per-route limiter plus the
+  3-signups/day free-tier abuse cap. Fixed: `app/ratelimit.client_ip()` now
+  reads the `TRUSTED_PROXY_HOPS`-th entry from the *right* (the hop our own
+  edge proxy actually appended); `TRUSTED_PROXY_HOPS` env var (default `1`
+  for the single Railway hop). Both call sites deduplicated onto the one
+  helper. Tests: `services/core-api/tests/test_ratelimit.py`.
+
 ## Paid down (2026-06-28 — 2026-06-30)
 
 - ADR-002 Railway + Neon documented; `prod-deploy.mjs`, `/readyz`, `railway.worker.toml`

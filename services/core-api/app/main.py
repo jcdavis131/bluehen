@@ -619,10 +619,10 @@ def self_serve_signup(body: SignupIn, request: Request,
                       _rl: Annotated[None, Depends(rate_limit("signup", 10))] = None):
     """Zero-involvement front door (Spec 0034): instant Free-tier
     workspace + API key. Caps enforced by metering + budget ceilings."""
+    from app.ratelimit import client_ip
     from app.services.signup import create_free_workspace
 
-    ip = (request.headers.get("x-forwarded-for") or
-          (request.client.host if request.client else "?")).split(",")[0].strip()
+    ip = client_ip(request)
     try:
         return create_free_workspace(body.name, body.email, ip)
     except PermissionError as e:

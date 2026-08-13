@@ -11,6 +11,7 @@ correct fallback otherwise:
 from __future__ import annotations
 
 import re
+from contextlib import contextmanager
 from html import unescape
 from pathlib import Path
 
@@ -36,12 +37,16 @@ def html_to_markdown(html: str) -> str:
     return "\n".join(ln for ln in lines if ln)
 
 
-def _guard_ssrf(url: str) -> None:
+def _guard_ssrf(url: str) -> list[tuple]:
     """Refuse private/loopback/link-local targets unless explicitly allowed.
 
     The pipeline may run on hosts with internal services (core-api, Postgres);
     a crawled source list must not become a proxy into them. Set
     DATALAB_ALLOW_PRIVATE=1 for deliberate intranet collection.
+
+    Returns the getaddrinfo() results just validated, so callers that need
+    to make the actual connection can pin against them (see
+    `pinned_resolution`) rather than trusting a second, independent lookup.
     """
     import ipaddress
     import os
@@ -49,7 +54,7 @@ def _guard_ssrf(url: str) -> None:
     from urllib.parse import urlparse
 
     if os.environ.get("DATALAB_ALLOW_PRIVATE") == "1":
-        return
+        return []
     host = urlparse(url).hostname or ""
     try:
         infos = socket.getaddrinfo(host, None)
@@ -62,11 +67,67 @@ def _guard_ssrf(url: str) -> None:
                 f"refusing to fetch private address {addr} for {host!r} "
                 "(set DATALAB_ALLOW_PRIVATE=1 to allow)"
             )
+    return infos
+
+
+@contextmanager
+def pinned_resolution(url: str):
+    """Guard `url`'s host against SSRF, then pin DNS resolution to the
+    addresses just validated for the lifetime of the block.
+
+    `_guard_ssrf` resolves the hostname and checks the answer once; the
+    HTTP client (httpx, or a browser driver inside crawl4ai) resolves it
+    again, independently, when it actually opens the connection. A DNS
+    answer that changes between those two lookups — classic rebinding,
+    trivial with a short TTL and an attacker-controlled name server — lets
+    a hostname sail through the guard and then connect to a private
+    address anyway. Pinning closes that gap: the real lookup still runs
+    (so port/family/socktype stay correct), but its result must match one
+    of the addresses the guard already approved, or the connection is
+    refused rather than silently redirected.
+
+    No-op when DATALAB_ALLOW_PRIVATE=1 (deliberate intranet collection).
+    """
+    import os
+    import socket
+    from urllib.parse import urlparse
+
+    host = urlparse(url).hostname or ""
+    infos = _guard_ssrf(url)
+    if not infos or os.environ.get("DATALAB_ALLOW_PRIVATE") == "1":
+        yield
+        return
+
+    allowed_ips = {info[4][0] for info in infos}
+    real_getaddrinfo = socket.getaddrinfo
+
+    def _pinned_getaddrinfo(gaihost, *args, **kwargs):
+        results = real_getaddrinfo(gaihost, *args, **kwargs)
+        if gaihost != host:
+            return results
+        filtered = [r for r in results if r[4][0] in allowed_ips]
+        if not filtered:
+            raise socket.gaierror(
+                -2,
+                f"refusing {gaihost!r}: DNS answer changed since SSRF validation "
+                "(rebinding guard)",
+            )
+        return filtered
+
+    socket.getaddrinfo = _pinned_getaddrinfo
+    try:
+        yield
+    finally:
+        socket.getaddrinfo = real_getaddrinfo
 
 
 def fetch_url(url: str, timeout: float = 30.0, _hops: int = 0) -> SourceDoc:
     """Fetch a web page as markdown. Prefers crawl4ai; falls back to httpx."""
-    _guard_ssrf(url)
+    with pinned_resolution(url):
+        return _fetch_url_pinned(url, timeout, _hops)
+
+
+def _fetch_url_pinned(url: str, timeout: float, _hops: int) -> SourceDoc:
     try:
         return _fetch_crawl4ai(url)
     except ImportError:
@@ -82,7 +143,7 @@ def fetch_url(url: str, timeout: float = 30.0, _hops: int = 0) -> SourceDoc:
         location = str(resp.next_request.url) if resp.next_request else ""
         if not location:
             raise RuntimeError(f"redirect without location from {url}")
-        return fetch_url(location, timeout=timeout, _hops=_hops + 1)  # re-guard each hop
+        return fetch_url(location, timeout=timeout, _hops=_hops + 1)  # re-guard + re-pin each hop
     resp.raise_for_status()
     md = html_to_markdown(resp.text)
     title_m = re.search(r"<title[^>]*>(.*?)</title>", resp.text, re.IGNORECASE | re.DOTALL)

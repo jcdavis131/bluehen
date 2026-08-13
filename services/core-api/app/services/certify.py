@@ -130,13 +130,22 @@ def run_cert_job(payload: dict) -> None:
     sid = payload["id"]
     url = payload["endpoint_url"]
     try:
+        from datalab.ingest import pinned_resolution
+
         validate_endpoint(url)
         pairs = _eval_pairs()
         if len(pairs) < 8:
             _finish(sid, status="failed", error="certification slice unavailable (<8 pairs in catalog)")
             return
-        anchors = _embed_via(url, [p["anchor"] for p in pairs])
-        positives = _embed_via(url, [p["positive"] for p in pairs])
+        # The customer supplies `url` directly (Spec 0021 P4 contract) and it
+        # gets fetched from this worker's own network — a DNS answer that
+        # changes between validate_endpoint()'s check and the actual POSTs
+        # below (rebinding) would otherwise let a hostname that passed SSRF
+        # validation connect somewhere private anyway. Pin the resolution
+        # for both embedding calls to the addresses just validated.
+        with pinned_resolution(url):
+            anchors = _embed_via(url, [p["anchor"] for p in pairs])
+            positives = _embed_via(url, [p["positive"] for p in pairs])
         ndcgs = []
         for i, (q, pos) in enumerate(zip(anchors, positives)):
             neg = positives[(i + 1) % len(positives)]

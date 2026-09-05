@@ -70,3 +70,23 @@ Verdicts: **salvage-now** (carry into dottie during wind-down), **salvage-later*
 
 - No new features land in this repo. Changes are limited to salvage, deprecation notices, and corrections of record.
 - Salvaged evidence and review conventions carry forward as **patterns**; retired-method measurement content does not.
+
+## 2026-09-05 archive
+
+The repository is archived on GitHub after this change. Summary of the archive commit:
+
+- `README.md`: archive banner is now the first line; earlier 2026-08-09 notice folded beneath it.
+- Agent entrypoints replaced with 5–10 line redirects to dottie (original content at `6f3787bc97351c06629056fdaa159956059ff32b`):
+  `CLAUDE.md`, `.claude/CLAUDE.md`, `.claude/TEAM.md`, `AGENTS.md`, `docs/AGENT_INIT.md`,
+  `docs/wiki/SESSION_BOOT.md`, and the four `.cursor/rules/*.mdc` files (frontmatter kept so Cursor still parses them).
+- `HANDOFF.md`: dated archive block prepended; history untouched. Live handoff is dottie's `HANDOFF.md`.
+- `.github/workflows/okf-refresh.yml`: weekly `schedule:` trigger removed so the OKF curator never commits here again
+  (`workflow_dispatch` kept for history). It was the only scheduled workflow.
+- `config/fleet.json`: `status` set to `retired` for `storefront` (bhenre.com), `synthorg` (fleet agent),
+  `simulation` (signals.bhenre.com) and `refinery` (data.bhenre.com). Left `active`, matching the
+  "Not deprecated" table above: `hq` (jcamd.com entry), `dumbmodel`, `validation` (slasso.com), `research`
+  (arxiviq.com), `observatory` (training.jcamd.com). `packages/fleet/src/types.ts` gained `"retired"` in `SiteStatus`.
+- Security-fix port check (commits `9aec4ff` XFF rate-limit, `5f4f5c1` SSRF DNS-rebinding): `services/core-api`
+  and `packages/datalab` do not exist in dottie and no equivalent XFF-keyed limiter or user-URL fetcher was found
+  there, so there is nothing to port.
+- Open PR #1 (spec 0021 monetization line, 2026-07-04) closed as part of the archive.

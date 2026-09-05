@@ -1,4 +1,4 @@
-export type SiteStatus = "active" | "planned" | "deprecated";
+export type SiteStatus = "active" | "planned" | "deprecated" | "retired";
 export type SitePhase = "A" | "B" | "C" | "all";
 export type OrgDivisionId =
   | "data"

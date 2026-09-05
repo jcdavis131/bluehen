@@ -6,9 +6,10 @@ name: OKF knowledge refresh
 # renders. Runs machine-independently so the wiki grows even when every
 # laptop is off. Curated files are never clobbered (write_note guards).
 
+# 2026-09-05: `schedule:` trigger removed — this repository is archived
+# (superseded by jcdavis131/dottie) and the weekly refresh must never commit
+# here again. Manual dispatch is kept only for history; do not run it.
 on:
-  schedule:
-    - cron: "0 9 * * 1"   # Mondays 09:00 UTC
   workflow_dispatch:
 
 permissions:

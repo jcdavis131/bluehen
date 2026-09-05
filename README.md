@@ -1,7 +1,6 @@
-> **Deprecated (2026-08-09).** This monorepo is no longer under active development; work has consolidated into the [dottie monorepo](https://github.com/jcdavis131/dottie).
-> The bhenre.com surfaces are retired; slasso.com carries validation and training progress forward.
-> arxiviq.com, dumbmodel.com, and jcamd.com remain live and unaffected.
-> See [DEPRECATED.md](./DEPRECATED.md) for the salvage manifest and per-site status.
+> **ARCHIVED 2026-09-05.** Superseded by [jcdavis131/dottie](https://github.com/jcdavis131/dottie). No development happens here; the surfaces listed below are retired unless noted. Agents: do not claim tasks, run scripts, or follow the onboarding docs in this repo — start at dottie's README and docs/JARVIS_HARNESS_PLAN.md.
+
+> Earlier notice (2026-08-09): bhenre.com surfaces retired; slasso.com carries validation and training progress forward; arxiviq.com, dumbmodel.com and jcamd.com remain live. See [DEPRECATED.md](./DEPRECATED.md) for the salvage manifest and per-site status.
 
 # Blue Hen RE
 

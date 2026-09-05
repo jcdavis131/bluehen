@@ -1,3 +1,13 @@
+## ⚠ ARCHIVED — 2026-09-05
+
+> **ARCHIVED 2026-09-05.** Superseded by [jcdavis131/dottie](https://github.com/jcdavis131/dottie). No development happens here; the surfaces listed below are retired unless noted. Agents: do not claim tasks, run scripts, or follow the onboarding docs in this repo — start at dottie's README and docs/JARVIS_HARNESS_PLAN.md.
+
+This handoff is frozen history. The live handoff is
+[dottie's HANDOFF.md](https://github.com/jcdavis131/dottie/blob/main/HANDOFF.md).
+Nothing below reflects current state; the gates, blockers and queues it names are closed.
+
+---
+
 # HANDOFF — Blue Hen RE (codename `bluehenre`)
 
 Paste-ready context for starting the **code** session. Read top to bottom once; it's written

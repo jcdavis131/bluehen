@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getSiteNav } from "@synthaembed/fleet";
 
-const BASE = "https://dumbmodel.com";
+const BASE = "https://arcade.dumbmodel.com";
 
 /** Lab + game routes not all duplicated in nav (external certify omitted). */
 const EXTRA_ROUTES = ["/check", "/compare", "/hall", "/museum"];

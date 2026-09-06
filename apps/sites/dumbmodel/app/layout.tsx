@@ -3,7 +3,7 @@ import "@synthaembed/ui-fleet/styles.css";
 import { FleetShell } from "@synthaembed/ui-fleet";
 
 export const metadata = {
-  metadataBase: new URL("https://dumbmodel.com"),
+  metadataBase: new URL("https://arcade.dumbmodel.com"),
   title: {
     default: "Dumb Model — Blind Rank Arcade",
     template: "%s — dumbmodel.com",

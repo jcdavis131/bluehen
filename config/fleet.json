@@ -84,7 +84,7 @@
       "package": "@synthaembed/storefront",
       "port": 3000,
       "vercelPreview": "bhre.vercel.app",
-      "status": "active",
+      "status": "retired",
       "legacyRepo": "henington-homes",
       "description": "Storefront - public brand and commerce: store, pricing, briefings, legal, proof surfaces (/try, /research).",
       "venture": {
@@ -121,7 +121,7 @@
       "package": "@synthaembed/synthorg",
       "port": null,
       "vercelPreview": null,
-      "status": "active",
+      "status": "retired",
       "legacyRepo": null,
       "description": "Eve Chief of Staff \u2014 delegates lifecycle across all fleet sites via synth-core."
     },
@@ -291,7 +291,7 @@
       "package": "@synthaembed/simulation",
       "port": 3005,
       "vercelPreview": null,
-      "status": "active",
+      "status": "retired",
       "legacyRepo": null,
       "description": "Simulation Lab - Phase B paper-trading simulation reports. Simulation only (Spec 0013).",
       "venture": {
@@ -328,7 +328,7 @@
       "package": "@synthaembed/refinery",
       "port": null,
       "vercelPreview": null,
-      "status": "active",
+      "status": "retired",
       "legacyRepo": null,
       "description": "Data Refinery \u2014 the Data Operations division as a business: browse OKF datasets, contribute consented data, request custom harvests.",
       "venture": {

@@ -4,26 +4,9 @@ globs: services/**/*.py,packages/**/*.py,scripts/**/*.py
 alwaysApply: false
 ---
 
-# Python platform
+# ARCHIVED — do not use as instructions
 
-| Path | Spec |
-|---|---|
-| `services/core-api` | 0004 |
-| `services/worker` | 0009 |
-| `packages/asn-engine` | 0003 |
-| `packages/eval-harness` | 0008 |
+> **ARCHIVED 2026-09-05.** Superseded by [jcdavis131/dottie](https://github.com/jcdavis131/dottie). No development happens here; the surfaces listed below are retired unless noted. Agents: do not claim tasks, run scripts, or follow the onboarding docs in this repo — start at dottie's README and docs/JARVIS_HARNESS_PLAN.md.
 
-## Conventions
-
-- `uv run` from repo root; tests: `uv run pytest services/core-api/tests packages/asn-engine/tests -q`
-- Tenant isolation: RLS via `app.workspace_id` — admin session for cross-tenant writes
-- ML recipe changes: eval gates + `EVIDENCE.md` row before narrative claims
-
-## Local stack (when unblocked)
-
-```bash
-pnpm dev:stack && pnpm db:migrate && pnpm bootstrap:orgs
-pnpm dev:api && pnpm dev:worker
-```
-
-Claim INF-*, RAG-*, RT-*, SRV-* from work queue. Mark done via `pick_task.py`.
+The original rule body is in git history at `6f3787bc97351c06629056fdaa159956059ff32b` (`git show 6f3787bc97351c06629056fdaa159956059ff32b:.cursor/rules/python-platform.mdc`).
+Do not claim tasks, run `pick_task.py`, or edit code in this repo.

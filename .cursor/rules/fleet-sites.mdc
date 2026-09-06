@@ -4,20 +4,9 @@ globs: apps/sites/**/*
 alwaysApply: false
 ---
 
-# Fleet sites
+# ARCHIVED — do not use as instructions
 
-Registry: `config/fleet.json` — update when adding routes or sites.
+> **ARCHIVED 2026-09-05.** Superseded by [jcdavis131/dottie](https://github.com/jcdavis131/dottie). No development happens here; the surfaces listed below are retired unless noted. Agents: do not claim tasks, run scripts, or follow the onboarding docs in this repo — start at dottie's README and docs/JARVIS_HARNESS_PLAN.md.
 
-## Patterns
-
-- Shared UI: `@synthaembed/ui-fleet` (FleetShell, LiveSearchPanel, tokens)
-- API: site BFF routes call `core-api` with workspace key from env — not Postgres
-- Multi-site edit: `pnpm exec node --experimental-strip-types packages/cli/src/index.ts fleet context [siteId]`
-
-## Active Phase A sites
-
-hub · research-rag (arxiviq) · dumbmodel · benchmark-lab · finance-lab (stub)
-
-Claim SITE-* tasks from work queue. Run `pnpm --filter @synthaembed/<site> dev` or `pnpm dev:fleet`.
-
-Build gate: `pnpm review`
+The original rule body is in git history at `6f3787bc97351c06629056fdaa159956059ff32b` (`git show 6f3787bc97351c06629056fdaa159956059ff32b:.cursor/rules/fleet-sites.mdc`).
+Do not claim tasks, run `pick_task.py`, or edit code in this repo.
